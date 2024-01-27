@@ -21,4 +21,6 @@ public interface AuthorService {
 	// Cập nhật tác giả
 	void updateAuthor(Author author);
 
+	// Tìm tác giả bằng Tên
+    Author findAuthorByName(String authorName);
 }

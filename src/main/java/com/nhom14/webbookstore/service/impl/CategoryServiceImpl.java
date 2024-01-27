@@ -80,4 +80,9 @@ public class CategoryServiceImpl implements CategoryService {
 		categoryRepository.save(category);
 	}
 
+	@Override
+	public Category getCategoryByName(String categoryName) {
+		return categoryRepository.findByName(categoryName);
+	}
+
 }

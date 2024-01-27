@@ -27,4 +27,6 @@ public interface CategoryService {
 	// Phương thức để thêm một danh mục mới
 	void addCategory(Category category);
 
+	// Phương thức để lấy danh mục theo tên
+    Category getCategoryByName(String categoryName);
 }

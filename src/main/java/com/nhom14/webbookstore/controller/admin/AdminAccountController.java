@@ -4,10 +4,13 @@ import java.io.IOException;
 import java.sql.Date;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -208,10 +211,37 @@ public class AdminAccountController {
 	    }
 
 	    Account updateAccount = accountService.getAccountById(accountParam.getId());
+
+		// Kiểm tra xem username, sdt, email mới có bị trùng với của người khác không
+		Account existingAccount = null;
+		if (!Objects.equals(updateAccount.getUsername(), accountParam.getUsername())) {
+			existingAccount = accountService.findAccountByUsername(accountParam.getUsername());
+			if (existingAccount != null) {
+				redirectAttributes.addAttribute("message", "Tên tài khoản đã tồn tại. Vui lòng nhập giá trị khác.");
+				return "redirect:/managedetailaccount?accountId=" + updateAccount.getId();
+			}
+		}
+
+		if (!Objects.equals(updateAccount.getPhoneNumber(), accountParam.getPhoneNumber())) {
+			existingAccount = accountService.findAccountByPhoneNumber(accountParam.getPhoneNumber());
+			if (existingAccount != null) {
+				redirectAttributes.addAttribute("message", "Số điện thoại đã tồn tại. Vui lòng nhập giá trị khác.");
+				return "redirect:/managedetailaccount?accountId=" + updateAccount.getId();
+			}
+		}
+
+		if (!Objects.equals(updateAccount.getEmail(), accountParam.getEmail())) {
+			existingAccount = accountService.findAccountByEmail(accountParam.getEmail());
+			if (existingAccount != null) {
+				redirectAttributes.addAttribute("message", "Email đã tồn tại. Vui lòng nhập giá trị khác.");
+				return "redirect:/managedetailaccount?accountId=" + updateAccount.getId();
+			}
+		}
+
 	    try {
 	        if (!image.isEmpty()) {
 	        	// Tạo public ID cho hình ảnh trên Cloudinary (sử dụng id người dùng)
-                String publicId = "WebBookStore/img_account/account_" + updateAccount.getId();
+                String publicId = "WebBookStoreKLTN/img_account/account_" + updateAccount.getId();
 
                 // Tải lên hình ảnh lên Cloudinary và lấy URL
                 String imageUrl = cloudinaryService.uploadImage(image, publicId);

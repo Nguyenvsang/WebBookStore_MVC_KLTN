@@ -170,6 +170,13 @@ public class AdminCategoryController {
 	        return "redirect:/loginadmin";
 	    }
 
+		// Kiểm tra xem tên danh mục cập nhật lại có trùng với tên danh mục nào trong cơ sở dữ liệu không
+		Category existingCategory = categoryService.getCategoryByName(categoryName);
+		if (existingCategory != null && existingCategory.getId() != categoryId) {
+			redirectAttributes.addAttribute("message", "Tên danh mục đã tồn tại trong cơ sở dữ liệu.");
+			return "redirect:/updatecategory?categoryId=" + categoryId;
+		}
+
 	    // Lấy category từ categoryId
 	    Category category = categoryService.getCategoryById(categoryId);
 
@@ -230,6 +237,12 @@ public class AdminCategoryController {
 	        // Nếu chưa đăng nhập, chuyển hướng về trang đăng nhập
 	        return "redirect:/loginadmin";
 	    }
+
+		// Kiểm tra xem tên danh mục mới có trùng với tên nào trong cơ sở dữ liệu không
+		if (categoryService.getCategoryByName(categoryName) != null) {
+			redirectAttributes.addAttribute("message", "Tên danh mục đã tồn tại trong cơ sở dữ liệu.");
+			return "redirect:/addcategory";
+		}
 
 	    // Tạo Category mới
 	    Category category = new Category(categoryName, status);

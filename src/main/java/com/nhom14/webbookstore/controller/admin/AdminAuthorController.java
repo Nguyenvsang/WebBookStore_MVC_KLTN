@@ -3,6 +3,8 @@ package com.nhom14.webbookstore.controller.admin;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -104,6 +106,14 @@ public class AdminAuthorController {
 	        return "redirect:/loginadmin";
 	    }
 
+		// Kiểm tra xem tên tác giả đã tồn tại trong cơ sở dữ liệu hay chưa
+		Author existingAuthor = authorService.findAuthorByName(authorName);
+		if (existingAuthor != null) {
+			// Nếu tên tác giả đã tồn tại, trả về thông báo lỗi
+			redirectAttributes.addAttribute("message", "Đã tồn tại tác giả này trong cơ sở dữ liệu");
+			return "redirect:/addauthor";
+		}
+
 	    // Tạo Author mới
 	    Author author = new Author(authorName, authorBio);
 
@@ -180,6 +190,14 @@ public class AdminAuthorController {
 	    Author author = authorService.getAuthorById(authorId);
 	    
 	    if (author != null) {
+			// Kiểm tra xem tên tác giả mới có trùng với tên của bất kỳ tác giả hiện có nào không
+			Author existingAuthor = authorService.findAuthorByName(authorName);
+			if (existingAuthor != null && existingAuthor.getId() != authorId) {
+				// Nếu tên tác giả mới trùng với tên của một tác giả hiện có khác, trả về thông báo lỗi
+				redirectAttributes.addAttribute("message", "Tên tác giả đã tồn tại trong cơ sở dữ liệu");
+				return "redirect:/updateauthor?authorId=" + author.getId();
+			}
+
 	    	author.setName(authorName);
 	    	author.setBio(bio);
 	    	authorService.updateAuthor(author);
