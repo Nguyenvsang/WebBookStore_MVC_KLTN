@@ -41,7 +41,8 @@ public class Order {
     private Account account;
     @Column(name = "status", columnDefinition = "int NOT NULL")
     private int status; // 0: Chờ xác nhận, 1: Chờ lấy hàng, 
-    					// 2: Đang giao, 3: Đã giao
+    					// 2: Đang giao, 3: Đã thanh toán
+						// 4: Đã giao
     
     //bi-directional one-to-many association with OrderItem
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "order")

@@ -139,18 +139,18 @@
 	                    <td th:text="${order.id}" class="align-middle text-center"></td>
 	                    <td th:text="${#dates.format(order.dateOrder, 'dd/MM/yyyy')}" class="align-middle text-center"></td>
 	                    <td th:text="${#numbers.formatInteger(order.totalPrice, 0, 'POINT') + ' đ'}" class="align-middle text-center" style="color: orangered; width: 150px;"></td>
-	                    <td class="align-middle text-center">
-	                        <span th:classappend="${order.status == 0} ? 'badge badge-success' : (${order.status == 1} ? 'badge badge-wait' : (${order.status == 2} ? 'badge badge-primary' : (${order.status == 3} ? 'badge badge-secondary' : '')))">
-	                            <span th:switch="${order.status}">
-	                                <span th:case="0" >Chờ xác nhận</span>
-	                                <span th:case="1" >Chờ lấy hàng</span>
-	                                <span th:case="2" >Đang giao</span>
-	                                <span th:case="3" >Đã giao</span>
-	                                <span th:case="*" th:text="'Trạng thái không hợp lệ'"></span>
-	                            </span>
-	                        </span>
-	                    </td>
-	                    <td th:text="${order.name}" class="align-middle text-center" style="width: 100px;"></td>
+						<td class="align-middle text-center">
+							<span th:switch="${order.status}">
+								<span th:case="0" class="badge badge-success">Chờ xác nhận</span>
+								<span th:case="1" class="badge badge-wait">Chờ lấy hàng</span>
+								<span th:case="2" class="badge badge-primary">Đang giao</span>
+								<span th:case="3" class="badge badge-info">Đã thanh toán</span>
+								<span th:case="4" class="badge badge-secondary">Đã giao</span>
+								<span th:case="*" >Trạng thái không hợp lệ</span>
+							</span>
+						</td>
+
+						<td th:text="${order.name}" class="align-middle text-center" style="width: 100px;"></td>
 	                    <td th:text="${order.address}" class="align-middle text-center"></td>
 	                    <td th:text="${order.phoneNumber}" class="align-middle text-center"></td>
 	                    <td th:text="${order.email}" class="align-middle text-center"></td>

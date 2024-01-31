@@ -149,7 +149,8 @@
 		            <a class="dropdown-item" th:href="@{/manageorders(status=0)}">Chờ xác nhận</a>
 		            <a class="dropdown-item" th:href="@{/manageorders(status=1)}">Chờ lấy hàng</a>
 		            <a class="dropdown-item" th:href="@{/manageorders(status=2)}">Đang giao</a>
-		            <a class="dropdown-item" th:href="@{/manageorders(status=3)}">Đã giao</a>
+		            <a class="dropdown-item" th:href="@{/manageorders(status=3)}">Đã thanh toán</a>
+					<a class="dropdown-item" th:href="@{/manageorders(status=4)}">Đã giao</a>
 		        </div>
 		    </div>
 		
@@ -176,8 +177,9 @@
 		                    <span class="badge badge-success" th:if="${order.status == 0}">Chờ xác nhận</span>
 		                    <span class="badge badge-wait" th:if="${order.status == 1}">Chờ lấy hàng</span>
 		                    <span class="badge badge-primary" th:if="${order.status == 2}">Đang giao</span>
-		                    <span class="badge badge-secondary" th:if="${order.status == 3}">Đã giao</span>
-		                    <span th:if="${order.status != 0 && order.status != 1 && order.status != 2 && order.status != 3}">Trạng thái không hợp lệ</span>
+		                    <span class="badge badge-info" th:if="${order.status == 3}">Đã thanh toán</span>
+							<span class="badge badge-secondary" th:if="${order.status == 4}">Đã giao</span>
+		                    <span th:if="${order.status != 0 && order.status != 1 && order.status != 2 && order.status != 3 && order.status != 4}">Trạng thái không hợp lệ</span>
 		                </td>
 		                <td class="align-middle text-center" th:text="${order.name}"></td>
 		                <td class="align-middletext-center" th:text="${order.address}"></td>

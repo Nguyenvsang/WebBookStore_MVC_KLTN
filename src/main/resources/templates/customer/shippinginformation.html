@@ -122,9 +122,13 @@
 		            </div>
 		            <div class="form-group row" style="color: rgb(2,88,155);">
 		                <label for="paymentMethods" class="col-md-2 col-form-label">Phương thức thanh toán:</label>
-		                <div class="col-md-10">
-		                    <input type="text" id="paymentMethods" name="paymentMethods" value="Hiện chỉ có thanh toán khi nhận hàng" readonly class="form-control" style="border-radius: 10px;">
-		                </div>
+						<div class="col-md-10">
+							<select id="paymentMethods" name="paymentMethods" class="form-control" style="border-radius: 10px;">
+								<option value="cash">Thanh toán khi nhận hàng</option>
+								<option value="MoMo">Thanh toán bằng Momo</option>
+								<option value="VNPAY">Cổng thanh toán VNPAY</option>
+							</select>
+						</div>
 		            </div>
 		            
 					<div class="frame">

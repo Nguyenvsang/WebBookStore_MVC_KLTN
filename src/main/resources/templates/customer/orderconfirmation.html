@@ -138,7 +138,12 @@
         
         <h4>Cảm ơn bạn đã đặt hàng!</h4>
         <p style="color: forestgreen">Đơn hàng của bạn đã được đặt thành công.</p>
-        
+
+		<!-- Hiển thị thông báo nếu có -->
+		<div th:if="${message}" class="alert"
+			 th:classappend="${message.contains('thành công') ? 'alert-success' : 'alert-danger'}"
+			 th:text="${message}">
+		</div>
         
         <div class="frame-main">
 			<h4>Chi tiết đơn hàng</h4>
@@ -160,7 +165,8 @@
 	                        <span th:case="0" class="badge badge-success">Chờ xác nhận</span>
 	                        <span th:case="1" class="badge badge-info">Chờ lấy hàng</span>
 	                        <span th:case="2" class="badge badge-primary">Đang giao</span>
-	                        <span th:case="3" class="badge badge-secondary">Đã giao</span>
+							<span th:case="3" class="badge badge-info">Đã thanh toán</span>
+							<span th:case="4" class="badge badge-secondary">Đã giao</span>
 	                    </span>
 	                </td>
 	            </tr>

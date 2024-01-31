@@ -130,23 +130,25 @@
 					        <span th:case="0" class="badge badge-success">Chờ xác nhận</span>
 					        <span th:case="1" class="badge badge-wait-item">Chờ lấy hàng</span>
 					        <span th:case="2" class="badge badge-primary">Đang giao</span>
-					        <span th:case="3" class="badge badge-secondary">Đã giao</span>
+					        <span th:case="3" class="badge badge-info">Đã thanh toán</span>
+							<span th:case="4" class="badge badge-secondary">Đã giao</span>
 					        <span th:case="*" class="badge badge-danger">Trạng thái không hợp lệ</span>
 					    </span>
 					</td>
 					<td>
-					    <span th:if="${order.status == 0 or order.status == 1 or order.status == 2}">
+					    <span th:if="${order.status == 0 or order.status == 1 or order.status == 2 or order.status == 3}">
 					        <form method="POST" th:action="@{/updateorderstatus}" style="border-radius: 10px;">
 					            <input type="hidden" name="orderId" th:value="${order.id}">
 					            <select class="form-control" name="status" onchange="this.form.submit()" style="border-radius: 10px;"> 
 					                <option value="0" th:selected="${order.status == 0}">Chờ xác nhận</option>
 					                <option value="1" th:selected="${order.status == 1}">Chờ lấy hàng</option>
 					                <option value="2" th:selected="${order.status == 2}">Đang giao</option>
-					                <option value="3" th:selected="${order.status == 3}">Đã giao</option>
+					                <option value="3" th:selected="${order.status == 3}">Đã thanh toán</option>
+									<option value="4" th:selected="${order.status == 4}">Đã giao</option>
 					            </select>
 					        </form>
 					    </span>
-					    <span th:unless="${order.status == 0 or order.status == 1 or order.status == 2}">-</span>
+					    <span th:unless="${order.status == 0 or order.status == 1 or order.status == 2 or order.status == 3}">-</span>
 					</td>
 	            </tr>
 	        </table>
