@@ -241,8 +241,19 @@ public class OrderController {
 
     @GetMapping("/createvnpaypayment")
     public String createVNPAYPayment(HttpServletRequest req, HttpServletResponse resp,
-                                    @RequestParam("orderId") Integer orderId
+                                    @RequestParam("orderId") Integer orderId,
+                                    HttpSession session
     ) throws UnsupportedEncodingException, NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
+
+        // Kiểm tra đăng nhập
+        Account account = (Account) session.getAttribute("account");
+
+        // Kiểm tra xem người dùng đã đăng nhập hay chưa
+        if (account == null) {
+            // Nếu chưa đăng nhập, chuyển hướng về trang đăng nhập
+            return "redirect:/customer/loginaccount";
+        }
+
         String vnp_Version = "2.1.0";
         String vnp_Command = "pay";
         String orderType = "other";
