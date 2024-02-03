@@ -1,5 +1,8 @@
 package com.nhom14.webbookstore.controller.customer;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
@@ -26,30 +29,37 @@ public class OrderItemController {
 		this.orderItemService = orderItemService;
 		this.orderService = orderService;
 	}
-	
+
 	@GetMapping("/vieworderitems")
-	public String viewOrderItems(@RequestParam int orderId, 
-			HttpSession session, 
-			Model model) {
-	    Account account = (Account) session.getAttribute("account");
+	public String viewOrderItems(@RequestParam int orderId,
+								 HttpSession session,
+								 Model model) {
+		Account account = (Account) session.getAttribute("account");
 
-	    // Kiểm tra xem người dùng đã đăng nhập hay chưa
-	    if (account == null) {
-	        // Nếu chưa đăng nhập, chuyển hướng về trang đăng nhập
-	        return "redirect:/customer/loginaccount";
-	    }
+		// Kiểm tra xem người dùng đã đăng nhập hay chưa
+		if (account == null) {
+			// Nếu chưa đăng nhập, chuyển hướng về trang đăng nhập
+			return "redirect:/customer/loginaccount";
+		}
 
-	    // Lấy đối tượng Order từ OrderService bằng orderId
-	    Order order = orderService.getOrderById(orderId);
+		// Lấy đối tượng Order từ OrderService bằng orderId
+		Order order = orderService.getOrderById(orderId);
 
-	    // Lấy danh sách OrderItem từ OrderItemService
-	    List<OrderItem> orderItems = orderItemService.getOrderItemsByOrder(order);
+		// Lấy danh sách OrderItem từ OrderItemService
+		List<OrderItem> orderItems = orderItemService.getOrderItemsByOrder(order);
 
-	    // Đặt đối tượng Order và orderItems vào thuộc tính model để sử dụng trong Thymeleaf
-	    model.addAttribute("order", order);
-	    model.addAttribute("orderItems", orderItems);
+		// Tính số ngày giữa ngày đặt hàng và ngày hiện tại
+		LocalDate dateOrderLocalDate = order.getDateOrder().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		LocalDate today = LocalDate.now();
+		long daysBetween = ChronoUnit.DAYS.between(dateOrderLocalDate, today);
 
-	    // Trả về tên của view để render ra giao diện
-	    return "customer/vieworderitems";
+		// Đặt đối tượng Order, orderItems và daysBetween vào thuộc tính model để sử dụng trong Thymeleaf
+		model.addAttribute("order", order);
+		model.addAttribute("orderItems", orderItems);
+		model.addAttribute("daysBetween", daysBetween);
+
+		// Trả về tên của view để render ra giao diện
+		return "customer/vieworderitems";
 	}
+
 }

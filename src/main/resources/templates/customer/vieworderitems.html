@@ -154,6 +154,18 @@
 		<div class="frame-main-4" style="background-color: white; margin-top: 20px;">
         	<h3>CHI TIẾT ĐƠN HÀNG</h3>
 		</div>
+
+		<div class="delivery-details card" style="margin-top: 20px;">
+			<div class="card-body">
+				<div th:if="${order.status == 0 || order.status == 1 || order.status == 2}" class="alert alert-info" role="alert">
+					Ngày giao hàng dự kiến: <span th:text="${#dates.format(order.expectedDeliveryDate1, 'dd/MM/yyyy')} + ' - ' + ${#dates.format(order.expectedDeliveryDate2, 'dd/MM/yyyy')}"></span>
+				</div>
+				<div th:if="${order.deliveryDate != null}" class="alert alert-success" role="alert">
+					Ngày giao hàng: <span th:text="${#dates.format(order.deliveryDate, 'dd/MM/yyyy')}"></span>
+				</div>
+			</div>
+		</div>
+
 	        <div class="frame-main" style="background-color: white;">
 			        <table class="table table-striped">
 						<thead class="thead-title">
@@ -162,6 +174,8 @@
 				                <th class="align-middle text-center">Ngày đặt</th>
 				                <th class="align-middle text-center">Tổng tiền</th>
 				                <th class="align-middle text-center">Trạng thái</th>
+								<th class="align-middle text-center">Thanh toán</th>
+								<th class="align-middle text-center">Thao tác</th>
 				            </tr>
 						</thead>
 			            <tr>
@@ -171,14 +185,36 @@
 			                <td class="align-middle text-center">
 								<span th:switch="${order.status}" >
 									<span th:case="0" class="badge badge-success">Chờ xác nhận</span>
-										<span th:case="1" class="badge badge-wait">Chờ lấy hàng</span>
-										<span th:case="2" class="badge badge-primary">Đang giao</span>
-										<span th:case="3" class="badge badge-info">Đã thanh toán</span>
-										<span th:case="4" class="badge badge-secondary">Đã giao</span>
-										<span th:case="*" >Trạng thái không hợp lệ</span>
+									<span th:case="1" class="badge badge-info">Chờ lấy hàng</span>
+									<span th:case="2" class="badge badge-primary">Đang giao</span>
+									<span th:case="3" class="badge badge-success">Đã giao</span>
+									<span th:case="4" class="badge badge-danger">Yêu cầu hủy đơn</span>
+									<span th:case="5" class="badge badge-secondary">Đã hủy đơn</span>
+									<span th:case="6" class="badge badge-warning">Yêu cầu trả hàng</span>
+									<span th:case="7" class="badge badge-warning">Xử lý trả hàng</span>
+									<span th:case="8" class="badge badge-success">Trả hàng thành công</span>
+									<span th:case="9" class="badge badge-danger">Yêu cầu trả hàng bị từ chối</span>
+									<span th:case="10" class="badge badge-danger">Không nhận hàng</span>
+									<span th:case="11" class="badge badge-danger">Đã nhận hàng</span>
+									<span th:case="*" >Trạng thái không hợp lệ</span>
 				                </span>
 				            </td>
-			            </tr>
+
+							<td class="align-middle text-center">
+								<span th:switch="${order.paymentStatus.status}">
+									<span th:case="0" class="badge badge-primary">Chưa thanh toán</span>
+									<span th:case="1" class="badge badge-success">Đã thanh toán</span>
+									<span th:case="2" class="badge badge-success">Đã hoàn tiền</span>
+								</span>
+							</td>
+
+							<td class="align-middle text-center">
+								<a th:if="${order.status == 0}" class="btn btn-danger" th:href="@{/cancelOrder(orderId=${order.id})}">Hủy đơn</a>
+								<a th:if="${order.status == 3 && daysBetween <= 15}" class="btn btn-warning" th:href="@{/returnOrder(orderId=${order.id})}">Trả hàng</a>
+								<span th:if="${order.status != 0 && !(order.status == 3 && daysBetween <= 15)}">Không có</span>
+							</td>
+
+						</tr>
 			        </table>
 	            </div>
         
@@ -216,7 +252,7 @@
 		            </tr>
 				</thead>
 	            <tr th:each="orderItem : ${orderItems}">
-	                <td th:text="${orderItem.book.name}" class="align-middle"</td>
+	                <td th:text="${orderItem.book.name}" class="align-middle"></td>
 	                <td th:text="${orderItem.quantity}" class="align-middle text-center"></td>
 	                <td th:text="${#numbers.formatInteger(orderItem.book.sellPrice, 0, 'POINT')+ ' đ'}" class="align-middle" style="text-align: center; color: orangered;"></td>
 	                <td th:text="${#numbers.formatInteger(orderItem.price, 0, 'POINT')+ ' đ'}" class="align-middle" style="color: orangered; text-align: center;"></td>

@@ -134,6 +134,12 @@ CREATE TABLE `Order` (
 	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	-- Khai báo thuộc tính date_order kiểu Date, không được null
 	date_order DATE NOT NULL,
+    -- Khai báo thuộc tính expected_delivery_date_1 kiểu Date
+    expected_delivery_date_1 DATE,
+    -- Khai báo thuộc tính expected_delivery_date_2 kiểu Date
+    expected_delivery_date_2 DATE,
+    -- Khai báo thuộc tính delivery_date kiểu Date
+    delivery_date DATE,
 	-- Khai báo thuộc tính total_price kiểu double, không được null
 	total_price DOUBLE NOT NULL,
 	-- Khai báo thuộc tính name kiểu varchar(255), không được null
@@ -163,6 +169,19 @@ CREATE TABLE OrderItem (
   -- Khai báo thuộc tính book_id kiểu int và là khóa ngoại tham chiếu đến bảng Book
   book_id INT,
   FOREIGN KEY (book_id) REFERENCES Book(id),
+  -- Khai báo thuộc tính order_id kiểu int và là khóa ngoại tham chiếu đến bảng Order
+  order_id INT,
+  FOREIGN KEY (order_id) REFERENCES `Order`(id)
+);
+
+-- Tạo bảng PaymentStatus
+CREATE TABLE PaymentStatus (
+  -- Khai báo thuộc tính id kiểu int, không được null, tăng tự động và là khóa chính
+  id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  -- Khai báo thuộc tính status kiểu int, không được null
+  status INT NOT NULL,
+  -- Khai báo thuộc tính info kiểu varchar(255)
+  info varchar(255),
   -- Khai báo thuộc tính order_id kiểu int và là khóa ngoại tham chiếu đến bảng Order
   order_id INT,
   FOREIGN KEY (order_id) REFERENCES `Order`(id)

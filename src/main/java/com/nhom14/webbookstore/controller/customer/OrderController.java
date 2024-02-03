@@ -10,6 +10,8 @@ import java.util.*;
 
 import com.nhom14.webbookstore.DTO.PaymentResDTO;
 import com.nhom14.webbookstore.config.VNPAYPaymentConfig;
+import com.nhom14.webbookstore.entity.*;
+import com.nhom14.webbookstore.service.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,18 +23,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import com.nhom14.webbookstore.entity.Account;
-import com.nhom14.webbookstore.entity.Book;
-import com.nhom14.webbookstore.entity.Cart;
-import com.nhom14.webbookstore.entity.CartItem;
-import com.nhom14.webbookstore.entity.Order;
-import com.nhom14.webbookstore.entity.OrderItem;
-import com.nhom14.webbookstore.service.BookService;
-import com.nhom14.webbookstore.service.CartItemService;
-import com.nhom14.webbookstore.service.CartService;
-import com.nhom14.webbookstore.service.OrderItemService;
-import com.nhom14.webbookstore.service.OrderService;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -51,19 +41,22 @@ public class OrderController {
 	private CartItemService cartItemService;
 	private BookService bookService;
 
+    private PaymentStatusService paymentStatusService;
+
 	@Autowired
 	public OrderController(OrderService orderService, 
 			OrderItemService orderItemService, 
 			CartService cartService, 
 			CartItemService cartItemService,
-			BookService bookService) {
+			BookService bookService,
+            PaymentStatusService paymentStatusService) {
 		super();
 		this.orderService = orderService;
 		this.orderItemService = orderItemService;
 		this.cartService = cartService;
 		this.cartItemService = cartItemService;
 		this.bookService = bookService;
-		
+		this.paymentStatusService = paymentStatusService;
 	}
 	
 	@GetMapping("/shippinginformation")
@@ -167,6 +160,15 @@ public class OrderController {
 
             
         }
+
+        // Tạo đối tượng trạng thái thanh toán
+        PaymentStatus paymentStatus = new PaymentStatus();
+        paymentStatus.setOrder(lastOrder);
+        paymentStatus.setStatus(0); // Chưa thanh toán
+
+        // Thêm trạng thái thanh toán vào cơ sở dữ liệu
+        paymentStatusService.addPaymentStatus(paymentStatus);
+
 
         // Chuyển hướng đến trang xác nhận đơn hàng hoặc trang thanh toán Momo
         if ("MoMo".equals(paymentMethods)) {
@@ -287,7 +289,10 @@ public class OrderController {
             vnp_Params.put("vnp_BankCode", bankCode);
         }
         vnp_Params.put("vnp_TxnRef", vnp_TxnRef);
-        vnp_Params.put("vnp_OrderInfo", "Thanh toan don hang: " + orderId);
+        Calendar cld = Calendar.getInstance(TimeZone.getTimeZone("Etc/GMT+7"));
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
+        String vnp_CreateDate = formatter.format(cld.getTime());
+        vnp_Params.put("vnp_OrderInfo", "Thanh toan don hang: " + orderId +" vao luc "+ vnp_CreateDate);
         vnp_Params.put("vnp_OrderType", orderType);
 
         String locate = req.getParameter("language");
@@ -299,9 +304,7 @@ public class OrderController {
         vnp_Params.put("vnp_ReturnUrl", VNPAYPaymentConfig.vnp_ReturnUrl);
         vnp_Params.put("vnp_IpAddr", vnp_IpAddr);
 
-        Calendar cld = Calendar.getInstance(TimeZone.getTimeZone("Etc/GMT+7"));
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
-        String vnp_CreateDate = formatter.format(cld.getTime());
+
         vnp_Params.put("vnp_CreateDate", vnp_CreateDate);
 
         cld.add(Calendar.MINUTE, 15);
@@ -364,13 +367,15 @@ public class OrderController {
         String decodedOrderId = new String(cipher.doFinal(Base64.getDecoder().decode(vnp_TxnRef)));
         Order order = orderService.getOrderById(Integer.parseInt(decodedOrderId));
 
+        // Lấy trạng thái thanh toán dựa trên order
+        PaymentStatus paymentStatus = paymentStatusService.getPaymentStatusByOrder(order);
+
         // Kiểm tra mã phản hồi
         String message;
         if ("00".equals(vnp_ResponseCode)) {
 
-            // Cập nhật trạng thái đơn hàng
-            order.setStatus(3); // Đã thanh toán
-            orderService.updateOrder(order);
+            // Cập nhật trạng thái thanh toán mới
+            paymentStatus.setStatus(1); // Đã thanh toán
 
             // Tạo thông báo
             message = "Giao dịch thành công! Số tiền: " + Double.parseDouble(vnp_Amount) / 100;
@@ -385,6 +390,10 @@ public class OrderController {
                 + ".\nMã giao dịch tại CTT VNPAY-QR: " + vnp_TransactionNo
                 + ".\nMã ngân hàng thanh toán: " + vnp_BankCode
                 + ".\nThời gian thanh toán: " + vnp_PayDate;
+
+        paymentStatus.setInfo(message);
+        // Cập nhật trạng thái thanh toán vào cơ sở dữ liệu
+        paymentStatusService.updatePaymentStatus(paymentStatus);
 
         // Thêm thông báo giao dịch vào model
         model.addAttribute("message", message);
