@@ -146,6 +146,13 @@
 <body>
 	<div th:replace="~{layout/header :: header}"></div>
     <div class="container main" style="background-color: white;">
+
+		<!-- Hiển thị thông báo nếu có -->
+		<div th:if="${param.message}" class="alert"
+			 th:classappend="${#strings.containsIgnoreCase(param.message, 'thành công') ? 'alert-success' : 'alert-danger'}">
+			<span th:text="${param.message}"></span>
+		</div>
+
 		<p class="text">
             <a href="javascript:history.back()" class="btn btn-back">
 				<span class="material-symbols-outlined back">arrow_back_ios</span>
@@ -162,6 +169,9 @@
 				</div>
 				<div th:if="${order.deliveryDate != null}" class="alert alert-success" role="alert">
 					Ngày giao hàng: <span th:text="${#dates.format(order.deliveryDate, 'dd/MM/yyyy')}"></span>
+				</div>
+				<div th:if="${order.status == 4}" class="alert alert-success" role="alert">
+					Đã hủy đơn
 				</div>
 			</div>
 		</div>
@@ -188,14 +198,13 @@
 									<span th:case="1" class="badge badge-info">Chờ lấy hàng</span>
 									<span th:case="2" class="badge badge-primary">Đang giao</span>
 									<span th:case="3" class="badge badge-success">Đã giao</span>
-									<span th:case="4" class="badge badge-danger">Yêu cầu hủy đơn</span>
-									<span th:case="5" class="badge badge-secondary">Đã hủy đơn</span>
-									<span th:case="6" class="badge badge-warning">Yêu cầu trả hàng</span>
-									<span th:case="7" class="badge badge-warning">Xử lý trả hàng</span>
-									<span th:case="8" class="badge badge-success">Trả hàng thành công</span>
-									<span th:case="9" class="badge badge-danger">Yêu cầu trả hàng bị từ chối</span>
-									<span th:case="10" class="badge badge-danger">Không nhận hàng</span>
-									<span th:case="11" class="badge badge-danger">Đã nhận hàng</span>
+									<span th:case="4" class="badge badge-secondary">Đã hủy đơn</span>
+									<span th:case="5" class="badge badge-warning">Yêu cầu trả hàng</span>
+									<span th:case="6" class="badge badge-warning">Xử lý trả hàng</span>
+									<span th:case="7" class="badge badge-success">Trả hàng thành công</span>
+									<span th:case="8" class="badge badge-danger">Yêu cầu trả hàng bị từ chối</span>
+									<span th:case="9" class="badge badge-danger">Không nhận hàng</span>
+									<span th:case="10" class="badge badge-danger">Đã nhận hàng</span>
 									<span th:case="*" >Trạng thái không hợp lệ</span>
 				                </span>
 				            </td>
@@ -209,8 +218,8 @@
 							</td>
 
 							<td class="align-middle text-center">
-								<a th:if="${order.status == 0}" class="btn btn-danger" th:href="@{/cancelOrder(orderId=${order.id})}">Hủy đơn</a>
-								<a th:if="${order.status == 3 && daysBetween <= 15}" class="btn btn-warning" th:href="@{/returnOrder(orderId=${order.id})}">Trả hàng</a>
+								<a th:if="${order.status == 0}" class="btn btn-danger" th:href="@{/cancelorder(orderId=${order.id})}">Hủy đơn</a>
+								<a th:if="${order.status == 3 && daysBetween <= 15}" class="btn btn-warning" th:href="@{/returnorder(orderId=${order.id})}">Trả hàng</a>
 								<span th:if="${order.status != 0 && !(order.status == 3 && daysBetween <= 15)}">Không có</span>
 							</td>
 

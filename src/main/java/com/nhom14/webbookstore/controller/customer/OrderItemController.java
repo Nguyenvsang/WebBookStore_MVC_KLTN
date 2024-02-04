@@ -48,10 +48,13 @@ public class OrderItemController {
 		// Lấy danh sách OrderItem từ OrderItemService
 		List<OrderItem> orderItems = orderItemService.getOrderItemsByOrder(order);
 
-		// Tính số ngày giữa ngày đặt hàng và ngày hiện tại
-		LocalDate dateOrderLocalDate = order.getDateOrder().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-		LocalDate today = LocalDate.now();
-		long daysBetween = ChronoUnit.DAYS.between(dateOrderLocalDate, today);
+		// Tính số ngày giữa ngày giao hàng và ngày hiện tại
+		long daysBetween = -1; // Tức là chưa giao hàng
+		if (order.getDeliveryDate() != null){
+			LocalDate dateOrderLocalDate = order.getDeliveryDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+			LocalDate today = LocalDate.now();
+			daysBetween = ChronoUnit.DAYS.between(dateOrderLocalDate, today);
+		}
 
 		// Đặt đối tượng Order, orderItems và daysBetween vào thuộc tính model để sử dụng trong Thymeleaf
 		model.addAttribute("order", order);

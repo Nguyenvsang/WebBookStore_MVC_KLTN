@@ -39,20 +39,20 @@ public class Order {
     @Column(name = "status", columnDefinition = "int NOT NULL")
     private int status; // 0: Chờ xác nhận, 1: Chờ lấy hàng, 
     					// 2: Đang giao, 3: Đã giao
-						// 4: Yêu cầu hủy đơn, 5: Đã hủy đơn
-						// 6: Yêu cầu trả hàng, 7: Xử lý trả hàng
-						// 8: Trả hàng thành công, 9: Yêu cầu trả hàng bị từ chối
-						// 10: Không nhận hàng, 11: Đã nhận hàng
+						// 4: Đã hủy đơn, 5: Yêu cầu trả hàng
+						// 6: Xử lý trả hàng, 7: Trả hàng thành công
+						// 8: Yêu cầu trả hàng bị từ chối, 9: Không nhận hàng
+						// 10: Đã nhận hàng
 
 //	Chờ xác nhận > Chờ lấy hàng > Đang giao > Đã giao > Đã nhận hàng
-//	Chờ xác nhận > Yêu cầu hủy đơn > Xử lý hủy đơn > Đã hủy đơn
+//	Chờ xác nhận > Đã hủy đơn
 //	Chờ xác nhận > Chờ lấy hàng > Đang giao > Đã giao > Yêu cầu trả hàng > Xử lý trả hàng > Trả hàng thành công
 //	Chờ xác nhận > Chờ lấy hàng > Đang giao > Đã giao > Yêu cầu trả hàng > Xử lý trả hàng > Yêu cầu trả hàng bị từ chối > Đã nhận hàng
 //	Chờ xác nhận > Chờ lấy hàng > Đang giao > Không nhận hàng
 //	Chưa thanh toán > Đã thanh toán > Đã hoàn tiền
 //	Khi Trả hàng thành công nghĩa là cũng bao gồm Đã hoàn tiền
 //	Nếu Yêu cầu hủy đơn mà đã thanh toán tiền cho đơn đó thì khi ở trạng thái Đã hủy đơn cũng bao gồm việc Đã hoàn tiền cho khách
-//	Được yêu cầu trả hàng trong vòng 15 ngày kể từ khi giao hàng thành công (Đã giao). Quá 15 ngày thì nút Trả hàng sẽ biến mất và trên hệ thống admin sẽ chuyển trạng thái đơn hàng thành Đã nhận hàng
+//	Được yêu cầu trả hàng trong vòng 15 ngày (không kể giờ phút giây) kể từ khi giao hàng thành công (Đã giao). Quá 15 ngày thì nút Trả hàng sẽ biến mất và trên hệ thống admin sẽ chuyển trạng thái đơn hàng thành Đã nhận hàng
 //	Được yêu cầu hủy đơn khi đơn hàng ở trạng thái Chờ xác nhận
 //	Nếu đã nhấn Đã nhận hàng thì khách hàng không thể chọn Trả hàng sau đó nữa
 
@@ -63,12 +63,15 @@ public class Order {
 	@OneToOne(fetch = FetchType.EAGER, mappedBy = "order")
 	private PaymentStatus paymentStatus;
 
+	@OneToOne(fetch = FetchType.EAGER, mappedBy = "order")
+	private InfoCancelOrder infoCancelOrder;
+
 	public Order() {
 
     }
 
 	public Order(Date dateOrder, Date expectedDeliveryDate1, Date expectedDeliveryDate2, Date deliveryDate, double totalPrice, String name, String address, String phoneNumber, String email,
-                 Account account, int status, List<OrderItem> orderitems, PaymentStatus paymentStatus) {
+                 Account account, int status, List<OrderItem> orderitems, PaymentStatus paymentStatus, InfoCancelOrder infoCancelOrder) {
 		super();
 		this.dateOrder = dateOrder;
 		this.expectedDeliveryDate1 = expectedDeliveryDate1;
@@ -83,6 +86,7 @@ public class Order {
 		this.status = status;
 		this.orderitems = orderitems;
         this.paymentStatus = paymentStatus;
+		this.infoCancelOrder = infoCancelOrder;
     }
 
 
@@ -197,5 +201,13 @@ public class Order {
 
 	public void setDeliveryDate(Date deliveryDate) {
 		this.deliveryDate = deliveryDate;
+	}
+
+	public InfoCancelOrder getInfoCancelOrder() {
+		return infoCancelOrder;
+	}
+
+	public void setInfoCancelOrder(InfoCancelOrder infoCancelOrder) {
+		this.infoCancelOrder = infoCancelOrder;
 	}
 }
