@@ -14,7 +14,8 @@ public class PaymentStatus {
     private Order order;
 
     @Column(name = "status", columnDefinition = "INT NOT NULL")
-    private int status; //0: Chưa thanh toán; 1: Đã thanh toán; 2: Đã hoàn tiền
+    private int status; //0: Chưa thanh toán; 1: Đã thanh toán; 2: Xử lý hoàn tiền
+                        //3: Đã hoàn tiền; 4: Không cần thanh toán
     @Column(name = "info", columnDefinition = "text")
     private String info;
 

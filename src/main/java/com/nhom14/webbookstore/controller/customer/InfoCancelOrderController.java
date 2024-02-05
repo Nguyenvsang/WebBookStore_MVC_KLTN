@@ -3,6 +3,7 @@ package com.nhom14.webbookstore.controller.customer;
 import com.nhom14.webbookstore.entity.Account;
 import com.nhom14.webbookstore.entity.InfoCancelOrder;
 import com.nhom14.webbookstore.entity.Order;
+import com.nhom14.webbookstore.entity.PaymentStatus;
 import com.nhom14.webbookstore.service.InfoCancelOrderService;
 import com.nhom14.webbookstore.service.OrderService;
 import com.nhom14.webbookstore.service.PaymentStatusService;
@@ -73,6 +74,21 @@ public class InfoCancelOrderController {
         infoCancelOrder.setOtherType(otherType);
         // Lưu vào CSDL
         infoCancelOrderService.addInfoCancelOrder(infoCancelOrder);
+
+        //Lấy đối tượng PaymentStatus
+        PaymentStatus paymentStatus = paymentStatusService.getPaymentStatusByOrder(order);
+        //Lấy trạng thái hiện tại của nó
+        int statusofpaymentstatus = paymentStatus.getStatus();
+        //Nếu trạng thái là chưa thanh toán thì đặt trạng thái thanh toán là không cần thanh toán
+        if (statusofpaymentstatus == 0) {
+            paymentStatus.setStatus(4);
+        }
+        //Nếu trạng thái là đã thanh toán thì đặt trạng thái thanh toán là xử lý hoàn tiền
+        else if (statusofpaymentstatus == 1) {
+            paymentStatus.setStatus(3);
+        }
+        // Lưu vào CSDL
+        paymentStatusService.updatePaymentStatus(paymentStatus);
 
         redirectAttributes.addAttribute("message", "Đã hủy đơn thành công!");
         redirectAttributes.addAttribute("orderId", order.getId());

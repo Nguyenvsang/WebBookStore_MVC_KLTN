@@ -213,7 +213,9 @@
 								<span th:switch="${order.paymentStatus.status}">
 									<span th:case="0" class="badge badge-primary">Chưa thanh toán</span>
 									<span th:case="1" class="badge badge-success">Đã thanh toán</span>
-									<span th:case="2" class="badge badge-success">Đã hoàn tiền</span>
+									<span th:case="2" class="badge badge-warning">Xử lý hoàn tiền</span>
+									<span th:case="3" class="badge badge-success">Đã hoàn tiền</span>
+									<span th:case="4" class="badge badge-success">Không cần thanh toán</span>
 								</span>
 							</td>
 
