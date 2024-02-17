@@ -187,6 +187,44 @@ CREATE TABLE PaymentStatus (
   FOREIGN KEY (order_id) REFERENCES `Order`(id)
 );
 
+-- Tạo bảng InfoCancelOrder
+CREATE TABLE InfoCancelOrder (
+	-- Khai báo thuộc tính id kiểu int, không được null, tăng tự động và là khóa chính
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    -- Khai báo thuộc tính type kiểu int, có thể null 
+	type INT,
+    -- Khai báo thuộc tính other_type kiểu text, có thể null
+    other_type text,
+    -- Khai báo thuộc tính order_id kiểu int và là khóa ngoại tham chiếu đến bảng Order
+    order_id INT,
+    FOREIGN KEY (order_id) REFERENCES `Order`(id)
+);
+
+-- Tạo bảng InfoReturnOrder
+CREATE TABLE InfoReturnOrder (
+	-- Khai báo thuộc tính id kiểu int, không được null, tăng tự động và là khóa chính
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    -- Khai báo thuộc tính reason kiểu text, có thể null
+    reason TEXT,
+    -- Khai báo thuộc tính return_date kiểu DATE, không được null 
+    return_date DATE NOT NULL,
+    -- Khai báo thuộc tính img kiểu VARCHAR(255) để lưu đường dẫn hình ảnh
+    img VARCHAR(255),
+    -- Khai báo thuộc tính video kiểu VARCHAR(255) để lưu đường dẫn video
+    video VARCHAR(255),
+    -- Khai báo thuộc tính name kiểu VARCHAR(255), không được null
+    name VARCHAR(255) NOT NULL,
+    -- Khai báo thuộc tính address kiểu VARCHAR(255), không được null
+    address VARCHAR(255) NOT NULL,
+    -- Khai báo thuộc tính phone_number kiểu VARCHAR(20), không được null
+    phone_number VARCHAR(20) NOT NULL,
+    -- Khai báo thuộc tính email kiểu CHAR(255), không được null
+    email CHAR(255) NOT NULL,
+    -- Khai báo thuộc tính order_id kiểu int và là khóa ngoại tham chiếu đến bảng Order
+    order_id INT,
+    FOREIGN KEY (order_id) REFERENCES `Order`(id)
+);
+
 -- Thêm dữ liệu vào bảng Category
 INSERT INTO Category (name, status) VALUES ("CHÍNH TRỊ - PHÁP LUẬT", 1);
 INSERT INTO Category (name, status) VALUES ("GIÁO TRÌNH", 1);

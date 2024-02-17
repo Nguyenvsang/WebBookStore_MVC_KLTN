@@ -118,7 +118,7 @@
 			<a th:href="@{/managedetailbook(bookId=${book.id})}" class="btn btn-out" style="margin: 10px;">
 				<span class="material-symbols-outlined back">arrow_back_ios</span>
 			</a>
-			<h3>CẬP NHẬT SÁCH</h1>
+			<h3>CẬP NHẬT SÁCH</h3>
 			<div class="frame-body">
 		        <form th:action="@{/updatebook}" th:object="${book}" method="POST" enctype="multipart/form-data">
 					
@@ -193,7 +193,7 @@
 							    <img th:src="${book.bookImages[0].path + '?v=' + randomNumber}" alt="Book Image 1" width="150" style="border-radius: 10px;"><br>							    
 							</div>
 							<div class="form-group">
-								<label for="image" style="color: rgb(2,88,155);">Ảnh 1:</label>
+								<label for="image1" style="color: rgb(2,88,155);">Ảnh 1:</label>
 								<input type="file" class="form-control-file" id="image1" name="image1" accept="image/*" onchange="loadFile1(event)" style="margin-bottom: 10px ;">
 								<div style="display: flex; justify-content: center; align-items: center;">
 								    <img id="output1" width="100"/>
@@ -206,7 +206,7 @@
 							    <img th:src="${book.bookImages[1].path + '?v=' + randomNumber}" alt="Book Image 2" width="150" style="border-radius: 10px;"><br>
 							</div>	
 							<div class="form-group">
-							    <label for="image" style="color: rgb(2,88,155);">Ảnh 2:</label>
+							    <label for="image2" style="color: rgb(2,88,155);">Ảnh 2:</label>
 							    <input type="file" class="form-control-file" id="image2" name="image2" accept="image/*" onchange="loadFile2(event)" style="margin-bottom: 10px ;">
 							    <div style="display: flex; justify-content: center; align-items: center;">
 								    <img id="output2" width="100"/>
@@ -219,7 +219,7 @@
 							    <img th:src="${book.bookImages[2].path + '?v=' + randomNumber}" alt="Book Image 3" width="150" style="border-radius: 10px;"><br>
 							</div>
 							<div class="form-group">
-							    <label for="image" style="color: rgb(2,88,155);">Ảnh 3:</label>
+							    <label for="image3" style="color: rgb(2,88,155);">Ảnh 3:</label>
 							    <input type="file" class="form-control-file" id="image3" name="image3" accept="image/*" onchange="loadFile3(event)" style="margin-bottom: 10px ;">
 							    <div style="display: flex; justify-content: center; align-items: center;">
 								    <img id="output3" width="100"/>
@@ -232,7 +232,7 @@
 							    <img th:src="${book.bookImages[3].path + '?v=' + randomNumber}" alt="Book Image 4" width="150" style="border-radius: 10px;"><br>
 							</div>
 							<div class="form-group">
-							    <label for="image" style="color: rgb(2,88,155);">Ảnh 4:</label>
+							    <label for="image4" style="color: rgb(2,88,155);">Ảnh 4:</label>
 							    <input type="file" class="form-control-file" id="image4" name="image4" accept="image/*" onchange="loadFile4(event)" style="margin-bottom: 10px ;">
 							    <div style="display: flex; justify-content: center; align-items: center;">
 								    <img id="output4" width="100"/>

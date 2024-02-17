@@ -3,6 +3,7 @@ package com.nhom14.webbookstore.controller.customer;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
@@ -54,6 +55,10 @@ public class OrderItemController {
 			LocalDate dateOrderLocalDate = order.getDeliveryDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 			LocalDate today = LocalDate.now();
 			daysBetween = ChronoUnit.DAYS.between(dateOrderLocalDate, today);
+			// Tính ngày tối đa có thể trả hàng được để hiển thị lên view
+			Date lastReturnDate = Date.from((dateOrderLocalDate.plusDays(15)).atStartOfDay(ZoneId.systemDefault()).toInstant());
+			// Đặt ngày cuối cùng có thể trả hàng vào thuộc tính model để sử dụng trong Thymeleaf
+			model.addAttribute("lastReturnDate", lastReturnDate);
 		}
 
 		// Đặt đối tượng Order, orderItems và daysBetween vào thuộc tính model để sử dụng trong Thymeleaf

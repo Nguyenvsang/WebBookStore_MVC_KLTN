@@ -154,12 +154,16 @@
 		</div>
 
 		<p class="text">
-            <a href="javascript:history.back()" class="btn btn-back">
+            <a th:href="@{/vieworders}" class="btn btn-back">
 				<span class="material-symbols-outlined back">arrow_back_ios</span>
 			</a>
         </p>
 		<div class="frame-main-4" style="background-color: white; margin-top: 20px;">
         	<h3>CHI TIẾT ĐƠN HÀNG</h3>
+		</div>
+
+		<div th:if="${order.status == 3 && daysBetween <= 15}" class="btn btn-warning">
+			<span th:if="${lastReturnDate != null}" th:text="'Bạn có thể yêu cầu trả hàng đến hết ngày ' + ${#dates.format(lastReturnDate, 'dd/MM/yyyy')} + ' , sau ngày đó bạn không thể yêu cầu trả hàng được nữa!' "></span>
 		</div>
 
 		<div class="delivery-details card" style="margin-top: 20px;">

@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Lý do hủy đơn hàng</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <style>
+
+        body { background-color: #f8f9fa  }
+
+        h3 {
+            text-align: center;
+            margin-top: 10px;
+            margin-bottom: 20px;
+            color: rgb(2,88,155);
+        }
+        .form-container {
+
+            border-radius: 5px;
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            margin-left: 100px;
+            margin-right: 100px;
+        }
+        .btn-cancle {
+            border: 2px solid rgb(241,56,71);
+            color: rgb(0, 0, 0);
+            border-radius: 10px;
+        }
+        .btn-cancle:hover {
+            color: rgb(255, 0, 0);
+        }
+
+        .btn-order {
+            background-color: rgb(2,88,155);
+            border-radius: 10px;
+            color: white;
+        }
+        .btn-order:hover {
+            color: rgb(182,232,241);
+        }
+
+        .frame {
+            background-color: rgb(182,232,241);
+            border-radius: 10px;
+            height: 50px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .text-total {
+            text-align: center;
+        }
+        .navbar-nav {
+            display: frex;
+        }
+        .navbar-nav-left {
+            width: 70%;
+        }
+        .navbar-nav-right {
+            width: 30%;
+        }
+        .nav-link {
+            display: flex;
+              align-items: center;
+              column-gap: 0.5rem;
+              width: fit-content;
+        }
+        .move-right {
+            margin-left: auto;
+            display: flex;
+            float: right;
+        }
+        .material-symbols-outlined{
+            color: rgb(2,88,155);
+        }
+
+        .form-container {
+            box-shadow: 0 8px 10px rgb(226, 226, 226);
+
+        }
+    </style>
+    <script>
+        var checkFileSizeImg1 = function(event) {
+            var file = event.target.files[0];
+            if(file.size > 10 * 1024 * 1024) { // 10MB
+                alert("File ảnh 1 quá lớn! Vui lòng chọn file ảnh nhỏ hơn 10MB.");
+                event.target.value = ""; // reset the input
+            } else {
+                var output = document.getElementById('outputImg1');
+                output.src = URL.createObjectURL(file);
+                output.onload = function() {
+                    URL.revokeObjectURL(output.src) // free memory
+                }
+            }
+        };
+    </script>
+    <script>
+        var checkFileSizeImg2 = function(event) {
+            var file = event.target.files[0];
+            if(file.size > 10 * 1024 * 1024) { // 10MB
+                alert("File ảnh 2 quá lớn! Vui lòng chọn file ảnh nhỏ hơn 10MB.");
+                event.target.value = ""; // reset the input
+            } else {
+                var output = document.getElementById('outputImg2');
+                output.src = URL.createObjectURL(file);
+                output.onload = function() {
+                    URL.revokeObjectURL(output.src) // free memory
+                }
+            }
+        };
+    </script>
+    <script>
+        var checkFileSizeImg3 = function(event) {
+            var file = event.target.files[0];
+            if(file.size > 10 * 1024 * 1024) { // 10MB
+                alert("File ảnh 3 quá lớn! Vui lòng chọn file ảnh nhỏ hơn 10MB.");
+                event.target.value = ""; // reset the input
+            } else {
+                var output = document.getElementById('outputImg3');
+                output.src = URL.createObjectURL(file);
+                output.onload = function() {
+                    URL.revokeObjectURL(output.src) // free memory
+                }
+            }
+        };
+    </script>
+    <script>
+        var checkFileSizeImg4 = function(event) {
+            var file = event.target.files[0];
+            if(file.size > 10 * 1024 * 1024) { // 10MB
+                alert("File ảnh 4 quá lớn! Vui lòng chọn file ảnh nhỏ hơn 10MB.");
+                event.target.value = ""; // reset the input
+            } else {
+                var output = document.getElementById('outputImg4');
+                output.src = URL.createObjectURL(file);
+                output.onload = function() {
+                    URL.revokeObjectURL(output.src) // free memory
+                }
+            }
+        };
+    </script>
+    <script>
+        var checkFileSizeVideo1 = function(event) {
+            var file = event.target.files[0];
+            if(file.size > 100 * 1024 * 1024) { // 100MB
+                alert("File video mở hàng quá lớn! Vui lòng chọn file video nhỏ hơn 100MB.");
+                event.target.value = ""; // reset the input
+            } else {
+                var output = document.getElementById('outputVideo1');
+                output.src = URL.createObjectURL(file);
+                output.onload = function() {
+                    URL.revokeObjectURL(output.src) // free memory
+                }
+            }
+        };
+    </script>
+    <script>
+        var checkFileSizeVideo2 = function(event) {
+            var file = event.target.files[0];
+            if(file.size > 100 * 1024 * 1024) { // 100MB
+                alert("File video quay sản phẩm quá lớn! Vui lòng chọn file video nhỏ hơn 100MB.");
+                event.target.value = ""; // reset the input
+            } else {
+                var output = document.getElementById('outputVideo2');
+                output.src = URL.createObjectURL(file);
+                output.onload = function() {
+                    URL.revokeObjectURL(output.src) // free memory
+                }
+            }
+        };
+    </script>
+</head>
+<body>
+<div th:replace="~{layout/header :: header}"></div>
+<div class="container-fluid mb-4">
+    <div class="container">
+        <div class="form-container" style="background-color: white;">
+            <h3 class="text-center">CHỌN LÝ DO TRẢ ĐƠN HÀNG [[${orderId}]]</h3>
+            <form th:action="@{/returnorder(orderId=${orderId})}" method="post">
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="reason" id="reason0" value="Thiếu hàng" required>
+                    <label class="form-check-label" for="reason0">Thiếu hàng</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="reason" id="reason1" value="Người bán gửi sai hàng" required>
+                    <label class="form-check-label" for="reason1">Người bán gửi sai hàng</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="reason" id="reason2" value="Hàng hư hỏng, rách, nát" required>
+                    <label class="form-check-label" for="reason2">Hàng hư hỏng, rách, nát</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="reason" id="reason3" value="Khác với mô tả" required>
+                    <label class="form-check-label" for="reason3">Khác với mô tả</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="reason" id="reason4" value="Hàng giả, nhái" required>
+                    <label class="form-check-label" for="reason4">Hàng giả, nhái</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="reason" id="reason5" value="Hàng đã qua sử dụng" required>
+                    <label class="form-check-label" for="reason5">Hàng đã qua sử dụng</label>
+                </div>
+                <div class="form-group">
+                    <label for="detailreason">Mô tả chi tiết thêm:</label>
+                    <input type="text" class="form-control" id="detailreason" name="detailreason" required>
+                </div>
+
+                <h3 class="text-center">THÊM 4 HÌNH ẢNH VÀ 1 VIDEO MỞ HÀNG, 1 VIDEO QUAY SẢN PHẨM CHO THẤY RÕ SẢN PHẨM NHẬN ĐƯỢC KHÔNG ĐÚNG NHƯ MONG ĐỢI</h3>
+                <h3 class="text-center">Lưu ý: Mỗi hình ảnh tối đa 10MB và mỗi video tối đa 100MB</h3>
+
+                <div class="form-group">
+                    <label for="image1" style="color: rgb(2,88,155);">Ảnh 1:</label>
+                    <input type="file" class="form-control-file" id="image1" name="image1" accept="image/*" onchange="checkFileSizeImg1(event)" style="margin-bottom: 10px ;" required>
+                    <div style="display: flex; justify-content: center; align-items: center;">
+                        <img id="outputImg1" width="100"/>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="image2" style="color: rgb(2,88,155);">Ảnh 2:</label>
+                    <input type="file" class="form-control-file" id="image2" name="image2" accept="image/*" onchange="checkFileSizeImg2(event)" style="margin-bottom: 10px ;" required>
+                    <div style="display: flex; justify-content: center; align-items: center;">
+                        <img id="outputImg2" width="100"/>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="image3" style="color: rgb(2,88,155);">Ảnh 3:</label>
+                    <input type="file" class="form-control-file" id="image3" name="image3" accept="image/*" onchange="checkFileSizeImg3(event)" style="margin-bottom: 10px ;" required>
+                    <div style="display: flex; justify-content: center; align-items: center;">
+                        <img id="outputImg3" width="100"/>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="image4" style="color: rgb(2,88,155);">Ảnh 4:</label>
+                    <input type="file" class="form-control-file" id="image4" name="image4" accept="image/*" onchange="checkFileSizeImg4(event)" style="margin-bottom: 10px ;" required>
+                    <div style="display: flex; justify-content: center; align-items: center;">
+                        <img id="outputImg4" width="100"/>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="video1" style="color: rgb(2,88,155);">Video mở hàng:</label>
+                    <input type="file" class="form-control-file" id="video1" name="video1" accept="video/*" onchange="checkFileSizeVideo1(event)" style="margin-bottom: 10px ;" required>
+                    <div style="display: flex; justify-content: center; align-items: center;">
+                        <video id="outputVideo1" width="100" controls></video>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="video1" style="color: rgb(2,88,155);">Video quay sản phẩm:</label>
+                    <input type="file" class="form-control-file" id="video2" name="video2" accept="video/*" onchange="checkFileSizeVideo2(event)" style="margin-bottom: 10px ;" required>
+                    <div style="display: flex; justify-content: center; align-items: center;">
+                        <video id="outputVideo2" width="100" controls></video>
+                    </div>
+                </div>
+
+
+                <h3 class="text-center">THÔNG TIN NGƯỜI TRẢ HÀNG</h3>
+                <div class="form-group row" style="color: rgb(2,88,155);">
+                    <label for="name" class="col-md-2 col-form-label">Tên:</label>
+                    <div class="col-md-10">
+                        <input type="text" id="name" name="name" th:value="${account.firstName} + ' ' + ${account.lastName}" required class="form-control" style="border-radius: 10px;">
+                    </div>
+                </div>
+                <div class="form-group row" style="color: rgb(2,88,155);">
+                    <label for="address" class="col-md-2 col-form-label">Địa chỉ:</label>
+                    <div class="col-md-10">
+                        <input type="text" id="address" name="address" th:value="${account.address}" required class="form-control" style="border-radius: 10px;">
+                    </div>
+                </div>
+                <div class="form-group row" style="color: rgb(2,88,155);">
+                    <label for="phoneNumber" class="col-md-2 col-form-label">Số điện thoại:</label>
+                    <div class="col-md-10">
+                        <input type="text" id="phoneNumber" name="phoneNumber" th:value="${account.phoneNumber}" required class="form-control" style="border-radius: 10px;">
+                    </div>
+                </div>
+                <div class="form-group row" style="color: rgb(2,88,155);">
+                    <label for="email" class="col-md-2 col-form-label">Email:</label>
+                    <div class="col-md-10">
+                        <input type="email" id="email" name="email" th:value="${account.email}" required class="form-control" style="border-radius: 10px;">
+                    </div>
+                </div>
+                <div class="text-center">
+                    <button type="submit" class="btn btn-order">Xác nhận trả hàng</button>
+                    <a th:href="@{/vieworderitems(orderId=${orderId})}" class="btn btn-cancle">Không hủy nữa</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div th:replace="~{layout/footer :: footer}"></div>
+</body>
+
+</html>
