@@ -204,14 +204,12 @@ CREATE TABLE InfoCancelOrder (
 CREATE TABLE InfoReturnOrder (
 	-- Khai báo thuộc tính id kiểu int, không được null, tăng tự động và là khóa chính
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    -- Khai báo thuộc tính reason kiểu text, có thể null
-    reason TEXT,
-    -- Khai báo thuộc tính return_date kiểu DATE, không được null 
-    return_date DATE NOT NULL,
-    -- Khai báo thuộc tính img kiểu VARCHAR(255) để lưu đường dẫn hình ảnh
-    img VARCHAR(255),
-    -- Khai báo thuộc tính video kiểu VARCHAR(255) để lưu đường dẫn video
-    video VARCHAR(255),
+    -- Khai báo thuộc tính reason kiểu text, không được null
+    reason TEXT NOT NULL,
+    -- Khai báo thuộc tính detail_reason kiểu text, không được null
+    detail_reason TEXT NOT NULL,
+    -- Khai báo thuộc tính request_date kiểu DATE, không được null
+    request_date DATE NOT NULL,
     -- Khai báo thuộc tính name kiểu VARCHAR(255), không được null
     name VARCHAR(255) NOT NULL,
     -- Khai báo thuộc tính address kiểu VARCHAR(255), không được null
@@ -223,6 +221,36 @@ CREATE TABLE InfoReturnOrder (
     -- Khai báo thuộc tính order_id kiểu int và là khóa ngoại tham chiếu đến bảng Order
     order_id INT,
     FOREIGN KEY (order_id) REFERENCES `Order`(id)
+);
+
+-- Tạo bảng ImgReturnOrder
+CREATE TABLE ImgReturnOrder (
+	-- Khai báo thuộc tính id kiểu int, không được null, tăng tự động và là khóa chính
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    -- Khai báo thuộc tính img1 kiểu VARCHAR(255), không được null
+    img1 VARCHAR(255) NOT NULL,
+    -- Khai báo thuộc tính img2 kiểu VARCHAR(255), không được null
+    img2 VARCHAR(255) NOT NULL,
+    -- Khai báo thuộc tính img3 kiểu VARCHAR(255), không được null
+    img3 VARCHAR(255) NOT NULL,
+    -- Khai báo thuộc tính img4 kiểu VARCHAR(255), không được null
+    img4 VARCHAR(255) NOT NULL,
+    -- Khai báo thuộc tính inforeturnorder_id kiểu int và là khóa ngoại tham chiếu đến bảng InfoReturnOrder
+    inforeturnorder_id INT,
+    FOREIGN KEY (inforeturnorder_id) REFERENCES InfoReturnOrder(id)
+);
+
+-- Tạo bảng VideoReturnOrder
+CREATE TABLE VideoReturnOrder (
+	-- Khai báo thuộc tính id kiểu int, không được null, tăng tự động và là khóa chính
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    -- Khai báo thuộc tính unboxing_video kiểu VARCHAR(255), không được null
+    unboxing_video VARCHAR(255) NOT NULL,
+    -- Khai báo thuộc tính product_video kiểu VARCHAR(255), không được null
+    product_video VARCHAR(255) NOT NULL,
+    -- Khai báo thuộc tính inforeturnorder_id kiểu int và là khóa ngoại tham chiếu đến bảng InfoReturnOrder
+    inforeturnorder_id INT,
+    FOREIGN KEY (inforeturnorder_id) REFERENCES InfoReturnOrder(id)
 );
 
 -- Thêm dữ liệu vào bảng Category

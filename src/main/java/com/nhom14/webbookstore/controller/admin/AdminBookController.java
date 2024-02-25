@@ -301,10 +301,10 @@ public class AdminBookController {
         bookImageService.addBookImage(bookImage4);
         
         List<BookImage> bookImages = new ArrayList<>();
-        bookImages.add(bookImage1);
-        bookImages.add(bookImage2);
-        bookImages.add(bookImage3);
-        bookImages.add(bookImage4);
+        bookImages.add(bookImage1); // Không cần truy xuất ID mỗi bookImage từ database
+        bookImages.add(bookImage2); // vì khi đã addBookImage
+        bookImages.add(bookImage3); // thì Hibernate sẽ tự động tạo một ID cho đối tượng này.
+        bookImages.add(bookImage4); // ID này sau đó sẽ được Hibernate sử dụng để theo dõi và quản lý đối tượng trong phiên làm việc hiện tại
         
         boolean updatedImages = updateImages(newBook, bookImages, image1, image2, image3, image4, true);
 	    // Nếu cập nhật ảnh bị lỗi thì

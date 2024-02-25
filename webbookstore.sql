@@ -249,6 +249,36 @@ INSERT INTO `category` VALUES (1,'CHÍNH TRỊ - PHÁP LUẬT',1),(2,'GIÁO TRÌ
 UNLOCK TABLES;
 
 --
+-- Table structure for table `imgreturnorder`
+--
+
+DROP TABLE IF EXISTS `imgreturnorder`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `imgreturnorder` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `img1` varchar(255) NOT NULL,
+  `img2` varchar(255) NOT NULL,
+  `img3` varchar(255) NOT NULL,
+  `img4` varchar(255) NOT NULL,
+  `inforeturnorder_id` int DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `imgreturnorder_ibfk_1_idx` (`inforeturnorder_id`),
+  CONSTRAINT `imgreturnorder_ibfk_1` FOREIGN KEY (`inforeturnorder_id`) REFERENCES `inforeturnorder` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `imgreturnorder`
+--
+
+LOCK TABLES `imgreturnorder` WRITE;
+/*!40000 ALTER TABLE `imgreturnorder` DISABLE KEYS */;
+INSERT INTO `imgreturnorder` VALUES (1,'https://res.cloudinary.com/dosdzo1lg/image/upload/v1708762125/WebBookStoreKLTN/img_returnorder/order_19/1.jpg','https://res.cloudinary.com/dosdzo1lg/image/upload/v1708762125/WebBookStoreKLTN/img_returnorder/order_19/2.jpg','https://res.cloudinary.com/dosdzo1lg/image/upload/v1708762125/WebBookStoreKLTN/img_returnorder/order_19/3.jpg','https://res.cloudinary.com/dosdzo1lg/image/upload/v1708762125/WebBookStoreKLTN/img_returnorder/order_19/4.jpg',1);
+/*!40000 ALTER TABLE `imgreturnorder` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `infocancelorder`
 --
 
@@ -274,6 +304,39 @@ LOCK TABLES `infocancelorder` WRITE;
 /*!40000 ALTER TABLE `infocancelorder` DISABLE KEYS */;
 INSERT INTO `infocancelorder` VALUES (1,3,6,'');
 /*!40000 ALTER TABLE `infocancelorder` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `inforeturnorder`
+--
+
+DROP TABLE IF EXISTS `inforeturnorder`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `inforeturnorder` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `reason` text NOT NULL,
+  `detail_reason` text NOT NULL,
+  `request_date` date NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `address` varchar(255) NOT NULL,
+  `phone_number` varchar(20) NOT NULL,
+  `email` char(255) NOT NULL,
+  `order_id` int DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `inforeturnorder_ibfk_1_idx` (`order_id`),
+  CONSTRAINT `inforeturnorder_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `order` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `inforeturnorder`
+--
+
+LOCK TABLES `inforeturnorder` WRITE;
+/*!40000 ALTER TABLE `inforeturnorder` DISABLE KEYS */;
+INSERT INTO `inforeturnorder` VALUES (1,'Thiếu hàng','Mua 2 cuốn mà giao có 1 cuốn','2024-02-24','Xuân Phạm','TP Thủ Đức','0383682699','xuan11@gmail.com',19);
+/*!40000 ALTER TABLE `inforeturnorder` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -308,7 +371,7 @@ CREATE TABLE `order` (
 
 LOCK TABLES `order` WRITE;
 /*!40000 ALTER TABLE `order` DISABLE KEYS */;
-INSERT INTO `order` VALUES (1,'2024-01-16',1560000,'Nguyễn Thị Vui','Thành phố Hồ Chí Minh ','037889488489','vui123@gmail.com',12,3,'2024-01-19','2024-01-19','2024-01-21'),(2,'2024-01-30',195000,'Xuân Phạm','TP Thủ Đức','0383682679','xuan11@gmail.com',12,4,'2024-02-02',NULL,'2024-02-04'),(3,'2024-01-30',390000,'Xuân Phạm','TP Thủ Đức','0383682679','xuan11@gmail.com',12,4,'2024-02-02',NULL,'2024-02-04'),(4,'2024-01-31',139000,'Xuân Phạm','TP Thủ Đức','0383682679','xuan11@gmail.com',12,0,'2024-02-03',NULL,'2024-02-05'),(5,'2024-01-30',99000,'Xuân Phạm','TP Thủ Đức','0383682679','xuan11@gmail.com',12,3,'2024-02-02','2024-02-02','2024-02-04'),(6,'2024-01-30',98000,'Xuân Phạm','TP Thủ Đức','0383682679','xuan11@gmail.com',12,3,'2024-02-02','2024-02-02','2024-02-04'),(7,'2024-01-30',99000,'Xuân Phạm','TP Thủ Đức','0383682679','xuan11@gmail.com',12,3,'2024-02-02','2024-02-02','2024-02-04'),(8,'2024-01-30',140000,'Xuân Phạm','TP Thủ Đức','0383682679','xuan11@gmail.com',12,3,'2024-02-02','2024-02-02','2024-02-04'),(9,'2024-01-30',144000,'Xuân Phạm','TP Thủ Đức','0383682679','xuan11@gmail.com',12,3,'2024-02-02','2024-02-02','2024-02-04'),(10,'2024-02-01',110000,'Xuân Phạm','TP Thủ Đức','0383682679','xuan11@gmail.com',12,0,'2024-02-04',NULL,'2024-02-06'),(11,'2024-02-01',110000,'Xuân Phạm','TP Thủ Đức','0383682679','xuan11@gmail.com',12,0,'2024-02-04',NULL,'2024-02-06'),(12,'2024-02-01',98000,'Xuân Phạm','TP Thủ Đức','0383682679','xuan11@gmail.com',12,0,'2024-02-04',NULL,'2024-02-06'),(13,'2024-01-31',139000,'Xuân Phạm','TP Thủ Đức','0383682679','xuan11@gmail.com',12,3,'2024-02-03','2024-02-03','2024-02-05'),(14,'2024-02-01',99000,'Xuân Phạm','TP Thủ Đức','0383682679','xuan11@gmail.com',12,3,'2024-02-03','2024-02-03','2024-02-05'),(15,'2024-02-01',195000,'Xuân Phạm','TP Thủ Đức','0383682679','xuan11@gmail.com',12,3,'2024-02-03','2024-02-03','2024-02-05'),(16,'2024-02-02',72000,'Xuân Phạm','TP Thủ Đức','0383682679','xuan11@gmail.com',12,0,'2024-02-05',NULL,'2024-02-07'),(17,'2024-02-02',99000,'Xuân Phạm','TP Thủ Đức','0383682679','xuan11@gmail.com',12,0,'2024-02-05',NULL,'2024-02-07'),(18,'2024-02-02',99000,'Xuân Phạm','TP Thủ Đức','0383682679','xuan11@gmail.com',12,0,'2024-02-05',NULL,'2024-02-07'),(19,'2024-02-03',99000,'Xuân Phạm','TP Thủ Đức','0383682679','xuan11@gmail.com',12,0,'2024-02-06',NULL,'2024-02-08');
+INSERT INTO `order` VALUES (1,'2024-01-16',1560000,'Nguyễn Thị Vui','Thành phố Hồ Chí Minh ','037889488489','vui123@gmail.com',12,3,'2024-01-19','2024-01-19','2024-01-21'),(2,'2024-01-30',195000,'Xuân Phạm','TP Thủ Đức','0383682679','xuan11@gmail.com',12,4,'2024-02-02',NULL,'2024-02-04'),(3,'2024-01-30',390000,'Xuân Phạm','TP Thủ Đức','0383682679','xuan11@gmail.com',12,4,'2024-02-02',NULL,'2024-02-04'),(4,'2024-01-31',139000,'Xuân Phạm','TP Thủ Đức','0383682679','xuan11@gmail.com',12,0,'2024-02-03',NULL,'2024-02-05'),(5,'2024-01-30',99000,'Xuân Phạm','TP Thủ Đức','0383682679','xuan11@gmail.com',12,3,'2024-02-02','2024-02-02','2024-02-04'),(6,'2024-01-30',98000,'Xuân Phạm','TP Thủ Đức','0383682679','xuan11@gmail.com',12,3,'2024-02-02','2024-02-02','2024-02-04'),(7,'2024-01-30',99000,'Xuân Phạm','TP Thủ Đức','0383682679','xuan11@gmail.com',12,3,'2024-02-02','2024-02-02','2024-02-04'),(8,'2024-01-30',140000,'Xuân Phạm','TP Thủ Đức','0383682679','xuan11@gmail.com',12,3,'2024-02-02','2024-02-02','2024-02-04'),(9,'2024-01-30',144000,'Xuân Phạm','TP Thủ Đức','0383682679','xuan11@gmail.com',12,3,'2024-02-02','2024-02-02','2024-02-04'),(10,'2024-02-01',110000,'Xuân Phạm','TP Thủ Đức','0383682679','xuan11@gmail.com',12,0,'2024-02-04',NULL,'2024-02-06'),(11,'2024-02-01',110000,'Xuân Phạm','TP Thủ Đức','0383682679','xuan11@gmail.com',12,0,'2024-02-04',NULL,'2024-02-06'),(12,'2024-02-01',98000,'Xuân Phạm','TP Thủ Đức','0383682679','xuan11@gmail.com',12,0,'2024-02-04',NULL,'2024-02-06'),(13,'2024-01-31',139000,'Xuân Phạm','TP Thủ Đức','0383682679','xuan11@gmail.com',12,3,'2024-02-03','2024-02-03','2024-02-05'),(14,'2024-02-01',99000,'Xuân Phạm','TP Thủ Đức','0383682679','xuan11@gmail.com',12,3,'2024-02-03','2024-02-03','2024-02-05'),(15,'2024-02-01',195000,'Xuân Phạm','TP Thủ Đức','0383682679','xuan11@gmail.com',12,3,'2024-02-03','2024-02-03','2024-02-05'),(16,'2024-02-02',72000,'Xuân Phạm','TP Thủ Đức','0383682679','xuan11@gmail.com',12,0,'2024-02-05',NULL,'2024-02-07'),(17,'2024-02-02',99000,'Xuân Phạm','TP Thủ Đức','0383682679','xuan11@gmail.com',12,0,'2024-02-05',NULL,'2024-02-07'),(18,'2024-02-02',99000,'Xuân Phạm','TP Thủ Đức','0383682679','xuan11@gmail.com',12,0,'2024-02-05',NULL,'2024-02-07'),(19,'2024-02-02',99000,'Xuân Phạm','TP Thủ Đức','0383682679','xuan11@gmail.com',12,5,'2024-02-05','2024-02-24','2024-02-07');
 /*!40000 ALTER TABLE `order` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -370,6 +433,34 @@ LOCK TABLES `paymentstatus` WRITE;
 INSERT INTO `paymentstatus` VALUES (1,1,1,NULL),(2,2,4,NULL),(3,3,4,NULL),(4,4,0,NULL),(5,5,1,NULL),(6,6,1,NULL),(7,7,1,NULL),(8,8,1,NULL),(9,9,1,NULL),(10,10,0,NULL),(11,11,0,NULL),(12,12,0,NULL),(13,13,1,NULL),(14,14,1,NULL),(15,15,1,NULL),(16,16,1,NULL),(17,17,0,'Giao dịch thất bại!.\nMã giao dịch thanh toán: NJPiIOZxcKCDAbAmhMQbmw==.\nMô tả giao dịch: Thanh toan don hang: 17 vao luc 20240202215303.\nMã giao dịch tại CTT VNPAY-QR: 0.\nMã ngân hàng thanh toán: VNPAY.\nThời gian thanh toán: 20240202215302'),(18,18,1,'Giao dịch thành công! Số tiền: 99000.0.\nMã giao dịch thanh toán: vKLNjgF1vqEFNT7aP4dkqw==.\nMô tả giao dịch: Thanh toan don hang: 18 vao luc 20240202215612.\nMã giao dịch tại CTT VNPAY-QR: 14297997.\nMã ngân hàng thanh toán: NCB.\nThời gian thanh toán: 20240202215632'),(19,19,1,'Giao dịch thành công! Số tiền: 99000.0.\nMã giao dịch thanh toán: vrb03m2DyxSBT/xv2d4oAw==.\nMô tả giao dịch: Thanh toan don hang: 19 vao luc 20240203115807.\nMã giao dịch tại CTT VNPAY-QR: 14298137.\nMã ngân hàng thanh toán: NCB.\nThời gian thanh toán: 20240203120039');
 /*!40000 ALTER TABLE `paymentstatus` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Table structure for table `videoreturnorder`
+--
+
+DROP TABLE IF EXISTS `videoreturnorder`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `videoreturnorder` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `unboxing_video` varchar(255) NOT NULL,
+  `product_video` varchar(255) NOT NULL,
+  `inforeturnorder_id` int DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `videoreturnorder_ibfk_1_idx` (`inforeturnorder_id`),
+  CONSTRAINT `videoreturnorder_ibfk_1` FOREIGN KEY (`inforeturnorder_id`) REFERENCES `inforeturnorder` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `videoreturnorder`
+--
+
+LOCK TABLES `videoreturnorder` WRITE;
+/*!40000 ALTER TABLE `videoreturnorder` DISABLE KEYS */;
+INSERT INTO `videoreturnorder` VALUES (1,'https://res.cloudinary.com/dosdzo1lg/video/upload/v1708762129/WebBookStoreKLTN/video_returnorder/order_19/1.mp4','https://res.cloudinary.com/dosdzo1lg/video/upload/v1708762130/WebBookStoreKLTN/video_returnorder/order_19/2.mp4',NULL);
+/*!40000 ALTER TABLE `videoreturnorder` ENABLE KEYS */;
+UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -380,4 +471,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-02-06 22:08:57
+-- Dump completed on 2024-02-25 21:22:06

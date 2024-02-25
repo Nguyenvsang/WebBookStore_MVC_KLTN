@@ -71,4 +71,21 @@ public class CloudinaryServiceImpl implements CloudinaryService {
         return (String) uploadResult.get("secure_url");
     }
 
+    // Phương thức mới để tải lên video
+    @Override
+    public String uploadVideo(MultipartFile video, String publicId) throws IOException {
+        // Đọc dữ liệu từ InputStream và lưu vào một mảng byte
+        byte[] videoData = video.getBytes();
+
+        // Tải lên video lên Cloudinary
+        @SuppressWarnings("unchecked")
+        Map<String, Object> uploadResult = (Map<String, Object>) cloudinary.uploader().upload(videoData, ObjectUtils.asMap(
+                "public_id", publicId,
+                "resource_type", "video"  // Thêm dòng này để chỉ định rằng bạn đang tải lên một video
+        ));
+
+        // Lấy URL của video từ kết quả tải lên
+        return (String) uploadResult.get("secure_url");
+    }
+
 }

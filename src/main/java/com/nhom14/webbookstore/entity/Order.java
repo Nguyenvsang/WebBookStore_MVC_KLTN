@@ -66,6 +66,9 @@ public class Order {
 	@OneToOne(fetch = FetchType.EAGER, mappedBy = "order")
 	private InfoCancelOrder infoCancelOrder;
 
+	@OneToOne(fetch = FetchType.EAGER, mappedBy = "order")
+	private InfoReturnOrder infoReturnOrder;
+
 	public Order() {
 
     }
@@ -209,5 +212,13 @@ public class Order {
 
 	public void setInfoCancelOrder(InfoCancelOrder infoCancelOrder) {
 		this.infoCancelOrder = infoCancelOrder;
+	}
+
+	public InfoReturnOrder getInfoReturnOrder() {
+		return infoReturnOrder;
+	}
+
+	public void setInfoReturnOrder(InfoReturnOrder infoReturnOrder) {
+		this.infoReturnOrder = infoReturnOrder;
 	}
 }

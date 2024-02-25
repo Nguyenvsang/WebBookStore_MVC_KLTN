@@ -2,7 +2,7 @@ package com.nhom14.webbookstore.entity;
 
 import jakarta.persistence.*;
 
-import java.sql.Date;
+import java.util.Date;
 
 @Entity
 @Table(name = "inforeturnorder")
@@ -18,14 +18,11 @@ public class InfoReturnOrder {
     @Column(name = "reason", columnDefinition = "text NOT NULL")
     private String reason;
 
-    @Column(name = "return_date", columnDefinition = "DATE NOT NULL")
-    private Date returnDate;
+    @Column(name = "detail_reason", columnDefinition = "text NOT NULL")
+    private String detailReason;
 
-    @Column(name = "img", columnDefinition = "varchar(255) NOT NULL")
-    private String img;
-
-    @Column(name = "video", columnDefinition = "varchar(255) NOT NULL")
-    private String video;
+    @Column(name = "request_date", columnDefinition = "DATE NOT NULL")
+    private Date requestDate;
 
     @Column(name = "name", columnDefinition = "varchar(255) NOT NULL")
     private String name;
@@ -39,16 +36,21 @@ public class InfoReturnOrder {
     @Column(name = "email", columnDefinition = "char(255) NOT NULL")
     private String email;
 
+    @OneToOne(fetch = FetchType.EAGER, mappedBy = "infoReturnOrder")
+    private ImgReturnOrder imgReturnOrder;
+
+    @OneToOne(fetch = FetchType.EAGER, mappedBy = "infoReturnOrder")
+    private VideoReturnOrder videoReturnOrder;
+
     public InfoReturnOrder() {
 
     }
 
-    public InfoReturnOrder(Order order, String reason, Date returnDate, String img, String video, String name, String address, String phoneNumber, String email) {
+    public InfoReturnOrder(Order order, String reason, Date requestDate, String detailReason, String name, String address, String phoneNumber, String email) {
         this.order = order;
         this.reason = reason;
-        this.returnDate = returnDate;
-        this.img = img;
-        this.video = video;
+        this.detailReason = detailReason;
+        this.requestDate = requestDate;
         this.name = name;
         this.address = address;
         this.phoneNumber = phoneNumber;
@@ -79,28 +81,20 @@ public class InfoReturnOrder {
         this.reason = reason;
     }
 
-    public Date getReturnDate() {
-        return returnDate;
+    public Date getRequestDate() {
+        return requestDate;
     }
 
-    public void setReturnDate(Date returnDate) {
-        this.returnDate = returnDate;
+    public void setRequestDate(Date requestDate) {
+        this.requestDate = requestDate;
     }
 
-    public String getImg() {
-        return img;
+    public String getDetailReason() {
+        return detailReason;
     }
 
-    public void setImg(String img) {
-        this.img = img;
-    }
-
-    public String getVideo() {
-        return video;
-    }
-
-    public void setVideo(String video) {
-        this.video = video;
+    public void setDetailReason(String detailReason) {
+        this.detailReason = detailReason;
     }
 
     public String getName() {
@@ -133,5 +127,21 @@ public class InfoReturnOrder {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public ImgReturnOrder getImgReturnOrder() {
+        return imgReturnOrder;
+    }
+
+    public void setImgReturnOrder(ImgReturnOrder imgReturnOrder) {
+        this.imgReturnOrder = imgReturnOrder;
+    }
+
+    public VideoReturnOrder getVideoReturnOrder() {
+        return videoReturnOrder;
+    }
+
+    public void setVideoReturnOrder(VideoReturnOrder videoReturnOrder) {
+        this.videoReturnOrder = videoReturnOrder;
     }
 }

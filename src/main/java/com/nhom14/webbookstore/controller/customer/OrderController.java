@@ -117,7 +117,8 @@ public class OrderController {
 
         // Tạo đối tượng đơn hàng
         Order order = new Order();
-        order.setDateOrder(new Date());
+        Date dateOrder = new Date();
+        order.setDateOrder(dateOrder);
         order.setTotalPrice(totalAmount);
         order.setName(name);
         order.setAddress(address);
@@ -125,6 +126,15 @@ public class OrderController {
         order.setEmail(email);
         order.setAccount(cart.getAccount());
         order.setStatus(0);
+        // deliveryDate khi nào giao hàng mới đặt 
+
+        // Tính toán ngày giao hàng dự kiến 1 và 2
+        Calendar c = Calendar.getInstance();
+        c.setTime(dateOrder);
+        c.add(Calendar.DATE, 3);  // Ngày giao hàng dự kiến 1: 3 ngày sau ngày đặt hàng
+        order.setExpectedDeliveryDate1(c.getTime());
+        c.add(Calendar.DATE, 2);  // Ngày giao hàng dự kiến 2: thêm 2 ngày nữa (tổng cộng 5 ngày sau ngày đặt hàng)
+        order.setExpectedDeliveryDate2(c.getTime());
 
         // Thêm đơn hàng vào cơ sở dữ liệu
         orderService.addOrder(order);
