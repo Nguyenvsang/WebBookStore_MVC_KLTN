@@ -161,6 +161,7 @@
 		                <th scope="col" class="align-middle text-center">Ngày đặt</th>
 		                <th scope="col" class="align-middle text-center">Tổng tiền</th>
 		                <th scope="col" class="align-middle text-center">Trạng thái</th>
+						<th scope="col" class="align-middle text-center">Thanh toán</th>
 		                <th scope="col" class="align-middle text-center">Tên</th>
 		                <th scope="col" class="align-middle text-center">Địa chỉ</th>
 		                <th scope="col" class="align-middle text-center">Số điện thoại</th>
@@ -173,14 +174,31 @@
 		                <td class="align-middle text-center" th:text="${order.id}"></td>
 		                <td class="align-middle text-center" th:text="${#dates.format(order.dateOrder, 'dd/MM/yyyy')}"></td>
 		                <td class="align-middle text-center" th:text="${#numbers.formatInteger(order.totalPrice, 0, 'POINT' )+ ' đ'}" style="color: orangered;"></td>
-		                <td>
-		                    <span class="badge badge-success" th:if="${order.status == 0}">Chờ xác nhận</span>
-		                    <span class="badge badge-wait" th:if="${order.status == 1}">Chờ lấy hàng</span>
-		                    <span class="badge badge-primary" th:if="${order.status == 2}">Đang giao</span>
-		                    <span class="badge badge-info" th:if="${order.status == 3}">Đã thanh toán</span>
-							<span class="badge badge-secondary" th:if="${order.status == 4}">Đã giao</span>
-		                    <span th:if="${order.status != 0 && order.status != 1 && order.status != 2 && order.status != 3 && order.status != 4}">Trạng thái không hợp lệ</span>
-		                </td>
+						<td class="align-middle text-center">
+							<span th:switch="${order.status}">
+								<span th:case="0" class="badge badge-success">Chờ xác nhận</span>
+								<span th:case="1" class="badge badge-info">Chờ lấy hàng</span>
+								<span th:case="2" class="badge badge-primary">Đang giao</span>
+								<span th:case="3" class="badge badge-success">Đã giao</span>
+								<span th:case="4" class="badge badge-secondary">Đã hủy đơn</span>
+								<span th:case="5" class="badge badge-warning">Yêu cầu trả hàng</span>
+								<span th:case="6" class="badge badge-warning">Xử lý trả hàng</span>
+								<span th:case="7" class="badge badge-success">Trả hàng thành công</span>
+								<span th:case="8" class="badge badge-danger">Yêu cầu trả hàng bị từ chối</span>
+								<span th:case="9" class="badge badge-danger">Không nhận hàng</span>
+								<span th:case="10" class="badge badge-success">Đã nhận hàng</span>
+								<span th:case="*" >Trạng thái không hợp lệ</span>
+							</span>
+						</td>
+						<td class="align-middle text-center">
+							<span th:switch="${order.paymentStatus.status}">
+								<span th:case="0" class="badge badge-primary">Chưa thanh toán</span>
+								<span th:case="1" class="badge badge-success">Đã thanh toán</span>
+								<span th:case="2" class="badge badge-warning">Xử lý hoàn tiền</span>
+								<span th:case="3" class="badge badge-success">Đã hoàn tiền</span>
+								<span th:case="4" class="badge badge-success">Không cần thanh toán</span>
+							</span>
+						</td>
 		                <td class="align-middle text-center" th:text="${order.name}"></td>
 		                <td class="align-middletext-center" th:text="${order.address}"></td>
 		                <td class="align-middle text-center" th:text="${order.phoneNumber}"></td>

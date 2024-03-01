@@ -1,7 +1,10 @@
 package com.nhom14.webbookstore.controller.admin;
 
+import java.util.Date;
 import java.util.List;
 
+import com.nhom14.webbookstore.entity.PaymentStatus;
+import com.nhom14.webbookstore.service.PaymentStatusService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,12 +24,15 @@ import jakarta.servlet.http.HttpSession;
 public class AdminOrderController {
 	private OrderService orderService;
 	private BookService bookService;
+	private PaymentStatusService paymentStatusService;
 	
 	@Autowired
-	public AdminOrderController(OrderService orderService, BookService bookService) {
+	public AdminOrderController(OrderService orderService, BookService bookService,
+								PaymentStatusService paymentStatusService) {
 		super();
 		this.orderService = orderService;
 		this.bookService = bookService;
+		this.paymentStatusService = paymentStatusService;
 	}
 	
 	@GetMapping("/manageorders")
@@ -103,6 +109,34 @@ public class AdminOrderController {
 	    // Lấy đơn hàng từ Service
 	    Order order = orderService.getOrderById(orderId);
 
+		// Nếu là trạng thái đã giao thì thêm ngày giao hàng vô
+		// Kèm theo thanh toán sẽ tự động chuyển sang Đã thanh toán
+		if (status == 3) {
+			order.setDeliveryDate(new Date());
+			// Lấy trạng thái thanh toán dựa trên order
+			PaymentStatus paymentStatus = paymentStatusService.getPaymentStatusByOrder(order);
+			// Cập nhật trạng thái thanh toán mới
+			paymentStatus.setStatus(1); // Đã thanh toán
+			paymentStatusService.updatePaymentStatus(paymentStatus);
+		}
+
+		//  Nếu là trạng thái xử lý trả hàng thì TTTT tự động chuyển qua xử lý hoàn tiền
+		if (status == 6) {
+			// Lấy trạng thái thanh toán dựa trên order
+			PaymentStatus paymentStatus = paymentStatusService.getPaymentStatusByOrder(order);
+			// Cập nhật trạng thái thanh toán mới
+			paymentStatus.setStatus(2); // Xử lý hoàn tiền
+			paymentStatusService.updatePaymentStatus(paymentStatus);
+		}
+
+		// Nếu là Trả hàng thành công thì TTTT tự động chuyển qua Đã hoàn tiền
+		if (status == 7) {
+			// Lấy trạng thái thanh toán dựa trên order
+			PaymentStatus paymentStatus = paymentStatusService.getPaymentStatusByOrder(order);
+			// Cập nhật trạng thái thanh toán mới
+			paymentStatus.setStatus(3); // Đã hoàn tiền
+			paymentStatusService.updatePaymentStatus(paymentStatus);
+		}
 	    // Cập nhật trạng thái đơn hàng
 	    order.setStatus(status);
 
@@ -111,5 +145,29 @@ public class AdminOrderController {
 
 	    // Chuyển hướng về trang manageorderitems
 	    return "redirect:/manageorderitems?orderId=" + orderId;
+	}
+
+	@PostMapping("/updatepaymentstatus")
+	public String updatePaymentStatus(@RequestParam("orderId") int orderId,
+									@RequestParam("paymentstatus") int paymentstatus,
+									HttpSession session) {
+		Account admin = (Account) session.getAttribute("admin");
+
+		// Kiểm tra xem admin đã đăng nhập hay chưa
+		if (admin == null) {
+			// Nếu chưa đăng nhập, chuyển hướng về trang đăng nhập
+			return "redirect:/loginadmin";
+		}
+
+		// Lấy đơn hàng từ Service
+		Order order = orderService.getOrderById(orderId);
+		// Lấy trạng thái thanh toán dựa trên order
+		PaymentStatus paymentStatus = paymentStatusService.getPaymentStatusByOrder(order);
+		// Cập nhật trạng thái thanh toán mới
+		paymentStatus.setStatus(paymentstatus);
+		paymentStatusService.updatePaymentStatus(paymentStatus);
+
+		// Chuyển hướng về trang manageorderitems
+		return "redirect:/manageorderitems?orderId=" + orderId;
 	}
 }

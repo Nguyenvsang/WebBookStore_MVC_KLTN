@@ -126,7 +126,7 @@ public class OrderController {
         order.setEmail(email);
         order.setAccount(cart.getAccount());
         order.setStatus(0);
-        // deliveryDate khi nào giao hàng mới đặt 
+        // deliveryDate khi nào giao hàng mới đặt
 
         // Tính toán ngày giao hàng dự kiến 1 và 2
         Calendar c = Calendar.getInstance();
@@ -414,6 +414,31 @@ public class OrderController {
         model.addAttribute("orderItems", orderItems);
 
         return "customer/orderconfirmation";
+    }
+
+    @PostMapping("/receivedorder")
+    public String receivedOrder(@RequestParam("orderId") Integer orderId,
+                                RedirectAttributes redirectAttributes,
+                                HttpSession session) {
+        // Kiểm tra đăng nhập
+        Account account = (Account) session.getAttribute("account");
+
+        // Kiểm tra xem người dùng đã đăng nhập hay chưa
+        if (account == null) {
+            // Nếu chưa đăng nhập, chuyển hướng về trang đăng nhập
+            return "redirect:/customer/loginaccount";
+        }
+
+        Order order = orderService.getOrderById(orderId);
+
+        // Đặt trạng thái là Đã nhận hàng
+        order.setStatus(10);
+        orderService.updateOrder(order);
+
+        // Chuyển đến trang xem chi tiết đơn hàng
+
+        redirectAttributes.addAttribute("orderId", orderId);
+        return "redirect:/vieworderitems";
     }
 
 }

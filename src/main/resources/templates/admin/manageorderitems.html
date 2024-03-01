@@ -118,45 +118,93 @@
 		                <th>Ngày đặt</th>
 		                <th>Tổng tiền</th>
 		                <th>Trạng thái</th>
-		                <th>Thao tác</th>
+						<th>Thanh toán</th>
 		            </tr>
 				</thead>
 	            <tr style="text-align: center;">
 	                <td th:text="${order.id}" style="text-align: center;"></td>
 	                <td th:text="${#dates.format(order.dateOrder, 'dd/MM/yyyy')}"></td>
 	                <td th:text="${#numbers.formatInteger(order.totalPrice, 0, 'POINT') + ' đ'}" style="color: orangered;"></td>
-	                <td>
-					    <span th:switch="${order.status}">
-					        <span th:case="0" class="badge badge-success">Chờ xác nhận</span>
-					        <span th:case="1" class="badge badge-wait-item">Chờ lấy hàng</span>
-					        <span th:case="2" class="badge badge-primary">Đang giao</span>
-					        <span th:case="3" class="badge badge-info">Đã thanh toán</span>
-							<span th:case="4" class="badge badge-secondary">Đã giao</span>
-					        <span th:case="*" class="badge badge-danger">Trạng thái không hợp lệ</span>
-					    </span>
+					<td class="align-middle text-center">
+							<span th:switch="${order.status}">
+								<span th:case="0" class="badge badge-success">Chờ xác nhận</span>
+								<span th:case="1" class="badge badge-info">Chờ lấy hàng</span>
+								<span th:case="2" class="badge badge-primary">Đang giao</span>
+								<span th:case="3" class="badge badge-success">Đã giao</span>
+								<span th:case="4" class="badge badge-secondary">Đã hủy đơn</span>
+								<span th:case="5" class="badge badge-warning">Yêu cầu trả hàng</span>
+								<span th:case="6" class="badge badge-warning">Xử lý trả hàng</span>
+								<span th:case="7" class="badge badge-success">Trả hàng thành công</span>
+								<span th:case="8" class="badge badge-danger">Yêu cầu trả hàng bị từ chối</span>
+								<span th:case="9" class="badge badge-danger">Không nhận hàng</span>
+								<span th:case="10" class="badge badge-success">Đã nhận hàng</span>
+								<span th:case="*" >Trạng thái không hợp lệ</span>
+							</span>
 					</td>
-					<td>
-					    <span th:if="${order.status == 0 or order.status == 1 or order.status == 2 or order.status == 3}">
-					        <form method="POST" th:action="@{/updateorderstatus}" style="border-radius: 10px;">
-					            <input type="hidden" name="orderId" th:value="${order.id}">
-					            <select class="form-control" name="status" onchange="this.form.submit()" style="border-radius: 10px;"> 
-					                <option value="0" th:selected="${order.status == 0}">Chờ xác nhận</option>
-					                <option value="1" th:selected="${order.status == 1}">Chờ lấy hàng</option>
-					                <option value="2" th:selected="${order.status == 2}">Đang giao</option>
-					                <option value="3" th:selected="${order.status == 3}">Đã thanh toán</option>
-									<option value="4" th:selected="${order.status == 4}">Đã giao</option>
-					            </select>
-					        </form>
-					    </span>
-					    <span th:unless="${order.status == 0 or order.status == 1 or order.status == 2 or order.status == 3}">-</span>
+					<td class="align-middle text-center">
+							<span th:switch="${order.paymentStatus.status}">
+								<span th:case="0" class="badge badge-primary">Chưa thanh toán</span>
+								<span th:case="1" class="badge badge-success">Đã thanh toán</span>
+								<span th:case="2" class="badge badge-warning">Xử lý hoàn tiền</span>
+								<span th:case="3" class="badge badge-success">Đã hoàn tiền</span>
+								<span th:case="4" class="badge badge-success">Không cần thanh toán</span>
+							</span>
 					</td>
 	            </tr>
 	        </table>
         </div>
+
+		<div class="frame-main-2">
+			<h4>Đổi trạng thái đơn hàng và trạng thái thanh toán tại đây</h4>
+			<table class="table table-striped">
+				<thead class="thead-title">
+					<tr style="color: rgb(2,88,155);">
+						<th class="align-middle text-center">Chọn trạng thái đơn hàng</th>
+						<th class="align-middle text-center">Chọn trạng thái thanh toán</th>
+					</tr>
+				</thead>
+				<tr>
+					<td>
+					    <span>
+					        <form method="POST" th:action="@{/updateorderstatus}" style="border-radius: 10px;">
+					            <input type="hidden" name="orderId" th:value="${order.id}">
+					            <select class="form-control" name="status" onchange="this.form.submit()" style="border-radius: 10px;">
+					                <option value="0" th:selected="${order.status == 0}">Chờ xác nhận</option>
+					                <option value="1" th:selected="${order.status == 1}">Chờ lấy hàng</option>
+					                <option value="2" th:selected="${order.status == 2}">Đang giao</option>
+					                <option value="3" th:selected="${order.status == 3}">Đã giao</option>
+									<option value="4" th:selected="${order.status == 4}">Đã hủy đơn</option>
+									<option value="5" th:selected="${order.status == 5}">Yêu cầu trả hàng</option>
+									<option value="6" th:selected="${order.status == 6}">Xử lý trả hàng</option>
+									<option value="7" th:selected="${order.status == 7}">Trả hàng thành công</option>
+									<option value="8" th:selected="${order.status == 8}">Yêu cầu trả hàng bị từ chối</option>
+									<option value="9" th:selected="${order.status == 9}">Không nhận hàng</option>
+									<option value="10" th:selected="${order.status == 10}">Đã nhận hàng</option>
+					            </select>
+					        </form>
+					    </span>
+					</td>
+					<td>
+					    <span>
+					        <form method="POST" th:action="@{/updatepaymentstatus}" style="border-radius: 10px;">
+					            <input type="hidden" name="orderId" th:value="${order.id}">
+					            <select class="form-control" name="paymentstatus" onchange="this.form.submit()" style="border-radius: 10px;">
+					                <option value="0" th:selected="${order.paymentStatus.status == 0}">Chưa thanh toán</option>
+					                <option value="1" th:selected="${order.paymentStatus.status == 1}">Đã thanh toán</option>
+					                <option value="2" th:selected="${order.paymentStatus.status == 2}">Xử lý hoàn tiền</option>
+					                <option value="3" th:selected="${order.paymentStatus.status == 3}">Đã hoàn tiền</option>
+									<option value="4" th:selected="${order.paymentStatus.status == 4}">Không cần thanh toán</option>
+					            </select>
+					        </form>
+					    </span>
+					</td>
+				</tr>
+			</table>
+		</div>
         
         
         <div class="frame-main-2">
-			<h4>Chi tiết vận chuyển</h4>
+			<h4>Thông tin người nhận</h4>
 	    	<table class="table table-striped"> 
 				<thead class="thead-title">
 					<tr style="color: rgb(2,88,155);">

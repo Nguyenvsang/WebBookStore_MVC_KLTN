@@ -241,7 +241,7 @@
 		                    <td class="align-middle text-center" th:text="${book.quantity}"></td>        
 		                    <td class="align-middle text-center" th:text="${book.category.name}"></td>
 		                    <td class="align-middle text-center">
-							  <form th:action="@{/updatestatusbook}" method="post" >
+							  <form>
 							    <input type="hidden" name="bookId" th:value="${book.id}">
 							    <select name="status" onchange="this.className = (this.value == 1 ? 'bg-green' : 'bg-red')" th:class="${book.status eq 1 ? 'bg-green' : 'bg-red'}" style="border: 1px solid rgb(192, 192, 192); border-radius: 10px;">
 							      <option value="1" th:selected="${book.status eq 1}">Đang kinh doanh</option>

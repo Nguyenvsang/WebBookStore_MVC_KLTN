@@ -162,8 +162,19 @@
         	<h3>CHI TIẾT ĐƠN HÀNG</h3>
 		</div>
 
-		<div th:if="${order.status == 3 && daysBetween <= 15}" class="btn btn-warning">
-			<span th:if="${lastReturnDate != null}" th:text="'Bạn có thể yêu cầu trả hàng đến hết ngày ' + ${#dates.format(lastReturnDate, 'dd/MM/yyyy')} + ' , sau ngày đó bạn không thể yêu cầu trả hàng được nữa!' "></span>
+		<div th:if="${order.status == 3 && daysBetween <= 15}" >
+            <div class="btn btn-warning">
+                <span th:if="${lastReturnDate != null}" th:text="'Bạn có thể yêu cầu trả hàng đến hết ngày ' + ${#dates.format(lastReturnDate, 'dd/MM/yyyy')} + ' , sau ngày đó bạn không thể yêu cầu trả hàng được nữa!' "></span>
+            </div>
+			<h4>Nếu bạn đã hài lòng và không có ý định trả hàng, vui lòng nhấn vào nút Đã nhận hàng bên dưới</h4>
+			<form th:action="@{/receivedorder}" method="post">
+				<input type="hidden" name="orderId" th:value="${order.id}" />
+				<button type="submit" class="btn btn-primary">Đã nhận hàng</button>
+			</form>
+		</div>
+
+		<div th:if="${order.status == 10}" class="alert alert-info">
+			Bạn đã xác nhận rằng ĐÃ NHẬN HÀNG
 		</div>
 
 		<div class="delivery-details card" style="margin-top: 20px;">
@@ -208,7 +219,7 @@
 									<span th:case="7" class="badge badge-success">Trả hàng thành công</span>
 									<span th:case="8" class="badge badge-danger">Yêu cầu trả hàng bị từ chối</span>
 									<span th:case="9" class="badge badge-danger">Không nhận hàng</span>
-									<span th:case="10" class="badge badge-danger">Đã nhận hàng</span>
+									<span th:case="10" class="badge badge-success">Đã nhận hàng</span>
 									<span th:case="*" >Trạng thái không hợp lệ</span>
 				                </span>
 				            </td>
@@ -235,7 +246,7 @@
         
         
         <div class="frame-main-2" style="background-color: white;">
-			<h4>Chi tiết vận chuyển</h4>
+			<h4>Thông tin người nhận</h4>
 	    	<table class="table table-striped"> 
 				<thead class="thead-title">
 					<tr style="color: rgb(2,88,155);">
