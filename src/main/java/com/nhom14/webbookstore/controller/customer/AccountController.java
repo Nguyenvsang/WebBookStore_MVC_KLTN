@@ -2,9 +2,18 @@ package com.nhom14.webbookstore.controller.customer;
 
 import java.io.IOException;
 import java.sql.Date;
+import java.util.Arrays;
 import java.util.Objects;
 import java.util.Random;
 
+import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeRequestUrl;
+import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeTokenRequest;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
+import com.google.api.client.googleapis.auth.oauth2.GoogleTokenResponse;
+import com.google.api.client.http.javanet.NetHttpTransport;
+import com.google.api.client.json.jackson2.JacksonFactory;
+import com.nhom14.webbookstore.service.GoogleAuthService;
+import jakarta.servlet.http.HttpServletResponse;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,12 +37,14 @@ import com.nhom14.webbookstore.service.CloudinaryService;
 public class AccountController {
 	private AccountService accountService;
 	private CloudinaryService cloudinaryService;
+	private GoogleAuthService googleAuthService;
 
 	@Autowired
-	public AccountController(AccountService accountService, CloudinaryService cloudinaryService) {
+	public AccountController(AccountService accountService, CloudinaryService cloudinaryService, GoogleAuthService googleAuthService) {
 		super();
 		this.accountService = accountService;
 		this.cloudinaryService = cloudinaryService;
+		this.googleAuthService = googleAuthService;
 	}
 	
 	@GetMapping("/customer/registeraccount")
@@ -121,6 +132,12 @@ public class AccountController {
                                RedirectAttributes redirectAttributes) {
 		session.invalidate();
         session = request.getSession(true);
+		// Kiểm tra xem người dùng có từng đăng nhập bằng Google và chưa đổi mật khẩu mặc định không
+		Account isGoogle = accountService.findAccountByUsername(username);
+		if (isGoogle != null && Objects.equals(isGoogle.getPassword(), "logingoogle") && isGoogle.getAccountType() == 1 && isGoogle.getStatus() == 1) {
+			redirectAttributes.addAttribute("message", "Lần trước bạn đã đăng nhập bằng Google, vui lòng dùng Google để đăng nhập, bạn chưa thiết lập mật khẩu, nếu muốn dùng mật khẩu hãy thêm mật khẩu nhé!");
+			return "redirect:/customer/loginaccount";
+		}
         // Kiểm tra đăng nhập bằng phương thức checkLogin
         boolean isValid = accountService.checkLogin(username, password);
 
@@ -138,6 +155,97 @@ public class AccountController {
             return "redirect:/customer/loginaccount";
         }
     }
+
+	@GetMapping("/customer/login/google")
+	public void redirectToGoogleLogin(HttpServletResponse response) throws IOException {
+		String clientId = System.getenv("GOOGLE_CLIENT_ID");
+		String redirectUri = System.getenv("GOOGLE_REDIRECT_URI");
+
+		GoogleAuthorizationCodeRequestUrl urlBuilder =
+				new GoogleAuthorizationCodeRequestUrl(
+						clientId,
+						redirectUri,
+						Arrays.asList("https://www.googleapis.com/auth/userinfo.profile", "https://www.googleapis.com/auth/userinfo.email"))
+						.setAccessType("offline")
+						.setApprovalPrompt("force");
+
+		String loginUrl = urlBuilder.build();
+
+		response.sendRedirect(loginUrl);
+	}
+
+
+	@GetMapping("/customer/login/google_return")
+	public String handleGoogleLogin(@RequestParam("code") String authCode,
+									HttpSession session,
+									RedirectAttributes redirectAttributes) throws IOException {
+		String clientId = System.getenv("GOOGLE_CLIENT_ID");
+		String clientSecret = System.getenv("GOOGLE_CLIENT_SECRET");
+		String redirectUri = System.getenv("GOOGLE_REDIRECT_URI");
+		// Tạo yêu cầu để lấy mã thông báo ID từ Google
+		GoogleTokenResponse tokenResponse =
+				new GoogleAuthorizationCodeTokenRequest(
+						new NetHttpTransport(),
+						JacksonFactory.getDefaultInstance(),
+						"https://oauth2.googleapis.com/token",
+						clientId,
+						clientSecret,
+						authCode,
+						redirectUri)  // Chỉ định cùng URI chuyển hướng mà bạn đã sử dụng trước đó
+						.execute();
+
+		// Lấy mã thông báo ID từ phản hồi
+		String idToken = tokenResponse.getIdToken();
+
+		GoogleIdToken.Payload payload = googleAuthService.authenticate(idToken);
+		if (payload != null) {
+			String email = payload.getEmail();
+			String username = email.substring(0, email.indexOf('@'));  // Lấy phần chữ trước @ trong email
+			Account account = accountService.findAccountByEmail(email);
+			if (account == null) {
+				// Tạo tài khoản mới
+				account = new Account();
+				account.setEmail(email);
+				account.setFirstName("Chưa");
+				account.setLastName("Đặt");
+				account.setImg("https://res.cloudinary.com/dosdzo1lg/image/upload/v1687862555/Booktopia/img_account/account_default.jpg");
+				Object givenName = payload.get("given_name");
+				if (givenName != null) {
+					account.setFirstName(givenName.toString());
+				}
+				Object familyName = payload.get("family_name");
+				if (familyName != null) {
+					account.setLastName(familyName.toString());
+				}
+				//Ngày sinh được null nên bỏ qua
+				account.setAccountType(1);
+				account.setStatus(1);
+				//Giới tính được null nên bỏ qua
+				account.setAddress("Chưa điền thông tin");
+				account.setPhoneNumber("Chưa điền thông tin");
+
+				Object picture = payload.get("picture");
+				if (picture != null) {
+					account.setImg(picture.toString());
+				}  // Thiết lập hình ảnh hồ sơ từ Google
+				account.setUsername(username);
+				account.setPassword("logingoogle"); // Sửa lại cách xử lý cho đăng nhập và đổi mật khẩu
+				// Phần login: tìm tài khoản bằng Username nếu có mk là logingoole thì sẽ từ chối đăng nhập
+				// thông báo là vui lòng đăng nhập bằng Google sau đó thêm mật khẩu mới
+				// Phần đổi mật khẩu sẽ đổi tên thành thêm mật khẩu
+				accountService.addAccount(account);
+			}
+			// Tạo phiên đăng nhập
+			session.setAttribute("account", account);
+			// Nếu đăng nhập thành công, hiển thị thông báo thành công và quay lại trang chủ
+			redirectAttributes.addAttribute("message", "Đăng nhập bằng Google thành công!");
+			return "redirect:/";
+		} else {
+			// Nếu đăng nhập thất bại, hiển thị thông báo lỗi và quay lại trang đăng nhập
+			redirectAttributes.addAttribute("message", "Có lỗi xảy ra, vui lòng thử lại!");
+			return "redirect:/customer/loginaccount";
+		}
+	}
 	
 	@GetMapping("/customer/logoutaccount")
 	public String showLogout() {
@@ -340,5 +448,60 @@ public class AccountController {
 	    redirectAttributes.addAttribute("message", "Thay đổi mật khẩu thành công.");
 	    return "redirect:/viewaccount";
 	}
-	
+	@GetMapping("/addpassword")
+	public String showAddPasswordForm(HttpSession session) {
+		Account account = (Account) session.getAttribute("account");
+
+		// Kiểm tra xem người dùng đã đăng nhập hay chưa
+		if (account == null) {
+			// Nếu chưa đăng nhập, chuyển hướng về trang đăng nhập
+			return "redirect:/customer/loginaccount";
+		}
+
+		return "customer/addpassword";
+	}
+
+	@PostMapping("/addpassword")
+	public String addPassword(HttpSession session,
+								 @RequestParam("newPassword") String newPassword,
+								 @RequestParam("confirmPassword") String confirmPassword,
+								 Model model,
+								 RedirectAttributes redirectAttributes) {
+		Account account = (Account) session.getAttribute("account");
+
+		// Kiểm tra xem người dùng đã đăng nhập hay chưa
+		if (account == null) {
+			// Nếu chưa đăng nhập, chuyển hướng về trang đăng nhập
+			return "redirect:/customer/loginaccount";
+		}
+
+		// Kiểm tra mật khẩu mới có phải là mật khẩu mạnh không
+		if(!(newPassword.length() >= 8
+				&& newPassword.matches(".*[A-Z].*")
+				&& newPassword.matches(".*[a-z].*")
+				&& newPassword.matches(".*\\d.*")
+				&& newPassword.matches(".*\\W.*"))) {
+			// Hiển thị thông báo khi mật khẩu yếu
+			redirectAttributes.addAttribute("message", "Mật khẩu không đủ mạnh! Mật khẩu mới phải có ít nhất 8 ký tự và"
+					+ " chứa ít nhất một chữ cái viết hoa, một chữ cái viết thường, một số và một ký tự đặc biệt.");
+			return "redirect:/addpassword";
+		}
+
+		// Kiểm tra mật khẩu mới có giống mật khẩu nhập lại không
+		if (!newPassword.equals(confirmPassword)) {
+			// Hiển thị thông báo mật khẩu nhập lại không khớp
+			redirectAttributes.addAttribute("message", "Mật khẩu nhập lại không khớp. Vui lòng thử lại.");
+			return "redirect:/addpassword";
+		}
+
+		// Băm mật khẩu mới sử dụng bcrypt
+		String hashedNewPassword = BCrypt.hashpw(newPassword, BCrypt.gensalt());
+		// Cập nhật mật khẩu mới cho tài khoản
+		account.setPassword(hashedNewPassword);
+		// Gọi phương thức updateAccount trong AccountService để cập nhật thông tin tài khoản
+		accountService.updateAccount(account);
+		// Hiển thị thông báo thành công
+		redirectAttributes.addAttribute("message", "Thêm mật khẩu thành công.");
+		return "redirect:/viewaccount";
+	}
 }

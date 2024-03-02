@@ -364,4 +364,73 @@ public class AdminAccountController {
 	    redirectAttributes.addAttribute("message", "Thay đổi mật khẩu thành công.");
 	    return "redirect:/managedetailaccount?accountId=" + account.getId();
 	}
+
+	@GetMapping("/manageaddpassword")
+	public String manageAddPasswordForm(@RequestParam("accountId") Integer accountId,
+										   Model model,
+										   HttpSession session) {
+		Account admin = (Account) session.getAttribute("admin");
+
+		// Kiểm tra xem admin đã đăng nhập hay chưa
+		if (admin == null) {
+			// Nếu chưa đăng nhập, chuyển hướng về trang đăng nhập
+			return "redirect:/loginadmin";
+		}
+
+		// Truy xuất dữ liệu từ nguồn dữ liệu
+		Account account = accountService.getAccountById(accountId);
+
+		// Lưu thông tin tài khoản vào model
+		model.addAttribute("account", account);
+
+		// Forward đến trang xem sửa tài khoản
+		return "admin/manageaddpassword";
+	}
+
+	@PostMapping("/manageaddpassword")
+	public String manageAddPassword(@RequestParam("accountId") Integer accountId,
+									   @RequestParam("newPassword") String newPassword,
+									   @RequestParam("confirmPassword") String confirmPassword,
+									   HttpSession session,
+									   RedirectAttributes redirectAttributes) {
+		Account admin = (Account) session.getAttribute("admin");
+
+		// Kiểm tra xem admin đã đăng nhập hay chưa
+		if (admin == null) {
+			// Nếu chưa đăng nhập, chuyển hướng về trang đăng nhập
+			return "redirect:/loginadmin";
+		}
+
+		// Truy xuất dữ liệu từ nguồn dữ liệu
+		Account account = accountService.getAccountById(accountId);
+
+		// Kiểm tra mật khẩu mới có phải là mật khẩu mạnh không
+		if(!(newPassword.length() >= 8
+				&& newPassword.matches(".*[A-Z].*")
+				&& newPassword.matches(".*[a-z].*")
+				&& newPassword.matches(".*\\d.*")
+				&& newPassword.matches(".*\\W.*"))) {
+			// Hiển thị thông báo khi mật khẩu yếu
+			redirectAttributes.addAttribute("message", "Mật khẩu không đủ mạnh! Mật khẩu mới phải có ít nhất 8 ký tự và"
+					+ " chứa ít nhất một chữ cái viết hoa, một chữ cái viết thường, một số và một ký tự đặc biệt.");
+			return "redirect:/manageaddpassword?accountId=" + account.getId();
+		}
+
+		// Kiểm tra mật khẩu mới và mật khẩu nhập lại
+		if (!newPassword.equals(confirmPassword)) {
+			// Hiển thị thông báo mật khẩu nhập lại không khớp
+			redirectAttributes.addAttribute("message", "Mật khẩu nhập lại không khớp. Vui lòng thử lại.");
+			return "redirect:/manageaddpassword?accountId=" + account.getId();
+		}
+
+		// Băm mật khẩu mới sử dụng bcrypt
+		String hashedNewPassword = BCrypt.hashpw(newPassword, BCrypt.gensalt());
+		// Cập nhật mật khẩu mới cho tài khoản
+		account.setPassword(hashedNewPassword);
+		// Gọi phương thức updateAccount trong AccountService để cập nhật thông tin tài khoản
+		accountService.updateAccount(account);
+		// Hiển thị thông báo thành công
+		redirectAttributes.addAttribute("message", "Thêm mật khẩu thành công.");
+		return "redirect:/managedetailaccount?accountId=" + account.getId();
+	}
 }

@@ -85,10 +85,15 @@
 		            <label for="username" style="color: rgb(2,88,155);">Tên người dùng:</label>
 		            <output class="form-control" id="username" name="username" th:text="${account.username}" style="border-radius: 10px;"></output>
 		        </div>
-		        <div class="form-group">
-		            <label for="password" style="color: rgb(2,88,155);">Mật khẩu:</label>
-		                <a th:href="@{/managechangepassword(accountId=${account.id})}" class="btn btn-danger" style="border-radius: 10px; margin-left: 350px;">Đổi mật khẩu</a>
-		        </div>
+				<div class="form-group">
+					<label>Mật khẩu:</label>
+					<div th:if="${account.password == 'logingoogle'}">
+						<a th:href="@{/manageaddpassword(accountId=${account.id})}" class="btn btn-danger">Thêm mật khẩu</a>
+					</div>
+					<div th:if="${account.password != 'logingoogle'}">
+						<a th:href="@{/managechangepassword(accountId=${account.id})}" class="btn btn-danger">Đổi mật khẩu</a>
+					</div>
+				</div>
 		        <div class="form-group">
 		            <label for="gender" style="color: rgb(2,88,155);">Giới tính:</label>
 		            <output class="form-control" id="gender" name="gender" th:text="${account.gender}" style="border-radius: 10px;"></output>
