@@ -51,7 +51,7 @@ public class Order {
 //	Chờ xác nhận > Chờ lấy hàng > Đang giao > Không nhận hàng
 //	Chưa thanh toán > Đã thanh toán > Đã hoàn tiền
 //	Khi Trả hàng thành công nghĩa là cũng bao gồm Đã hoàn tiền
-//	Nếu Yêu cầu hủy đơn mà đã thanh toán tiền cho đơn đó thì khi ở trạng thái Đã hủy đơn cũng bao gồm việc Đã hoàn tiền cho khách
+//	Nếu Yêu cầu hủy đơn mà đã thanh toán tiền cho đơn đó thì khi ở trạng thái Đã hủy đơn cũng bao gồm Xử lý hoàn tiền cho khách
 //	Được yêu cầu trả hàng trong vòng 15 ngày (không kể giờ phút giây) kể từ khi giao hàng thành công (Đã giao). Quá 15 ngày thì nút Trả hàng sẽ biến mất và trên hệ thống admin sẽ chuyển trạng thái đơn hàng thành Đã nhận hàng
 //	Được yêu cầu hủy đơn khi đơn hàng ở trạng thái Chờ xác nhận
 //	Nếu đã nhấn Đã nhận hàng thì khách hàng không thể chọn Trả hàng sau đó nữa

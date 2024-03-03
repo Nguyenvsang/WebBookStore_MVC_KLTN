@@ -85,7 +85,7 @@ public class InfoCancelOrderController {
         }
         //Nếu trạng thái là đã thanh toán thì đặt trạng thái thanh toán là xử lý hoàn tiền
         else if (statusofpaymentstatus == 1) {
-            paymentStatus.setStatus(3);
+            paymentStatus.setStatus(2);
         }
         // Lưu vào CSDL
         paymentStatusService.updatePaymentStatus(paymentStatus);
