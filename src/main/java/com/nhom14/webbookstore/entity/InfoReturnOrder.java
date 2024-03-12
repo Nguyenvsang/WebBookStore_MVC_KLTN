@@ -2,6 +2,8 @@ package com.nhom14.webbookstore.entity;
 
 import jakarta.persistence.*;
 
+import java.sql.Time;
+import java.sql.Timestamp;
 import java.util.Date;
 
 @Entity
@@ -21,8 +23,8 @@ public class InfoReturnOrder {
     @Column(name = "detail_reason", columnDefinition = "text NOT NULL")
     private String detailReason;
 
-    @Column(name = "request_date", columnDefinition = "DATE NOT NULL")
-    private Date requestDate;
+    @Column(name = "request_date", columnDefinition = "datetime(6) NOT NULL")
+    private Timestamp requestDate;
 
     @Column(name = "name", columnDefinition = "varchar(255) NOT NULL")
     private String name;
@@ -46,7 +48,7 @@ public class InfoReturnOrder {
 
     }
 
-    public InfoReturnOrder(Order order, String reason, Date requestDate, String detailReason, String name, String address, String phoneNumber, String email) {
+    public InfoReturnOrder(Order order, String reason, Timestamp requestDate, String detailReason, String name, String address, String phoneNumber, String email) {
         this.order = order;
         this.reason = reason;
         this.detailReason = detailReason;
@@ -81,11 +83,11 @@ public class InfoReturnOrder {
         this.reason = reason;
     }
 
-    public Date getRequestDate() {
+    public Timestamp getRequestDate() {
         return requestDate;
     }
 
-    public void setRequestDate(Date requestDate) {
+    public void setRequestDate(Timestamp requestDate) {
         this.requestDate = requestDate;
     }
 

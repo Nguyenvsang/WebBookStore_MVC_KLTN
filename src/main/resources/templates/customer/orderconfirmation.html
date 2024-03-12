@@ -159,7 +159,7 @@
 				</thead>
 	            <tr>
 	                <td th:text="${order.id}"></td>
-	                <td th:text="${#dates.format(order.dateOrder, 'dd/MM/yyyy')}"></td>
+	                <td th:text="${#temporals.format(order.dateOrder.toLocalDateTime(), 'dd/MM/yyyy')}"></td>
 	                <td th:text="${#numbers.formatInteger(order.totalPrice, 0, 'POINT') + ' đ'}" class="align-middle text-center" style="color: orangered"></td>
 	                <td>
 	                    <span th:switch="${order.status}">

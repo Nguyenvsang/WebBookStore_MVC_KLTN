@@ -132,14 +132,14 @@ CREATE TABLE CartItem (
 CREATE TABLE `Order` (
 	-- Khai báo thuộc tính id kiểu int, không được null, tăng tự động và là khóa chính
 	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	-- Khai báo thuộc tính date_order kiểu Date, không được null
-	date_order DATE NOT NULL,
-    -- Khai báo thuộc tính expected_delivery_date_1 kiểu Date
-    expected_delivery_date_1 DATE,
-    -- Khai báo thuộc tính expected_delivery_date_2 kiểu Date
-    expected_delivery_date_2 DATE,
-    -- Khai báo thuộc tính delivery_date kiểu Date
-    delivery_date DATE,
+	-- Khai báo thuộc tính date_order kiểu datetime(6), không được null
+	date_order datetime(6) NOT NULL,
+    -- Khai báo thuộc tính expected_delivery_date_1 kiểu datetime(6)
+    expected_delivery_date_1 datetime(6),
+    -- Khai báo thuộc tính expected_delivery_date_2 kiểu datetime(6)
+    expected_delivery_date_2 datetime(6),
+    -- Khai báo thuộc tính delivery_date kiểu datetime(6)
+    delivery_date datetime(6),
 	-- Khai báo thuộc tính total_price kiểu double, không được null
 	total_price DOUBLE NOT NULL,
 	-- Khai báo thuộc tính name kiểu varchar(255), không được null
@@ -208,8 +208,8 @@ CREATE TABLE InfoReturnOrder (
     reason TEXT NOT NULL,
     -- Khai báo thuộc tính detail_reason kiểu text, không được null
     detail_reason TEXT NOT NULL,
-    -- Khai báo thuộc tính request_date kiểu DATE, không được null
-    request_date DATE NOT NULL,
+    -- Khai báo thuộc tính request_date kiểu datetime(6), không được null
+    request_date datetime(6) NOT NULL,
     -- Khai báo thuộc tính name kiểu VARCHAR(255), không được null
     name VARCHAR(255) NOT NULL,
     -- Khai báo thuộc tính address kiểu VARCHAR(255), không được null
@@ -252,6 +252,27 @@ CREATE TABLE VideoReturnOrder (
     inforeturnorder_id INT,
     FOREIGN KEY (inforeturnorder_id) REFERENCES InfoReturnOrder(id)
 );
+
+-- Tạo bảng Review
+CREATE TABLE Review (
+  -- Khai báo thuộc tính id kiểu int, không được null, tăng tự động và là khóa chính
+  id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  -- Khai báo thuộc tính user_id kiểu int và là khóa ngoại tham chiếu đến bảng Account
+  user_id int,
+  FOREIGN KEY (user_id) REFERENCES Account(id),
+  -- Khai báo thuộc tính book_id kiểu int và là khóa ngoại tham chiếu đến bảng Book
+  book_id int,
+  FOREIGN KEY (book_id) REFERENCES Book(id),
+  -- Khai báo thuộc tính rating kiểu int, không được null
+  rating int NOT NULL,
+  -- Khai báo thuộc tính comment kiểu text, không được null
+  comment text NOT NULL,
+  -- Khai báo thuộc tính date_posted kiểu datetime(6)
+  date_posted datetime(6),
+  -- Khai báo thuộc tính purchased kiểu int, không được null, 1: có, 0: không 
+  purchased int NOT NULL
+);
+
 
 -- Thêm dữ liệu vào bảng Category
 INSERT INTO Category (name, status) VALUES ("CHÍNH TRỊ - PHÁP LUẬT", 1);

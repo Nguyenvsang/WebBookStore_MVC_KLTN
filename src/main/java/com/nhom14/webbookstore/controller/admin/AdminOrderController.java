@@ -1,5 +1,6 @@
 package com.nhom14.webbookstore.controller.admin;
 
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
@@ -112,7 +113,7 @@ public class AdminOrderController {
 		// Nếu là trạng thái đã giao thì thêm ngày giao hàng vô
 		// Kèm theo thanh toán sẽ tự động chuyển sang Đã thanh toán
 		if (status == 3) {
-			order.setDeliveryDate(new Date());
+			order.setDeliveryDate(new Timestamp(System.currentTimeMillis()));
 			// Lấy trạng thái thanh toán dựa trên order
 			PaymentStatus paymentStatus = paymentStatusService.getPaymentStatusByOrder(order);
 			// Cập nhật trạng thái thanh toán mới

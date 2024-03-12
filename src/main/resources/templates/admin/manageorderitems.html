@@ -110,6 +110,12 @@
         </a>
         
         <h3>CHI TIẾT ĐƠN HÀNG</h3>
+
+		<div th:if="${returnRequestDate != null}" class="frame-main">
+			<h4>Ngày yêu cầu trả hàng</h4>
+			<p th:text="${#temporals.format(returnRequestDate.toLocalDateTime(), 'dd/MM/yyyy HH:mm:ss')}"></p>
+		</div>
+
         <div class="frame-main">
 	        <table class="table table-striped">
 				<thead class="thead-title">
@@ -123,7 +129,7 @@
 				</thead>
 	            <tr style="text-align: center;">
 	                <td th:text="${order.id}" style="text-align: center;"></td>
-	                <td th:text="${#dates.format(order.dateOrder, 'dd/MM/yyyy')}"></td>
+	                <td th:text="${#temporals.format(order.dateOrder.toLocalDateTime(), 'dd/MM/yyyy HH:mm:ss')}"></td>
 	                <td th:text="${#numbers.formatInteger(order.totalPrice, 0, 'POINT') + ' đ'}" style="color: orangered;"></td>
 					<td class="align-middle text-center">
 							<span th:switch="${order.status}">

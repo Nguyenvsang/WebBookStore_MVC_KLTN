@@ -2,6 +2,9 @@ package com.nhom14.webbookstore.controller.customer;
 
 import java.io.IOException;
 import java.sql.Date;
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Objects;
 import java.util.Random;
@@ -64,7 +67,7 @@ public class AccountController {
             @RequestParam("gender") String gender,
             @RequestParam("dob") String dob,
             RedirectAttributes redirectAttributes
-    ) {
+    ) throws ParseException {
 		// Kiểm tra mật khẩu có phải là mật khẩu mạnh không 
 	    if(!(password.length() >= 8 
 	            && password.matches(".*[A-Z].*") 
@@ -87,7 +90,7 @@ public class AccountController {
         account.setFirstName(firstName);
         account.setLastName(lastName);
         account.setGender(gender);
-        account.setDateOfBirth(dateOfBirth);
+		account.setDateOfBirth(dateOfBirth);
         account.setImg("");
 
         try {
@@ -177,6 +180,78 @@ public class AccountController {
 
 	@GetMapping("/customer/login/google_return")
 	public String handleGoogleLogin(@RequestParam("code") String authCode,
+									HttpSession session,
+									RedirectAttributes redirectAttributes) throws IOException {
+		String clientId = System.getenv("GOOGLE_CLIENT_ID");
+		String clientSecret = System.getenv("GOOGLE_CLIENT_SECRET");
+		String redirectUri = System.getenv("GOOGLE_REDIRECT_URI");
+		// Tạo yêu cầu để lấy mã thông báo ID từ Google
+		GoogleTokenResponse tokenResponse =
+				new GoogleAuthorizationCodeTokenRequest(
+						new NetHttpTransport(),
+						JacksonFactory.getDefaultInstance(),
+						"https://oauth2.googleapis.com/token",
+						clientId,
+						clientSecret,
+						authCode,
+						redirectUri)  // Chỉ định cùng URI chuyển hướng mà bạn đã sử dụng trước đó
+						.execute();
+
+		// Lấy mã thông báo ID từ phản hồi
+		String idToken = tokenResponse.getIdToken();
+
+		GoogleIdToken.Payload payload = googleAuthService.authenticate(idToken);
+		if (payload != null) {
+			String email = payload.getEmail();
+			String username = email.substring(0, email.indexOf('@'));  // Lấy phần chữ trước @ trong email
+			Account account = accountService.findAccountByEmail(email);
+			if (account == null) {
+				// Tạo tài khoản mới
+				account = new Account();
+				account.setEmail(email);
+				account.setFirstName("Chưa");
+				account.setLastName("Đặt");
+				account.setImg("https://res.cloudinary.com/dosdzo1lg/image/upload/v1687862555/Booktopia/img_account/account_default.jpg");
+				Object givenName = payload.get("given_name");
+				if (givenName != null) {
+					account.setFirstName(givenName.toString());
+				}
+				Object familyName = payload.get("family_name");
+				if (familyName != null) {
+					account.setLastName(familyName.toString());
+				}
+				//Ngày sinh được null nên bỏ qua
+				account.setAccountType(1);
+				account.setStatus(1);
+				//Giới tính được null nên bỏ qua
+				account.setAddress("Chưa điền thông tin");
+				account.setPhoneNumber("Chưa điền thông tin");
+
+				Object picture = payload.get("picture");
+				if (picture != null) {
+					account.setImg(picture.toString());
+				}  // Thiết lập hình ảnh hồ sơ từ Google
+				account.setUsername(username);
+				account.setPassword("logingoogle"); // Sửa lại cách xử lý cho đăng nhập và đổi mật khẩu
+				// Phần login: tìm tài khoản bằng Username nếu có mk là logingoole thì sẽ từ chối đăng nhập
+				// thông báo là vui lòng đăng nhập bằng Google sau đó thêm mật khẩu mới
+				// Phần đổi mật khẩu sẽ đổi tên thành thêm mật khẩu
+				accountService.addAccount(account);
+			}
+			// Tạo phiên đăng nhập
+			session.setAttribute("account", account);
+			// Nếu đăng nhập thành công, hiển thị thông báo thành công và quay lại trang chủ
+			redirectAttributes.addAttribute("message", "Đăng nhập bằng Google thành công!");
+			return "redirect:/viewaccount";
+		} else {
+			// Nếu đăng nhập thất bại, hiển thị thông báo lỗi và quay lại trang đăng nhập
+			redirectAttributes.addAttribute("message", "Có lỗi xảy ra, vui lòng thử lại!");
+			return "redirect:/customer/loginaccount";
+		}
+	}
+
+	@GetMapping("/customer/login/facebook")
+	public String handleFacebookLogin(@RequestParam("code") String authCode,
 									HttpSession session,
 									RedirectAttributes redirectAttributes) throws IOException {
 		String clientId = System.getenv("GOOGLE_CLIENT_ID");
@@ -358,7 +433,7 @@ public class AccountController {
 	        updateAccount.setFirstName(accountParam.getFirstName());
 	        updateAccount.setLastName(accountParam.getLastName());
 	        updateAccount.setGender(accountParam.getGender());
-	        updateAccount.setDateOfBirth(Date.valueOf(dob));
+			updateAccount.setDateOfBirth(Date.valueOf(dob));
 	        updateAccount.setAddress(accountParam.getAddress());
 	        updateAccount.setPhoneNumber(accountParam.getPhoneNumber());
 	        updateAccount.setEmail(accountParam.getEmail());
@@ -375,7 +450,7 @@ public class AccountController {
 	        redirectAttributes.addAttribute("message", "Đã xảy ra lỗi khi cập nhật tài khoản.");
 	        return "redirect:/viewaccount";
 	    }
-	}
+    }
 	
 
 	@GetMapping("/changepassword")

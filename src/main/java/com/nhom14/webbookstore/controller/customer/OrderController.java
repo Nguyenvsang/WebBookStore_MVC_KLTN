@@ -5,6 +5,7 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -117,7 +118,7 @@ public class OrderController {
 
         // Tạo đối tượng đơn hàng
         Order order = new Order();
-        Date dateOrder = new Date();
+        Timestamp dateOrder = new Timestamp(System.currentTimeMillis());
         order.setDateOrder(dateOrder);
         order.setTotalPrice(totalAmount);
         order.setName(name);
@@ -128,13 +129,20 @@ public class OrderController {
         order.setStatus(0);
         // deliveryDate khi nào giao hàng mới đặt
 
+//        // Tính toán ngày giao hàng dự kiến 1 và 2
+//        Calendar c = Calendar.getInstance();
+//        c.setTime(dateOrder);
+//        c.add(Calendar.DATE, 3);  // Ngày giao hàng dự kiến 1: 3 ngày sau ngày đặt hàng
+//        order.setExpectedDeliveryDate1(c.getTime());
+//        c.add(Calendar.DATE, 2);  // Ngày giao hàng dự kiến 2: thêm 2 ngày nữa (tổng cộng 5 ngày sau ngày đặt hàng)
+//        order.setExpectedDeliveryDate2(c.getTime());
         // Tính toán ngày giao hàng dự kiến 1 và 2
         Calendar c = Calendar.getInstance();
-        c.setTime(dateOrder);
+        c.setTimeInMillis(dateOrder.getTime());
         c.add(Calendar.DATE, 3);  // Ngày giao hàng dự kiến 1: 3 ngày sau ngày đặt hàng
-        order.setExpectedDeliveryDate1(c.getTime());
+        order.setExpectedDeliveryDate1(new Timestamp(c.getTimeInMillis()));
         c.add(Calendar.DATE, 2);  // Ngày giao hàng dự kiến 2: thêm 2 ngày nữa (tổng cộng 5 ngày sau ngày đặt hàng)
-        order.setExpectedDeliveryDate2(c.getTime());
+        order.setExpectedDeliveryDate2(new Timestamp(c.getTimeInMillis()));
 
         // Thêm đơn hàng vào cơ sở dữ liệu
         orderService.addOrder(order);

@@ -138,7 +138,7 @@
 	            <tbody>
 	                <tr th:each="order : ${orders}">
 	                    <td th:text="${order.id}" class="align-middle text-center"></td>
-	                    <td th:text="${#dates.format(order.dateOrder, 'dd/MM/yyyy')}" class="align-middle text-center"></td>
+						<td th:text="${#temporals.format(order.dateOrder.toLocalDateTime(), 'dd/MM/yyyy')}" class="align-middle text-center"></td>
 	                    <td th:text="${#numbers.formatInteger(order.totalPrice, 0, 'POINT') + ' đ'}" class="align-middle text-center" style="color: orangered; width: 150px;"></td>
 						<td class="align-middle text-center">
 							<span th:switch="${order.status}">

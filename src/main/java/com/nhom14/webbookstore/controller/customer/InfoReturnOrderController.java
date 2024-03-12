@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -98,7 +99,7 @@ public class InfoReturnOrderController {
         newInfoReturnOrder.setOrder(order);
         newInfoReturnOrder.setReason(reason);
         newInfoReturnOrder.setDetailReason(detailReason);
-        newInfoReturnOrder.setRequestDate(new Date());
+        newInfoReturnOrder.setRequestDate(new Timestamp(System.currentTimeMillis()));
         newInfoReturnOrder.setName(name);
         newInfoReturnOrder.setAddress(address);
         newInfoReturnOrder.setPhoneNumber(phoneNumber);

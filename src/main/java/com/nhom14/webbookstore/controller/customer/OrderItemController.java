@@ -1,6 +1,8 @@
 package com.nhom14.webbookstore.controller.customer;
 
+import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
@@ -52,11 +54,11 @@ public class OrderItemController {
 		// Tính số ngày giữa ngày giao hàng và ngày hiện tại
 		long daysBetween = -1; // Tức là chưa giao hàng
 		if (order.getDeliveryDate() != null){
-			LocalDate dateOrderLocalDate = order.getDeliveryDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-			LocalDate today = LocalDate.now();
-			daysBetween = ChronoUnit.DAYS.between(dateOrderLocalDate, today);
+			LocalDateTime dateOrderLocalDateTime = order.getDeliveryDate().toLocalDateTime();
+			LocalDateTime today = LocalDateTime.now();
+			daysBetween = ChronoUnit.DAYS.between(dateOrderLocalDateTime.toLocalDate(), today.toLocalDate());
 			// Tính ngày tối đa có thể trả hàng được để hiển thị lên view
-			Date lastReturnDate = Date.from((dateOrderLocalDate.plusDays(15)).atStartOfDay(ZoneId.systemDefault()).toInstant());
+			Timestamp lastReturnDate = Timestamp.valueOf(dateOrderLocalDateTime.plusDays(15).toLocalDate().atStartOfDay());
 			// Đặt ngày cuối cùng có thể trả hàng vào thuộc tính model để sử dụng trong Thymeleaf
 			model.addAttribute("lastReturnDate", lastReturnDate);
 		}

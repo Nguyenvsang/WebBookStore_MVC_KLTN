@@ -117,6 +117,11 @@
 						<a th:href="@{/customer/login/google}" class="btn btn-login">Đăng nhập bằng Google</a>
 					</div>
 
+					<div class="text-center mt-4">
+						<!-- Thêm nút đăng nhập bằng Facebook -->
+						<div class="fb-login-button" data-width="" data-size="large" data-button-type="continue_with" data-layout="default" data-auto-logout-link="false" data-use-continue-as="true"></div>
+					</div>
+
 	                              
 	            </form>
             </div>
@@ -135,6 +140,56 @@
 	            password.type = 'password';
 	        }
 	    });
+	</script>
+
+	<script>
+		window.fbAsyncInit = function() {
+		  FB.init({
+			appId      : '898888188636881',
+			cookie     : true,
+			xfbml      : true,
+			version    : 'v19.0'
+		  });
+
+		  FB.AppEvents.logPageView();
+
+		  // Thêm hàm FB.getLoginStatus ở đây
+		  FB.getLoginStatus(function(response) {
+		     statusChangeCallback(response);
+		  });
+
+		};
+
+		// Định nghĩa hàm statusChangeCallback
+		function statusChangeCallback(response) {
+			if (response.status === 'connected') {
+				// Người dùng đã đăng nhập vào Facebook và ứng dụng của bạn.
+				var accessToken = response.authResponse.accessToken; // Mã truy cập
+				// Gửi mã truy cập này đến máy chủ của bạn để xác thực người dùng và lấy thông tin người dùng
+				$.post('/customer/login/facebook', {accessToken: accessToken}, function(data) {
+					// Xử lý phản hồi từ máy chủ
+					if (data.success) {
+						// Nếu đăng nhập thành công, chuyển hướng người dùng đến trang chủ
+						window.location.href = '/';
+					} else {
+						// Nếu đăng nhập thất bại, hiển thị thông báo lỗi
+						alert('Có lỗi xảy ra, vui lòng thử lại!');
+					}
+				});
+			} else {
+				// Người dùng chưa đăng nhập vào Facebook hoặc ứng dụng của bạn.
+				// Bạn có thể nhắc họ đăng nhập tại đây.
+			}
+		}
+
+
+		(function(d, s, id){
+		   var js, fjs = d.getElementsByTagName(s)[0];
+		   if (d.getElementById(id)) {return;}
+		   js = d.createElement(s); js.id = id;
+		   js.src = "https://connect.facebook.net/en_US/sdk.js";
+		   fjs.parentNode.insertBefore(js, fjs);
+		 }(document, 'script', 'facebook-jssdk'));
 	</script>
 </body>
 </html>

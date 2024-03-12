@@ -164,7 +164,7 @@
 
 		<div th:if="${order.status == 3 && daysBetween <= 15}" >
             <div class="btn btn-warning">
-                <span th:if="${lastReturnDate != null}" th:text="'Bạn có thể yêu cầu trả hàng đến hết ngày ' + ${#dates.format(lastReturnDate, 'dd/MM/yyyy')} + ' , sau ngày đó bạn không thể yêu cầu trả hàng được nữa!' "></span>
+                <span th:if="${lastReturnDate != null}" th:text="'Bạn có thể yêu cầu trả hàng đến hết ngày ' + ${#temporals.format(lastReturnDate.toLocalDateTime(), 'dd/MM/yyyy')} + ' , sau ngày đó bạn không thể yêu cầu trả hàng được nữa!' "></span>
             </div>
 			<h4>Nếu bạn đã hài lòng và không có ý định trả hàng, vui lòng nhấn vào nút Đã nhận hàng bên dưới</h4>
 			<form th:action="@{/receivedorder}" method="post">
@@ -180,10 +180,10 @@
 		<div class="delivery-details card" style="margin-top: 20px;">
 			<div class="card-body">
 				<div th:if="${order.status == 0 || order.status == 1 || order.status == 2}" class="alert alert-info" role="alert">
-					Ngày giao hàng dự kiến: <span th:text="${#dates.format(order.expectedDeliveryDate1, 'dd/MM/yyyy')} + ' - ' + ${#dates.format(order.expectedDeliveryDate2, 'dd/MM/yyyy')}"></span>
+					Ngày giao hàng dự kiến: <span th:text="${#temporals.format(order.expectedDeliveryDate1.toLocalDateTime(), 'dd/MM/yyyy')} + ' - ' + ${#temporals.format(order.expectedDeliveryDate2.toLocalDateTime(), 'dd/MM/yyyy')}"></span>
 				</div>
 				<div th:if="${order.deliveryDate != null}" class="alert alert-success" role="alert">
-					Ngày giao hàng: <span th:text="${#dates.format(order.deliveryDate, 'dd/MM/yyyy')}"></span>
+					Ngày giao hàng: <span th:text="${#temporals.format(order.deliveryDate.toLocalDateTime(), 'dd/MM/yyyy')}"></span>
 				</div>
 				<div th:if="${order.status == 4}" class="alert alert-success" role="alert">
 					Đã hủy đơn
@@ -205,7 +205,7 @@
 						</thead>
 			            <tr>
 			                <td th:text="${order.id}" class="align-middle text-center"></td>
-			                <td th:text="${#dates.format(order.dateOrder, 'dd/MM/yyyy')}" class="align-middle text-center"></td>
+			                <td th:text="${#temporals.format(order.dateOrder.toLocalDateTime(), 'dd/MM/yyyy')}" class="align-middle text-center"></td>
 			                <td th:text="${#numbers.formatInteger(order.totalPrice, 0, 'POINT') + ' đ'}" class="align-middle text-center" style="color: orangered"></td>
 			                <td class="align-middle text-center">
 								<span th:switch="${order.status}" >

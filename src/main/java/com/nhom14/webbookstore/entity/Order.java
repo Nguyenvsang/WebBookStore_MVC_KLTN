@@ -1,5 +1,6 @@
 package com.nhom14.webbookstore.entity;
 
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
@@ -12,14 +13,14 @@ public class Order {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	@Column(name = "date_order", columnDefinition = "date NOT NULL")
-	private Date dateOrder; // Ngày đặt hàng
-	@Column(name = "expected_delivery_date_1", columnDefinition = "date")
-	private Date expectedDeliveryDate1; // Ngày giao hàng dự kiến 1
-	@Column(name = "expected_delivery_date_2", columnDefinition = "date")
-	private Date expectedDeliveryDate2; // Ngày giao hàng dự kiến 2
-	@Column(name = "delivery_date", columnDefinition = "date")
-	private Date deliveryDate; // Ngày giao hàng
+	@Column(name = "date_order", columnDefinition = "datetime(6) NOT NULL")
+	private Timestamp dateOrder; // Ngày đặt hàng
+	@Column(name = "expected_delivery_date_1", columnDefinition = "datetime(6)")
+	private Timestamp expectedDeliveryDate1; // Ngày giao hàng dự kiến 1
+	@Column(name = "expected_delivery_date_2", columnDefinition = "datetime(6)")
+	private Timestamp expectedDeliveryDate2; // Ngày giao hàng dự kiến 2
+	@Column(name = "delivery_date", columnDefinition = "datetime(6)")
+	private Timestamp deliveryDate; // Ngày giao hàng
 	@Column(name = "total_price", columnDefinition = "double NOT NULL")
 	private double totalPrice;
 	
@@ -73,7 +74,7 @@ public class Order {
 
     }
 
-	public Order(Date dateOrder, Date expectedDeliveryDate1, Date expectedDeliveryDate2, Date deliveryDate, double totalPrice, String name, String address, String phoneNumber, String email,
+	public Order(Timestamp dateOrder, Timestamp expectedDeliveryDate1, Timestamp expectedDeliveryDate2, Timestamp deliveryDate, double totalPrice, String name, String address, String phoneNumber, String email,
                  Account account, int status, List<OrderItem> orderitems, PaymentStatus paymentStatus, InfoCancelOrder infoCancelOrder) {
 		super();
 		this.dateOrder = dateOrder;
@@ -102,11 +103,11 @@ public class Order {
 		this.id = id;
 	}
 
-	public Date getDateOrder() {
+	public Timestamp getDateOrder() {
 		return dateOrder;
 	}
 
-	public void setDateOrder(Date dateOrder) {
+	public void setDateOrder(Timestamp dateOrder) {
 		this.dateOrder = dateOrder;
 	}
 
@@ -182,27 +183,27 @@ public class Order {
 		this.paymentStatus = paymentStatus;
 	}
 
-	public Date getExpectedDeliveryDate1() {
+	public Timestamp getExpectedDeliveryDate1() {
 		return expectedDeliveryDate1;
 	}
 
-	public void setExpectedDeliveryDate1(Date expectedDeliveryDate1) {
+	public void setExpectedDeliveryDate1(Timestamp expectedDeliveryDate1) {
 		this.expectedDeliveryDate1 = expectedDeliveryDate1;
 	}
 
-	public Date getExpectedDeliveryDate2() {
+	public Timestamp getExpectedDeliveryDate2() {
 		return expectedDeliveryDate2;
 	}
 
-	public void setExpectedDeliveryDate2(Date expectedDeliveryDate2) {
+	public void setExpectedDeliveryDate2(Timestamp expectedDeliveryDate2) {
 		this.expectedDeliveryDate2 = expectedDeliveryDate2;
 	}
 
-	public Date getDeliveryDate() {
+	public Timestamp getDeliveryDate() {
 		return deliveryDate;
 	}
 
-	public void setDeliveryDate(Date deliveryDate) {
+	public void setDeliveryDate(Timestamp deliveryDate) {
 		this.deliveryDate = deliveryDate;
 	}
 
