@@ -275,6 +275,20 @@ CREATE TABLE BookReview (
   is_published TINYINT(1) NOT NULL
 );
 
+-- Tạo bảng BookReiewLike 
+CREATE TABLE BookReviewLike (
+  -- Khai báo thuộc tính id kiểu BIGINT, không được null, tăng tự động và là khóa chính
+  id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  -- Khai báo thuộc tính account_id kiểu int và là khóa ngoại tham chiếu đến bảng Account
+  account_id INT,
+  FOREIGN KEY (account_id) REFERENCES Account(id),
+  -- Khai báo thuộc tính bookreview_id kiểu int và là khóa ngoại tham chiếu đến bảng BookReview
+  bookreview_id INT,
+  FOREIGN KEY (bookreview_id) REFERENCES BookReview(id),
+  -- Khai báo thuộc tính liked_at kiểu datetime(6)
+  liked_at datetime(6)
+);
+
 
 -- Thêm dữ liệu vào bảng Category
 INSERT INTO Category (name, status) VALUES ("CHÍNH TRỊ - PHÁP LUẬT", 1);
