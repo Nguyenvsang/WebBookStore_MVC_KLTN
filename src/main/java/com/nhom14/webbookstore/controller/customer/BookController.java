@@ -1,31 +1,40 @@
 package com.nhom14.webbookstore.controller.customer;
 
-import java.util.List;
-
+import com.nhom14.webbookstore.entity.Account;
+import com.nhom14.webbookstore.entity.Book;
+import com.nhom14.webbookstore.entity.BookReview;
+import com.nhom14.webbookstore.entity.Category;
+import com.nhom14.webbookstore.service.BookReviewLikeService;
+import com.nhom14.webbookstore.service.BookReviewService;
+import com.nhom14.webbookstore.service.BookService;
+import com.nhom14.webbookstore.service.CategoryService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.util.UriUtils;
 
-import com.nhom14.webbookstore.entity.Book;
-import com.nhom14.webbookstore.entity.Category;
-import com.nhom14.webbookstore.service.BookService;
-import com.nhom14.webbookstore.service.CategoryService;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 public class BookController {
 	private BookService bookService;
 	private CategoryService categoryService;
+    private BookReviewService bookReviewService;
+    private BookReviewLikeService bookReviewLikeService;
 
 	@Autowired
-	public BookController(BookService bookService, CategoryService categoryService) {
+	public BookController(BookService bookService, CategoryService categoryService,
+                          BookReviewService bookReviewService, BookReviewLikeService bookReviewLikeService) {
 		super();
 		this.bookService = bookService;
 		this.categoryService = categoryService;
-	}
+        this.bookReviewService = bookReviewService;
+        this.bookReviewLikeService = bookReviewLikeService;
+    }
 	
 	@GetMapping("/viewbooks")
     public String viewBooks(@RequestParam(value = "category", required = false) Integer categoryId,
@@ -177,16 +186,42 @@ public class BookController {
 	}
 
 	@GetMapping("/detailbook/{id}")
-	public String viewDetailBook(@PathVariable Integer id, Model model) {
+	public String viewDetailBook(@PathVariable Integer id, Model model,
+                                 HttpSession session) {
 		// Lấy thông tin về cuốn sách từ id
 	    Book book = bookService.getActiveBookById(id);
 
 	    // Lấy danh sách các danh mục
 	    List<Category> categories = categoryService.getActiveCategories();
 
+        // Lấy danh sách tất cả các đánh giá theo sách đã được cho phép đăng
+        List<BookReview> bookReviews = bookReviewService.getPublishedReviewsByBook(book);
+        if(bookReviews.isEmpty()) {
+            bookReviews = null;
+        }
+
+        // Nếu người dùng đang đăng nhập thì sẽ hiện đánh giá của họ ở nơi riêng
+        Account account = (Account) session.getAttribute("account");
+
+        BookReview loggedInUserReview = null;
+        // Kiểm tra xem người dùng đã đăng nhập hay chưa
+        if (account != null) {
+            // Tìm kiếm đánh giá của người dùng đã đăng nhập cho cuốn sách này
+            loggedInUserReview = bookReviewService.getReviewByAccountAndBook(account, book);
+        }
+
+        // Tìm những đánh giá mà người dùng này đã thích
+        List<BookReview> likedReviews = new ArrayList<>();
+        if (account != null) {
+            likedReviews = bookReviewLikeService.getLikedReviewsByAccount(account);
+        }
+        model.addAttribute("likedReviews", likedReviews);
+
 	    // Đặt thuộc tính vào model để sử dụng trong View
 	    model.addAttribute("book", book);
 	    model.addAttribute("categories", categories);
+        model.addAttribute("bookReviews", bookReviews);
+        model.addAttribute("loggedInUserReview", loggedInUserReview);
 
 	    return "customer/detailbook";
 	}

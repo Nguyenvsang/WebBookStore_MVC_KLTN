@@ -5,7 +5,11 @@ import java.util.Date;
 import java.util.List;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
+@Setter
+@Getter
 @Entity
 @Table(name = "`order`")
 public class Order {
@@ -94,132 +98,4 @@ public class Order {
     }
 
 
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public Timestamp getDateOrder() {
-		return dateOrder;
-	}
-
-	public void setDateOrder(Timestamp dateOrder) {
-		this.dateOrder = dateOrder;
-	}
-
-	public double getTotalPrice() {
-		return totalPrice;
-	}
-
-	public void setTotalPrice(double totalPrice) {
-		this.totalPrice = totalPrice;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getAddress() {
-		return address;
-	}
-
-	public void setAddress(String address) {
-		this.address = address;
-	}
-
-	public String getPhoneNumber() {
-		return phoneNumber;
-	}
-
-	public void setPhoneNumber(String phoneNumber) {
-		this.phoneNumber = phoneNumber;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public Account getAccount() {
-		return account;
-	}
-
-	public void setAccount(Account account) {
-		this.account = account;
-	}
-
-	public int getStatus() {
-		return status;
-	}
-
-	public void setStatus(int status) {
-		this.status = status;
-	}
-
-	public List<OrderItem> getOrderitems() {
-		return orderitems;
-	}
-
-	public void setOrderitems(List<OrderItem> orderitems) {
-		this.orderitems = orderitems;
-	}
-
-	public PaymentStatus getPaymentStatus() {
-		return paymentStatus;
-	}
-
-	public void setPaymentStatus(PaymentStatus paymentStatus) {
-		this.paymentStatus = paymentStatus;
-	}
-
-	public Timestamp getExpectedDeliveryDate1() {
-		return expectedDeliveryDate1;
-	}
-
-	public void setExpectedDeliveryDate1(Timestamp expectedDeliveryDate1) {
-		this.expectedDeliveryDate1 = expectedDeliveryDate1;
-	}
-
-	public Timestamp getExpectedDeliveryDate2() {
-		return expectedDeliveryDate2;
-	}
-
-	public void setExpectedDeliveryDate2(Timestamp expectedDeliveryDate2) {
-		this.expectedDeliveryDate2 = expectedDeliveryDate2;
-	}
-
-	public Timestamp getDeliveryDate() {
-		return deliveryDate;
-	}
-
-	public void setDeliveryDate(Timestamp deliveryDate) {
-		this.deliveryDate = deliveryDate;
-	}
-
-	public InfoCancelOrder getInfoCancelOrder() {
-		return infoCancelOrder;
-	}
-
-	public void setInfoCancelOrder(InfoCancelOrder infoCancelOrder) {
-		this.infoCancelOrder = infoCancelOrder;
-	}
-
-	public InfoReturnOrder getInfoReturnOrder() {
-		return infoReturnOrder;
-	}
-
-	public void setInfoReturnOrder(InfoReturnOrder infoReturnOrder) {
-		this.infoReturnOrder = infoReturnOrder;
-	}
 }

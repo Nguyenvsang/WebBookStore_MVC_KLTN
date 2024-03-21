@@ -1,7 +1,11 @@
 package com.nhom14.webbookstore.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
+@Setter
+@Getter
 @Entity
 @Table(name = "videoreturnorder")
 public class VideoReturnOrder {
@@ -25,35 +29,4 @@ public class VideoReturnOrder {
         this.productVideo = productVideo;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getUnboxingVideo() {
-        return unboxingVideo;
-    }
-
-    public void setUnboxingVideo(String unboxingVideo) {
-        this.unboxingVideo = unboxingVideo;
-    }
-
-    public String getProductVideo() {
-        return productVideo;
-    }
-
-    public void setProductVideo(String productVideo) {
-        this.productVideo = productVideo;
-    }
-
-    public InfoReturnOrder getInfoReturnOrder() {
-        return infoReturnOrder;
-    }
-
-    public void setInfoReturnOrder(InfoReturnOrder infoReturnOrder) {
-        this.infoReturnOrder = infoReturnOrder;
-    }
 }

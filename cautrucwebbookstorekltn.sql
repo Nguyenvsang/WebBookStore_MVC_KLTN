@@ -253,13 +253,13 @@ CREATE TABLE VideoReturnOrder (
     FOREIGN KEY (inforeturnorder_id) REFERENCES InfoReturnOrder(id)
 );
 
--- Tạo bảng Review
-CREATE TABLE Review (
+-- Tạo bảng BookReview
+CREATE TABLE BookReview (
   -- Khai báo thuộc tính id kiểu int, không được null, tăng tự động và là khóa chính
   id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  -- Khai báo thuộc tính user_id kiểu int và là khóa ngoại tham chiếu đến bảng Account
-  user_id int,
-  FOREIGN KEY (user_id) REFERENCES Account(id),
+  -- Khai báo thuộc tính account_id kiểu int và là khóa ngoại tham chiếu đến bảng Account
+  account_id int,
+  FOREIGN KEY (account_id) REFERENCES Account(id),
   -- Khai báo thuộc tính book_id kiểu int và là khóa ngoại tham chiếu đến bảng Book
   book_id int,
   FOREIGN KEY (book_id) REFERENCES Book(id),
@@ -269,8 +269,10 @@ CREATE TABLE Review (
   comment text NOT NULL,
   -- Khai báo thuộc tính date_posted kiểu datetime(6)
   date_posted datetime(6),
-  -- Khai báo thuộc tính purchased kiểu int, không được null, 1: có, 0: không 
-  purchased int NOT NULL
+  -- Khai báo thuộc tính is_purchased kiểu TINYINT(1), không được null
+  is_purchased TINYINT(1) NOT NULL,
+  -- Khai báo thuộc tính is_published kiểu TINYINT(1), không được null
+  is_published TINYINT(1) NOT NULL
 );
 
 

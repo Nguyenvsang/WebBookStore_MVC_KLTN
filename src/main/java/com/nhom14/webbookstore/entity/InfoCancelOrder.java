@@ -1,7 +1,11 @@
 package com.nhom14.webbookstore.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
+@Setter
+@Getter
 @Entity
 @Table(name = "infocancelorder")
 public class InfoCancelOrder {
@@ -32,35 +36,4 @@ public class InfoCancelOrder {
         this.otherType = otherType;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public Order getOrder() {
-        return order;
-    }
-
-    public void setOrder(Order order) {
-        this.order = order;
-    }
-
-    public int getType() {
-        return type;
-    }
-
-    public void setType(int type) {
-        this.type = type;
-    }
-
-    public String getOtherType() {
-        return otherType;
-    }
-
-    public void setOtherType(String otherType) {
-        this.otherType = otherType;
-    }
 }

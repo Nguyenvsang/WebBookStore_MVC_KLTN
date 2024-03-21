@@ -11,7 +11,11 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import lombok.Getter;
+import lombok.Setter;
 
+@Setter
+@Getter
 @Entity
 @Table(name = "cart")
 public class Cart {
@@ -44,29 +48,5 @@ public class Cart {
 		this.account = account;
 	}
 
-	public int getId() {
-		return id;
-	}
 
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public Account getAccount() {
-		return account;
-	}
-
-	public void setAccount(Account account) {
-		this.account = account;
-	}
-
-	public List<CartItem> getCartitems() {
-		return cartitems;
-	}
-
-	public void setCartitems(List<CartItem> cartitems) {
-		this.cartitems = cartitems;
-	}
-	
-	
 }

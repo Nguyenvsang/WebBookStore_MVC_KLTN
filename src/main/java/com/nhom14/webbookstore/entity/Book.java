@@ -14,7 +14,11 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import lombok.Getter;
+import lombok.Setter;
 
+@Setter
+@Getter
 @Entity
 @Table(name = "book")
 public class Book {
@@ -62,6 +66,10 @@ public class Book {
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "book")
 	private List<BookAuthor> bookAuthors;
 
+	//bi-directional one-to-many association to BookReview
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "book")
+	private List<BookReview> bookReviews;
+
     public Book() {
     }
 
@@ -85,118 +93,5 @@ public class Book {
 		this.bookAuthors = bookAuthors;
 	}
 
-	public int getId() {
-		return id;
-	}
 
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public double getCostPrice() {
-		return costPrice;
-	}
-
-	public void setCostPrice(double costPrice) {
-		this.costPrice = costPrice;
-	}
-
-	public double getSellPrice() {
-		return sellPrice;
-	}
-
-	public void setSellPrice(double sellPrice) {
-		this.sellPrice = sellPrice;
-	}
-
-	public Category getCategory() {
-		return category;
-	}
-
-	public void setCategory(Category category) {
-		this.category = category;
-	}
-
-	public String getPublisher() {
-		return publisher;
-	}
-
-	public void setPublisher(String publisher) {
-		this.publisher = publisher;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	public int getStatus() {
-		return status;
-	}
-
-	public void setStatus(int status) {
-		this.status = status;
-	}
-
-	public String getDetail() {
-		return detail;
-	}
-
-	public void setDetail(String detail) {
-		this.detail = detail;
-	}
-
-	public int getQuantity() {
-		return quantity;
-	}
-
-	public void setQuantity(int quantity) {
-		this.quantity = quantity;
-	}
-
-	public List<BookImage> getBookImages() {
-		return bookImages;
-	}
-
-	public void setBookImages(List<BookImage> bookImages) {
-		this.bookImages = bookImages;
-	}
-
-	public List<OrderItem> getOrderItems() {
-		return orderItems;
-	}
-
-	public void setOrderItems(List<OrderItem> orderItems) {
-		this.orderItems = orderItems;
-	}
-
-	public List<CartItem> getCartItems() {
-		return cartItems;
-	}
-
-	public void setCartItems(List<CartItem> cartItems) {
-		this.cartItems = cartItems;
-	}
-
-	public List<BookAuthor> getBookAuthors() {
-		return bookAuthors;
-	}
-
-	public void setBookAuthors(List<BookAuthor> bookAuthors) {
-		this.bookAuthors = bookAuthors;
-	}
-
-	
-	
 }

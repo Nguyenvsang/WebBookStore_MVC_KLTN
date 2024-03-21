@@ -156,26 +156,97 @@
 		.material-symbols-outlined.back:hover {
 			color: rgb(182,232,241);
 		}
-		
-				
+
+		.rating {
+		  unicode-bidi: bidi-override;
+		  direction: rtl;
+		  text-align: center;
+		}
+		.rating > input {
+		  display: none;
+		}
+		.rating > label {
+		  display: inline-block;
+		  font-size: 30px;
+		  color: #ccc;
+		  cursor: pointer;
+		}
+		.rating > input:checked ~ label,
+		.rating > label:hover,
+		.rating > label:hover ~ label {
+		  color: gold;
+		}
+
+		.user-review-box {
+			border: 1px solid #ccc;
+			border-radius: 10px;
+			padding: 10px;
+			margin-bottom: 20px;
+		}
+
+		.review {
+			border: 1px solid #ddd;
+			padding: 15px;
+			margin-bottom: 20px;
+			background-color: #f9f9f9;
+			border-radius: 5px;
+		}
+		.review .user-info {
+			display: flex;
+			align-items: center;
+		}
+		.review .user-info img {
+			width: 50px;
+			height: 50px;
+			border-radius: 50%;
+			margin-right: 10px;
+		}
+		.review .user-info .username {
+			font-weight: bold;
+		}
+		.review .stars, .user-review .stars {
+			color: gold;
+			margin-bottom: 10px;
+		}
+		.review .comment {
+			margin-bottom: 10px;
+		}
+		.review .date {
+			text-align: right;
+			color: #888;
+		}
+
+		.like-button {
+			background-color: grey; /* Màu nền xanh */
+			border: none; /* Không viền */
+			color: white; /* Màu chữ trắng */
+			padding: 15px 32px; /* Đệm trên dưới 15px, trái phải 32px */
+			text-align: center; /* Căn giữa chữ */
+			text-decoration: none; /* Không gạch chân */
+			display: inline-block;
+			font-size: 16px;
+			margin: 4px 2px;
+			cursor: pointer; /* Biến đổi con trỏ khi di chuột qua nút */
+			border-radius: 12px; /* Bo góc nút */
+		}
+
+		.purchased, .published {
+			color: green;
+			font-weight: bold;
+		}
+
+		.not-purchased, .not-published {
+			color: red;
+			font-weight: bold;
+		}
+
+
 	</style>
 	
 </head>
 <body>
 	<div th:replace="~{layout/header :: header}"></div>
     <div class="container-fluid mb-4">
-        
-        
-        <!-- Decode the "message" parameter 
-        <th:block th:with="messageId=${param.message}">
-            <th:block th:with="message=${#uris.decode(messageId, 'UTF-8')}">
-                <th:block th:with="messageType=${message.toLowerCase().contains('thành công') ? 'alert-success' : 'alert-danger'}">
-                    <div th:if="${message}" th:class="alert ${messageType}" role="alert">
-                        <p th:text="${message}"></p>
-                    </div>
-                </th:block>
-            </th:block>
-        </th:block> -->
         
         <!-- Hiển thị thông báo nếu có -->
         <div th:if="${param.message}" class="alert"
@@ -289,19 +360,238 @@
 					</div>
 				</div>
 	       	</div>
-        </div>
+
+			<!-- Kiểm tra xem người dùng đã đăng nhập hay chưa -->
+			<div th:if="${session.account == null}">
+				<p>Vui lòng đăng nhập để viết đánh giá cho cuốn sách</p>
+			</div>
+
+			<!-- Nếu người dùng đã đăng nhập nhưng chưa viết đánh giá -->
+			<div th:if="${session.account != null and loggedInUserReview == null}">
+				<!-- Button trigger modal -->
+				<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#reviewModal">
+					Viết đánh giá
+				</button>
+				<!-- Modal -->
+				<div class="modal fade" id="reviewModal" tabindex="-1" role="dialog" aria-labelledby="reviewModalLabel" aria-hidden="true">
+					<div class="modal-dialog" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title" id="reviewModalLabel">Viết đánh giá</h5>
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+									<span aria-hidden="true">×</span>
+								</button>
+							</div>
+							<div class="modal-body">
+								<!-- Thêm thuộc tính action và method vào form -->
+								<form th:action="@{/addreviewbook}" method="post">
+									<!-- Thêm trường ẩn chứa ID của cuốn sách -->
+									<input type="hidden" name="bookId" th:value="${book.id}">
+									<div class="form-group">
+										<fieldset id="review-rating">
+											<legend class="col-form-label">Đánh giá:</legend>
+											<div class="rating">
+												<input type="radio" id="star5" name="rating" value="5" required /><label for="star5" title="5 sao">☆</label>
+												<input type="radio" id="star4" name="rating" value="4" /><label for="star4" title="4 sao">☆</label>
+												<input type="radio" id="star3" name="rating" value="3" /><label for="star3" title="3 sao">☆</label>
+												<input type="radio" id="star2" name="rating" value="2" /><label for="star2" title="2 sao">☆</label>
+												<input type="radio" id="star1" name="rating" value="1" /><label for="star1" title="1 sao">☆</label>
+											</div>
+										</fieldset>
+									</div>
+
+									<div class="form-group">
+										<label for="review-comment" class="col-form-label">Bình luận:</label>
+										<textarea class="form-control" id="review-comment" name="comment"></textarea>
+									</div>
+									<div class="form-check">
+										<input type="checkbox" class="form-check-input" id="review-isPurchased" name="isPurchased">
+										<label class="form-check-label" for="review-isPurchased">Tôi đã mua cuốn sách này</label>
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+										<!-- Thay đổi type của nút Lưu đánh giá thành submit để gửi form -->
+										<button type="submit" class="btn btn-primary">Lưu đánh giá</button>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+			<!-- Nếu người dùng đã đăng nhập và đã viết đánh giá -->
+			<div th:if="${session.account != null and loggedInUserReview != null}" class="user-review-box">
+				<!-- Hiển thị đánh giá của người dùng -->
+				<div class="user-review">
+					<h5>Đánh giá của bạn:</h5>
+					<div class="stars" th:text="${'*'.repeat(loggedInUserReview.rating)}"></div>
+					<p th:text="${loggedInUserReview.comment}"></p>
+					<p class="purchased" th:if="${loggedInUserReview.isPurchased}">Bạn đã mua cuốn sách này</p>
+					<p class="not-purchased" th:if="${!loggedInUserReview.isPurchased}">Bạn chưa mua cuốn sách này</p>
+					<!-- Hiển thị trạng thái đánh giá -->
+					<p class="published" th:if="${loggedInUserReview.isPublished}">Đánh giá của bạn đã được đăng.</p>
+					<p class="not-published" th:if="${!loggedInUserReview.isPublished}">Đánh giá của bạn đang chờ duyệt.</p>
+
+					<!-- Button trigger modal -->
+					<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editReviewModal">
+						Chỉnh sửa đánh giá
+					</button>
+
+					<!-- Button to delete review -->
+					<form id="deleteReviewForm" method="post" th:action="@{/deletereviewbook/} + ${book.id}">
+						<button type="submit" class="btn btn-danger" id="deleteReviewButton">Xóa đánh giá</button>
+					</form>
+
+					<!-- Modal -->
+					<div class="modal fade" id="editReviewModal" tabindex="-1" role="dialog" aria-labelledby="editReviewModalLabel" aria-hidden="true">
+						<div class="modal-dialog" role="document">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h5 class="modal-title" id="editReviewModalLabel">Chỉnh sửa đánh giá</h5>
+									<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+										<span aria-hidden="true">×</span>
+									</button>
+								</div>
+								<div class="modal-body">
+									<!-- Thêm thuộc tính action và method vào form -->
+									<form th:action="@{/editreviewbook}" method="post">
+										<!-- Thêm trường ẩn chứa ID của cuốn sách -->
+										<input type="hidden" name="bookId" th:value="${book.id}">
+										<div class="form-group">
+											<fieldset id="edit-review-rating">
+												<legend class="col-form-label">Đánh giá:</legend>
+												<div class="rating">
+													<input type="radio" id="edit-star5" name="rating" value="5" th:checked="${loggedInUserReview.rating == 5}" required /><label for="edit-star5" title="5 sao">☆</label>
+													<input type="radio" id="edit-star4" name="rating" value="4" th:checked="${loggedInUserReview.rating == 4}" /><label for="edit-star4" title="4 sao">☆</label>
+													<input type="radio" id="edit-star3" name="rating" value="3" th:checked="${loggedInUserReview.rating == 3}" /><label for="edit-star3" title="3 sao">☆</label>
+													<input type="radio" id="edit-star2" name="rating" value="2" th:checked="${loggedInUserReview.rating == 2}" /><label for="edit-star2" title="2 sao">☆</label>
+													<input type="radio" id="edit-star1" name="rating" value="1" th:checked="${loggedInUserReview.rating == 1}" /><label for="edit-star1" title="1 sao">☆</label>
+												</div>
+											</fieldset>
+										</div>
+
+										<div class="form-group">
+											<label for="edit-review-comment" class="col-form-label">Bình luận:</label>
+											<textarea class="form-control" id="edit-review-comment" name="comment" th:text="${loggedInUserReview.comment}"></textarea>
+										</div>
+										<div class="form-check">
+											<input type="checkbox" class="form-check-input" id="edit-review-isPurchased" name="isPurchased" th:checked="${loggedInUserReview.isPurchased}">
+											<label class="form-check-label" for="edit-review-isPurchased">Tôi đã mua cuốn sách này</label>
+										</div>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+											<!-- Thay đổi type của nút Lưu đánh giá thành submit để gửi form -->
+											<button type="submit" class="btn btn-primary">Lưu đánh giá</button>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+			<!-- Hiển thị danh sách các đánh giá -->
+			<div th:each="review : ${bookReviews}">
+				<div class="review">
+					<!-- Hiển thị thông tin người dùng đã viết đánh giá -->
+					<div class="user-info">
+						<img th:src="${review.account.img}" alt="User avatar">
+						<div class="username" th:text="${review.account.username}"></div>
+					</div>
+					<!-- Hiển thị số sao đánh giá -->
+					<div class="stars" th:text="${'*'.repeat(review.rating)}"></div>
+					<!-- Hiển thị nội dung đánh giá -->
+					<div class="comment" th:text="${review.comment}"></div>
+					<p class="purchased" th:if="${review.isPurchased}">Người dùng này đã mua cuốn sách</p>
+					<p class="not-purchased" th:if="${!review.isPurchased}">Người dùng này chưa mua cuốn sách</p>
+					<!-- Hiển thị ngày đánh giá -->
+					<small class="date" th:text="${#temporals.format(review.datePosted.toLocalDateTime(), 'dd-MM-yyyy')}"></small>
+					<!-- Hiển thị nút Thích và số lượng thích -->
+					<button class="like-button" th:text="${likedReviews.contains(review) ? '👍 Đã thích' : '👍 Thích'}" th:data-book-review-id="${review.id}">
+						👍 Thích
+					</button>
+					<span class="like-count" th:text="'(' + ${review.bookReviewLikes.size()} + ')'"></span>
+				</div>
+			</div>
+
+		</div>
     </div>
 
+	<script th:src="@{/js/jquery-3.4.1.min.js}"></script>
+	<script th:src="@{/js/popper.min.js}"></script>
+	<script th:src="@{/js/bootstrap.min.js}"></script>
     <script>
         function goBack() {
             window.history.back();
         }
-    </script>
+
+		// Khi tài liệu HTML đã sẵn sàng
+		$(document).ready(function(){
+			// Khi người dùng nhấp vào một ngôi sao
+			$('.rating input').on('click', function(){
+				// Lấy giá trị của ngôi sao đã được nhấp
+				var rating = $(this).val();
+				// Hiển thị giá trị đánh giá trong console (bạn có thể xóa dòng này sau khi kiểm tra)
+				console.log('Rating:', rating);
+			});
+		});
+
+		$(document).ready(function() {
+			// Khi người dùng nhấp vào nút Thích
+			$('.like-button').on('click', function() {
+				// Lấy id của đánh giá
+				var reviewId = $(this).data('book-review-id');
+
+				// Lưu trữ tham chiếu đến nút và số lượng thích
+				var button = $(this);
+				var likeCount = $(this).next('.like-count');
+
+				// Tạo một đối tượng XMLHttpRequest
+				var xhr = new XMLHttpRequest();
+
+				// Thiết lập yêu cầu POST đến URL '/webbookstore/likebookreview'
+				xhr.open('POST', '/webbookstore/likebookreview', true);
+
+				// Thiết lập kiểu nội dung của yêu cầu là 'application/x-www-form-urlencoded'
+				xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+				// Xử lý sự kiện 'load' khi yêu cầu hoàn tất
+				xhr.onload = function() {
+					var data = xhr.responseText;
+					if (data.startsWith('/')) {
+						// Nếu phản hồi bắt đầu bằng '/', giả định nó là URL và chuyển hướng người dùng
+						window.location.href = data;
+					} else if (data === 'liked') {
+						button.text('👍 Đã thích');
+						button.css('background-color', 'blue');
+
+						// Tăng số lượng thích lên 1
+						var count = parseInt(likeCount.text().slice(1, -1));
+						likeCount.text('(' + (count + 1) + ')');
+					} else if (data === 'unliked') {
+						button.text('👍 Thích');
+						button.css('background-color', 'grey');
+
+						// Giảm số lượng thích đi 1
+						var count = parseInt(likeCount.text().slice(1, -1));
+						likeCount.text('(' + (count - 1) + ')');
+					}
+				};
+
+				// Gửi yêu cầu với dữ liệu
+				xhr.send('reviewId=' + reviewId);
+			});
+		});
+
+
+	</script>
     
 <div th:replace="~{layout/footer :: footer}"></div>
 <!-- Thêm các tệp tin JavaScript -->
-<script th:src="@{/js/jquery-3.4.1.slim.min.js}"></script>
-<script th:src="@{/js/popper.min.js}"></script>
-<script th:src="@{/js/bootstrap.min.js}"></script>
+
 </body>
 </html>
