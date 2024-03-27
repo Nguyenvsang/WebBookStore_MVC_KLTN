@@ -188,7 +188,7 @@ CREATE TABLE `bookreview` (
   KEY `book_id` (`book_id`),
   CONSTRAINT `bookreview_ibfk_1` FOREIGN KEY (`account_id`) REFERENCES `account` (`id`),
   CONSTRAINT `bookreview_ibfk_2` FOREIGN KEY (`book_id`) REFERENCES `book` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -197,6 +197,7 @@ CREATE TABLE `bookreview` (
 
 LOCK TABLES `bookreview` WRITE;
 /*!40000 ALTER TABLE `bookreview` DISABLE KEYS */;
+INSERT INTO `bookreview` VALUES (7,3,11,5,'Sách thật hay!','2024-03-21 13:19:17.410000',0,1),(8,3,5,5,'Sách thật hay, có nhiều thông tin bổ ích mới mẻ','2024-03-25 06:22:51.149000',1,1),(9,3,7,4,'Cuốn sách này cũng thật hay!\r\n\"Nghệ Thuật Suy Tưởng - Luận Lí Học Tổng Quát Và Phương Pháp Luận\" Con người sống là hành động: hành động để thỏa mãn nhu cầu thực tiễn hay để thỏa mãn lòng hiếu tri. Với khả năng giới hạn, khi hành động, họ lại thường gặp thất bại, hiểu biết lại thường sai lầm. Sau nhiều lần “thử” và “lầm” mà trí tuệ thức tỉnh, vẫn tra hỏi, vẫn tìm hiểu những tương quan khách quan: đó là lúc khoa học thực sự hình thành. NGHỆ THUẬT SUY TƯỞNG tóm lược nhiều học thuyết triết học về các nguyên tắc, quy luật hướng dẫn cho việc suy tưởng đúng, nhất là luận lí học và nhận thức luận. Qua những phần được trình bày rất rõ ràng và dễ hiểu, tác giả đã thành công đưa những tri thức triết học và logic học khô khan, khó hiểu thành một đường dây xuyên suốt giúp người đọc dễ nắm bắt và trau dồi được nghệ thuật suy tưởng.','2024-03-25 06:35:53.747000',0,1),(10,5,11,5,'Sách bổ ích','2024-03-25 06:40:05.937000',0,1),(11,6,5,5,'Cuốn sách này đã mở ra một cánh cửa mới cho tôi về sức mạnh của tư duy và tiềm thức. Rất đáng đọc!','2024-03-25 06:44:44.208000',0,1),(12,7,5,4,'Tôi thực sự ngạc nhiên về những gì tôi đã học từ cuốn sách này. Nó đã thay đổi cách nhìn của tôi về cuộc sống.','2024-03-25 06:45:58.379000',0,1),(13,8,5,4,'Một cuốn sách tuyệt vời với nhiều thông tin hữu ích. Tôi sẽ đọc lại nó nhiều lần.','2024-03-25 06:50:46.633000',0,1),(16,3,10,5,'Cuốn sách này đã mở ra một góc nhìn mới về lịch sử và chính trị của Nhà Trắng. Rất thú vị!','2024-03-25 07:05:39.529000',0,1),(17,5,10,5,'Tôi thực sự thích cách tác giả kể lại những câu chuyện chưa từng được biết đến về Nhà Trắng. Rất đáng đọc!','2024-03-25 07:14:44.879000',0,1),(21,9,10,5,'Tôi đã học được nhiều điều từ cuốn sách này. Nó đã mở rộng kiến thức của tôi về Nhà Trắng.','2024-03-25 07:51:12.668000',0,1),(28,3,6,5,'Sách khá hay, đáng mua','2024-03-27 03:50:17.806000',1,1),(30,3,8,5,'Sách rất hay, biển đảo Việt Nam rất đẹp. Tác giả đã cung cấp cho chúng ta nhiều kiến thức bổ ích!','2024-03-27 03:53:19.783000',0,1),(31,3,9,5,'Một tác phẩm hay\r\n\"Siêu Cường - Ba Lựa Chọn Về Vai Trò Của Hoa Kỳ Đối Với Thế Giới\" Trong tương lai gần, Hoa Kỳ vẫn sẽ là siêu cường duy nhất trên thế giới. Nhưng đó là kiểu siêu cường như thế nào? Hoa Kỳ sẽ đóng vai trò gì trên thế giới? Và bạn muốn Hoa Kỳ đóng vai trò gì? Trong tác phẩm Siêu cường, Ian Bremmer lập luận rằng chính sách đối ngoại thiếu định hướng của Washington vừa tốn kém lại nguy hiểm. Kể từ khi kết thúc chiến tranh lạnh, Mỹ đã sẩy chân trong nhiều cuộc khủng hoảng ở Afghanistan, Iraq, Iran, Libya, Syria và Ukraine mà không có chiến lược rõ ràng. Bremmer khuyến khích chúng ta nghĩ kĩ hơn về vai trò mà nước Mỹ nên đảm nhiệm và cách sử dụng địa vị siêu cường, với ba lựa chọn khác biệt: Nước Mỹ độc lập: Nước Mỹ không nên nhận trách nhiệm giải quyết vấn đề của dân tộc khác mà nên lãnh đạo bằng cách nêu gương. Nước Mỹ thực dụng: Nước Mỹ không thể giải quyết mọi thách thức quốc tế nhưng nước Mỹ có thể và nên tập trung vào các cơ hội và bảo vệ lợi ích của mình khi chúng bị đe dọa. Nước Mỹ thiết yếu: Sự ổn định toàn cầu đang ngày càng phụ thuộc vào những giá trị mà chỉ có nước Mỹ mới bảo vệ được. Người Mỹ không bao giờ có thể sống trong hòa bình nếu các dân tộc khác bị từ chối các quyền tự do cơ bản nhất. Có nhiều lập luận vững chắc để ủng hộ và phản đối mỗi lựa chọn, nhưng nước Mỹ cần đưa ra lựa chọn của mình. Sách cũng giúp độc giả hiểu thêm về đường hướng của tổng thống Donald Trump trong chính sách ngoại giao và điều phối kinh tế của nước Mỹ hiện nay.','2024-03-27 03:54:12.668000',0,1),(32,5,1,5,'Sách cung cấp nhiều thông tin hữu ích, rất đáng đọc','2024-03-27 04:05:18.030000',0,1),(34,5,3,5,'\"Luật Doanh Nghiệp\" Luật Doanh nghiệp (hiện hành) (sửa đổi, bổ sung năm 2022) gồm 10 chương, 218 điều, quy định về thành lập, tổ chức quản lý, tổ chức lại, giải thể và hoạt động có liên quan của doanh nghiệp, bao gồm công ty trách nhiệm hữu hạn, công ty cổ phần, công ty hợp danh và doanh nghiệp tư nhân; quy định về nhóm công ty. Luật Doanh nghiệp được Quốc hội khóa XIV kỳ họp thứ 9 thông qua ngày 17/6/2020, thay thế cho Luật Doanh nghiệp năm 2014. Ngày 11/1/2022, tại kỳ họp bất thường lần thứ nhất, Quốc hội khóa XV đã thông qua Luật sửa đổi, bổ sung một số điều của Luật Đầu tư công, Luật Đầu tư theo phương thức đối tác công tư, Luật Đầu tư, Luật Nhà ở, Luật Đấu thầu, Luật Điện lực, Luật Doanh nghiệp, Luật Thuế tiêu thụ đặc biệt và Luật Thi hành án dân sự, trong đó có nội dung sửa đổi, bổ sung một số điều của Luật Doanh nghiệp năm 2020. Cuốn sách Luật Doanh nghiệp (hiện hành) (sửa đổi, bổ sung năm 2022) là văn bản Luật hợp nhất của Luật Doanh nghiệp năm 2020 và các nội dung của lần .fun','2024-03-27 04:21:44.535000',0,0);
 /*!40000 ALTER TABLE `bookreview` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -217,7 +218,7 @@ CREATE TABLE `bookreviewlike` (
   KEY `bookreviewlike_ibfk_2_idx` (`bookreview_id`),
   CONSTRAINT `bookreviewlike_ibfk_1` FOREIGN KEY (`account_id`) REFERENCES `account` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `bookreviewlike_ibfk_2` FOREIGN KEY (`bookreview_id`) REFERENCES `bookreview` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE=InnoDB AUTO_INCREMENT=92 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=93 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -226,6 +227,7 @@ CREATE TABLE `bookreviewlike` (
 
 LOCK TABLES `bookreviewlike` WRITE;
 /*!40000 ALTER TABLE `bookreviewlike` DISABLE KEYS */;
+INSERT INTO `bookreviewlike` VALUES (92,3,31,'2024-03-27 03:54:40.113000');
 /*!40000 ALTER TABLE `bookreviewlike` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -532,4 +534,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-03-21 17:45:14
+-- Dump completed on 2024-03-27 11:23:53

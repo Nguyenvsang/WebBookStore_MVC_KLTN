@@ -151,7 +151,7 @@ public class AccountController {
             session.setAttribute("account", account);
             // Nếu đăng nhập thành công, hiển thị thông báo thành công và quay lại trang chủ
             redirectAttributes.addAttribute("message", "Đăng nhập thành công!");
-            return "redirect:/";
+            return "redirect:/viewbooks";
         } else {
             // Nếu đăng nhập thất bại, hiển thị thông báo lỗi và quay lại trang đăng nhập
         	redirectAttributes.addAttribute("message", "Sai tên đăng nhập hoặc mật khẩu");

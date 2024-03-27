@@ -258,7 +258,7 @@
         <div class="container main">
 	        <div class="frame-01" style="background-color: white;">
 				<p class="text" style="height: 40px;">
-		            <a href="javascript:history.back()" class="btn btn-back" style="margin: 10px;">
+		            <a th:href="@{/viewbooks}" class="btn btn-back" style="margin: 10px;">
 						<span class="material-symbols-outlined back">arrow_back_ios</span>
 					</a>
 		        </p>
@@ -402,11 +402,7 @@
 
 									<div class="form-group">
 										<label for="review-comment" class="col-form-label">Bình luận:</label>
-										<textarea class="form-control" id="review-comment" name="comment"></textarea>
-									</div>
-									<div class="form-check">
-										<input type="checkbox" class="form-check-input" id="review-isPurchased" name="isPurchased">
-										<label class="form-check-label" for="review-isPurchased">Tôi đã mua cuốn sách này</label>
+										<textarea class="form-control" id="review-comment" name="comment" maxlength="1000" required></textarea>
 									</div>
 									<div class="modal-footer">
 										<button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
@@ -474,11 +470,7 @@
 
 										<div class="form-group">
 											<label for="edit-review-comment" class="col-form-label">Bình luận:</label>
-											<textarea class="form-control" id="edit-review-comment" name="comment" th:text="${loggedInUserReview.comment}"></textarea>
-										</div>
-										<div class="form-check">
-											<input type="checkbox" class="form-check-input" id="edit-review-isPurchased" name="isPurchased" th:checked="${loggedInUserReview.isPurchased}">
-											<label class="form-check-label" for="edit-review-isPurchased">Tôi đã mua cuốn sách này</label>
+											<textarea class="form-control" id="edit-review-comment" name="comment" th:text="${loggedInUserReview.comment}" maxlength="500" required></textarea>
 										</div>
 										<div class="modal-footer">
 											<button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
@@ -499,7 +491,7 @@
 				<div class="review">
 					<!-- Hiển thị thông tin người dùng đã viết đánh giá -->
 					<div class="user-info">
-						<img th:src="${review.account.img}" alt="User avatar">
+						<img th:src="${review.account.img != '' ? review.account.img : 'https://res.cloudinary.com/dosdzo1lg/image/upload/v1709875316/WebBookStoreKLTN/img_account/account_default.jpg'}" class="img-thumbnail" style="width: 50px; height: 50px;" id="currentImage2" alt="Img">
 						<div class="username" th:text="${review.account.username}"></div>
 					</div>
 					<!-- Hiển thị số sao đánh giá -->
@@ -525,67 +517,82 @@
 	<script th:src="@{/js/popper.min.js}"></script>
 	<script th:src="@{/js/bootstrap.min.js}"></script>
     <script>
+		// Thông báo khi không chọn sao để đánh giá
+		function validateForm() {
+			var radios = document.getElementsByName('rating');
+			var formValid = false;
+
+			var i = 0;
+			while (!formValid && i < radios.length) {
+				if (radios[i].checked) formValid = true;
+				i++;
+			}
+
+			if (!formValid) alert("Vui lòng cho số sao!");
+			return formValid;
+		}
+
         function goBack() {
             window.history.back();
         }
 
-		// Khi tài liệu HTML đã sẵn sàng
-		$(document).ready(function(){
-			// Khi người dùng nhấp vào một ngôi sao
-			$('.rating input').on('click', function(){
-				// Lấy giá trị của ngôi sao đã được nhấp
-				var rating = $(this).val();
-				// Hiển thị giá trị đánh giá trong console (bạn có thể xóa dòng này sau khi kiểm tra)
-				console.log('Rating:', rating);
-			});
-		});
+        // Khi tài liệu HTML đã sẵn sàng
+        $(document).ready(function(){
+            // Khi người dùng nhấp vào một ngôi sao
+            $('.rating input').on('click', function(){
+                // Lấy giá trị của ngôi sao đã được nhấp
+                var rating = $(this).val();
+                // Hiển thị giá trị đánh giá trong console (bạn có thể xóa dòng này sau khi kiểm tra)
+                console.log('Rating:', rating);
+            });
+        });
 
-		$(document).ready(function() {
-			// Khi người dùng nhấp vào nút Thích
-			$('.like-button').on('click', function() {
-				// Lấy id của đánh giá
-				var reviewId = $(this).data('book-review-id');
+        $(document).ready(function() {
+            // Khi người dùng nhấp vào nút Thích
+            $('.like-button').on('click', function() {
+                // Lấy id của đánh giá
+                var reviewId = $(this).data('book-review-id');
 
-				// Lưu trữ tham chiếu đến nút và số lượng thích
-				var button = $(this);
-				var likeCount = $(this).next('.like-count');
+                // Lưu trữ tham chiếu đến nút và số lượng thích
+                var button = $(this);
+                var likeCount = $(this).next('.like-count');
 
-				// Tạo một đối tượng XMLHttpRequest
-				var xhr = new XMLHttpRequest();
+                // Tạo một đối tượng XMLHttpRequest
+                var xhr = new XMLHttpRequest();
 
-				// Thiết lập yêu cầu POST đến URL '/webbookstore/likebookreview'
-				xhr.open('POST', '/webbookstore/likebookreview', true);
+                // Thiết lập yêu cầu POST đến URL '/webbookstore/likebookreview'
+                xhr.open('POST', '/webbookstore/likebookreview', true);
 
-				// Thiết lập kiểu nội dung của yêu cầu là 'application/x-www-form-urlencoded'
-				xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                // Thiết lập kiểu nội dung của yêu cầu là 'application/x-www-form-urlencoded'
+                xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 
-				// Xử lý sự kiện 'load' khi yêu cầu hoàn tất
-				xhr.onload = function() {
-					var data = xhr.responseText;
-					if (data.startsWith('/')) {
-						// Nếu phản hồi bắt đầu bằng '/', giả định nó là URL và chuyển hướng người dùng
-						window.location.href = data;
-					} else if (data === 'liked') {
-						button.text('👍 Đã thích');
-						button.css('background-color', 'blue');
+                // Xử lý sự kiện 'load' khi yêu cầu hoàn tất
+                xhr.onload = function() {
+                    var data = xhr.responseText;
+                    if (data.startsWith('/')) {
+                        // Nếu phản hồi bắt đầu bằng '/', giả định nó là URL và chuyển hướng người dùng
+                        window.location.href = data;
+                    } else if (data === 'liked') {
+                        button.text('👍 Đã thích');
+                        button.css('background-color', 'blue');
 
-						// Tăng số lượng thích lên 1
-						var count = parseInt(likeCount.text().slice(1, -1));
-						likeCount.text('(' + (count + 1) + ')');
-					} else if (data === 'unliked') {
-						button.text('👍 Thích');
-						button.css('background-color', 'grey');
+                        // Tăng số lượng thích lên 1
+                        var count = parseInt(likeCount.text().slice(1, -1));
+                        likeCount.text('(' + (count + 1) + ')');
+                    } else if (data === 'unliked') {
+                        button.text('👍 Thích');
+                        button.css('background-color', 'grey');
 
-						// Giảm số lượng thích đi 1
-						var count = parseInt(likeCount.text().slice(1, -1));
-						likeCount.text('(' + (count - 1) + ')');
-					}
-				};
+                        // Giảm số lượng thích đi 1
+                        var count = parseInt(likeCount.text().slice(1, -1));
+                        likeCount.text('(' + (count - 1) + ')');
+                    }
+                };
 
-				// Gửi yêu cầu với dữ liệu
-				xhr.send('reviewId=' + reviewId);
-			});
-		});
+                // Gửi yêu cầu với dữ liệu
+                xhr.send('reviewId=' + reviewId);
+            });
+        });
 
 
 	</script>

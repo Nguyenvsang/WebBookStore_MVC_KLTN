@@ -39,7 +39,7 @@ public class BookReviewController {
     public String addReviewBook(@RequestParam("bookId") int bookId,
                                 @RequestParam("rating") int rating,
                                 @RequestParam("comment") String comment,
-                                @RequestParam(value = "isPurchased", defaultValue = "false") boolean isPurchased,
+                                //@RequestParam(value = "isPurchased", defaultValue = "false") boolean isPurchased,
                                 HttpSession session,
                                 RedirectAttributes redirectAttributes) {
         // Lấy thông tin người dùng từ session
@@ -67,20 +67,20 @@ public class BookReviewController {
                 break;
             }
         }
-
-        // Nếu người dùng chưa mua cuốn sách này nhưng lại khẳng định đã mua
-        if (isPurchased && !hasPurchased) {
-            String message = "Bạn chưa mua cuốn sách này. Vui lòng kiểm tra lại.";
-            redirectAttributes.addAttribute("message", message);
-            return "redirect:/detailbook/" + bookId;
-        }
-
-        // Nếu người dùng đã mua cuốn sách này nhưng lại không khẳng định đã mua
-        if (!isPurchased && hasPurchased) {
-            String message = "Bạn đã mua cuốn sách này. Vui lòng kiểm tra lại.";
-            redirectAttributes.addAttribute("message", message);
-            return "redirect:/detailbook/" + bookId;
-        }
+//
+//        // Nếu người dùng chưa mua cuốn sách này nhưng lại khẳng định đã mua
+//        if (isPurchased && !hasPurchased) {
+//            String message = "Bạn chưa mua cuốn sách này. Vui lòng kiểm tra lại.";
+//            redirectAttributes.addAttribute("message", message);
+//            return "redirect:/detailbook/" + bookId;
+//        }
+//
+//        // Nếu người dùng đã mua cuốn sách này nhưng lại không khẳng định đã mua
+//        if (!isPurchased && hasPurchased) {
+//            String message = "Bạn đã mua cuốn sách này. Vui lòng kiểm tra lại.";
+//            redirectAttributes.addAttribute("message", message);
+//            return "redirect:/detailbook/" + bookId;
+//        }
 
         // Tạo một đánh giá mới
         BookReview review = new BookReview();
@@ -88,7 +88,7 @@ public class BookReviewController {
         review.setBook(book);
         review.setRating(rating);
         review.setComment(comment);
-        review.setPurchased(isPurchased);
+        review.setPurchased(hasPurchased);
         review.setPublished(false); // Chưa được duyệt đăng
         review.setDatePosted(new Timestamp(System.currentTimeMillis()));
 
@@ -105,7 +105,7 @@ public class BookReviewController {
     public String editReviewBook(@RequestParam("bookId") int bookId,
                                  @RequestParam("rating") int rating,
                                  @RequestParam("comment") String comment,
-                                 @RequestParam(value = "isPurchased", defaultValue = "false") boolean isPurchased,
+                                 //@RequestParam(value = "isPurchased", defaultValue = "false") boolean isPurchased,
                                  HttpSession session,
                                  RedirectAttributes redirectAttributes) {
         // Lấy thông tin người dùng từ session
@@ -130,23 +130,23 @@ public class BookReviewController {
 
         boolean hasPurchased = review.isPurchased();
         // Nếu người dùng chưa mua cuốn sách này nhưng lại khẳng định đã mua
-        if (isPurchased && !hasPurchased) {
-            String message = "Bạn chưa mua cuốn sách này. Vui lòng kiểm tra lại.";
-            redirectAttributes.addAttribute("message", message);
-            return "redirect:/detailbook/" + bookId;
-        }
-
-        // Nếu người dùng đã mua cuốn sách này nhưng lại không khẳng định đã mua
-        if (!isPurchased && hasPurchased) {
-            String message = "Bạn đã mua cuốn sách này. Vui lòng kiểm tra lại.";
-            redirectAttributes.addAttribute("message", message);
-            return "redirect:/detailbook/" + bookId;
-        }
+//        if (isPurchased && !hasPurchased) {
+//            String message = "Bạn chưa mua cuốn sách này. Vui lòng kiểm tra lại.";
+//            redirectAttributes.addAttribute("message", message);
+//            return "redirect:/detailbook/" + bookId;
+//        }
+//
+//        // Nếu người dùng đã mua cuốn sách này nhưng lại không khẳng định đã mua
+//        if (!isPurchased && hasPurchased) {
+//            String message = "Bạn đã mua cuốn sách này. Vui lòng kiểm tra lại.";
+//            redirectAttributes.addAttribute("message", message);
+//            return "redirect:/detailbook/" + bookId;
+//        }
 
         // Cập nhật đánh giá
         review.setRating(rating);
         review.setComment(comment);
-        review.setPurchased(isPurchased);
+        review.setPurchased(hasPurchased);
         review.setPublished(false); // Chưa được duyệt đăng
         review.setDatePosted(new Timestamp(System.currentTimeMillis()));
 
