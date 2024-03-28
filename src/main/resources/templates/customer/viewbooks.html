@@ -81,15 +81,7 @@
 			margin-bottom: 10px;
 			margin-right: 10px;
 		}
-		.form-inline.my-2.my-lg-0 {
-			width: 70%; /* Điều chỉnh chiều rộng của form */
-			margin: auto; /* Căn giữa form */
-		}
-		.form-control.mr-sm-2 {
-			border: 2px solid rgb(182,232,241);
-			border-radius: 10px
-		}
-		
+
 		h3 {
         	text-align: center;
         	margin-top: 10px;
@@ -542,14 +534,14 @@
 					<div class="col-main col-lg-9 col-md-9 col-sm-12 col-xs-12 col-fhs-main-body" style="margin-left: 25px;">
 						
 						<!--Ô nhập tìm kiếm và nhấn tìm kiếm-->
-					    <div style="display: flex; justify-content: center;">
-							<form class="form-inline my-2 my-lg-0" th:action="@{/viewbooks}" method="GET" style="display: flex;">
-								<input class="form-control mr-sm-2" type="text" name="search" placeholder="Tìm kiếm từ khóa" style="width: 88.5%;">
-								
-								<button class="btn btn-outline my-2 my-sm-2" type="submit" style="width: 10%;">
-									<span class="material-symbols-outlined search">search</span></button>
-							</form>
-						</div>
+<!--					    <div style="display: flex; justify-content: center;">-->
+<!--							<form class="form-inline my-2 my-lg-0" th:action="@{/viewbooks}" method="GET" style="display: flex;">-->
+<!--								<input class="form-control mr-sm-2" type="text" name="search" placeholder="Tìm kiếm từ khóa" style="width: 88.5%;">-->
+<!--								-->
+<!--								<button class="btn btn-outline my-2 my-sm-2" type="submit" style="width: 10%;">-->
+<!--									<span class="material-symbols-outlined search">search</span></button>-->
+<!--							</form>-->
+<!--						</div>-->
 																	
 						<!--Tìm kiếm từ khóa-->
 						<div th:if="${param.search != null && !param.search.isEmpty()}">
