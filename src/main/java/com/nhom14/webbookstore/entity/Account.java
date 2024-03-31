@@ -61,6 +61,9 @@ public class Account {
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "account")
 	private List<BookReviewLike> bookReviewLikes;
 
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "account")
+	private List<FavoriteBook> favoriteBooks;
+
 	// Các phương thức getter, setter, constructor, toString...
 
 	public Account() {

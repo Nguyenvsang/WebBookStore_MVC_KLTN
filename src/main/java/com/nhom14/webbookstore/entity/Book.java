@@ -70,6 +70,10 @@ public class Book {
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "book")
 	private List<BookReview> bookReviews;
 
+	//bi-directional one-to-many association to BookReview
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "book")
+	private List<FavoriteBook> favoriteBooks;
+
     public Book() {
     }
 

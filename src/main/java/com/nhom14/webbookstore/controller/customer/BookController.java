@@ -1,13 +1,7 @@
 package com.nhom14.webbookstore.controller.customer;
 
-import com.nhom14.webbookstore.entity.Account;
-import com.nhom14.webbookstore.entity.Book;
-import com.nhom14.webbookstore.entity.BookReview;
-import com.nhom14.webbookstore.entity.Category;
-import com.nhom14.webbookstore.service.BookReviewLikeService;
-import com.nhom14.webbookstore.service.BookReviewService;
-import com.nhom14.webbookstore.service.BookService;
-import com.nhom14.webbookstore.service.CategoryService;
+import com.nhom14.webbookstore.entity.*;
+import com.nhom14.webbookstore.service.*;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -25,15 +19,17 @@ public class BookController {
 	private CategoryService categoryService;
     private BookReviewService bookReviewService;
     private BookReviewLikeService bookReviewLikeService;
+    private FavoriteBookService favoriteBookService;
 
 	@Autowired
 	public BookController(BookService bookService, CategoryService categoryService,
-                          BookReviewService bookReviewService, BookReviewLikeService bookReviewLikeService) {
+                          BookReviewService bookReviewService, BookReviewLikeService bookReviewLikeService, FavoriteBookService favoriteBookService) {
 		super();
 		this.bookService = bookService;
 		this.categoryService = categoryService;
         this.bookReviewService = bookReviewService;
         this.bookReviewLikeService = bookReviewLikeService;
+        this.favoriteBookService = favoriteBookService;
     }
 	
 	@GetMapping("/viewbooks")
@@ -216,6 +212,14 @@ public class BookController {
             likedReviews = bookReviewLikeService.getLikedReviewsByAccount(account);
         }
         model.addAttribute("likedReviews", likedReviews);
+
+        // Xem người dùng có thích cuốn sách này chưa
+        boolean isFavorite = false;
+        FavoriteBook favoriteBook = favoriteBookService.findByAccountAndBook(account, book);
+        if (favoriteBook != null){
+            isFavorite = true;
+        }
+        model.addAttribute("isFavorite", isFavorite);
 
 	    // Đặt thuộc tính vào model để sử dụng trong View
 	    model.addAttribute("book", book);

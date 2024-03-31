@@ -288,6 +288,18 @@ CREATE TABLE BookReviewLike (
   -- Khai báo thuộc tính liked_at kiểu datetime(6)
   liked_at datetime(6)
 );
+-- Tạo bảng FavoriteBook 
+CREATE TABLE FavoriteBook (
+  -- Khai báo thuộc tính id kiểu BIGINT, không được null, tăng tự động và là khóa chính 
+  id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  -- Khai báo thuộc tính account_id kiểu int và là khóa ngoại tham chiếu đến bảng Account
+  account_id INT NOT NULL,
+  FOREIGN KEY (account_id) REFERENCES Account(id),
+  -- Khai báo thuộc tính book_id kiểu int và là khóa ngoại tham chiếu đến bảng Book
+  book_id INT NOT NULL,
+  FOREIGN KEY (book_id) REFERENCES Book(id)
+);
+
 
 
 -- Thêm dữ liệu vào bảng Category

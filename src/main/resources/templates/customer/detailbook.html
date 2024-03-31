@@ -336,10 +336,15 @@
 						                                <button type="submit" class="btn btn-add-cart btn-block">Thêm vào giỏ hàng</button>
 						                            </div>
 						                        </div>
-				                    	</form>		                            
-		                        </div>
+									</form>
+								</div>
 		                        <div class="ml-2">
-		                        	
+									<form id="favoriteForm">
+										<input type="hidden" name="bookId" th:value="${book.id}" />
+										<button type="submit" class="btn btn-primary" th:class="${isFavorite} ? 'btn-success' : 'btn-primary'">
+											<span th:text="${isFavorite} ? 'Đã thêm vào danh sách yêu thích' : 'Thêm vào danh sách yêu thích'"></span>
+										</button>
+									</form>
 		                        </div>		                        		                        		                    		                        
 		                    </div>
 		                </div>
@@ -593,6 +598,35 @@
                 xhr.send('reviewId=' + reviewId);
             });
         });
+
+		// Xử lý nhấn nút Thêm/Xóa vào/khỏi danh sách yêu thích
+		$(document).ready(function() {
+			$('#favoriteForm button').on('click', function(event) {
+				event.preventDefault();
+
+				var form = $('#favoriteForm');
+				var button = $(this);
+
+				$.ajax({
+					type: 'POST',
+					url: '/webbookstore/adddeletefavoritebook',
+					data: $(form).serialize(),
+					success: function(response) {
+						if (response.status === 'redirect') {
+							window.location.href = response.location;
+						} else if (response.status === 'success' && response.message == 'added') {
+							button.text('Đã thêm vào danh sách yêu thích');
+							button.css('background-color', 'blue');
+						} else if (response.status === 'success' && response.message == 'deleted') {
+							button.text('Đã xóa khỏi danh sách yêu thích');
+							button.css('background-color', 'gray');
+						} else if (response.status === 'error') {
+							alert(response.message);
+						}
+					}
+				});
+			});
+		});
 
 
 	</script>
