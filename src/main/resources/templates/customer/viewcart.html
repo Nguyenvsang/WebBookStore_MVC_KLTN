@@ -255,7 +255,7 @@
 		function updateCartItem(itemId, quantity) {
 		    // Gửi yêu cầu AJAX đến máy chủ để cập nhật số lượng sản phẩm trong giỏ hàng
 		    var xhr = new XMLHttpRequest();
-            xhr.open("POST", "/updatecartitem", true);
+            xhr.open("POST", "/webbookstore/updatecartitem", true);
             xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
             xhr.onreadystatechange = function () {
                 if (xhr.readyState === 4 && xhr.status === 200) {

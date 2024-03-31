@@ -29,23 +29,19 @@
         padding: 20px;
         border-radius: 15px;
         margin-top: 20px;
-	    margin-right: 100px;
-	    margin-left: 100px;	 
-	    margin-bottom: 40px;   
+	    margin-right: 10px;
+	    margin-left: 10px;
+	    margin-bottom: 20px;
 	}
 	.btn-login {
-		background-color: rgb(2,88,155);
-		border-radius: 10px;
+		background-color: #3448c5;
+		border-radius: 50px;
 		color: white;
+		width: 660px;
 	}
 	.btn-login:hover {
-			color:rgb(182,232,241); /* Thay đổi màu văn bản khi trỏ chuột vào nút */
-	}
-	h3 {
-		color: rgb(2,88,155);
-		margin-top: 3px;
-		margin-bottom: 15px;
-	}
+		color: white;
+
 	.form-control {
 		border-radius: 10px
 	}
@@ -84,7 +80,8 @@
 		.row-01:hover {
 			color: rgb(2,88,155);
 		}
-		
+
+
 	</style>
 	
 </head>
@@ -92,7 +89,7 @@
 <div th:replace="~{layout/header :: header}"></div>
 <div class="container mt-4 mb-4">
     <div class="row justify-content-center">
-        <div class="col-md-6">
+        <div class="col-md-8">
             
             
             <!-- Hiển thị thông báo nếu có -->
@@ -101,40 +98,63 @@
 			    <span th:text="${param.message}"></span>
 			</div>
             
-            <div class="form-container" style="background-color: white;">
-				<h3 class="text-center">ĐĂNG NHẬP</h3>
-	            <form th:action="@{/customer/loginaccount}" method="post">
-	                <div class="form-group">
-	                    <label for="username" style="color: rgb(2,88,155);">Tên đăng nhập:</label>
-	                    <input type="text" class="form-control" id="username" name="username" required>
-	                </div>
-	                <div class="form-group" style="margin-bottom: 5px;">
-					    <label for="password" style="color: rgb(2,88,155);">Mật khẩu:</label>
-					    <input type="password" class="form-control" id="password" name="password" required>
-					    <input type="checkbox" id="togglePassword" style="margin-top: 20px;"> Hiển thị mật khẩu
-					</div>	
-														
-	                <a class="row-01" th:href="@{/customer/registeraccount}" style="display: flex; justify-content: left; align-items: left; text-decoration: none; margin-bottom: 15px;" >	
-						<span>Đăng ký</span>
-					</a>		                
-	            
-					
-	                <div class="text-center">
-	                    <button type="submit" class="btn btn-login">Đăng nhập</button>
-	                </div>
+            <div class="form-container" style="background-color: white; box-shadow: 0 8px 10px rgb(226, 226, 226);">
+				<h4 class="text-center" style="margin-bottom: 30px; color: rgb(33,31,127)">Chào mừng đến với Knowledge Young</h4>
+				<div class="row-01" style="display: flex;">
+					<div class="col-01 d-flex align-items-center justify-content-center" style="width: 220px">
+						<img src="https://res.cloudinary.com/dylwewmt0/image/upload/v1711803820/PHOTO_LIST/icon/login.png" alt="" style="width: 200px; height: 200px">
+					</div>
+					<div class="col-02 d-flex align-items-center justify-content-center" style="width: 450px; ">
+						<form th:action="@{/customer/loginaccount}" method="post" style="width: 420px; height: 200px; margin-left: 10px">
+							<div class="form-group">
+								<label for="username" style="color: rgb(2,88,155);">Tên đăng nhập:</label>
+								<input type="text" class="form-control" id="username" name="username" style="border-radius: 20px" required>
+							</div>
+							<div class="form-group" style="margin-bottom: 5px;">
+								<label for="password" style="color: rgb(2,88,155);">Mật khẩu:</label>
+								<input type="password" class="form-control" id="password" name="password" style="border-radius: 20px" required>
+								<input type="checkbox" id="togglePassword" style="margin-top: 20px;"> Hiển thị mật khẩu
+							</div>
 
-					<div class="text-center mt-4">
+
+						</form>
+					</div>
+				</div>
+
+				<div class="content" style="margin-top: 30px">
+					<div class="text-center">
+						<button type="submit" class="btn btn-login"
+								onmouseover="this.style.backgroundColor='#211f7f';" onmouseout="this.style.backgroundColor='#3448c5';">Đăng nhập</button>
+					</div>
+
+					<!-- Thêm div mới này cho chữ 'or' và hai dòng kẻ ngang -->
+					<div style="display: flex; align-items: center; justify-content: center; margin-top: 20px; margin-bottom: 20px;">
+						<hr style="flex-grow: 1; border-top: 1px solid ; margin-left: 7px; color: #a2abb4;">
+						<span style="margin: 0 15px; color: #a2abb4;">Or</span>
+						<hr style="flex-grow: 1; border-top: 1px solid ; margin-right: 7px; color: #a2abb4;">
+					</div>
+
+					<div class="text-center d-flex align-items-center justify-content-center">
 						<!-- Thêm nút đăng nhập bằng Google -->
-						<a th:href="@{/customer/login/google}" class="btn btn-login">Đăng nhập bằng Google</a>
+						<a class="dropdown-item d-flex align-items-center justify-content-center" th:href="@{/customer/login/google}"
+						   style="color: rgb(0, 0, 160); width: 660px; border: 1px solid #d7ebff; border-radius: 50px;"
+						   onmouseover="this.style.backgroundColor='#d7ebff';" onmouseout="this.style.backgroundColor='transparent';">
+							<img src="https://res.cloudinary.com/dylwewmt0/image/upload/v1711636579/PHOTO_LIST/icon/google.png"
+								 style="weight: 28px; height: 28px">
+							<span style="margin-left: 8px;">Đăng nhập bằng Google</span>
+						</a>
 					</div>
 
-					<div class="text-center mt-4">
-						<!-- Thêm nút đăng nhập bằng Facebook -->
-						<div class="fb-login-button" data-width="" data-size="large" data-button-type="continue_with" data-layout="default" data-auto-logout-link="false" data-use-continue-as="true"></div>
+					<div class="text-signup d-flex align-items-center justify-content-center" style="margin-top: 30px; margin-bottom: 10px;">
+						<p style="margin: 0 0 0px">Bạn mới sử dụng Knowledge Young?</p>
+						<a class="row-02" th:href="@{/customer/registeraccount}"
+						   style="display: flex; text-decoration: none; margin-left: 8px;" >
+							<span style="color:rgb(0, 0, 160);">Đăng ký</span>
+						</a>
 					</div>
 
-	                              
-	            </form>
+				</div>
+
             </div>
         </div>
     </div>
