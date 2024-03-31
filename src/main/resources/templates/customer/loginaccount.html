@@ -115,8 +115,6 @@
 								<input type="password" class="form-control" id="password" name="password" style="border-radius: 20px" required>
 								<input type="checkbox" id="togglePassword" style="margin-top: 20px;"> Hiển thị mật khẩu
 							</div>
-
-
 						</form>
 					</div>
 				</div>
@@ -161,6 +159,11 @@
     </div>
 </div>
 <div th:replace="~{layout/footer :: footer}"></div>
+	<script>
+		document.getElementById("loginButton").addEventListener("click", function() {
+			document.getElementById("loginForm").submit();
+		});
+	</script>
 	<script>
 	    var password = document.getElementById('password');
 	    var togglePassword = document.getElementById('togglePassword');

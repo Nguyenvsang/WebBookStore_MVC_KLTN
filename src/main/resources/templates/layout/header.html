@@ -41,7 +41,6 @@
 			background-color: aqua;
 		}
 
-
 	</style>
 </head>
 <body>
@@ -112,10 +111,10 @@
 
 						<div class="col-3" style="display: flex; align-items:center; justify-content: center;">
 							<div style="margin-right: 78px;">
-								<ul class="navbar-nav mr-auto navbar-nav-left" >
+								<ul class="navbar-nav mr-auto navbar-nav-left" style="align-items:center;">
 
-									<li class="nav-item" th:if="${session.account != null}">
-										<a class="nav-link" th:href="@{/viewcart}" style="color:rgb(0, 0, 160); font-family: Arial, sans-serif;">
+									<li class="nav-item" th:if="${session.account != null}" style="align-items:center;">
+										<a class="nav-link" th:href="@{/viewcart}" style="color:rgb(0, 0, 160); font-family: Arial, sans-serif; align-items:center;">
 											<span class="material-symbols-outlined" style="font-size: 30px;">shopping_cart</span>
 										</a>
 									</li>
@@ -123,10 +122,21 @@
 									<li class="nav-item dropdown" th:if="${session.account != null}">
 										<a class="nav-link dropdown-toggle d-flex align-items-center justify-content-center" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
 										   style="color: rgb(0, 0, 160);">
-											<img th:src="${session.account.img + '?v=' + randomNumber}" style="width: 30px; height: 30px; border-radius: 50%;">
-											<span th:text="${session.account['firstName']}  + ' ' + ${session.account['lastName']}" style="color:rgb(0, 0, 160); font-family: Arial, sans-serif;"></span>
+											<div class="circle" style="width: 40px;
+																		height: 40px;
+																		border-radius: 50%;
+																		border: 1px solid #ddd;
+																		padding: 10px;
+																		background-color: #f9f9f9;
+																		display: flex;
+																		align-items: center;
+																		justify-content: center"
+												>
+												<img th:src="${#strings.isEmpty(session.account.img) ? 'https://res.cloudinary.com/dosdzo1lg/image/upload/v1709875316/WebBookStoreKLTN/img_account/account_default.jpg' : session.account.img + '?v=' + randomNumber}" style="width: 30px; height: 30px; border-radius: 50%;">
+											</div>
+											<span th:text="${#strings.isEmpty(session.account) ? 'Guest' : session.account['firstName'] + ' ' + session.account['lastName']}" style="color:rgb(0, 0, 160); font-family: Arial, sans-serif;"></span>
 										</a>
-										<div class="dropdown-menu" aria-labelledby="navbarDropdown" style="weight: 0px; height: 160px; border-radius: 10px;">
+										<div class="dropdown-menu" aria-labelledby="navbarDropdown" style="weight: 0px; height: 200px; border-radius: 10px;">
 											<a class="dropdown-item d-flex align-items-center justify-content-center" th:href="@{/viewaccount}"
 											   style="color: rgb(0, 0, 160); width: 240px; border: 1px solid #d7ebff; border-radius: 50px; margin: 10px"
 											   onmouseover="this.style.backgroundColor='#d7ebff';" onmouseout="this.style.backgroundColor='transparent';">
@@ -139,11 +149,11 @@
 												<span class="material-symbols-outlined" style="margin-right: 8px;">list_alt</span>
 												<span>Đơn hàng của tôi</span>
 											</a>
-											<a class="dropdown-item d-flex align-items-center justify-content-center" th:href="@{/viewfavoritebooks}"
-											   style="color: rgb(0, 0, 160); width: 240px; border: 1px solid #d7ebff; border-radius: 10px; margin: 10px"
-											   onmouseover="this.style.backgroundColor='#d7ebff';" onmouseout="this.style.backgroundColor='transparent';">
-												<span class="material-symbols-outlined" style="margin-right: 8px;">love</span>
-												<span>Danh sách yêu thích</span>
+											<a class="dropdown-item d-flex align-items-center justify-content-center"
+											   style="color: rgb(0, 0, 160); width: 240px; border: 1px solid #d7ebff; border-radius: 50px; margin: 10px"
+											   onmouseover="this.style.backgroundColor='#d7ebff';" onmouseout="this.style.backgroundColor='transparent';" th:href="@{/viewfavoritebooks}">
+												<span class="material-symbols-outlined" style="margin-right: 8px;">favorite</span>
+												<span>Sách yêu thích</span>
 											</a>
 											<a class="dropdown-item d-flex align-items-center justify-content-center" th:href="@{/customer/logoutaccount}"
 											   style="color: rgb(0, 0, 160); width: 240px; border: 1px solid #d7ebff; border-radius: 50px; margin: 10px"
