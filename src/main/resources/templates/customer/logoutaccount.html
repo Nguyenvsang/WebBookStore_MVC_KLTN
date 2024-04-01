@@ -33,22 +33,24 @@
 	    }
 	    
 		.btn-logout {
-			border-radius: 10px;
-			background-color: rgb(2,88,155);
-			border: 2px solid rgb(2,88,155);	
+			border-radius: 50px;
+			background-color: #3448c5;
 			color: white;		
 			}
 		.btn-logout:hover {
-			color:rgb(182,232,241); /* Thay đổi màu văn bản khi trỏ chuột vào nút */
+			background-color: #211f7f; /* Thay đổi màu văn bản khi trỏ chuột vào nút */
+			color: white;
 		}
+
 		.btn-no {
-			border-radius: 10px;
-			color: black;
+			border-radius: 50px;
+			color:rgb(2,88,155);
 			background-color: white;
-			border: 2px solid rgb(2,88,155);			
+			border: 2px solid #d7ebff;
 		}
 		.btn-no:hover {
-			color:rgb(2,88,155); /* Thay đổi màu văn bản khi trỏ chuột vào nút */
+			background-color: #d7ebff; /* Thay đổi màu văn bản khi trỏ chuột vào nút */
+			color:rgb(2,88,155);
 		}
 		.card-title {
 			color: rgb(2,88,155);
@@ -57,10 +59,11 @@
 		    .form-container {
 		      
 		        border-radius: 5px;
-		        padding: 20px;
 		        border-radius: 15px;
-		        margin-top: 50px;			  
-			    margin-bottom: 50px;   
+		        margin-top: 20px;
+			    margin-bottom: 20px;
+			    width: 500px;
+			    height: 350px
 			}
 			
 			h3 {
@@ -113,20 +116,39 @@
 	
 	<div class="container mt-4 mb-4">
     	<div class="row justify-content-center">
-        	<div class="col-md-6">
-				<div class="form-container" style="background-color: white;">
-					<h3 class="text-center">BẠN CÓ MUỐN ĐĂNG XUẤT KHÔNG?</h3>
-					<div class="frame center">
-						<form th:action="@{/customer/logoutaccount}" method="post" >
-		                   <button type="submit" class="btn btn-logout">Đăng xuất</button>
-		                   <a th:href="@{/}" class="btn btn-no">Không</a>
-		                </form>
-					</div>			            
-            	</div>
+        	<div class="col-md-6 d-flex align-items-center justify-content-center">
+				<div class="form-container " style="background-color: white;">
+					<div class="col align-items-center justify-content-center">
+						<div class="row-01 d-flex align-items-center justify-content-center">
+							<img src="https://res.cloudinary.com/dylwewmt0/image/upload/v1711988412/PHOTO_LIST/logout/logout.jpg" alt=""
+								 style="width: 500px; height: 180px; border-top-left-radius: 15px; border-top-right-radius: 15px;">
+						</div>
+						<div class="row-02 align-items-center justify-content-center">
+							<h4 class="text-center" style="color: rgb(33,31,127); margin-top: 30px">Bạn có chắc bạn muốn đăng xuất không?</h4>
+							<div class="frame center">
+								<form th:action="@{/customer/logoutaccount}" method="post" style="margin-top: 20px">
+									<img id="cryIcon" src="https://res.cloudinary.com/dylwewmt0/image/upload/v1711989865/PHOTO_LIST/logout/cry.png" alt="" style="width: 45px; height: 45px; margin-left: 15px; visibility: hidden;">
+									<button type="submit" class="btn btn-logout" onmouseover="showIcon('cryIcon')" onmouseout="hideIcon('cryIcon')">Đăng xuất</button>
+									<a th:href="@{ / }" class="btn btn-no" onmouseover="showIcon('smileIcon')" onmouseout="hideIcon('smileIcon')">Không</a>
+									<img id="smileIcon" src="https://res.cloudinary.com/dylwewmt0/image/upload/v1711989864/PHOTO_LIST/logout/smile.png" alt="" style="width: 60px; height: 50px; visibility: hidden;">
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
         	</div>
     	</div>
 	</div>
 	    
     <div th:replace="layout/footer :: footer"></div>
+	<script>
+		function showIcon(iconId) {
+            document.getElementById(iconId).style.visibility = 'visible';
+        }
+
+        function hideIcon(iconId) {
+            document.getElementById(iconId).style.visibility = 'hidden';
+        }
+	</script>
 </body>
 </html>

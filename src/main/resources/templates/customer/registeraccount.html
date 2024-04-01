@@ -25,26 +25,26 @@
 		body { background-color: #f8f9fa  }
 		
     .form-container {
-       
-        border-radius: 5px;
-        padding: 20px;
+
+        width: 760px;
+        height : 650px;
         border-radius: 15px;
         margin-top: 20px;
-        margin-bottom: 40px;
+	    margin-bottom: 20px;
     }
-    .btn-register {
-		background-color: rgb(2,88,155);
-		border-radius: 10px;
-		color: white;
-	}
-	.btn-register:hover {
-			color:rgb(182,232,241); /* Thay đổi màu văn bản khi trỏ chuột vào nút */
-	}
+
+    .btn-register{
+   	 	background-color: #3448c5;
+   	}
+   	.btn-register:hover {
+   	 	background-color: #211f7f;
+   	}
+
 	.text-center{
 		color: rgb(2,88,155);
 	}
 	.form-control {
-		border-radius: 10px
+		border-radius: 50px
 	}
 	h3 {
 		margin-top: 3px;
@@ -78,13 +78,30 @@
 			box-shadow: 0 8px 10px rgb(226, 226, 226);
 			
 		}
-</style>
+
+		#togglePassword {
+			width: 10px;
+			height: 10px;
+			-webkit-appearance: none;
+			-moz-appearance: none;
+			appearance: none;
+			border-radius: 50%;
+			box-shadow: 0 0 0 1px #5591c5;
+			margin-right: 5px;
+		}
+
+		#togglePassword:checked {
+			box-shadow: 0 0 0 1px #d7ebff, 0 0 0 4px #d7ebff;
+		}
+
+
+	</style>
 </head>
 <body>
 	<div th:replace="layout/header :: header"></div>
     <div class="container mt-4 mb-4">
         <div class="row justify-content-center">
-            <div class="col-md-6">
+            <div class="col-md-8">
                 
                 
                 <!-- Hiển thị thông báo nếu có -->
@@ -95,59 +112,118 @@
                 
                 <!--Khung hiển thị nội dung!-->
                 <div class="form-container" style="background-color: white;">
-					<h3 class="text-center">ĐĂNG KÝ</h3>
-	                <form th:action="@{/customer/registeraccount}" method="post">
-	                    <div class="form-group">
-	                        <label for="username" style="color: rgb(2,88,155);">Tên tài khoản:</label>
-	                        <input type="text" class="form-control" id="username" name="username" required>
-	                    </div>
-	                    <div class="form-group">
-	                        <label for="password" style="color: rgb(2,88,155);">Mật khẩu:</label>
-	                        <input type="password" class="form-control" id="password" name="password" required>
-	                    </div>
-	                    <div class="form-group">
-	                        <label for="address" style="color: rgb(2,88,155);">Địa chỉ:</label>
-	                        <input type="text" class="form-control" id="address" name="address" required>
-	                    </div>
-	                    <div class="form-group">
-	                        <label for="phoneNumber" style="color: rgb(2,88,155);">Số điện thoại:</label>
-	                        <input type="text" class="form-control" id="phoneNumber" name="phoneNumber" required>
-	                    </div>
-	                    <div class="form-group">
-	                        <label for="email" style="color: rgb(2,88,155);">Email:</label>
-	                        <input type="email" class="form-control" id="email" name="email" required>
-	                    </div>
-	                    <div class="form-group">
-	                        <label for="firstName" style="color: rgb(2,88,155);">Tên:</label>
-	                        <input type="text" class="form-control" id="firstName" name="firstName">
-	                    </div>
-	                    <div class="form-group">
-	                        <label for="lastName" style="color: rgb(2,88,155);">Họ:</label>
-	                        <input type="text" class="form-control" id="lastName" name="lastName">
-	                    </div>
-	                    <div class="form-group">
-	                        <label for="gender" style="color: rgb(2,88,155);">Giới tính:</label>
-	                        <select class="form-control" id="gender" name="gender">
-	                            <option value="Nam">Nam</option>
-	                            <option value="Nữ">Nữ</option>
-	                        </select>
-	                    </div>
-	                    <div class="form-group">
-	                        <label for="dob" style="color: rgb(2,88,155);">Ngày sinh:</label>
-	                        <input type="date" class="form-control" id="dob" name="dob" required>
-	                    </div>
-	                    <div class="text-center">
-	                    	<button type="submit" class="btn btn-register">Đăng kí</button>
-	                    </div>
-						<div class="text-center mt-4">
-							<!-- Thêm nút đăng nhập bằng Google -->
-							<a th:href="@{/customer/login/google}" class="btn btn-register">Đăng nhập bằng Google</a>
+					<div class="row-01" style="display: flex;" >
+						<div class="col-01 d-flex align-items-center justify-content-center" style="width: 330px; height: 650px;">
+							<div class="col-01 d-flex align-items-center justify-content-center" style="width: 220px">
+								<img src="https://res.cloudinary.com/dylwewmt0/image/upload/v1711973851/PHOTO_LIST/register%20for/register_for.jpg" alt=""
+									 style="width: 330px; height: 650px; border-top-left-radius: 15px; border-bottom-left-radius: 15px;">
+							</div>
 						</div>
-	                </form>
+						<div class="col-02 d-flex align-items-center justify-content-center" style="width: 430px; height: 650px">
+							<form th:action="@{/customer/registeraccount}" method="post" style="width: 380px">
+								<h4 class="text-center" style="margin-bottom: 10px; color: rgb(33,31,127)">Đăng ký tài khoản!</h4>
+								<div class="form-group">
+									<label for="username" style="color: rgb(2,88,155);">Tên tài khoản:</label>
+									<input type="text" class="form-control" id="username" name="username" required>
+								</div>
+								<div class="form-group">
+									<label for="email" style="color: rgb(2,88,155);">Email:</label>
+									<input type="email" class="form-control" id="email" name="email" required>
+								</div>
+								<div class="form-group">
+									<label for="password" style="color: rgb(2,88,155);">Mật khẩu:</label>
+									<input type="password" class="form-control" id="password" name="password" required>
+								</div>
+								<div class="form-group">
+									<label for="re-enter-password" style="color: rgb(2,88,155);">Nhập lại mật khẩu:</label>
+									<input type="text" class="form-control" id="re-enter-password" name="re-enter-password" required>
+									<input type="checkbox" id="togglePassword" style="margin-top: 20px;"> Hiển thị mật khẩu
+								</div>
+								<div class="text-center">
+									<button type="submit" class="btn btn-register"
+
+											style="width:380px; color: white; border-radius: 50px; margin-top: 10px">Đăng ký</button>
+								</div>
+								<!-- Thêm div mới này cho chữ 'or' và hai dòng kẻ ngang -->
+								<div style="display: flex; align-items: center; justify-content: center; margin-top: 10px; margin-bottom: 10px;">
+									<hr style="flex-grow: 1; border-top: 1px solid ; margin-left: 7px; color: #a2abb4;">
+									<span style="margin: 0 15px; color: #a2abb4;">Hoặc</span>
+									<hr style="flex-grow: 1; border-top: 1px solid ; margin-right: 7px; color: #a2abb4;">
+								</div>
+								<div class="text-center d-flex align-items-center justify-content-center">
+									<!-- Thêm nút đăng nhập bằng Google -->
+									<a class="dropdown-item d-flex align-items-center justify-content-center" th:href="@{/customer/login/google}"
+									   style="color: rgb(0, 0, 160); width: 380px; border: 1px solid #d7ebff; border-radius: 50px;"
+									   onmouseover="this.style.backgroundColor='#d7ebff';" onmouseout="this.style.backgroundColor='transparent';">
+										<img src="https://res.cloudinary.com/dylwewmt0/image/upload/v1711636579/PHOTO_LIST/icon/google.png"
+											 style="weight: 28px; height: 28px">
+										<span style="margin-left: 8px;">Đăng nhập bằng Google</span>
+									</a>
+								</div>
+								<div class="text-signup d-flex align-items-center justify-content-center" style="margin-top: 20px; margin-bottom: 10px;">
+									<p style="margin: 0 0 0px">Bạn đã có tài khoản?</p>
+									<a class="row-02" th:href="@{/customer/loginaccount}"
+									   style="display: flex; text-decoration: none; margin-left: 8px;" >
+										<span style="color:rgb(0, 0, 160);">Đăng nhập</span>
+									</a>
+								</div>
+<!--									                    <div class="form-group">-->
+<!--									                        <label for="address" style="color: rgb(2,88,155);">Địa chỉ:</label>-->
+<!--									                        <input type="text" class="form-control" id="address" name="address" required>-->
+<!--									                    </div>-->
+								<!--						<div class="form-group">-->
+								<!--							<label for="phoneNumber" style="color: rgb(2,88,155);">Số điện thoại:</label>-->
+								<!--							<input type="text" class="form-control" id="phoneNumber" name="phoneNumber" required>-->
+								<!--						</div>-->
+								<!--	                    <div class="form-group">-->
+								<!--	                        <label for="firstName" style="color: rgb(2,88,155);">Tên:</label>-->
+								<!--	                        <input type="text" class="form-control" id="firstName" name="firstName">-->
+								<!--	                    </div>-->
+								<!--	                    <div class="form-group">-->
+								<!--	                        <label for="lastName" style="color: rgb(2,88,155);">Họ:</label>-->
+								<!--	                        <input type="text" class="form-control" id="lastName" name="lastName">-->
+								<!--	                    </div>-->
+								<!--	                    <div class="form-group">-->
+								<!--	                        <label for="gender" style="color: rgb(2,88,155);">Giới tính:</label>-->
+								<!--	                        <select class="form-control" id="gender" name="gender">-->
+								<!--	                            <option value="Nam">Nam</option>-->
+								<!--	                            <option value="Nữ">Nữ</option>-->
+								<!--	                        </select>-->
+								<!--	                    </div>-->
+								<!--	                    <div class="form-group">-->
+								<!--	                        <label for="dob" style="color: rgb(2,88,155);">Ngày sinh:</label>-->
+								<!--	                        <input type="date" class="form-control" id="dob" name="dob" required>-->
+								<!--	                    </div>-->
+							</form>
+						</div>
+					</div>
                 </div>          
             </div>
         </div>
     </div>
     <div th:replace="layout/footer :: footer"></div>
+	<script>
+		var password = document.getElementById('password');
+		var reEnterPassword = document.getElementById('re-enter-password');
+		var togglePassword = document.getElementById('togglePassword');
+
+		togglePassword.addEventListener('click', function () {
+			// Kiểm tra kiểu hiện tại và đổi kiểu input
+			var type = password.type === 'password' ? 'text' : 'password';
+			password.type = type;
+			reEnterPassword.type = type;
+		});
+	</script>
+	<script>
+		var togglePassword = document.getElementById('togglePassword');
+
+		togglePassword.addEventListener('click', function () {
+			if (this.checked) {
+				this.style.backgroundColor = '#5591c5';
+			} else {
+				this.style.backgroundColor = '';
+			}
+		});
+	</script>
 </body>
 </html>

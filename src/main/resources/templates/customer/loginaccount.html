@@ -81,7 +81,6 @@
 			color: rgb(2,88,155);
 		}
 
-
 	</style>
 	
 </head>
@@ -113,7 +112,15 @@
 							<div class="form-group" style="margin-bottom: 5px;">
 								<label for="password" style="color: rgb(2,88,155);">Mật khẩu:</label>
 								<input type="password" class="form-control" id="password" name="password" style="border-radius: 20px" required>
-								<input type="checkbox" id="togglePassword" style="margin-top: 20px;"> Hiển thị mật khẩu
+								<input type="checkbox" id="togglePassword" style="margin-top: 20px; width: 10px;
+																					height: 10px;
+																					-webkit-appearance: none;
+																					-moz-appearance: none;
+																					appearance: none;
+																					border-radius: 50%;
+																					box-shadow: 0 0 0 1px #5591c5;
+																					margin-right: 5px;
+																					"> Hiển thị mật khẩu
 							</div>
 						</form>
 					</div>
@@ -129,7 +136,7 @@
 					<!-- Thêm div mới này cho chữ 'or' và hai dòng kẻ ngang -->
 					<div style="display: flex; align-items: center; justify-content: center; margin-top: 20px; margin-bottom: 20px;">
 						<hr style="flex-grow: 1; border-top: 1px solid ; margin-left: 7px; color: #a2abb4;">
-						<span style="margin: 0 15px; color: #a2abb4;">Or</span>
+						<span style="margin: 0 15px; color: #a2abb4;">Hoặc</span>
 						<hr style="flex-grow: 1; border-top: 1px solid ; margin-right: 7px; color: #a2abb4;">
 					</div>
 
@@ -159,6 +166,31 @@
     </div>
 </div>
 <div th:replace="~{layout/footer :: footer}"></div>
+
+<!--<script>-->
+<!--	var togglePassword = document.getElementById('togglePassword');-->
+
+<!--	togglePassword.addEventListener('change', function () {-->
+<!--		if (this.checked) {-->
+<!--			this.style.boxShadow = '0 0 0 1px #d7ebff, 0 0 0 4px #d7ebff';-->
+<!--		} else {-->
+<!--			this.style.backgroundColor = '#5591c5';-->
+<!--		}-->
+<!--	});-->
+<!--</script>-->
+<script>
+	var togglePassword = document.getElementById('togglePassword');
+
+    togglePassword.addEventListener('click', function () {
+        if (this.checked) {
+            this.style.backgroundColor = '#5591c5';
+            this.style.boxShadow = '0 0 0 1px #d7ebff, 0 0 0 4px #d7ebff';
+        } else {
+            this.style.backgroundColor = '';
+            this.style.boxShadow = '0 0 0 1px #5591c5';
+        }
+    });
+</script>
 	<script>
 		document.getElementById("loginButton").addEventListener("click", function() {
 			document.getElementById("loginForm").submit();
