@@ -57,15 +57,15 @@ public class AccountController {
 	
 	@PostMapping("/customer/registeraccount")
     public String registerAccount(
-            @RequestParam("username") String username,
-            @RequestParam("password") String password,
-            @RequestParam("address") String address,
-            @RequestParam("phoneNumber") String phoneNumber,
-            @RequestParam("email") String email,
-            @RequestParam("firstName") String firstName,
-            @RequestParam("lastName") String lastName,
-            @RequestParam("gender") String gender,
-            @RequestParam("dob") String dob,
+            @RequestParam(value = "username") String username,
+            @RequestParam(value = "password") String password,
+            @RequestParam(value = "address", required = false) String address,
+            @RequestParam(value = "phoneNumber", required = false) String phoneNumber,
+            @RequestParam(value = "email") String email,
+            @RequestParam(value = "firstName", required = false) String firstName,
+            @RequestParam(value = "lastName", required = false) String lastName,
+            @RequestParam(value = "gender", required = false) String gender,
+            @RequestParam(value = "dob", required = false) String dob,
             RedirectAttributes redirectAttributes
     ) throws ParseException {
 		// Kiểm tra mật khẩu có phải là mật khẩu mạnh không 
@@ -84,27 +84,41 @@ public class AccountController {
 		// Băm mật khẩu sử dụng bcrypt
         String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
 
-        Date dateOfBirth = Date.valueOf(dob);
+		// Đặt giá trị mặt định nếu null, ngày sinh và giới tính và img có quyền null
+		if (address == null){
+			address = "Chưa điền thông tin";
+		}
+		if (firstName == null){
+			firstName = "Chưa";
+		}
+		if (lastName == null){
+			lastName = "Đặt";
+		}
+		if (phoneNumber == null){
+			phoneNumber = "Chưa điền thông tin";
+		}
 
         Account account = new Account(username, hashedPassword, address, phoneNumber, email, 1, 1);
         account.setFirstName(firstName);
         account.setLastName(lastName);
-        account.setGender(gender);
-		account.setDateOfBirth(dateOfBirth);
+		if (gender != null){
+			account.setGender(gender);
+		}
+		if (dob != null){
+			Date dateOfBirth = Date.valueOf(dob);
+			account.setDateOfBirth(dateOfBirth);
+		}
         account.setImg("");
 
         try {
             Account existingAccount = accountService.findAccountByUsername(username);
-            if(existingAccount == null) {
-            	existingAccount = accountService.findAccountByPhoneNumber(phoneNumber);
-            }
             if(existingAccount == null) {
             	existingAccount = accountService.findAccountByEmail(email);
             }
             
             if (existingAccount != null) {
                 // Username already exists
-            	redirectAttributes.addAttribute("message", "Tên tài khoản, số điện thoại hoặc email đã tồn tại. Vui lòng tạo lại.");
+            	redirectAttributes.addAttribute("message", "Tên tài khoản, hoặc email đã tồn tại. Vui lòng tạo lại.");
             	return "redirect:/customer/registeraccount";
             } else {
                 accountService.addAccount(account);

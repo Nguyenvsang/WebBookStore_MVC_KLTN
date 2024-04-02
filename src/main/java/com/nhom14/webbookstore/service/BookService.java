@@ -3,6 +3,8 @@ package com.nhom14.webbookstore.service;
 import java.util.List;
 
 import com.nhom14.webbookstore.entity.Book;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface BookService {
 
@@ -60,4 +62,5 @@ public interface BookService {
 	// Phương thức để lấy sách theo trạng thái
 	List<Book> getBooksByStatus(int status);
 
+	Page<Book> getFilteredFavoriteBooks(Integer accountId, Integer categoryId, String searchKeyword, Double priceMin, Double priceMax, String publisher, Pageable pageable);
 }

@@ -135,8 +135,6 @@
 									<input type="password" class="form-control" id="password" name="password" required>
 								</div>
 								<div class="form-group">
-									<label for="re-enter-password" style="color: rgb(2,88,155);">Nhập lại mật khẩu:</label>
-									<input type="text" class="form-control" id="re-enter-password" name="re-enter-password" required>
 									<input type="checkbox" id="togglePassword" style="margin-top: 20px;"> Hiển thị mật khẩu
 								</div>
 								<div class="text-center">
@@ -204,14 +202,12 @@
     <div th:replace="layout/footer :: footer"></div>
 	<script>
 		var password = document.getElementById('password');
-		var reEnterPassword = document.getElementById('re-enter-password');
 		var togglePassword = document.getElementById('togglePassword');
 
 		togglePassword.addEventListener('click', function () {
 			// Kiểm tra kiểu hiện tại và đổi kiểu input
 			var type = password.type === 'password' ? 'text' : 'password';
 			password.type = type;
-			reEnterPassword.type = type;
 		});
 	</script>
 	<script>

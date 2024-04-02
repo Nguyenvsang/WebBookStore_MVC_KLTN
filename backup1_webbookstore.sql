@@ -37,7 +37,7 @@ CREATE TABLE `account` (
   `account_type` int NOT NULL,
   `status` int NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -46,7 +46,7 @@ CREATE TABLE `account` (
 
 LOCK TABLES `account` WRITE;
 /*!40000 ALTER TABLE `account` DISABLE KEYS */;
-INSERT INTO `account` VALUES (1,'Minh','Phạm','phamthiminh','$2a$10$lUfNHigfLAxtdO5TeYKf1ezzqdTquqtIL/HkdyD4LU0wlixIfpAZG','Nữ','','2002-03-03','Vũng Tàu','0388394909','minh09@gmail.com',0,1),(2,'Mai','Lâm','lamngocmai','$2a$10$ecLWKUctvRxMJoZLWHiwyuH8tGP7LFTrNEDoTiNsvkJOsAOZJh6eG','Nữ','','2002-04-13','Trà Vinh','057399379','mai79@gmail.com',0,1),(3,'A','Nguyễn','nguyenvana','$2a$10$2e.U.VeBZI9AI9M4HLpHeevfHaBn5fLHBILe6TIpTAORGKV/fa9wq','Nam','','2002-06-10','TP.HCM','0388156408','a08@gmail.com',1,1),(4,'Sang','Nguyễn','nguyenvansang','$2a$10$EOAYipGx4YVsEPCzLxXgFu/rlFA5R93lp6DPwjssLj.OGFYRKENHm','Nam','','2002-09-10','An Giang','0288199567','sang67@gmail.com',1,0),(5,'Hạ','Trần','tranthiha','$2a$10$fbmKZXKvk4APdj4p6becc.RHSG1bIKpjsNyQl6ml.OEx3.zfWqGL.','Nữ','','2003-10-10','Bến Tre','0788467389','ha89@gmail.com',1,1),(6,'Tươi','Trần','tranvantuoi','$2a$10$i30yFjhiZywZbfshpgiIA.MoDHert9OvSD7ZKXcqTvDO28AxZFh2y','Nam','','2000-02-07','Quảng Ngãi','0977767587','tuoi87@gmail.com',1,1),(7,'Hoa','Phan','phanthihoa','$2a$10$4cU9CFgSw1.pbTB/GbODUuzlGQLOGB2/O58Yyi1nygMEzWXDdNyEW','Nữ','','1999-09-09','Bắc Ninh','0578695748','hoa48@gmail.com',1,1),(8,'Anh','Nguyễn','nguyendieuanh','$2a$10$V0nioZSN5WopWcXyxAta3uTHB2v/ehixJ3GQV.4c35jfiYl733lKW','Nữ','','1998-02-11','Bắc Kạn','0478399293','anh93@gmail.com',1,1),(9,'Bích','Lê','lengocbich','$2a$10$cVxqCvC9fVqEfGd8jkFwXOPj0rcCMDLrxCMfcWmf/aVMHFgWXq75u','Nữ','','1999-03-12','Lâm Đồng','0747749829','bich29@gmail.com',1,1),(10,'Dung','Đỗ','domydung','$2a$10$vwwuS0KBK4qdqZkBAzp8zuFrnedxMcInQPaHTRD.bYLQ7VeQxm1dq','Nữ','','2002-08-04','Long An','0747483974','dung74@gmail.com',1,1),(11,'Ý Ý','Nguyễn','nguyenvany2','$2a$10$2oZrCPjke0rIKzyDNp4QxuYn2/5fzdkGW7Q29vP0BB9KWhJB2FeHO','Nữ','https://res.cloudinary.com/dosdzo1lg/image/upload/v1705635462/WebBookStoreKLTN/img_account/account_11.png','2000-10-11','TP Thủ Đức','0378678467','2y467@gmail.com',1,1),(12,'Xuân','Phạm','phamnangxuan11','$2a$10$FDV1snRluDFom182cYgO/.vgykNjz8kwE06kjhBzyA53O7iH/FQUG','Nữ','https://res.cloudinary.com/dosdzo1lg/image/upload/v1706010561/WebBookStoreKLTN/img_account/account_12.png','2000-10-23','TP Thủ Đức','0383682679','xuan11@gmail.com',1,1),(18,'Vy','Nguyễn','nguyenvyivyi','logingoogle',NULL,'https://lh3.googleusercontent.com/a/ACg8ocJDRQUgA5ALtKaF12iO662xR3jTTnoal5l4SCamjx_f=s96-c',NULL,'Chưa điền thông tin','Chưa điền thông tin','nguyenvyivyi@gmail.com',1,1),(21,'Chưa','Đặt','dinhgiabao','$2a$10$AWQASZs7mdlspvnDhKCc3./YN4rgmlgdcOplSbfAEAPEZy6PvVULO',NULL,'',NULL,'Chưa điền thông tin','Chưa điền thông tin','phamdinhgiabao123@gmail.com',1,1);
+INSERT INTO `account` VALUES (1,'Minh','Phạm','phamthiminh','$2a$10$lUfNHigfLAxtdO5TeYKf1ezzqdTquqtIL/HkdyD4LU0wlixIfpAZG','Nữ','','2002-03-03','Vũng Tàu','0388394909','minh09@gmail.com',0,1),(2,'Mai','Lâm','lamngocmai','$2a$10$ecLWKUctvRxMJoZLWHiwyuH8tGP7LFTrNEDoTiNsvkJOsAOZJh6eG','Nữ','','2002-04-13','Trà Vinh','057399379','mai79@gmail.com',0,1),(3,'A','Nguyễn','nguyenvana','$2a$10$2e.U.VeBZI9AI9M4HLpHeevfHaBn5fLHBILe6TIpTAORGKV/fa9wq','Nam','','2002-06-10','TP.HCM','0388156408','a08@gmail.com',1,1),(4,'Sang','Nguyễn','nguyenvansang','$2a$10$EOAYipGx4YVsEPCzLxXgFu/rlFA5R93lp6DPwjssLj.OGFYRKENHm','Nam','','2002-09-10','An Giang','0288199567','sang67@gmail.com',1,0),(5,'Hạ','Trần','tranthiha','$2a$10$fbmKZXKvk4APdj4p6becc.RHSG1bIKpjsNyQl6ml.OEx3.zfWqGL.','Nữ','','2003-10-10','Bến Tre','0788467389','ha89@gmail.com',1,1),(6,'Tươi','Trần','tranvantuoi','$2a$10$i30yFjhiZywZbfshpgiIA.MoDHert9OvSD7ZKXcqTvDO28AxZFh2y','Nam','','2000-02-07','Quảng Ngãi','0977767587','tuoi87@gmail.com',1,1),(7,'Hoa','Phan','phanthihoa','$2a$10$4cU9CFgSw1.pbTB/GbODUuzlGQLOGB2/O58Yyi1nygMEzWXDdNyEW','Nữ','','1999-09-09','Bắc Ninh','0578695748','hoa48@gmail.com',1,1),(8,'Anh','Nguyễn','nguyendieuanh','$2a$10$V0nioZSN5WopWcXyxAta3uTHB2v/ehixJ3GQV.4c35jfiYl733lKW','Nữ','','1998-02-11','Bắc Kạn','0478399293','anh93@gmail.com',1,1),(9,'Bích','Lê','lengocbich','$2a$10$cVxqCvC9fVqEfGd8jkFwXOPj0rcCMDLrxCMfcWmf/aVMHFgWXq75u','Nữ','','1999-03-12','Lâm Đồng','0747749829','bich29@gmail.com',1,1),(10,'Dung','Đỗ','domydung','$2a$10$vwwuS0KBK4qdqZkBAzp8zuFrnedxMcInQPaHTRD.bYLQ7VeQxm1dq','Nữ','','2002-08-04','Long An','0747483974','dung74@gmail.com',1,1),(11,'Ý Ý','Nguyễn','nguyenvany2','$2a$10$2oZrCPjke0rIKzyDNp4QxuYn2/5fzdkGW7Q29vP0BB9KWhJB2FeHO','Nữ','https://res.cloudinary.com/dosdzo1lg/image/upload/v1705635462/WebBookStoreKLTN/img_account/account_11.png','2000-10-11','TP Thủ Đức','0378678467','2y467@gmail.com',1,1),(12,'Xuân','Phạm','phamnangxuan11','$2a$10$FDV1snRluDFom182cYgO/.vgykNjz8kwE06kjhBzyA53O7iH/FQUG','Nữ','https://res.cloudinary.com/dosdzo1lg/image/upload/v1706010561/WebBookStoreKLTN/img_account/account_12.png','2000-10-23','TP Thủ Đức','0383682679','xuan11@gmail.com',1,1),(18,'Vy','Nguyễn','nguyenvyivyi','logingoogle',NULL,'https://lh3.googleusercontent.com/a/ACg8ocJDRQUgA5ALtKaF12iO662xR3jTTnoal5l4SCamjx_f=s96-c',NULL,'Chưa điền thông tin','Chưa điền thông tin','nguyenvyivyi@gmail.com',1,1);
 /*!40000 ALTER TABLE `account` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -218,7 +218,7 @@ CREATE TABLE `bookreviewlike` (
   KEY `bookreviewlike_ibfk_2_idx` (`bookreview_id`),
   CONSTRAINT `bookreviewlike_ibfk_1` FOREIGN KEY (`account_id`) REFERENCES `account` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `bookreviewlike_ibfk_2` FOREIGN KEY (`bookreview_id`) REFERENCES `bookreview` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE=InnoDB AUTO_INCREMENT=94 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=93 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -227,7 +227,7 @@ CREATE TABLE `bookreviewlike` (
 
 LOCK TABLES `bookreviewlike` WRITE;
 /*!40000 ALTER TABLE `bookreviewlike` DISABLE KEYS */;
-INSERT INTO `bookreviewlike` VALUES (92,3,31,'2024-03-27 03:54:40.113000'),(93,18,16,'2024-03-29 01:25:09.677000');
+INSERT INTO `bookreviewlike` VALUES (92,3,31,'2024-03-27 03:54:40.113000');
 /*!40000 ALTER TABLE `bookreviewlike` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -244,7 +244,7 @@ CREATE TABLE `cart` (
   PRIMARY KEY (`id`),
   KEY `account_id` (`account_id`),
   CONSTRAINT `cart_ibfk_1` FOREIGN KEY (`account_id`) REFERENCES `account` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -253,7 +253,7 @@ CREATE TABLE `cart` (
 
 LOCK TABLES `cart` WRITE;
 /*!40000 ALTER TABLE `cart` DISABLE KEYS */;
-INSERT INTO `cart` VALUES (1,3),(2,4),(3,12),(7,18);
+INSERT INTO `cart` VALUES (1,3),(2,4),(3,12);
 /*!40000 ALTER TABLE `cart` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -274,7 +274,7 @@ CREATE TABLE `cartitem` (
   KEY `book_id` (`book_id`),
   CONSTRAINT `cartitem_ibfk_1` FOREIGN KEY (`cart_id`) REFERENCES `cart` (`id`),
   CONSTRAINT `cartitem_ibfk_2` FOREIGN KEY (`book_id`) REFERENCES `book` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -283,7 +283,6 @@ CREATE TABLE `cartitem` (
 
 LOCK TABLES `cartitem` WRITE;
 /*!40000 ALTER TABLE `cartitem` DISABLE KEYS */;
-INSERT INTO `cartitem` VALUES (30,2,1,1);
 /*!40000 ALTER TABLE `cartitem` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -328,7 +327,7 @@ CREATE TABLE `favoritebook` (
   KEY `favoritebook_ibfk_2_idx` (`book_id`),
   CONSTRAINT `favoritebook_ibfk_1` FOREIGN KEY (`account_id`) REFERENCES `account` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `favoritebook_ibfk_2` FOREIGN KEY (`book_id`) REFERENCES `book` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -337,7 +336,6 @@ CREATE TABLE `favoritebook` (
 
 LOCK TABLES `favoritebook` WRITE;
 /*!40000 ALTER TABLE `favoritebook` DISABLE KEYS */;
-INSERT INTO `favoritebook` VALUES (5,3,2),(6,3,3),(7,3,11),(8,3,61),(9,3,58),(10,3,47),(11,3,9),(13,3,37),(14,3,38),(15,3,39),(16,3,45),(17,3,46),(18,3,48),(19,3,43);
 /*!40000 ALTER TABLE `favoritebook` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -564,4 +562,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-04-02 12:24:36
+-- Dump completed on 2024-03-29  8:18:10

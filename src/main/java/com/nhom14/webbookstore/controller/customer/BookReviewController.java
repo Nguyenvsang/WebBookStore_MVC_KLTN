@@ -167,7 +167,7 @@ public class BookReviewController {
         Account account = (Account) session.getAttribute("account");
         if (account == null) {
             // Nếu người dùng chưa đăng nhập, chuyển hướng họ đến trang đăng nhập
-            return "redirect:/login";
+            return "redirect:/customer/loginaccount";
         }
 
         // Lấy sách theo id

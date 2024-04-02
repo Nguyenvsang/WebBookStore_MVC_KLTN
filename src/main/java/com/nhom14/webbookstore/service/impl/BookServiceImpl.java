@@ -11,6 +11,8 @@ import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.nhom14.webbookstore.entity.Book;
@@ -201,6 +203,11 @@ public class BookServiceImpl implements BookService {
 	@Override
 	public List<Book> getBooksByStatus(int status) {
 		return bookRepository.findByStatus(status);
+	}
+
+	@Override
+	public Page<Book> getFilteredFavoriteBooks(Integer accountId, Integer categoryId, String searchKeyword, Double priceMin, Double priceMax, String publisher, Pageable pageable) {
+		return bookRepository.findWithFilters(accountId, categoryId, searchKeyword, priceMin, priceMax, publisher, pageable);
 	}
 
 }
