@@ -41,6 +41,10 @@
 			background-color: aqua;
 		}
 
+		.dropdown-item:hover {
+			box-shadow: 0px 6px 8px rgba(0, 0.4, 0, 0.2);
+		}
+
 	</style>
 </head>
 <body>
@@ -79,7 +83,7 @@
 <!--				</div>-->
 				<!--			header được trải dài toàn màn hình-->
 				<div class="container-fluid" style="background-color: #fff; display: flex; align-items:center; box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);">
-					<div class="container" style="max-width: 1400px;">
+					<div class="container" style="max-width: 1400px; height: 70px">
 						<div class="col-3" style="display: flex; align-items:center;">
 							<ul class="navbar-nav mr-auto navbar-nav-left" style="display: flex; align-items:center; " >
 								<a class="navbar-brand" href="#" th:href="@{/viewbooks}" style="margin-left: 100px;">
@@ -101,7 +105,11 @@
 						</div>
 
 						<div class="col-6" style="display: flex; align-items:center; justify-content: center;">
-							<div class= "search" style="display: flex; justify-content: center; border-radius: 50px; background-color: white; align-items: center; width: 700px; height: 40px; border: 1px solid #cecece;">
+							<div class= "search"
+								 style="display: flex; justify-content: center; border-radius: 50px; background-color: white; align-items: center; width: 700px; height: 40px; border: 1px solid #cecece;
+									transition: box-shadow 0.3s ease; "
+								 onmouseover="this.style.boxShadow='0px 4px 6px rgba(0, 0, 0, 0.1)';"
+								 onmouseout="this.style.boxShadow='none';">
 								<span class="material-symbols-outlined search" style="margin: 10px;">search</span>
 								<form class="form-inline my-2 my-lg-0" th:action="@{/viewbooks}" method="GET" style="display: flex;">
 									<input class="form-control mr-sm-2" type="search" name="search" placeholder="Tìm kiếm từ khóa" style="width: 630px; height: 35px; border: none; outline: none;">
@@ -139,25 +147,29 @@
 										<div class="dropdown-menu" aria-labelledby="navbarDropdown" style="weight: 0px; height: 200px; border-radius: 10px;">
 											<a class="dropdown-item d-flex align-items-center justify-content-center" th:href="@{/viewaccount}"
 											   style="color: rgb(0, 0, 160); width: 240px; border: 1px solid #d7ebff; border-radius: 50px; margin: 10px"
-											   onmouseover="this.style.backgroundColor='#d7ebff';" onmouseout="this.style.backgroundColor='transparent';">
+											   onmouseover="this.style.backgroundColor='#d7ebff'; this.style.boxShadow='0px 6px 8px rgba(0, 0, 0, 0.2)';"
+											   onmouseout="this.style.backgroundColor='transparent'; this.style.boxShadow='0px 0px 0px rgba(0, 0, 0, 0)';">
 												<span class="material-symbols-outlined" style="margin-right: 8px;">sentiment_very_satisfied</span>
 												<span>Quản lý tài khoản</span>
 											</a>
 											<a class="dropdown-item d-flex align-items-center justify-content-center" th:href="@{/vieworders}"
 											   style="color: rgb(0, 0, 160); width: 240px; border: 1px solid #d7ebff; border-radius: 50px; margin: 10px"
-											   onmouseover="this.style.backgroundColor='#d7ebff';" onmouseout="this.style.backgroundColor='transparent';">
+											   onmouseover="this.style.backgroundColor='#d7ebff'; this.style.boxShadow='0px 6px 8px rgba(0, 0, 0, 0.2)';"
+											   onmouseout="this.style.backgroundColor='transparent'; this.style.boxShadow='0px 0px 0px rgba(0, 0, 0, 0)';">
 												<span class="material-symbols-outlined" style="margin-right: 8px;">list_alt</span>
 												<span>Đơn hàng của tôi</span>
 											</a>
 											<a class="dropdown-item d-flex align-items-center justify-content-center"
 											   style="color: rgb(0, 0, 160); width: 240px; border: 1px solid #d7ebff; border-radius: 50px; margin: 10px"
-											   onmouseover="this.style.backgroundColor='#d7ebff';" onmouseout="this.style.backgroundColor='transparent';" th:href="@{/viewfavoritebooks}">
+											   onmouseover="this.style.backgroundColor='#d7ebff'; this.style.boxShadow='0px 6px 8px rgba(0, 0, 0, 0.2)';"
+											   onmouseout="this.style.backgroundColor='transparent'; this.style.boxShadow='0px 0px 0px rgba(0, 0, 0, 0)';" th:href="@{/viewfavoritebooks}">
 												<span class="material-symbols-outlined" style="margin-right: 8px;">favorite</span>
 												<span>Sách yêu thích</span>
 											</a>
 											<a class="dropdown-item d-flex align-items-center justify-content-center" th:href="@{/customer/logoutaccount}"
 											   style="color: rgb(0, 0, 160); width: 240px; border: 1px solid #d7ebff; border-radius: 50px; margin: 10px"
-											   onmouseover="this.style.backgroundColor='#d7ebff';" onmouseout="this.style.backgroundColor='transparent';">
+											   onmouseover="this.style.backgroundColor='#d7ebff'; this.style.boxShadow='0px 6px 8px rgba(0, 0, 0, 0.2)';"
+											   onmouseout="this.style.backgroundColor='transparent'; this.style.boxShadow='0px 0px 0px rgba(0, 0, 0, 0)';">
 												<span class="material-symbols-outlined" style="margin-right: 8px;">logout</span>
 												<span> Đăng xuất</span>
 											</a>
@@ -172,20 +184,23 @@
 										<div aria-labelledby="navbarDropdown" class="dropdown-menu" style="weight: 0px; height: 163px; border-radius: 10px;">
 											<a class="dropdown-item d-flex align-items-center justify-content-center" th:href="@{/customer/loginaccount}"
 											   style="color: rgb(0, 0, 160); width: 240px; border: 1px solid #d7ebff; border-radius: 50px; margin: 10px"
-											   onmouseover="this.style.backgroundColor='#d7ebff';" onmouseout="this.style.backgroundColor='transparent';">
+											   onmouseover="this.style.backgroundColor='#d7ebff'; this.style.boxShadow='0px 6px 8px rgba(0, 0, 0, 0.2)';"
+											   onmouseout="this.style.backgroundColor='transparent'; this.style.boxShadow='0px 0px 0px rgba(0, 0, 0, 0)';">
 												<span class="material-symbols-outlined">login</span>
 												<span style="margin-left: 8px;">Đăng nhập</span>
 											</a>
 											<a class="dropdown-item d-flex align-items-center justify-content-center" th:href="@{/customer/registeraccount}"
 											   style="color: rgb(0, 0, 160); width: 240px; border: 1px solid #d7ebff; border-radius: 50px; margin: 10px"
-											   onmouseover="this.style.backgroundColor='#d7ebff';" onmouseout="this.style.backgroundColor='transparent';">
+											   onmouseover="this.style.backgroundColor='#d7ebff'; this.style.boxShadow='0px 6px 8px rgba(0, 0, 0, 0.2)';"
+											   onmouseout="this.style.backgroundColor='transparent'; this.style.boxShadow='0px 0px 0px rgba(0, 0, 0, 0)';">
 												<span class="material-symbols-outlined">app_registration</span>
 												<span style="margin-left: 8px;">Đăng ký</span>
 											</a>
 
 											<a class="dropdown-item d-flex align-items-center justify-content-center" th:href="@{/customer/login/google}"
 											   style="color: rgb(0, 0, 160);width: 240px; border: 1px solid #d7ebff; border-radius: 50px; margin: 10px;"
-											   onmouseover="this.style.backgroundColor='#d7ebff';" onmouseout="this.style.backgroundColor='transparent';">
+											   onmouseover="this.style.backgroundColor='#d7ebff'; this.style.boxShadow='0px 6px 8px rgba(0, 0, 0, 0.2)';"
+											   onmouseout="this.style.backgroundColor='transparent'; this.style.boxShadow='0px 0px 0px rgba(0, 0, 0, 0)';">
 												<img src="https://res.cloudinary.com/dylwewmt0/image/upload/v1711636579/PHOTO_LIST/icon/google.png"
 													 style="weight: 28px; height: 28px">
 												<span style="margin-left: 8px;">Đăng nhập bằng Google</span>
@@ -207,15 +222,17 @@
 
     </header>
 
-<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
         integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
-        crossorigin="anonymous"></script>
+        crossorigin="anonymous">
+	</script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
         integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-        crossorigin="anonymous"></script>
+        crossorigin="anonymous">
+	</script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
         integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
-        crossorigin="anonymous"></script>
-
+        crossorigin="anonymous">
+	</script>
 </body>
 </html>

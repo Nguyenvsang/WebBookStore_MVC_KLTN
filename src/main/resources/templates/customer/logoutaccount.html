@@ -35,11 +35,13 @@
 		.btn-logout {
 			border-radius: 50px;
 			background-color: #3448c5;
-			color: white;		
-			}
+			color: white;
+			box-shadow: 0px 4px 6px rgba(0, 0.4, 0, 0.2);
+		}
 		.btn-logout:hover {
 			background-color: #211f7f; /* Thay đổi màu văn bản khi trỏ chuột vào nút */
 			color: white;
+			box-shadow: 0px 6px 8px rgba(0, 0.4, 0, 0.2);
 		}
 
 		.btn-no {
@@ -51,6 +53,7 @@
 		.btn-no:hover {
 			background-color: #d7ebff; /* Thay đổi màu văn bản khi trỏ chuột vào nút */
 			color:rgb(2,88,155);
+			box-shadow: 0px 6px 8px rgba(0, 0.4, 0, 0.2);
 		}
 		.card-title {
 			color: rgb(2,88,155);
@@ -127,10 +130,10 @@
 							<h4 class="text-center" style="color: rgb(33,31,127); margin-top: 30px">Bạn có chắc bạn muốn đăng xuất không?</h4>
 							<div class="frame center">
 								<form th:action="@{/customer/logoutaccount}" method="post" style="margin-top: 20px">
-									<img id="cryIcon" src="https://res.cloudinary.com/dylwewmt0/image/upload/v1711989865/PHOTO_LIST/logout/cry.png" alt="" style="width: 45px; height: 45px; margin-left: 15px; visibility: hidden;">
+<!--									<img id="cryIcon" src="https://res.cloudinary.com/dylwewmt0/image/upload/v1711989865/PHOTO_LIST/logout/cry.png" alt="" style="width: 45px; height: 45px; margin-left: 15px; visibility: hidden;">-->
 									<button type="submit" class="btn btn-logout" onmouseover="showIcon('cryIcon')" onmouseout="hideIcon('cryIcon')">Đăng xuất</button>
 									<a th:href="@{ / }" class="btn btn-no" onmouseover="showIcon('smileIcon')" onmouseout="hideIcon('smileIcon')">Không</a>
-									<img id="smileIcon" src="https://res.cloudinary.com/dylwewmt0/image/upload/v1711989864/PHOTO_LIST/logout/smile.png" alt="" style="width: 60px; height: 50px; visibility: hidden;">
+<!--									<img id="smileIcon" src="https://res.cloudinary.com/dylwewmt0/image/upload/v1711989864/PHOTO_LIST/logout/smile.png" alt="" style="width: 60px; height: 50px; visibility: hidden;">-->
 								</form>
 							</div>
 						</div>
@@ -141,14 +144,14 @@
 	</div>
 	    
     <div th:replace="layout/footer :: footer"></div>
-	<script>
-		function showIcon(iconId) {
-            document.getElementById(iconId).style.visibility = 'visible';
-        }
+<!--	<script>-->
+<!--		function showIcon(iconId) {-->
+<!--            document.getElementById(iconId).style.visibility = 'visible';-->
+<!--        }-->
 
-        function hideIcon(iconId) {
-            document.getElementById(iconId).style.visibility = 'hidden';
-        }
-	</script>
+<!--        function hideIcon(iconId) {-->
+<!--            document.getElementById(iconId).style.visibility = 'hidden';-->
+<!--        }-->
+<!--	</script>-->
 </body>
 </html>

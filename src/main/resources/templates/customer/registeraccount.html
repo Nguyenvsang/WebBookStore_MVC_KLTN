@@ -26,7 +26,7 @@
 		
     .form-container {
 
-        width: 760px;
+        width: 740px;
         height : 650px;
         border-radius: 15px;
         margin-top: 20px;
@@ -35,9 +35,11 @@
 
     .btn-register{
    	 	background-color: #3448c5;
+   	 	box-shadow: 0px 4px 6px rgba(0, 0.4, 0, 0.2);
    	}
    	.btn-register:hover {
    	 	background-color: #211f7f;
+   	 	box-shadow: 0px 6px 8px rgba(0, 0.4, 0, 0.2);
    	}
 
 	.text-center{
@@ -113,28 +115,28 @@
                 <!--Khung hiển thị nội dung!-->
                 <div class="form-container" style="background-color: white;">
 					<div class="row-01" style="display: flex;" >
-						<div class="col-01 d-flex align-items-center justify-content-center" style="width: 330px; height: 650px;">
+						<div class="col-01 d-flex align-items-center justify-content-center" style="width: 320px; height: 650px;">
 							<div class="col-01 d-flex align-items-center justify-content-center" style="width: 220px">
 								<img src="https://res.cloudinary.com/dylwewmt0/image/upload/v1711973851/PHOTO_LIST/register%20for/register_for.jpg" alt=""
-									 style="width: 330px; height: 650px; border-top-left-radius: 15px; border-bottom-left-radius: 15px;">
+									 style="width: 320px; height: 650px; border-top-left-radius: 15px; border-bottom-left-radius: 15px;">
 							</div>
 						</div>
-						<div class="col-02 d-flex align-items-center justify-content-center" style="width: 430px; height: 650px">
-							<form th:action="@{/customer/registeraccount}" method="post" style="width: 380px">
-								<h4 class="text-center" style="margin-bottom: 10px; color: rgb(33,31,127)">Đăng ký tài khoản!</h4>
+						<div class="col-02 d-flex align-items-center justify-content-center" style="width: 420px; height: 650px;">
+							<form th:action="@{/customer/registeraccount}" method="post" style="width: 380px;  margin-right: 20px; margin-left: 20px">
+								<h4 class="text-center" style="margin-bottom: 20px; color: rgb(33,31,127)">Đăng ký tài khoản!</h4>
 								<div class="form-group">
-									<label for="username" style="color: rgb(2,88,155);">Tên tài khoản:</label>
+									<label for="username" style="font-weight: 500;">Tên tài khoản:</label>
 									<input type="text" class="form-control" id="username" name="username" required>
 								</div>
-								<div class="form-group">
-									<label for="email" style="color: rgb(2,88,155);">Email:</label>
+								<div class="form-group" style="font-weight: 500;">
+									<label for="email">Email:</label>
 									<input type="email" class="form-control" id="email" name="email" required>
 								</div>
-								<div class="form-group">
-									<label for="password" style="color: rgb(2,88,155);">Mật khẩu:</label>
+								<div class="form-group" style="font-weight: 500;">
+									<label for="password">Mật khẩu:</label>
 									<input type="password" class="form-control" id="password" name="password" required>
 								</div>
-								<div class="form-group">
+								<div class="form-group" >
 									<input type="checkbox" id="togglePassword" style="margin-top: 20px;"> Hiển thị mật khẩu
 								</div>
 								<div class="text-center">
@@ -152,17 +154,18 @@
 									<!-- Thêm nút đăng nhập bằng Google -->
 									<a class="dropdown-item d-flex align-items-center justify-content-center" th:href="@{/customer/login/google}"
 									   style="color: rgb(0, 0, 160); width: 380px; border: 1px solid #d7ebff; border-radius: 50px;"
-									   onmouseover="this.style.backgroundColor='#d7ebff';" onmouseout="this.style.backgroundColor='transparent';">
+									   onmouseover="this.style.backgroundColor='#d7ebff'; this.style.boxShadow='0px 6px 8px rgba(0, 0, 0, 0.2)';"
+									   onmouseout="this.style.backgroundColor='transparent'; this.style.boxShadow='0px 0px 0px rgba(0, 0, 0, 0)';">
 										<img src="https://res.cloudinary.com/dylwewmt0/image/upload/v1711636579/PHOTO_LIST/icon/google.png"
 											 style="weight: 28px; height: 28px">
 										<span style="margin-left: 8px;">Đăng nhập bằng Google</span>
 									</a>
 								</div>
-								<div class="text-signup d-flex align-items-center justify-content-center" style="margin-top: 20px; margin-bottom: 10px;">
+								<div class="text-signup d-flex align-items-center justify-content-center" style="margin-top: 30px; margin-bottom: 10px;">
 									<p style="margin: 0 0 0px">Bạn đã có tài khoản?</p>
 									<a class="row-02" th:href="@{/customer/loginaccount}"
 									   style="display: flex; text-decoration: none; margin-left: 8px;" >
-										<span style="color:rgb(0, 0, 160);">Đăng nhập</span>
+										<span style="color:rgb(0, 0, 160); font-weight: 500;">Đăng nhập</span>
 									</a>
 								</div>
 <!--									                    <div class="form-group">-->
