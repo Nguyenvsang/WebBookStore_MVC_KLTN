@@ -185,7 +185,9 @@ public class BookController {
 	public String viewDetailBook(@PathVariable Integer id, Model model,
                                  HttpSession session) {
 		// Lấy thông tin về cuốn sách từ id
-	    Book book = bookService.getActiveBookById(id);
+	    Book book = bookService.getBookById(id);
+
+        // Nếu mà sách ngừng kinh doanh sẽ có thông báo và ẩn nút tương tác
 
 	    // Lấy danh sách các danh mục
 	    List<Category> categories = categoryService.getActiveCategories();

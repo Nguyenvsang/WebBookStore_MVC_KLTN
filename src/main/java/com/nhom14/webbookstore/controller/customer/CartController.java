@@ -65,6 +65,11 @@ public class CartController {
 
 	    // Tìm CartItem theo cart và book
 	    Book book = bookService.getActiveBookById(bookId);
+		if (book == null) { // Trường hợp lỡ nhận id sách đã ngừng kinh doanh
+			String message = "Đã có lỗi xảy ra, vui lòng thử lại sau!";
+			redirectAttributes.addAttribute("message", message);
+			return "redirect:/detailbook/" + bookId;
+		}
 	    CartItem cartItem = cartItemService.getCartItemByCartAndBook(cart, book);
 
 	    if (cartItem == null) {
