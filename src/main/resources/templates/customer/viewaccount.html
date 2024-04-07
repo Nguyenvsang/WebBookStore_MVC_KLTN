@@ -23,55 +23,71 @@
 		body { background-color: #f8f9fa  }
 		
 		.container-body {
-        	
+        	margin-top: 40px;
+        	margin-bottom: 40px;
+        	border-radius: 15px;
         	padding: 20px;
-        	margin-top: 20px;
-        	margin-bottom: 20px;
-        	margin-left: 250px;
-        	margin-right: 250px;
-        	border-radius: 15px
+        	align-items: center;
+        	justify-content: center;
+        	margin-left: 60px;
+        	margin-right: 60px
 		}
-		h3 {
-        	text-align: center;
-        	margin-top: 10px;
-        	margin-bottom: 20px; 
-        	color: rgb(2,88,155);   	
-    	}
-    	.btn-edit-info {
-			background-color: rgb(2,88,155);
-			border-radius: 10px;
-			color: white;
+<!--		h3 {-->
+<!--        	margin-top: 10px;-->
+<!--        	margin-bottom: 20px;-->
+<!--        	margin-left: 70px;-->
+<!--        	color:  #211f7f;-->
+<!--    	}-->
+    	.content {
+			color:  #211f7f;
+			border: none;
+			font-weight: 500;
 		}
-		.btn-edit-info:hover {
-			color: rgb(182,232,241)
+		.content:hover {
+			color:  #211f7f;
 		}
+
 		.form-control {
 			border-radius: 10px;
 		}
+
 		.btn-edit-password {
-			background-color: rgb(241,56,71);
+			background-color: #3448c5;
 			color: white;
-			border-radius: 10px;
-			margin-left: 400px;
+			border-radius: 50px;
+			margin-top: 15px;
+			font-weight: 500;
+			box-shadow: 0px 4px 6px rgba(0, 0.4, 0, 0.2);
 		}
 		.btn-add-password {
-			background-color: rgb(0,128,0);
+			background-color: #3448c5;
 			color: white;
-			border-radius: 10px;
-			margin-left: 400px;
+			border-radius: 50px;
+			margin-top: 15px;
+			font-weight: 500;
+			box-shadow: 0px 4px 6px rgba(0, 0.4, 0, 0.2);
 		}
 		.btn-edit-password:hover {
-			color: lavenderblush;
+			background-color: #211f7f;
+			color: white;
+			font-weight: 500;
+			box-shadow: 0px 6px 8px rgba(0, 0.4, 0, 0.2);
 		}
+		.btn-add-password:hover {
+			background-color: #211f7f;
+			color: white;
+			font-weight: 500;
+			box-shadow: 0px 6px 8px rgba(0, 0.4, 0, 0.2);
+		}
+
+
 		#currentImage {
 	        display: block;
 	        margin-left: auto;
 	        margin-right: auto;
     	}
     	.form-group {
-			color: rgb(2,88,155);
 			font-weight: 500;
-			margin: 20px;
 		}
 		
 		.navbar-nav {
@@ -101,6 +117,22 @@
 			box-shadow: 0 8px 10px rgb(226, 226, 226);
 			
 		}
+		.container {
+		 	padding: 0px 0px;
+		 	align-items: center;
+        	justify-content: center;
+		}
+		.col-02 {
+			margin-left: 10px;
+			margin-right: 10px;
+		}
+
+		col-03 {
+			margin-left: 10px;
+			margin-right: 10px;
+
+		}
+
 	</style>
 </head>
 <body>
@@ -113,62 +145,79 @@
 		     th:classappend="${#strings.containsIgnoreCase(param.message, 'thành công') ? 'alert-success' : 'alert-danger'}">
 		    <span th:text="${param.message}"></span>
 		</div>
-        
         <div class="container-body" style="background-color: white;">
-			<h3>THÔNG TIN CÁ NHÂN</h3>
-	        <div class="form-group">
-	            <label for="firstName">Tên:</label>
-	            <output class="form-control" id="firstName" name="firstName" th:text="${account.firstName}"></output>
-	        </div>
-	        <div class="form-group">
-	            <label for="lastName">Họ:</label>
-	            <output class="form-control" id="lastName" name="lastName" th:text="${account.lastName}"></output>
-	        </div>
-	        <div class="form-group">
-	            <label for="username">Tên người dùng:</label>
-	            <output class="form-control" id="username" name="username" th:text="${account.username}"></output>
-	        </div>
-			<div class="form-group">
-				<label>Mật khẩu:</label>
-				<div th:if="${account.password == 'logingoogle'}">
-					<a th:href="@{/addpassword}" class="btn btn-add-password">Thêm mật khẩu</a>
+			<div class="row-00 d-flex align-items-center" style="height: 30px; margin-bottom: 15px">
+				<div class="col-00" style="border-right: 2px solid #cecece;">
+					<h5 style="color: #211f7f; align-items: center;  margin: 0px 5px 0px 0px">Thông tin cá nhân</h5>
 				</div>
-				<div th:if="${account.password != 'logingoogle'}">
-					<a th:href="@{/changepassword}" class="btn btn-edit-password">Đổi mật khẩu</a>
+				<div class="text-center" style="align-items: center">
+					<a th:href="@{/updateaccount}" class="content" style="text-decoration: none; color: #5cbcd5; margin-left: 5px">Chỉnh sửa</a>
 				</div>
 			</div>
-			<div class="form-group">
-	            <label for="gender">Giới tính:</label>
-	            <output class="form-control" id="gender" name="gender" th:text="${account.gender}"></output>
-	        </div>
-	        <div class="form-group">
-	            <label for="currentImage">Hình ảnh hiện tại:</label>
-	            <div th:if="${session.account != null and session.account.img != ''}">
-	                <img th:src="${session.account.img + '?v=' + randomNumber}" class="img-thumbnail" id="currentImage" alt="Hình ảnh hiện tại" style="width: 200px; height: 200px;">
-	            </div>
-	            <div th:if="${session.account == null or session.account.img == ''}">
-	                <img src="https://res.cloudinary.com/dosdzo1lg/image/upload/v1709875316/WebBookStoreKLTN/img_account/account_default.jpg" class="img-thumbnail" style="width: 200px; height: 200px;" id="currentImage2" alt="Hình ảnh mặc định">
-	            </div>
-	        </div>
-	        <div class="form-group">
-	            <label for="dob">Ngày sinh:</label>
-	            <output class="form-control" id="dob" name="dob" th:text="${#dates.format(account.dateOfBirth, 'dd/MM/yyyy')}"></output>
-	        </div>
-	        <div class="form-group">
+			<div class="row align-items-center" style="width: 980px; margin: 0px 0px; border-bottom: 1px solid #cecece">
+				<div class="col-01 align-items-center justify-content-center" style="width: 400px">
+					<div class="form-group">
+						<div th:if="${session.account != null and session.account.img != ''}">
+							<img th:src="${session.account.img + '?v=' + randomNumber}" class="img-thumbnail" id="currentImage" alt="Hình ảnh hiện tại" style="width: 200px; height: 200px;">
+						</div>
+						<div th:if="${session.account == null or session.account.img == ''}">
+							<img src="https://res.cloudinary.com/dosdzo1lg/image/upload/v1709875316/WebBookStoreKLTN/img_account/account_default.jpg" class="img-thumbnail" style="width: 200px; height: 200px;" id="currentImage2" alt="Hình ảnh mặc định">
+						</div>
+					</div>
+					<div class="form-group" style="display: flex; align-items: center; margin: 0px; justify-content: center; height: 25px">
+						<div class="row-01" style="display: flex;">
+							<output class="form-control" id="firstName" name="firstName" th:text="${account.firstName}" style="border: none; padding: 0px 0px; margin-right: 3px; font-weight: 500; height: 25px; color: rgb(2,88,155);"></output>
+							<output class="form-control" id="lastName" name="lastName" th:text="${account.lastName}" style="border: none; padding: 0px 0px; font-weight: 500; height: 25px; color: rgb(2,88,155);"></output>
+						</div>
+					</div>
+
+					<div class="form-group" style="display: flex; align-items: center; margin: 0px; justify-content: center">
+						<div class="row-01" style="display: flex;">
+							<output class="form-control" id="username" name="username" th:text="${account.username}" style="border: none; padding: 0px 0px; font-size: 12px"></output>
+						</div>
+					</div>
+				</div>
+				<div class="col-02 align-items-center justify-content-center">
+					<div class="row-02" style="display: flex">
+						<div class="col-03 align-items-center justify-content-center" style="width: 280px">
+							<div class="form-group" style="margin: 0px">
+								<label for="email">Email:</label>
+								<output class="form-control" id="email" name="email" th:text="${account.email}" style="border: none; padding: 0px 0px; margin-bottom: 15px"></output>
+							</div>
+							<div class="form-group">
+								<label for="dob">Ngày sinh:</label>
+								<output class="form-control" id="dob" name="dob" th:text="${#dates.format(account.dateOfBirth, 'dd/MM/yyyy')}" style="width: 200px"></output>
+							</div>
+						</div>
+						<div class="col-04 align-items-center justify-content-center" style="width: 280px">
+							<div class="form-group" style="margin: 0px">
+								<label for="phoneNumber">Số điện thoại:</label>
+								<output class="form-control" id="phoneNumber" name="phoneNumber" th:text="${account.phoneNumber}" style="border: none; padding: 0px 0px; margin-bottom: 15px"></output>
+							</div>
+							<div class="form-group">
+								<label for="gender">Giới tính:</label>
+								<output class="form-control" id="gender" name="gender" th:text="${account.gender}" style="width: 200px"></output>
+							</div>
+						</div>
+					</div>
+					<div class="form-group" style="display: flex">
+<!--						<label>Mật khẩu:</label>-->
+						<div th:if="${account.password == 'logingoogle'}">
+							<a th:href="@{/addpassword}" class="btn btn-add-password">Thêm mật khẩu</a>
+						</div>
+						<div th:if="${account.password != 'logingoogle'}">
+							<a th:href="@{/changepassword}" class="btn btn-edit-password">Đổi mật khẩu</a>
+						</div>
+					</div>
+				</div>
+			</div>
+
+	        <div class="form-group" style="margin-top: 15px">
 	            <label for="address">Địa chỉ:</label>
 	            <output class="form-control" id="address" name="address" th:text="${account.address}"></output>
 	        </div>
-	        <div class="form-group">
-	            <label for="phoneNumber">Số điện thoại:</label>
-	            <output class="form-control" id="phoneNumber" name="phoneNumber" th:text="${account.phoneNumber}"></output>
-	        </div>
-	        <div class="form-group">
-	            <label for="email">Email:</label>
-	            <output class="form-control" id="email" name="email" th:text="${account.email}"></output>
-	        </div>
-	        <div class="text-center mb-4">
-	            <a th:href="@{/updateaccount}" class="btn btn-edit-info">Sửa thông tin</a>
-	        </div>
+
+
         </div>
 
 		<div class="next-table only-bottom-border" style="margin-top: 20px">
@@ -236,7 +285,17 @@
 			</div>
 		</div>
     </div>
-    
+
+
+
+
+<!--	<div class="container">-->
+<!--		<div class="form-group">-->
+<!--			<label for="email">Email:</label>-->
+<!--			<output class="form-control" id="mail" name="email" th:text="${account.email}"></output>-->
+<!--		</div>-->
+<!--	</div>-->
+<!--    -->
     <div th:replace="~{layout/footer :: footer}"></div>
 </body>
 </html>

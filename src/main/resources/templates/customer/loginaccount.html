@@ -38,9 +38,11 @@
 		border-radius: 50px;
 		color: white;
 		width: 660px;
+		box-shadow: 0px 4px 6px rgba(0, 0.4, 0, 0.2);
 	}
 	.btn-login:hover {
 		color: white;
+		box-shadow: 0px 6px 8px rgba(0, 0.4, 0, 0.2);
 
 	.form-control {
 		border-radius: 10px
@@ -81,6 +83,17 @@
 			color: rgb(2,88,155);
 		}
 
+		.form-group {
+			font-weight: 500;
+		}
+
+		.dropdown-item {
+			box-shadow: 0px 4px 6px rgba(0, 0.4, 0, 0.2);
+		}
+	.dropdown-item:hover {
+		box-shadow: 0px 6px 8px rgba(0, 0.4, 0, 0.2);
+	}
+
 	</style>
 	
 </head>
@@ -106,11 +119,11 @@
 					<div class="col-02 d-flex align-items-center justify-content-center" style="width: 450px; ">
 						<form id="loginForm" th:action="@{/customer/loginaccount}" method="post" style="width: 420px; height: 200px; margin-left: 10px">
 							<div class="form-group">
-								<label for="username" style="color: rgb(2,88,155);">Tên đăng nhập:</label>
+								<label for="username" style="font-weight: 500;">Tên đăng nhập:</label>
 								<input type="text" class="form-control" id="username" name="username" style="border-radius: 20px" required>
 							</div>
 							<div class="form-group" style="margin-bottom: 5px;">
-								<label for="password" style="color: rgb(2,88,155);">Mật khẩu:</label>
+								<label for="password" style="font-weight: 500;">Mật khẩu:</label>
 								<input type="password" class="form-control" id="password" name="password" style="border-radius: 20px" required>
 								<input type="checkbox" id="togglePassword" style="margin-top: 20px; width: 10px;
 																					height: 10px;
@@ -142,9 +155,12 @@
 
 					<div class="text-center d-flex align-items-center justify-content-center">
 						<!-- Thêm nút đăng nhập bằng Google -->
-						<a class="dropdown-item d-flex align-items-center justify-content-center" th:href="@{/customer/login/google}"
-						   style="color: rgb(0, 0, 160); width: 660px; border: 1px solid #d7ebff; border-radius: 50px;"
-						   onmouseover="this.style.backgroundColor='#d7ebff';" onmouseout="this.style.backgroundColor='transparent';">
+						<a class="dropdown-item d-flex align-items-center justify-content-center"
+						   th:href="@{/customer/login/google}"
+						   style="color: rgb(0, 0, 160); width: 660px; border: 1px solid #d7ebff; border-radius: 50px;
+         							 transition: box-shadow 0.3s ease;"
+						   onmouseover="this.style.backgroundColor='#d7ebff'; this.style.boxShadow='0px 6px 8px rgba(0, 0, 0, 0.2)';"
+						   onmouseout="this.style.backgroundColor='transparent'; this.style.boxShadow='0px 0px 0px rgba(0, 0, 0, 0)';">
 							<img src="https://res.cloudinary.com/dylwewmt0/image/upload/v1711636579/PHOTO_LIST/icon/google.png"
 								 style="weight: 28px; height: 28px">
 							<span style="margin-left: 8px;">Đăng nhập bằng Google</span>
@@ -155,7 +171,7 @@
 						<p style="margin: 0 0 0px">Bạn mới sử dụng Knowledge Young?</p>
 						<a class="row-02" th:href="@{/customer/registeraccount}"
 						   style="display: flex; text-decoration: none; margin-left: 8px;" >
-							<span style="color:rgb(0, 0, 160);">Đăng ký</span>
+							<span style="color:rgb(0, 0, 160); font-weight: 500;">Đăng ký</span>
 						</a>
 					</div>
 
