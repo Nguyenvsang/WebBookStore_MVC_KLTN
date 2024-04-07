@@ -293,15 +293,73 @@ CREATE TABLE FavoriteBook (
   -- Khai báo thuộc tính id kiểu BIGINT, không được null, tăng tự động và là khóa chính 
   id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   -- Khai báo thuộc tính account_id kiểu int và là khóa ngoại tham chiếu đến bảng Account
-  account_id INT NOT NULL,
+  account_id INT,
   FOREIGN KEY (account_id) REFERENCES Account(id),
   -- Khai báo thuộc tính book_id kiểu int và là khóa ngoại tham chiếu đến bảng Book
-  book_id INT NOT NULL,
+  book_id INT,
   FOREIGN KEY (book_id) REFERENCES Book(id)
 );
 
+-- Tạo bảng BookImport
+CREATE TABLE BookImport (
+  -- Khai báo thuộc tính id kiểu BIGINT, không được null, tăng tự động và là khóa chính
+  id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  -- Khai báo thuộc tính book_id kiểu int và là khóa ngoại tham chiếu đến bảng Book
+  book_id INT,
+  FOREIGN KEY (book_id) REFERENCES Book(id),
+  -- Khai báo thuộc tính quantity kiểu int, không được null
+  quantity INT NOT NULL,
+  -- Khai báo thuộc tính remaining_quantity kiểu int, không được null
+  remaining_quantity INT NOT NULL,
+  -- Khai báo thuộc tính import_price kiểu double, không được null
+  import_price DOUBLE NOT NULL,
+  -- Khai báo thuộc tính import_date kiểu DATETIME(6), không được null
+  import_date DATETIME(6) NOT NULL
+  );
 
-
+-- Tạo bảng BookPrice
+CREATE TABLE BookPrice (
+  -- Khai báo thuộc tính id kiểu BIGINT, không được null, tăng tự động và là khóa chính
+  id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  -- Khai báo thuộc tính book_id kiểu int và là khóa ngoại tham chiếu đến bảng Book
+  book_id INT,
+  FOREIGN KEY (book_id) REFERENCES Book(id),
+  -- Khai báo thuộc tính sell_price kiểu double, không được null
+  sell_price DOUBLE NOT NULL,
+  -- Khai báo thuộc tính effective_date kiểu DATETIME(6), không được null
+  effective_date DATETIME(6) NOT NULL
+  );
+  
+  -- Tạo bảng Revenue (Doanh thu)
+CREATE TABLE Revenue (
+  -- Khai báo thuộc tính id kiểu BIGINT, không được null, tăng tự động và là khóa chính
+  id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  -- Khai báo thuộc tính order_id kiểu int và là khóa ngoại tham chiếu đến bảng Order
+  order_id INT,
+  FOREIGN KEY (order_id) REFERENCES `Order`(id),
+  -- Khai báo thuộc tính revenue kiểu double, không được null
+  revenue DOUBLE NOT NULL,
+  -- Khai báo thuộc tính date kiểu DATETIME(6), không được null
+  date DATETIME(6) NOT NULL
+  );
+  
+-- Tạo bảng Profit (Lợi nhuận)
+CREATE TABLE Profit (
+  -- Khai báo thuộc tính id kiểu BIGINT, không được null, tăng tự động và là khóa chính
+  id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  -- Khai báo thuộc tính orderitem_id kiểu int và là khóa ngoại tham chiếu đến bảng OrderItem
+  orderitem_id INT,
+  FOREIGN KEY (orderitem_id) REFERENCES OrderItem(id),
+  -- Khai báo thuộc tính cost_price kiểu double, không được null
+  cost_price DOUBLE NOT NULL, 
+  -- Khai báo thuộc tính sell_price kiểu double, không được null
+  sell_price DOUBLE NOT NULL, 
+  -- Khai báo thuộc tính profit kiểu double, không được null
+  profit DOUBLE NOT NULL, 
+  -- Khai báo thuộc tính date kiểu DATETIME(6), không được null
+  date DATETIME(6) NOT NULL
+  );
+  
 -- Thêm dữ liệu vào bảng Category
 INSERT INTO Category (name, status) VALUES ("CHÍNH TRỊ - PHÁP LUẬT", 1);
 INSERT INTO Category (name, status) VALUES ("GIÁO TRÌNH", 1);

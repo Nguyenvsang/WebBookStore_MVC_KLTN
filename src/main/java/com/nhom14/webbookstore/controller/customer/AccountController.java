@@ -6,6 +6,7 @@ import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 import java.util.Random;
 
@@ -15,7 +16,9 @@ import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleTokenResponse;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
+import com.nhom14.webbookstore.entity.Order;
 import com.nhom14.webbookstore.service.GoogleAuthService;
+import com.nhom14.webbookstore.service.OrderService;
 import jakarta.servlet.http.HttpServletResponse;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,13 +45,16 @@ public class AccountController {
 	private CloudinaryService cloudinaryService;
 	private GoogleAuthService googleAuthService;
 
+	private OrderService orderService;
+
 	@Autowired
-	public AccountController(AccountService accountService, CloudinaryService cloudinaryService, GoogleAuthService googleAuthService) {
+	public AccountController(AccountService accountService, CloudinaryService cloudinaryService, GoogleAuthService googleAuthService, OrderService orderService) {
 		super();
 		this.accountService = accountService;
 		this.cloudinaryService = cloudinaryService;
 		this.googleAuthService = googleAuthService;
-	}
+        this.orderService = orderService;
+    }
 	
 	@GetMapping("/customer/registeraccount")
 	public String registerAccountForm() {
@@ -364,6 +370,12 @@ public class AccountController {
         Random random = new Random();
         int randomNumber = random.nextInt();
         model.addAttribute("randomNumber", randomNumber);
+
+		// Lấy danh sách đơn hàng theo tài khoản
+		List<Order> orders = orderService.getOrdersByAccount(account);
+
+		// Đặt danh sách đơn hàng vào thuộc tính model để sử dụng trong View
+		model.addAttribute("orders", orders);
 
         // Forward đến trang xem thông tin tài khoản
         return "customer/viewaccount";

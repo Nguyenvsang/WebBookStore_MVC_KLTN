@@ -74,6 +74,9 @@ public class Order {
 	@OneToOne(fetch = FetchType.EAGER, mappedBy = "order")
 	private InfoReturnOrder infoReturnOrder;
 
+	@OneToOne(fetch = FetchType.EAGER, mappedBy = "order")
+	private Revenue revenue;
+
 	public Order() {
 
     }

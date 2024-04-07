@@ -1,14 +1,6 @@
 package com.nhom14.webbookstore.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -24,7 +16,7 @@ public class OrderItem {
 	@Column(name = "quantity", columnDefinition = "int NOT NULL")
 	private int quantity;
 	@Column(name = "price", columnDefinition = "double NOT NULL")
-	private double price;
+	private double price; // Giá trị bán ra của sách * số lượng ngay thời điểm đặt hàng
 	
 	//bi-directional many-to-one association with Product
     @ManyToOne(fetch = FetchType.EAGER)
@@ -35,6 +27,9 @@ public class OrderItem {
     @ManyToOne
     @JoinColumn(name = "order_id")
     private Order order;
+
+	@OneToOne(fetch = FetchType.EAGER, mappedBy = "orderItem")
+	private Profit profit;
 	
 	public OrderItem() {
 		
