@@ -17,31 +17,40 @@
         	color: rgb(2,88,155);   	
     	}    	
     	.container-body {
-        	
+        	margin-top: 40px;
+        	margin-bottom: 40px;
+        	border-radius: 15px;
         	padding: 20px;
-        	margin-top: 20px;
-        	margin-bottom: 50px;
-        	margin-left: 250px;
-        	margin-right: 250px;
-        	border-radius: 15px
+        	align-items: center;
+        	justify-content: center;
+        	margin-left: 60px;
+        	margin-right: 60px;
+        	background-color: white;
 		}
 		.form-control {
 			border-radius: 10px;
 		}
+
+
 		.btn-save {
-			background-color: rgb(2,88,155);
-			border-radius: 10px;
+			background-color: #3448c5;
+			border-radius: 50px;
 			color: white;
+			width: 200px;
+			box-shadow: 0px 4px 6px rgba(0, 0.4, 0, 0.2);
 		}
 		.btn-save:hover {
-			color: rgb(182,232,241)
+			background-color: #211f7f;
+			color: white;
+			box-shadow: 0px 6px 8px rgba(0, 0.4, 0, 0.2);
 		}
-		
+
+
+
 		.form-control-file {
 			color: white;
 		}
 		.form-group {
-			color: rgb(2,88,155);
 			font-weight: 500;
 			margin: 20px;
 		}
@@ -80,11 +89,37 @@
 		.material-symbols-outlined.back:hover {
 			color: rgb(182,232,241);
 		}
-		
+
+		.custom-file-upload {
+			display: inline-block;
+			padding: 6px 12px;
+			cursor: pointer;
+			border-radius: 50px;
+			background-color: #3448c5;
+			color: white;
+			box-shadow: 0px 4px 6px rgba(0, 0.4, 0, 0.2);
+		}
+
+		.custom-file-upload:hover {
+			background-color: #211f7f;
+			color: white;
+			box-shadow: 0px 6px 8px rgba(0, 0.4, 0, 0.2);
+		}
+
+		.center-content {
+			display: flex;
+			justify-content: center;
+			flex-direction: column;
+		}
+
+		.center-content-col02{
+			flex-direction: column;
+		}
+
 	</style>
 	<script>
 	var loadFile = function(event) {
-	    var output = document.getElementById('output');
+	    var output = document.getElementById('currentImage');
 	    output.src = URL.createObjectURL(event.target.files[0]);
 	    output.onload = function() {
 	        URL.revokeObjectURL(output.src) // free memory
@@ -101,68 +136,158 @@
         <div th:if="${message}" class="alert"
              th:classappend="${message.contains('thành công') ? 'alert-success' : 'alert-danger'}"
              th:text="${message}"></div>
-             
-        <!--Khung cho phần chỉnh sửa-->
-        <div class="container-body" style="background-color: white;">
-			<a th:href="@{/viewaccount}" class="btn btn-out">
-				<span class="material-symbols-outlined back">arrow_back_ios</span>
-			</a>
-			<h3>NHẬP THÔNG TIN CẦN CHỈNH SỬA</h3>               
-	        <form th:action="@{/updateaccount}" th:object="${account}" method="post" enctype="multipart/form-data">
-			    <div class="form-group">
-			        <label for="firstName">Tên:</label>
-			        <input type="text" class="form-control" id="firstName" th:field="*{firstName}" 
-			        pattern="[A-Za-zÀ-ỹ\s]*" title="Chỉ chấp nhận chữ cái và khoảng trắng" required>
-			    </div>
-			    <div class="form-group">
-			        <label for="lastName">Họ:</label>
-			        <input type="text" class="form-control" id="lastName" th:field="*{lastName}" 
-			        pattern="[A-Za-zÀ-ỹ\s]*" title="Chỉ chấp nhận chữ cái và khoảng trắng" required>
-			    </div>
-			    <div class="form-group">
-			        <label for="username">Tên người dùng:</label>
-			        <input type="text" class="form-control" id="username" th:field="*{username}" required>
-			    </div>
-			    <div class="form-group">
-			        <label for="gender">Giới tính:</label>
-			        <select class="form-control" id="gender" th:field="*{gender}" required>
-			            <option value="Nam">Nam</option>
-			            <option value="Nữ">Nữ</option>
-			        </select>
-			    </div>
-			    <div class="form-group">
-				    <label for="image">Đổi hình ảnh:</label>
-				    <input type="file" class="form-control-file" id="image" name="image" onchange="loadFile(event)">
-				    <div style="display: flex; justify-content: center; align-items: center;">
-						<img id="output" width="100"/>
+
+
+		<!--Chỉnh sửa-->
+		<div class="container-body" style="background-color: white;">
+			<form id="editInfo" th:action="@{/updateaccount}" th:object="${account}" method="post" enctype="multipart/form-data">
+
+				<div class="row-00 d-flex align-items-center" style="height: 30px; margin-bottom: 15px; margin: 0px 0px 0px">
+					<div class="col-00" style="display: flex">
+						<a th:href="@{/viewaccount}" class="before">
+							<span class="material-symbols-outlined back">arrow_back_ios</span>
+						</a>
+						<h5 style="color: #211f7f; align-items: center;  margin: 0px 5px 0px 0px">Chỉnh sửa thông tin</h5>
+					</div>
+
+				</div>
+
+				<div class="row align-items-center" style="width: 950px; margin: 0px 0px; padding:0px 0px 15px 0px; border-bottom: 1px solid #cecece" >
+					<div class="col-01 center-content" style="width: 350px; align-items: center; justify-content: center">
+						<div class="form-group" style="align-items: center; justify-content: center">
+							<div th:if="${session.account != null and session.account.img != ''}" >
+								<img th:src="${session.account.img + '?v=' + randomNumber}" class="img-thumbnail" id="currentImage" alt="Hình ảnh hiện tại" style="width: 200px; height: 200px; align-items:center; justify-content: center">
+							</div>
+							<div th:if="${session.account == null or session.account.img == ''}" >
+								<img src="https://res.cloudinary.com/dosdzo1lg/image/upload/v1709875316/WebBookStoreKLTN/img_account/account_default.jpg" class="img-thumbnail" style="width: 200px; height: 200px; align-items:center; justify-content: center" id="currentImage2" alt="Hình ảnh mặc định">
+							</div>
+						</div>
+						<div class="form-group align-items-center justify-content-center">
+							<input type="file" id="image" name="image" onchange="loadFile(event)" style="display:none;">
+							<label for="image" class="custom-file-upload" style="align-items: center; justify-content: center">Chọn hình ảnh</label>
+						</div>
+					</div>
+
+					<div class="col-02 align-items-center center-content-col02" style="width: 600px;">
+						<div class="form-group" style="align-items: center; margin: 0px 20px 0px 20px; justify-content: center">
+							<label for="username">Tên người dùng:</label>
+							<input type="text" class="form-control" id="username" th:field="*{username}" required>
+						</div>
+						<div class="row-02" style="display: flex">
+							<div class="col-03 align-items-center justify-content-center" style="width: 300px">
+								<div class="form-group">
+									<label for="lastName">Họ:</label>
+									<input type="text" class="form-control" id="lastName" th:field="*{lastName}"
+										   pattern="[A-Za-zÀ-ỹ\s]*" title="Chỉ chấp nhận chữ cái và khoảng trắng" required>
+								</div>
+								<div class="form-group">
+									<label for="email">Email:</label>
+									<input type="email" class="form-control" id="email" th:field="*{email}" required>
+								</div>
+								<div class="form-group">
+									<label for="dob">Ngày sinh:</label>
+									<input type="date" class="form-control" id="dob" name="dob" th:value="${#dates.format(account.dateOfBirth, 'yyyy-MM-dd')}" th:attr="placeholder=${#dates.format(account.dateOfBirth, 'dd/MM/yyyy')}" required>
+								</div>
+							</div>
+							<div class="col-04 align-items-center justify-content-center" style="width: 300px">
+								<div class="form-group">
+									<label for="firstName">Tên:</label>
+									<input type="text" class="form-control" id="firstName" th:field="*{firstName}"
+										   pattern="[A-Za-zÀ-ỹ\s]*" title="Chỉ chấp nhận chữ cái và khoảng trắng" required>
+								</div>
+								<div class="form-group">
+									<label for="phoneNumber">Số điện thoại:</label>
+									<input type="tel" class="form-control" id="phoneNumber" th:field="*{phoneNumber}"
+										   pattern="[0-9]*" title="Chỉ chấp nhận số" required>
+								</div>
+								<div class="form-group">
+									<label for="gender">Giới tính:</label>
+									<select class="form-control" id="gender" th:field="*{gender}" required>
+										<option value="Nam">Nam</option>
+										<option value="Nữ">Nữ</option>
+									</select>
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
-			    <div class="form-group"> 
-					<label for="dob">Ngày sinh:</label> 
-					<input type="date" class="form-control" id="dob" name="dob" th:value="${#dates.format(account.dateOfBirth, 'yyyy-MM-dd')}" th:attr="placeholder=${#dates.format(account.dateOfBirth, 'dd/MM/yyyy')}" required> 
+
+				<div class="form-group">
+					<label for="address">Địa chỉ:</label>
+					<input type="text" class="form-control" id="address" th:field="*{address}" required>
 				</div>
-			    <div class="form-group">
-			        <label for="address">Địa chỉ:</label>
-			        <input type="text" class="form-control" id="address" th:field="*{address}" required>
-			    </div>
-			    <div class="form-group">
-			        <label for="phoneNumber">Số điện thoại:</label>
-			        <input type="tel" class="form-control" id="phoneNumber" th:field="*{phoneNumber}" 
-			        pattern="[0-9]*" title="Chỉ chấp nhận số" required>
-			    </div>
-			    <div class="form-group">
-			        <label for="email">Email:</label>
-			        <input type="email" class="form-control" id="email" th:field="*{email}" required>
-			    </div>
-			    <div class="text-center mb-4">
-			        <button type="submit" class="btn btn-save">Lưu</button>
-			        
-			    </div>
+
+				<div class="text-center" style="display: flex; justify-content: flex-end; margin-right: 20px">
+					<button type="submit" class="btn btn-save">Lưu</button>
+				</div>
 			</form>
-        </div>
+		</div>
+
+
+
+<!--        Khung cho phần chỉnh sửa-->
+<!--        <div class="container-body" style="background-color: white;">-->
+<!--			<a th:href="@{/viewaccount}" class="btn btn-out">-->
+<!--				<span class="material-symbols-outlined back">arrow_back_ios</span>-->
+<!--			</a>-->
+<!--			<h3>NHẬP THÔNG TIN CẦN CHỈNH SỬA</h3>-->
+<!--	        <form th:action="@{/updateaccount}" th:object="${account}" method="post" enctype="multipart/form-data">-->
+<!--			    <div class="form-group">-->
+<!--			        <label for="firstName">Tên:</label>-->
+<!--			        <input type="text" class="form-control" id="firstName" th:field="*{firstName}"-->
+<!--			        pattern="[A-Za-zÀ-ỹ\s]*" title="Chỉ chấp nhận chữ cái và khoảng trắng" required>-->
+<!--			    </div>-->
+<!--			    <div class="form-group">-->
+<!--			        <label for="lastName">Họ:</label>-->
+<!--			        <input type="text" class="form-control" id="lastName" th:field="*{lastName}"-->
+<!--			        pattern="[A-Za-zÀ-ỹ\s]*" title="Chỉ chấp nhận chữ cái và khoảng trắng" required>-->
+<!--			    </div>-->
+<!--			    <div class="form-group">-->
+<!--			        <label for="username">Tên người dùng:</label>-->
+<!--			        <input type="text" class="form-control" id="username" th:field="*{username}" required>-->
+<!--			    </div>-->
+<!--			    <div class="form-group">-->
+<!--			        <label for="gender">Giới tính:</label>-->
+<!--			        <select class="form-control" id="gender" th:field="*{gender}" required>-->
+<!--			            <option value="Nam">Nam</option>-->
+<!--			            <option value="Nữ">Nữ</option>-->
+<!--			        </select>-->
+<!--			    </div>-->
+<!--			    <div class="form-group">-->
+<!--				    <label for="image">Đổi hình ảnh:</label>-->
+<!--				    <input type="file" class="form-control-file" id="image" name="image" onchange="loadFile(event)">-->
+<!--				    <div style="display: flex; justify-content: center; align-items: center;">-->
+<!--						<img id="output" width="100"/>-->
+<!--					</div>-->
+<!--				</div>-->
+<!--			    <div class="form-group">-->
+<!--					<label for="dob">Ngày sinh:</label>-->
+<!--					<input type="date" class="form-control" id="dob" name="dob" th:value="${#dates.format(account.dateOfBirth, 'yyyy-MM-dd')}" th:attr="placeholder=${#dates.format(account.dateOfBirth, 'dd/MM/yyyy')}" required>-->
+<!--				</div>-->
+<!--			    <div class="form-group">-->
+<!--			        <label for="address">Địa chỉ:</label>-->
+<!--			        <input type="text" class="form-control" id="address" th:field="*{address}" required>-->
+<!--			    </div>-->
+<!--			    <div class="form-group">-->
+<!--			        <label for="phoneNumber">Số điện thoại:</label>-->
+<!--			        <input type="tel" class="form-control" id="phoneNumber" th:field="*{phoneNumber}"-->
+<!--			        pattern="[0-9]*" title="Chỉ chấp nhận số" required>-->
+<!--			    </div>-->
+<!--			    <div class="form-group">-->
+<!--			        <label for="email">Email:</label>-->
+<!--			        <input type="email" class="form-control" id="email" th:field="*{email}" required>-->
+<!--			    </div>-->
+<!--			    <div class="text-center mb-4">-->
+<!--			        <button type="submit" class="btn btn-save">Lưu</button>-->
+
+<!--			    </div>-->
+<!--			</form>-->
+<!--        </div>-->
     </div>
+
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
     <div th:replace="~{layout/footer :: footer}"></div>
+
 </body>
 </html>

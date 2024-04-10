@@ -136,6 +136,12 @@
 		    align-items: center;
 		}
 
+		.center-content {
+			display: flex;
+			justify-content: center;
+			flex-direction: column;
+		}
+
 	</style>
 </head>
 <body>
@@ -157,8 +163,9 @@
 					<a th:href="@{/updateaccount}" class="content" style="text-decoration: none; color: #5cbcd5; margin-left: 5px">Chỉnh sửa</a>
 				</div>
 			</div>
+
 			<div class="row align-items-center" style="width: 980px; margin: 0px 0px; border-bottom: 1px solid #cecece">
-				<div class="col-01 align-items-center justify-content-center" style="width: 400px">
+				<div class="col-01 center-content align-items-center justify-content-center" style="width: 400px">
 					<div class="form-group">
 						<div th:if="${session.account != null and session.account.img != ''}">
 							<img th:src="${session.account.img + '?v=' + randomNumber}" class="img-thumbnail" id="currentImage" alt="Hình ảnh hiện tại" style="width: 200px; height: 200px;">
