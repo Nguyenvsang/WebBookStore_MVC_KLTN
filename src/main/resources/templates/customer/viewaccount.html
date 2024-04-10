@@ -105,9 +105,7 @@
 			display: flex;
 			float: right;
 		}
-		.material-symbols-outlined{
-			color: rgb(2,88,155);
-		}
+
 		.container-body {
 			box-shadow: 0 8px 10px rgb(226, 226, 226);
 			
@@ -142,6 +140,20 @@
 			flex-direction: column;
 		}
 
+		.row-icon {
+			align-items: center;
+			justify-content: center;
+			margin-bottom: 15px;
+			width: 250px;
+			display: flex;
+			border: 1px solid #cecece;
+			border-radius: 15px;
+		}
+
+		.material-symbols-outlined{
+			color: rgb(2,88,155);
+		}
+
 	</style>
 </head>
 <body>
@@ -155,7 +167,7 @@
 		    <span th:text="${param.message}"></span>
 		</div>
         <div class="container-body" style="background-color: white;">
-			<div class="row-00 d-flex align-items-center" style="height: 30px; margin-bottom: 15px">
+			<div class="row-00 d-flex align-items-center" style="height: 30px; margin-bottom: 20px">
 				<div class="col-00" style="border-right: 2px solid #cecece;">
 					<h5 style="color: #211f7f; align-items: center;  margin: 0px 5px 0px 0px">Thông tin cá nhân</h5>
 				</div>
@@ -164,7 +176,7 @@
 				</div>
 			</div>
 
-			<div class="row align-items-center" style="width: 980px; margin: 0px 0px; border-bottom: 1px solid #cecece">
+			<div class="row" style="width: 980px; margin: 0px 0px; border-bottom: 1px solid #cecece">
 				<div class="col-01 center-content align-items-center justify-content-center" style="width: 400px">
 					<div class="form-group">
 						<div th:if="${session.account != null and session.account.img != ''}">
@@ -187,26 +199,39 @@
 						</div>
 					</div>
 				</div>
-				<div class="col-02 align-items-center justify-content-center">
+				<div class="col-02 justify-content-center">
 					<div class="row-02" style="display: flex">
 						<div class="col-03 align-items-center justify-content-center" style="width: 280px">
 							<div class="form-group" style="margin: 0px">
 								<label for="email">Email:</label>
-								<output class="form-control" id="email" name="email" th:text="${account.email}" style="border: none; padding: 0px 0px; margin-bottom: 15px"></output>
+								<div class="row-icon">
+									<span class="material-symbols-outlined" style="color: grey; margin-left: 12px;">mail</span>
+									<output class="form-control" id="email" name="email" th:text="${account.email}" style="border: none; border-radius: 15px"></output>
+								</div>
 							</div>
 							<div class="form-group">
 								<label for="dob">Ngày sinh:</label>
-								<output class="form-control" id="dob" name="dob" th:text="${#dates.format(account.dateOfBirth, 'dd/MM/yyyy')}" style="width: 200px"></output>
+								<div class="row-icon">
+									<span class="material-symbols-outlined" style="color: grey; margin-left: 12px;">calendar_month</span>
+									<output class="form-control" id="dob" name="dob" th:text="${#dates.format(account.dateOfBirth, 'dd/MM/yyyy')}" style="border: none; border-radius: 15px"></output>
+								</div>
 							</div>
 						</div>
 						<div class="col-04 align-items-center justify-content-center" style="width: 280px">
 							<div class="form-group" style="margin: 0px">
 								<label for="phoneNumber">Số điện thoại:</label>
-								<output class="form-control" id="phoneNumber" name="phoneNumber" th:text="${account.phoneNumber}" style="border: none; padding: 0px 0px; margin-bottom: 15px"></output>
+								<div class="row-icon">
+									<span class="material-symbols-outlined" style="color: grey; margin-left: 12px;">call</span>
+									<output class="form-control" id="phoneNumber" name="phoneNumber" th:text="${account.phoneNumber}" style="border: none; border-radius: 15px"></output>
+								</div>
 							</div>
 							<div class="form-group">
 								<label for="gender">Giới tính:</label>
-								<output class="form-control" id="gender" name="gender" th:text="${account.gender}" style="width: 200px"></output>
+								<div class="row-icon">
+									<span id="female-icon" class="material-symbols-outlined" style="color: grey; margin-left: 12px;">female</span>
+									<span id="male-icon" class="material-symbols-outlined" style="color: grey; margin-left: 12px;">male</span>
+									<output class="form-control" id="gender" name="gender" th:text="${account.gender}" style="border: none; border-radius: 15px"></output>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -224,13 +249,16 @@
 
 	        <div class="form-group" style="margin-top: 15px">
 	            <label for="address">Địa chỉ:</label>
-	            <output class="form-control" id="address" name="address" th:text="${account.address}"></output>
+				<div class="row-icon" style="width: 980px;">
+					<span class="material-symbols-outlined" style="color: grey; margin-left: 12px;">location_on</span>
+					<output class="form-control" id="address" name="address" th:text="${account.address}" style="border: none; border-radius: 15px"></output>
+				</div>
 	        </div>
         </div>
 
 		<div class="container-body" style="padding: 0px">
 			<div class="col-00">
-				<h5 style="color: #211f7f; align-items: center;  margin: 0px 5px 0px 0px; padding: 20px 0px 0px 20px">Đơn hàng của tôi</h5>
+				<h5 style="color: #211f7f; align-items: center;  margin: 0px 5px 0px 0px; padding: 20px 0px 0px 20px">Đơn hàng gần đây</h5>
 				<div class="next-table only-bottom-border" style="margin-top: 20px">
 					<div class="next-table-inner">
 						<div class="next-table-header" style="height: 50px; border-top: 1px solid #cecece; background-color: #f2f5f6">
@@ -292,7 +320,6 @@
 								</tbody>
 							</table>
 						</div>
-
 					</div>
 				</div>
 			</div>
@@ -301,5 +328,18 @@
     </div>
 
 	<div th:replace="~{layout/footer :: footer}"></div>
+
+	<script>
+		window.onload = function() {
+            var gender = document.getElementById('gender').value;
+            if (gender == 'Nữ') {
+                document.getElementById('female-icon').style.display = 'inline';
+                document.getElementById('male-icon').style.display = 'none';
+            } else if (gender == 'Nam') {
+                document.getElementById('female-icon').style.display = 'none';
+                document.getElementById('male-icon').style.display = 'inline';
+            }
+        };
+	</script>
 </body>
 </html>
