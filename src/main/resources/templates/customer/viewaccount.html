@@ -310,7 +310,7 @@
 										<td rowspan="1" class="next-table-header-node " style="padding: 10px 20px;">
 											<img th:src="${order.orderitems[0].book.bookImages[0].path}" width="60px">
 										</td>
-										<td rowspan="1" class="next-table-header-node " style="text-align: right; padding: 10px 20px;" th:text="${#numbers.formatInteger(order.totalPrice, 0, 'POINT') + ' đ'}"></td>
+										<td rowspan="1" class="next-table-header-node " style="text-align: right; padding: 10px 20px; color: orangered; font-weight: bold;" th:text="${#numbers.formatInteger(order.totalPrice, 0, 'POINT') + ' đ'}"></td>
 										<td rowspan="1" class="next-table-header-node last" style="padding: 10px 20px;">
 											<a th:href="@{/vieworderitems(orderId=${order.id})}" class="detail" style="text-decoration: none; ">
 												<span class="material-symbols-outlined info">info</span>
@@ -331,15 +331,18 @@
 
 	<script>
 		window.onload = function() {
-            var gender = document.getElementById('gender').value;
-            if (gender == 'Nữ') {
-                document.getElementById('female-icon').style.display = 'inline';
-                document.getElementById('male-icon').style.display = 'none';
-            } else if (gender == 'Nam') {
-                document.getElementById('female-icon').style.display = 'none';
-                document.getElementById('male-icon').style.display = 'inline';
-            }
-        };
+		var gender = document.getElementById('gender').value;
+		if (gender == 'Nữ') {
+			document.getElementById('female-icon').style.display = 'inline';
+			document.getElementById('male-icon').style.display = 'none';
+		} else if (gender == 'Nam') {
+			document.getElementById('female-icon').style.display = 'none';
+			document.getElementById('male-icon').style.display = 'inline';
+		} else {
+			document.getElementById('female-icon').style.display = 'none';
+			document.getElementById('male-icon').style.display = 'none';
+		}
+	};
 	</script>
 </body>
 </html>

@@ -71,10 +71,12 @@
 							<div class="next-table-header-inner">
 								<table>
 									<colgroup style="width: 1020px;">
-										<col style="width: 20%;">
-										<col style="width: 25%;">
-										<col style="width: 25%;">
-										<col style="width: 20%;">
+										<col style="width: 15%;">
+										<col style="width: 15%;">
+										<col style="width: 15%;">
+										<col style="width: 15%;">
+										<col style="width: 15%;">
+										<col style="width: 15%;">
 										<col style="width: 10%;">
 									</colgroup>
 									<tbody>
@@ -87,6 +89,12 @@
 										</th>
 										<th rowspan="1" class="next-table-header-node " style="padding: 10px 20px;">
 											<div class="next-table-cell-wrapper">Sản phẩm</div>
+										</th>
+										<th rowspan="1" class="next-table-header-node " style="padding: 10px 20px;">
+											<div class="next-table-cell-wrapper">Trạng thái</div>
+										</th>
+										<th rowspan="1" class="next-table-header-node " style="padding: 10px 20px;">
+											<div class="next-table-cell-wrapper">Thanh toán</div>
 										</th>
 										<th rowspan="1" class="next-table-header-node " style="text-align: right; padding: 10px 20px;">
 											<div class="next-table-cell-wrapper">Tổng tiền</div>
@@ -103,10 +111,12 @@
 						<div class="next-table-body">
 							<table>
 								<colgroup style="width: 1020px;">
-									<col style="width: 20%;">
-									<col style="width: 25%;">
-									<col style="width: 25%;">
-									<col style="width: 20%;">
+									<col style="width: 15%;">
+									<col style="width: 15%;">
+									<col style="width: 15%;">
+									<col style="width: 15%;">
+									<col style="width: 15%;">
+									<col style="width: 15%;">
 									<col style="width: 10%;">
 								</colgroup>
 								<tbody>
@@ -116,7 +126,33 @@
 									<td rowspan="1" class="next-table-header-node " style="padding: 10px 20px;">
 										<img th:src="${order.orderitems[0].book.bookImages[0].path}" width="60px">
 									</td>
-									<td rowspan="1" class="next-table-header-node " style="text-align: right; padding: 10px 20px;" th:text="${#numbers.formatInteger(order.totalPrice, 0, 'POINT') + ' đ'}"></td>
+									<td rowspan="1" class="next-table-header-node " style="padding: 10px 20px;">
+										<span th:switch="${order.status}">
+											<span th:case="0" class="badge badge-success">Chờ xác nhận</span>
+											<span th:case="1" class="badge badge-info">Chờ lấy hàng</span>
+											<span th:case="2" class="badge badge-primary">Đang giao</span>
+											<span th:case="3" class="badge badge-success">Đã giao</span>
+											<span th:case="4" class="badge badge-secondary">Đã hủy đơn</span>
+											<span th:case="5" class="badge badge-warning">Yêu cầu trả hàng</span>
+											<span th:case="6" class="badge badge-warning">Xử lý trả hàng</span>
+											<span th:case="7" class="badge badge-success">Trả hàng thành công</span>
+											<span th:case="8" class="badge badge-danger">Yêu cầu trả hàng bị từ chối</span>
+											<span th:case="9" class="badge badge-danger">Không nhận hàng</span>
+											<span th:case="10" class="badge badge-success">Đã nhận hàng</span>
+											<span th:case="*" >Trạng thái không hợp lệ</span>
+										</span>
+									</td>
+									<td rowspan="1" class="next-table-header-node " style="padding: 10px 20px;">
+										<span th:switch="${order.paymentStatus.status}">
+											<span th:case="0" class="badge badge-primary">Chưa thanh toán</span>
+											<span th:case="1" class="badge badge-success">Đã thanh toán</span>
+											<span th:case="2" class="badge badge-warning">Xử lý hoàn tiền</span>
+											<span th:case="3" class="badge badge-success">Đã hoàn tiền</span>
+											<span th:case="4" class="badge badge-success">Không cần thanh toán</span>
+										</span>
+									</td>
+
+									<td rowspan="1" class="next-table-header-node " style="text-align: right; padding: 10px 20px; color: orangered; font-weight: bold;" th:text="${#numbers.formatInteger(order.totalPrice, 0, 'POINT') + ' đ'}"></td>
 									<td rowspan="1" class="next-table-header-node last" style="padding: 10px 20px;">
 										<a th:href="@{/vieworderitems(orderId=${order.id})}" class="detail" style="text-decoration: none; ">
 											<span class="material-symbols-outlined info d-flex align-items-center justify-content-center" style="color: rgb(2, 88, 155);">info</span>
