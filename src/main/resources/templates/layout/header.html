@@ -32,17 +32,26 @@
 		.nav-item {
 			display: flex;
 		}
-		.nav-link {
+		.nav-link-book {
 			display: flex;
       		align-items: center;
 		}
-		 
+
+		 .nav-link {
+			display: flex;
+      		align-items: center;
+		}
+
 		.button-style:hover {
 			background-color: aqua;
 		}
 
 		.dropdown-item:hover {
 			box-shadow: 0px 6px 8px rgba(0, 0.4, 0, 0.2);
+		}
+
+		.material-symbols-outlined.search{
+			color: rgb(2,88,155);
 		}
 
 	</style>
@@ -95,8 +104,9 @@
 								</button>
 
 								<li class="nav-item active" style="display: flex; align-items:center; justify-content: center;">
-									<a class="nav-link" th:href="@{/viewbooks}" style="color:rgb(0, 0, 160); font-family: Arial, sans-serif; display: flex;">
-										<span class="material-symbols-outlined" style="font-size: 30px; margin-right: 4px">auto_stories</span>
+									<a class="nav-link-book d-flex align-items-center justify-content-center" th:href="@{/viewbooks}"
+									   style="color:rgb(0, 0, 160); font-family: Arial, sans-serif; display: flex; text-decoration: none;">
+										<span class="material-symbols-outlined" style="font-size: 30px; margin-right: 8px; margin-left: 5px">auto_stories</span>
 										Sách
 										<span class="sr-only">(current)</span>
 									</a>
@@ -110,7 +120,7 @@
 									transition: box-shadow 0.3s ease; "
 								 onmouseover="this.style.boxShadow='0px 4px 6px rgba(0, 0, 0, 0.1)';"
 								 onmouseout="this.style.boxShadow='none';">
-								<span class="material-symbols-outlined search" style="margin: 10px;">search</span>
+								<span class="material-symbols-outlined search" style="margin: 10px; color: rgb(2,88,155);">search</span>
 								<form class="form-inline my-2 my-lg-0" th:action="@{/viewbooks}" method="GET" style="display: flex;">
 									<input class="form-control mr-sm-2" type="search" name="search" placeholder="Tìm kiếm từ khóa" style="width: 630px; height: 35px; border: none; outline: none;">
 								</form>

@@ -9,7 +9,11 @@
     <style>
 		
 		body { background-color: #f8f9fa  }
-		
+
+		.material-symbols-outlined.search{
+			color: rgb(2,88,155);
+		}
+
     	h3 {
         	text-align: center;
         	margin-top: 3px;
@@ -33,13 +37,16 @@
 		}
 		
 		.btn-purchase {
-			background-color: rgb(2,88,155);
-			border-radius: 10px;
+			background-color: #3448c5;
+			border-radius: 50px;
 			color: white;
-			margin-top: 10px;
+			width: 100%;
+			box-shadow: 0px 4px 6px rgba(0, 0.4, 0, 0.2);
 		}
 		.btn-purchase:hover {
-			color: rgb(182,232,241)
+			background-color: #211f7f;
+			color: white;
+			box-shadow: 0px 6px 8px rgba(0, 0.4, 0, 0.2);
 		}
 		
 		
@@ -62,14 +69,12 @@
 		.table {
 		    border-radius: 15px;
 		}
+
 		.btn-outline {
 			border-radius: 10px;
-			border: 2px solid rgb(2,88,155);	
-			height: 40px;
-			width: 40px;
 		}
 		.btn-outline:hover {
-			background-color: azure;
+
 		}
 		
 		.col-increase {
@@ -82,7 +87,9 @@
 			margin-left: 20px;
 		}
 		.form-control {
-			border-radius: 15px;
+			border: none;
+			width: 50px;
+
 		}
 <!--		table {-->
 <!--        	border-collapse: collapse;-->
@@ -121,10 +128,7 @@
 			display: flex;
 			float: right;
 		}
-		.material-symbols-outlined{
-			color: rgb(2,88,155);
-		}
-		
+
 		.container-body {
 			box-shadow: 0 8px 10px rgb(226, 226, 226);
 			
@@ -135,7 +139,7 @@
 		}
 		
 		.material-symbols-outlined.delete:hover {
-			color: grey;
+			color: rgb(2,88,155);
 		}
 		
 		.form-cart{
@@ -155,80 +159,6 @@
 <body>
 	<div th:replace="~{layout/header :: header}"></div>
     <div class="container-fluid mb-4" >
-        
-        
-        <!-- Hiển thị thông báo nếu có -->
-<!--		<div th:if="${message}" class="alert"-->
-<!--		     th:classappend="${message.contains('thành công') ? 'alert-success' : 'alert-danger'}"-->
-<!--		     th:text="${message}">-->
-<!--		</div>-->
-
-<!--        <div class="container">-->
-<!--			<div class="container-body" style="background-color: white;">-->
-<!--				<h3>GIỎ HÀNG</h3>-->
-<!--				-->
-<!--				<div class="form-cart" th:if="${totalAllCartItems != null}">-->
-<!--				    <p>Hiện có <span th:text="${totalAllCartItems}"></span> món hàng trong giỏ</p>-->
-<!--				</div>-->
-
-<!--		    -->
-<!--		        <table class="table table-striped ">-->
-<!--		            <thead class="thead-title">-->
-<!--		                <tr style="color: rgb(2,88,155);;">-->
-<!--		                    <th class="align-middle text-center">Ảnh</th>-->
-<!--		                    <th class="align-middle text-center">Tên sách</th>-->
-<!--		                    <th class="align-middle text-center">Số lượng</th>-->
-<!--		                    <th class="align-middle text-center">Giá(đ)</th>-->
-<!--		                    <th class="align-middle text-center">Tổng(đ)</th>-->
-<!--		                    <th class="align-middle text-center">Thao tác</th>-->
-<!--		                </tr>-->
-<!--		            </thead>-->
-<!--		            <tbody>-->
-<!--		                <tr th:each="cartItem : ${cartItems}">-->
-<!--		                    <td class="text-center text-center"><img th:src="${cartItem.book.bookImages[0].path}" width="100"></td>-->
-<!--		                    <td class="align-middle text-center">-->
-<!--		                        <span th:if="${#strings.length(cartItem.book.name) > 70}" th:text="${#strings.substring(cartItem.book.name, 0, 70) + '...'}"></span>-->
-<!--		                        <span th:if="${#strings.length(cartItem.book.name) <= 70}" th:text="${cartItem.book.name}"></span>-->
-<!--		                    </td>-->
-<!--		                    <td class="align-middle text-center">-->
-<!--		                        <div class="input-group justify-content-center">-->
-<!--		                            <div class="row">-->
-<!--										<div class="col-decrease">						-->
-<!--				                            <div class="input-group">-->
-<!--				                                <button class="btn btn-outline" type="button" th:onclick="'decreaseQuantity(' + ${cartItem.id} + ')'" style="align-items: center; justify-items: center; display: flex;">-->
-<!--													<span class="material-symbols-outlined" style="font-size: small;">remove</span></button>-->
-<!--				                            </div>-->
-<!--										</div>-->
-<!--										<div class="col">-->
-<!--				                             <input style="border: 1px solid rgb(2,88,155);" type="text-center align-middle" class="form-control" th:value="${cartItem.quantity}" th:id="'quantity_' + ${cartItem.id}">-->
-<!--										</div>-->
-<!--										<div class="col-increase">-->
-<!--				                            <div class="input-group">-->
-<!--				                                <button class="btn btn-outline" type="button" th:onclick="'increaseQuantity(' + ${cartItem.id} + ', ' + ${cartItem.book.quantity} + ')'" style="align-items: center; justify-items: center; display: flex;">-->
-<!--													<span class="material-symbols-outlined" style="font-size: small;">add</span></button>-->
-<!--				                            </div>-->
-<!--										</div>-->
-<!--		                            </div>-->
-<!--		                        </div>-->
-<!--		                    </td>-->
-<!--		                    <td class="align-middle text-center" th:text="${#numbers.formatInteger(cartItem.book.sellPrice, 0, 'POINT')+ ' đ'}" style="width: 100px;" ></td>-->
-<!--		                    <td class="align-middle text-center" th:id="'totalpriceitem_' + ${cartItem.id}" th:text="${#numbers.formatInteger(cartItem.quantity * cartItem.book.sellPrice, 0, 'POINT')+ ' đ'}" style=" width: 100px;"></td>-->
-<!--		                    <td class="align-middle text-center">-->
-<!--		                        <a th:href="@{/removefromcart(itemId=${cartItem.id})}" class="btn btn-delete">-->
-<!--									<span class="material-symbols-outlined delete">delete</span>-->
-<!--								</a>-->
-<!--		                    </td>-->
-<!--		                </tr>-->
-<!--		            </tbody>-->
-<!--		        </table>-->
-<!--		        <div class="text-right" th:if="${totalAmount != null}">-->
-<!--				    <h4>Tổng số tiền</h4>-->
-<!--				    <h4 id="totalpricecart" th:text="${#numbers.formatInteger(totalAmount, 0, 'POINT') + ' đ'}" style="color: orangered"></h4>-->
-<!--				    <a th:href="@{/shippinginformation(totalAmount=${totalAmount})}" class="btn btn-purchase">Mua hàng</a>-->
-<!--				</div>-->
-<!--			</div>-->
-<!--        </div>-->
-
 
 		<!--Đang chỉnh sửa add to cart-->
 		<div class="container">
@@ -238,7 +168,7 @@
 						<h5 style="color: #211f7f; align-items: center;  margin: 0px; padding: 20px 0px 0px 20px">Giỏ hàng</h5>
 						<div class="form-cart" th:if="${totalAllCartItems != null}"
 							 style="color: orangered; align-items: center;  margin: 0px 5px 0px 0px; padding: 20px 0px 0px 5px; font-weight: 500;">
-							<p style="margin: 0px 0px 0px">(<span th:text="${totalAllCartItems}"></span> sản phẩm)</p>
+							<p style="margin: 0px 0px 0px">(<span th:text="${totalAllCartItems}"></span> quyển sách)</p>
 						</div>
 					</div>
 					<div class="next-table only-bottom-border" style="margin-top: 20px">
@@ -247,8 +177,8 @@
 								<div class="next-table-header-inner">
 									<table>
 										<colgroup style="width: 1020px;">
-											<col style="width: 20%;">
-											<col style="width: 30%;">
+											<col style="width: 7%;">
+											<col style="width: 43%;">
 											<col style="width: 20%;">
 											<col style="width: 20%;">
 											<col style="width: 10%;">
@@ -257,18 +187,20 @@
 										<tbody>
 										<tr>
 											<th rowspan="1" class="next-table-header-node first" style="padding: 10px 20px;">
-												<div class="next-table-cell-wrapper">Ảnh</div>
+												<div class="next-table-cell-wrapper">
+													<input type="checkbox" id="checkAll" style="width: 20px; height: 20px; margin: 4px 10px 4px 10px;">
+												</div>
 											</th>
-											<th rowspan="1" class="next-table-header-node " style="padding: 10px 20px;">
-												<div class="next-table-cell-wrapper">Tên sách</div>
+											<th rowspan="1" class="next-table-header-node " style="padding: 10px 0px;">
+												<div class="next-table-cell-wrapper">Tất cả quyển sách</div>
 											</th>
-											<th rowspan="1" class="next-table-header-node " style="padding: 10px 20px;">
+											<th rowspan="1" class="next-table-header-node " style="padding: 10px 20px; text-align: center;">
 												<div class="next-table-cell-wrapper">Số lượng</div>
 											</th>
-											<th rowspan="1" class="next-table-header-node " style="padding: 10px 20px;">
+											<th rowspan="1" class="next-table-header-node " style="padding: 10px 20px; text-align: center">
 												<div class="next-table-cell-wrapper">Thành tiền</div>
 											</th>
-											<th rowspan="1" class="next-table-header-node " style="padding: 10px 20px;">
+											<th rowspan="1" class="next-table-header-node " style="padding: 10px 20px; text-align: center">
 												<div class="next-table-cell-wrapper">Thao tác</div>
 											</th>
 										</tr>
@@ -280,8 +212,9 @@
 							<div class="next-table-body">
 								<table>
 									<colgroup style="width: 1020px;">
-										<col style="width: 20%;">
-										<col style="width: 30%;">
+										<col style="width: 7%;">
+										<col style="width: 12%;">
+										<col style="width: 31%;">
 										<col style="width: 20%;">
 										<col style="width: 20%;">
 										<col style="width: 10%;">
@@ -289,31 +222,43 @@
 									<tbody>
 									<tr th:each="cartItem : ${cartItems}" style="border-top: 1px solid #cecece;" onmouseover="this.style.backgroundColor='#f2f5f6';" onmouseout="this.style.backgroundColor='transparent';">
 
-										<td rowspan="1" class="next-table-header-node first" style="padding: 10px 20px;">
-											<img th:src="${cartItem.book.bookImages[0].path}" width="100px">
+										<td rowspan="1" class="next-table-header-node first " style="padding: 20px 20px;">
+											<input type="checkbox" class="itemCheckbox" style="width: 20px; height: 20px; margin: 10px;">
 										</td>
 
-										<td rowspan="1" class="next-table-header-node" style="padding: 10px 20px;">
-											<span th:if="${#strings.length(cartItem.book.name) > 70}" th:text="${#strings.substring(cartItem.book.name, 0, 70) + '...'}"></span>
-											<span th:if="${#strings.length(cartItem.book.name) <= 70}" th:text="${cartItem.book.name}"></span>
+										<td rowspan="1" class="next-table-header-node" style="padding: 20px 20px;">
+											<img th:src="${cartItem.book.bookImages[0].path}" style="width: 100px;">
 										</td>
+
+										<td rowspan="1" class="next-table-header-node" style="padding: 20px 20px; display: flex; flex-direction: column; justify-content: space-between; height: 190px">
+											<div class="row-book" style="height: 160px">
+												<span th:if="${#strings.length(cartItem.book.name) > 100}" th:text="${#strings.substring(cartItem.book.name, 0, 100) + '...'}"></span>
+												<span th:if="${#strings.length(cartItem.book.name) <= 100}" th:text="${cartItem.book.name}"></span>
+											</div>
+											<div class="row-price-book" style="height: 30px; font-weight: bold;">
+												<span th:text="${#numbers.formatInteger(cartItem.book.sellPrice, 0, 'POINT')+ ' đ'}"></span>
+											</div>
+										</td>
+
 
 										<td rowspan="1" class="next-table-header-node" style="padding: 10px 20px;">
 											<div class="input-group justify-content-center">
-												<div class="row">
+												<div class="row d-flex align-items-center justify-content-center"
+													 style="background: white; border-radius: 50px; border: 1px solid #cecece">
 													<div class="col-decrease">
 														<div class="input-group">
-															<button class="btn btn-outline" type="button" th:onclick="'decreaseQuantity(' + ${cartItem.id} + ')'" style="align-items: center; justify-items: center; display: flex;">
-																<span class="material-symbols-outlined" style="font-size: small;">remove</span></button>
+															<a class="outline" type="button" th:onclick="'decreaseQuantity(' + ${cartItem.id} + ')'" style="align-items: center; justify-items: center; display: flex;">
+																<span class="material-symbols-outlined" style="color: grey; font-weight: bold; font-size: small">remove</span></a>
 														</div>
 													</div>
 													<div class="col">
-														<input style="border: 1px solid rgb(2,88,155);" type="text-center align-middle" class="form-control" th:value="${cartItem.quantity}" th:id="'quantity_' + ${cartItem.id}">
+														<input type="text-center align-middle" class="form-control" th:value="${cartItem.quantity}" th:id="'quantity_' + ${cartItem.id}"
+															   style="text-align: center;">
 													</div>
 													<div class="col-increase">
 														<div class="input-group">
-															<button class="btn btn-outline" type="button" th:onclick="'increaseQuantity(' + ${cartItem.id} + ', ' + ${cartItem.book.quantity} + ')'" style="align-items: center; justify-items: center; display: flex;">
-																<span class="material-symbols-outlined" style="font-size: small;">add</span></button>
+															<a class="outline" type="button" th:onclick="'increaseQuantity(' + ${cartItem.id} + ', ' + ${cartItem.book.quantity} + ')'" style="align-items: center; justify-items: center; display: flex;">
+																<span class="material-symbols-outlined" style="color: grey; font-weight: bold; font-size: small">add</span></a>
 														</div>
 													</div>
 												</div>
@@ -322,7 +267,7 @@
 
 										<td rowspan="1" class="next-table-header-node" style="padding: 10px 20px; text-align: right; color: orangered; font-weight: bold;" th:id="'totalpriceitem_' + ${cartItem.id}" th:text="${#numbers.formatInteger(cartItem.quantity * cartItem.book.sellPrice, 0, 'POINT')+ ' đ'}"></td>
 
-										<td rowspan="1" class="next-table-header-node last" style="padding: 10px 20px;" >
+										<td rowspan="1" class="next-table-header-node last" style="padding: 10px 20px; text-align: center" >
 											<a th:href="@{/removefromcart(itemId=${cartItem.id})}" class="delete">
 												<span class="material-symbols-outlined delete">delete</span>
 											</a>
@@ -332,6 +277,43 @@
 								</table>
 							</div>
 						</div>
+					</div>
+				</div>
+			</div>
+			<div class="container-body" style="padding: 20px 20px 10px 20px;">
+				<div class="row-voucher" style="border-bottom: 1px solid #cecece; padding: 0px 0px 10px; margin: 0px">
+					<h6 style="text-align: right; color: #211f7f;">Chọn hoặc nhập mã</h6>
+				</div>
+				<div class="row-payment d-flex align-items-center justify-content-center" style="padding: 10px 0px 0px 0px;">
+					<div class="next-table-body">
+						<table>
+							<colgroup style="width: 1020px;">
+								<col style="width: 20%">
+								<col style="width: 20%;">
+								<col style="width: 20%;">
+								<col style="width: 20%;">
+								<col style="width: 20%;">
+							</colgroup>
+							<tbody>
+							<tr>
+								<td rowspan="1" class="next-table-header-node first d-flex align-items-center justify-content-center" style="padding: 20px 20px 20px 0px; height: 77.6px">
+									<input type="checkbox" id="check-All" style="width: 20px; height: 20px; margin-right: 20px; margin-bottom: 8px">
+									<h6 style="margin: 0px 70px 8px 0px;">Chọn tất cả</h6>
+								</td>
+								<td rowspan="1" class="next-table-header-node" style="padding: 20px 20px;">
+								</td>
+								<td rowspan="1" class="next-table-header-node" style="padding: 20px 0px 20px 0px; text-align: right">
+									<h6>Tổng thanh toán:</h6>
+								</td>
+								<td rowspan="1" class="next-table-header-node" style="padding: 20px 20px; ">
+									<h5 id="totalpricecart" th:text="${#numbers.formatInteger(totalAmount, 0, 'POINT') + ' đ'}" style="color: orangered; font-weight: bold;"></h5>
+								</td>
+								<td rowspan="1" class="next-table-header-node last" style="padding: 20px 0px 20px 0px; align-items: right">
+									<a th:href="@{/shippinginformation(totalAmount=${totalAmount})}" class="btn btn-purchase">Mua hàng</a>
+								</td>
+							</tr>
+							</tbody>
+						</table>
 					</div>
 				</div>
 			</div>
@@ -381,6 +363,25 @@
             };
             xhr.send("itemId=" + itemId + "&quantity=" + quantity);
 		}
+
+		// Chọn tất cả quyển sách trong giỏ hàng khi chọn 'checkAll'
+        document.getElementById('checkAll').onclick = function() {
+            var checkboxes = document.getElementsByClassName('itemCheckbox');
+            for (var i = 0; i < checkboxes.length; i++) {
+                checkboxes[i].checked = this.checked;
+            }
+            document.getElementById('check-All').checked = this.checked;
+        };
+
+        // Chọn tất cả quyển sách trong giỏ hàng khi chọn 'check-All'
+        document.getElementById('check-All').onclick = function() {
+            var checkboxes = document.getElementsByClassName('itemCheckbox');
+            for (var i = 0; i < checkboxes.length; i++) {
+                checkboxes[i].checked = this.checked;
+            }
+            document.getElementById('checkAll').checked = this.checked;
+        };
+
 	</script>
 	<div th:replace="~{layout/footer :: footer}"></div>
 	<!-- Thêm các tệp tin JavaScript -->

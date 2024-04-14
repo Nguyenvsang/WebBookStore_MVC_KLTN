@@ -54,8 +54,20 @@
 		.container-body {
 			box-shadow: 0 8px 10px rgb(226, 226, 226);
 		}
-		
-		
+
+		.material-symbols-outlined.info{
+			color: grey;
+		}
+
+		.material-symbols-outlined.info:hover {
+		 	color: rgb(2,88,155);
+		}
+
+		.material-symbols-outlined.search{
+			color: rgb(2,88,155);
+		}
+
+
 	</style>
 </head>
 <body>
@@ -155,7 +167,7 @@
 									<td rowspan="1" class="next-table-header-node " style="text-align: right; padding: 10px 20px; color: orangered; font-weight: bold;" th:text="${#numbers.formatInteger(order.totalPrice, 0, 'POINT') + ' đ'}"></td>
 									<td rowspan="1" class="next-table-header-node last" style="padding: 10px 20px;">
 										<a th:href="@{/vieworderitems(orderId=${order.id})}" class="detail" style="text-decoration: none; ">
-											<span class="material-symbols-outlined info d-flex align-items-center justify-content-center" style="color: rgb(2, 88, 155);">info</span>
+											<span class="material-symbols-outlined info d-flex align-items-center justify-content-center">info</span>
 										</a>
 									</td>
 								</tr>
