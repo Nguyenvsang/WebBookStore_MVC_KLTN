@@ -16,8 +16,6 @@ import com.nhom14.webbookstore.service.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -128,14 +126,6 @@ public class OrderController {
         order.setAccount(cart.getAccount());
         order.setStatus(0);
         // deliveryDate khi nào giao hàng mới đặt
-
-//        // Tính toán ngày giao hàng dự kiến 1 và 2
-//        Calendar c = Calendar.getInstance();
-//        c.setTime(dateOrder);
-//        c.add(Calendar.DATE, 3);  // Ngày giao hàng dự kiến 1: 3 ngày sau ngày đặt hàng
-//        order.setExpectedDeliveryDate1(c.getTime());
-//        c.add(Calendar.DATE, 2);  // Ngày giao hàng dự kiến 2: thêm 2 ngày nữa (tổng cộng 5 ngày sau ngày đặt hàng)
-//        order.setExpectedDeliveryDate2(c.getTime());
         // Tính toán ngày giao hàng dự kiến 1 và 2
         Calendar c = Calendar.getInstance();
         c.setTimeInMillis(dateOrder.getTime());
@@ -155,8 +145,9 @@ public class OrderController {
             OrderItem orderItem = new OrderItem();
             orderItem.setQuantity(cartItem.getQuantity());
             Book book = cartItem.getBook();
-            double price = cartItem.getQuantity() * book.getSellPrice();
-            orderItem.setPrice(price);
+            double totalPrice = cartItem.getQuantity() * book.getSellPrice();
+            orderItem.setSellPrice(book.getSellPrice());// Lưu để dễ tính toán cho doanh thu, lợi nhuận
+            orderItem.setTotalPrice(totalPrice);
             orderItem.setBook(book);
             orderItem.setOrder(lastOrder);
 

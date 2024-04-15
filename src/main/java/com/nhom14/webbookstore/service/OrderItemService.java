@@ -13,4 +13,6 @@ public interface OrderItemService {
 	// Phương thức lấy OrderItems theo đơn hàng
 	List<OrderItem> getOrderItemsByOrder(Order order);
 
+	// Phương thức để cập nhật OrderItem
+    void updateOrderItem(OrderItem orderItem);
 }

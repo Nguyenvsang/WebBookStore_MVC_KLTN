@@ -281,7 +281,7 @@
 	                <td th:text="${orderItem.book.name}" class="align-middle"></td>
 	                <td th:text="${orderItem.quantity}" class="align-middle text-center"></td>
 	                <td th:text="${#numbers.formatInteger(orderItem.book.sellPrice, 0, 'POINT')+ ' đ'}" class="align-middle" style="text-align: center; color: orangered;"></td>
-	                <td th:text="${#numbers.formatInteger(orderItem.price, 0, 'POINT')+ ' đ'}" class="align-middle" style="color: orangered; text-align: center;"></td>
+	                <td th:text="${#numbers.formatInteger(orderItem.totalPrice, 0, 'POINT')+ ' đ'}" class="align-middle" style="color: orangered; text-align: center;"></td>
 	            </tr>
 	        </table>
         </div>       

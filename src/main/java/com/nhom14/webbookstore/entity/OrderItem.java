@@ -15,8 +15,12 @@ public class OrderItem {
 	private int id;
 	@Column(name = "quantity", columnDefinition = "int NOT NULL")
 	private int quantity;
-	@Column(name = "price", columnDefinition = "double NOT NULL")
-	private double price; // Giá trị bán ra của sách * số lượng ngay thời điểm đặt hàng
+	@Column(name = "total_price", columnDefinition = "double NOT NULL")
+	private double totalPrice; // Giá trị bán ra của sách * số lượng ngay thời điểm đặt hàng
+	@Column(name = "cost_price", columnDefinition = "double")
+	private double costPrice; // Giá nhập của sách, sẽ được gán sau
+	@Column(name = "sell_price", columnDefinition = "double")
+	private double sellPrice; // Giá bán của sách ngay thời điểm đặt hàng
 	
 	//bi-directional many-to-one association with Product
     @ManyToOne(fetch = FetchType.EAGER)
@@ -36,10 +40,10 @@ public class OrderItem {
 	}
 	
 
-	public OrderItem(int quantity, double price, Book book, Order order) {
+	public OrderItem(int quantity, double totalPrice, Book book, Order order) {
 		super();
 		this.quantity = quantity;
-		this.price = price;
+		this.totalPrice = totalPrice;
 		this.book = book;
 		this.order = order;
 	}

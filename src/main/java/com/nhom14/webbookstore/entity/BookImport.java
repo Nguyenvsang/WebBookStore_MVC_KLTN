@@ -11,7 +11,8 @@ import java.sql.Timestamp;
 @Entity
 @Table(name = "bookimport")
 public class BookImport {
-
+    // chỉ nhập thêm đợt sách mới nếu đợt sách cũ hết,
+    // không cần duyệt qua nhiều đợt nhật, mà chỉ dựa vào đợt nhập mới nhất
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -23,6 +24,9 @@ public class BookImport {
 
     @Column(name = "quantity", columnDefinition = "INT NOT NULL")
     private int quantity;
+
+    @Column(name = "remaining_quantity", columnDefinition = "INT NOT NULL")
+    private int remainingQuantity;
 
     @Column(name = "import_price", columnDefinition = "double NOT NULL")
     private double importPrice;

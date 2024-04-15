@@ -60,6 +60,8 @@ public class Order {
 //	Được yêu cầu trả hàng trong vòng 15 ngày (không kể giờ phút giây) kể từ khi giao hàng thành công (Đã giao). Quá 15 ngày thì nút Trả hàng sẽ biến mất và trên hệ thống admin sẽ chuyển trạng thái đơn hàng thành Đã nhận hàng
 //	Được yêu cầu hủy đơn khi đơn hàng ở trạng thái Chờ xác nhận
 //	Nếu đã nhấn Đã nhận hàng thì khách hàng không thể chọn Trả hàng sau đó nữa
+// Khi đơn hàng có trạng thái 10 (đã nhận hàng), hệ thống sẽ tự động cập nhật trạng thái thanh toán của đơn hàng đó thành 1 (đã thanh toán).
+// Từ đây, doanh thu và lợi nhuận sẽ được tính cho đơn hàng đó.
 
     //bi-directional one-to-many association with OrderItem
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "order")

@@ -164,14 +164,18 @@ CREATE TABLE OrderItem (
   id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   -- Khai báo thuộc tính quantity kiểu int, không được null
   quantity INT NOT NULL,
-  -- Khai báo thuộc tính price kiểu double, không được null
-  price double NOT NULL,
+  -- Khai báo thuộc tính total_price kiểu double, không được null
+  total_price double NOT NULL,
   -- Khai báo thuộc tính book_id kiểu int và là khóa ngoại tham chiếu đến bảng Book
   book_id INT,
   FOREIGN KEY (book_id) REFERENCES Book(id),
   -- Khai báo thuộc tính order_id kiểu int và là khóa ngoại tham chiếu đến bảng Order
   order_id INT,
-  FOREIGN KEY (order_id) REFERENCES `Order`(id)
+  FOREIGN KEY (order_id) REFERENCES `Order`(id),
+  -- Khai báo thuộc tính cost_price kiểu double
+  cost_price double,
+  -- Khai báo thuộc tính sell_price kiểu double
+  sell_price double
 );
 
 -- Tạo bảng PaymentStatus

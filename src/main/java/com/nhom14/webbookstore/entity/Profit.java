@@ -11,6 +11,8 @@ import java.sql.Timestamp;
 @Entity
 @Table(name = "profit")
 public class Profit {// Để tính lợi nhuận, bạn sẽ cần trừ chi phí nhập sách khỏi doanh thu.
+    // Khi đơn hàng có trạng thái 10 (đã nhận hàng), hệ thống sẽ tự động cập nhật trạng thái thanh toán của đơn hàng đó thành 1 (đã thanh toán).
+    // Từ đây, doanh thu và lợi nhuận sẽ được tính cho đơn hàng đó.
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;

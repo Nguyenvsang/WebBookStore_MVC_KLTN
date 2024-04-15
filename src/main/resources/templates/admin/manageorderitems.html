@@ -104,7 +104,13 @@
 <body>
 	<div th:replace="~{admin/headeradmin :: header}"></div>
     <div class="container main" style="background-color: white;">
-	
+
+		<!-- Hiển thị thông báo nếu có -->
+		<div th:if="${param.message}" class="alert"
+			 th:classappend="${#strings.containsIgnoreCase(param.message, 'thành công') ? 'alert-success' : 'alert-danger'}">
+			<span th:text="${param.message}"></span>
+		</div>
+
        	<a th:href="@{/manageorders}" class="btn btn-back">
 			<span class="material-symbols-outlined back">arrow_back_ios</span>
         </a>
@@ -244,7 +250,7 @@
 	                <td th:text="${orderItem.book.name}" class="align-middle"></td>
 	                <td th:text="${orderItem.quantity}" class="align-middle text-center"></td>
 	                <td th:text="${#numbers.formatInteger(orderItem.book.sellPrice, 0, 'POINT') + ' đ'}" class="align-middle" style="text-align: center; color: orangered;"></td>
-	                <td th:text="${#numbers.formatInteger(orderItem.price, 0, 'POINT') + ' đ'}" class="align-middle" style="text-align: center; color: orangered;"></td>
+	                <td th:text="${#numbers.formatInteger(orderItem.totalPrice, 0, 'POINT') + ' đ'}" class="align-middle" style="text-align: center; color: orangered;"></td>
 	            </tr>
 	        </table>
         </div>  

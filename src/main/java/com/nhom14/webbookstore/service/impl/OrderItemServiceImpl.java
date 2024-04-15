@@ -31,6 +31,11 @@ public class OrderItemServiceImpl implements OrderItemService {
 	public List<OrderItem> getOrderItemsByOrder(Order order) {
 		return orderItemRepository.findByOrder(order);
 	}
-	
-	
+
+	@Override
+	public void updateOrderItem(OrderItem orderItem) {
+		orderItemRepository.save(orderItem);
+	}
+
+
 }
