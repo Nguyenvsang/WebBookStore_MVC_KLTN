@@ -92,6 +92,15 @@
 									Đánh giá</a>
 							</li>
 						</div>
+
+						<div class="col-01" style="margin-left: 20px; margin-right: 20px;">
+							<li class="nav-item" th:if="${session.admin != null}">
+								<a class="nav-link" th:href="@{/statistics}" style="color:rgb(0, 0, 160); font-family: Arial, sans-serif; padding: 0%; display: flex; align-items: center; justify-content: center;">
+									<span class="material-symbols-outlined" style="display: flex;">bar_chart</span></a>
+								<a class="nav-link" th:href="@{/statistics}" style="color:rgb(0, 0, 160); font-family: Arial, sans-serif; padding: 0%;">
+									Thống kê</a>
+							</li>
+						</div>
 	                	
 	                	<div class="col-01" style="margin-left: 20px; margin-right: 20px;">
 			                <li class="nav-item" th:if="${session.admin != null}">

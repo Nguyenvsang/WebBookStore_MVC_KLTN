@@ -7,6 +7,11 @@ import com.nhom14.webbookstore.service.RevenueService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.List;
+
 @Service
 public class RevenueServiceImpl implements RevenueService {
     private RevenueRepository revenueRepository;
@@ -26,4 +31,12 @@ public class RevenueServiceImpl implements RevenueService {
     public Revenue getRevenueByOrder(Order order) {
         return revenueRepository.findByOrder(order); //Không có sẽ trả về null
     }
+
+    @Override
+    public double sumRevenueByDateYearAndMonth(int year, int month) {
+        LocalDateTime start = LocalDateTime.of(year, month, 1, 0, 0);
+        LocalDateTime end = start.plusMonths(1);
+        return revenueRepository.sumRevenueBetweenDates(start, end); //Không có sẽ trả về 0
+    }
+
 }
