@@ -67,6 +67,14 @@
 			color: rgb(2,88,155);
 		}
 
+		.badge {
+			border-radius: 50px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			height: 25px;
+			width: auto;
+		}
 
 	</style>
 </head>
@@ -96,16 +104,16 @@
 										<th rowspan="1" class="next-table-header-node first" style="padding: 10px 20px;">
 											<div class="next-table-cell-wrapper">Đơn hàng số</div>
 										</th>
-										<th rowspan="1" class="next-table-header-node " style="padding: 10px 20px;">
+										<th rowspan="1" class="next-table-header-node " style="padding: 10px 20px; text-align: center;">
 											<div class="next-table-cell-wrapper">Ngày đặt hàng</div>
 										</th>
-										<th rowspan="1" class="next-table-header-node " style="padding: 10px 20px;">
+										<th rowspan="1" class="next-table-header-node " style="padding: 10px 20px; text-align: center">
 											<div class="next-table-cell-wrapper">Sản phẩm</div>
 										</th>
-										<th rowspan="1" class="next-table-header-node " style="padding: 10px 20px;">
+										<th rowspan="1" class="next-table-header-node " style="padding: 10px 20px; text-align: center">
 											<div class="next-table-cell-wrapper">Trạng thái</div>
 										</th>
-										<th rowspan="1" class="next-table-header-node " style="padding: 10px 20px;">
+										<th rowspan="1" class="next-table-header-node " style="padding: 10px 20px; text-align: center">
 											<div class="next-table-cell-wrapper">Thanh toán</div>
 										</th>
 										<th rowspan="1" class="next-table-header-node " style="text-align: right; padding: 10px 20px;">
@@ -132,11 +140,11 @@
 									<col style="width: 10%;">
 								</colgroup>
 								<tbody>
-								<tr th:each="order : ${orders}" style="border-top: 1px solid #cecece;" onmouseover="this.style.backgroundColor='#f2f5f6';" onmouseout="this.style.backgroundColor='transparent';">
+								<tr th:each="order : ${orders}" style="border-top: 1px solid #cecece; height: 150px" onmouseover="this.style.backgroundColor='#f2f5f6';" onmouseout="this.style.backgroundColor='transparent';">
 									<td rowspan="1" class="next-table-header-node first" th:text="${order.id}" style="padding: 10px 20px;"></td>
-									<td rowspan="1" class="next-table-header-node " th:text="${#temporals.format(order.dateOrder.toLocalDateTime(), 'dd/MM/yyyy')}" style="padding: 10px 20px;"></td>
-									<td rowspan="1" class="next-table-header-node " style="padding: 10px 20px;">
-										<img th:src="${order.orderitems[0].book.bookImages[0].path}" width="60px">
+									<td rowspan="1" class="next-table-header-node " th:text="${#temporals.format(order.dateOrder.toLocalDateTime(), 'dd/MM/yyyy')}" style="padding: 10px 20px; text-align: center"></td>
+									<td rowspan="1" class="next-table-header-node " style="padding: 10px 20px; text-align: center;">
+										<img th:src="${order.orderitems[0].book.bookImages[0].path}" width="70px" style="display: block; margin: auto;">
 									</td>
 									<td rowspan="1" class="next-table-header-node " style="padding: 10px 20px;">
 										<span th:switch="${order.status}">
