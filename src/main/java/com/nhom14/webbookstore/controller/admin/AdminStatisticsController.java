@@ -1,8 +1,6 @@
 package com.nhom14.webbookstore.controller.admin;
 
 import com.nhom14.webbookstore.entity.Account;
-import com.nhom14.webbookstore.entity.Profit;
-import com.nhom14.webbookstore.entity.Revenue;
 import com.nhom14.webbookstore.service.ProfitService;
 import com.nhom14.webbookstore.service.RevenueService;
 import jakarta.servlet.http.HttpSession;
@@ -12,13 +10,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-import java.util.LinkedList;
 
 @Controller
 public class AdminStatisticsController {
@@ -65,32 +58,4 @@ public class AdminStatisticsController {
 
         return "admin/statistics";
     }
-
-    public Map<String, Double> reverseMap(Map<String, Double> originalMap) {
-        Map<String, Double> reversedMap = new LinkedHashMap<>();
-        new LinkedList<>(new ArrayList<>(originalMap.keySet()))
-                .descendingIterator()
-                .forEachRemaining(key -> reversedMap.put(key, originalMap.get(key)));
-        return reversedMap;
-    }
-
-
-    private Map<String, Double> getRevenueData() {
-        Map<String, Double> revenueData = new LinkedHashMap<>();
-        // Lấy danh sách doanh thu 6 tháng gần đây từ CSDL
-        // Ví dụ: List<Revenue> revenues = revenueService.getRecentRevenues();
-        // Với mỗi doanh thu, thêm vào revenueData
-        // Ví dụ: for (Revenue revenue : revenues) { revenueData.put(revenue.getDate().toString(), revenue.getRevenue()); }
-        return revenueData;
-    }
-
-    private Map<String, Double> getProfitData() {
-        Map<String, Double> profitData = new LinkedHashMap<>();
-        // Lấy danh sách lợi nhuận 6 tháng gần đây từ CSDL
-        // Ví dụ: List<Profit> profits = profitService.getRecentProfits();
-        // Với mỗi lợi nhuận, thêm vào profitData
-        // Ví dụ: for (Profit profit : profits) { profitData.put(profit.getDate().toString(), profit.getProfit()); }
-        return profitData;
-    }
-
 }

@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Chi tiết doanh thu</title>
+    <!-- Phải thêm popper để không bị lỗi dropdown-menu, nhớ thêm đủ các file js -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
+
+    <style>
+
+        body { background-color: #f8f9fa  }
+
+        th, td { text-align: center; }
+        h3 {
+            text-align: center;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            color: rgb(2,88,155);
+        }
+        .btn-search {
+            border-radius: 10px;
+            color: rgb(2,88,155);
+            background-color: white;
+        }
+        .btn-search:hover {
+            color: rgb(182,232,241);/* Thay đổi màu văn bản khi trỏ chuột vào nút */
+        }
+
+        .btn-filter-status {
+            background-color: rgb(255, 255, 255);
+            border-radius: 10px;
+            color: rgb(0, 128, 255);
+            font-weight: bold;
+            border-color: rgb(0, 128, 255);
+        }
+        .btn-filter-status:hover {
+            color:rgb(0, 180, 255); /* Thay đổi màu văn bản khi trỏ chuột vào nút */
+        }
+
+        .btn-detail {
+            border-radius: 10px;
+            color: rgb(2,88,155);
+        }
+        .btn-detail:hover {
+            color:rgb(182,232,241); /* Thay đổi màu văn bản khi trỏ chuột vào nút */
+        }
+
+        .thead-title {
+        border-radius: 25px;
+        overflow: hidden;
+        background-color: rgb(182,232,241);
+        color: black;
+        border-radius: 15px
+        }
+
+        .thead-title th:first-child {
+            border-top-left-radius: 15px;
+        }
+
+        .thead-title th:last-child {
+            border-top-right-radius: 15px;
+        }
+        tbody tr:last-child td:first-child {
+            border-bottom-left-radius: 15px;
+        }
+
+        tbody tr:last-child td:last-child {
+            border-bottom-right-radius: 15px;
+        }
+
+        table {
+            border-collapse: collapse;
+        }
+        td {
+            border: 1px solid rgb(242,242,242);
+        }
+
+        .frame-number {
+                display: flex;
+                justify-content: center;
+                border-radius: 20px;
+            }
+
+        .container.main {
+            border-radius: 5px;
+            border-radius: 15px;
+            padding: 15px;
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+
+        .container.main{
+            margin-top: 20px;
+            box-shadow: 0 8px 10px rgb(226, 226, 226);
+        }
+
+        .page-link {
+            height: 40px;
+            color: rgb(2,88,155);
+            border: #f8f9fa;
+            border-radius: 10px !important;
+            margin: 2px;
+        }
+        .page-item.active .page-link {
+            background-color: rgb(182,232,241);;
+            color: rgb(2,88,155);
+        }
+
+        .page-link:hover {
+            background-color: rgb(182,232,241);
+        }
+
+        .form-accounts{
+            color: orangered;
+            margin-bottom: 30px;
+            margin-top: 40px;
+            text-align: center;
+            justify-content: center;
+            display: flex;
+            border-radius: 10px;
+            font-size: larger;
+        }
+
+        .bg-green {
+            background-color: rgb(98,191,94);
+            color: white;
+        }
+        .bg-red {
+            background-color: rgb(241,56,71);
+            color: white;
+        }
+
+        .comment.expanded {
+            max-height: none;
+            white-space: normal;
+        }
+
+        /* CSS cho cửa sổ modal */
+        .modal {
+            display: none; /* Ẩn cửa sổ modal mặc định */
+            position: fixed; /* Đặt cửa sổ modal ở vị trí cố định */
+            z-index: 10; /* Đặt cửa sổ modal trên tất cả các phần tử khác */
+            left: 0;
+            top: 0;
+            width: 100%; /* Chiều rộng toàn màn hình */
+            height: 100%; /* Chiều cao toàn màn hình */
+            overflow: auto; /* Thêm thanh cuộn nếu cần */
+            background-color: rgb(0,0,0); /* Màu nền */
+            background-color: rgba(0,0,0,0.4); /* Màu nền với độ mờ */
+        }
+
+        /* CSS cho nội dung modal */
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto; /* 15% từ trên xuống, căn giữa */
+            padding: 45px;
+            border: 1px solid #888;
+            width: 50%; /* Chiều rộng của nội dung modal */
+        }
+
+        /* CSS cho nút đóng */
+        .close {
+            color: #aaa;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        /* CSS cho phần tử chứa nút đóng */
+        .close-container {
+            position: absolute;
+            right: 10px;
+            top: 0px;
+            padding: 10px; /* Đặt padding tùy ý */
+        }
+    </style>
+</head>
+<body>
+<div th:replace="~{admin/headeradmin :: header}"></div>
+<div class="container-fluid mb-4">
+    <div class="container main" style="background-color: white;">
+        <h3>CHI TIẾT DOANH THU</h3>
+
+        <!-- Hiển thị thông báo nếu có -->
+        <div th:if="${param.message}" class="alert"
+             th:classappend="${#strings.containsIgnoreCase(param.message, 'thành công') ? 'alert-success' : 'alert-danger'}">
+            <span th:text="${param.message}"></span>
+        </div>
+
+        <a th:href="@{/statistics}" class="btn btn-back">
+            <span class="material-symbols-outlined back">arrow_back_ios</span>
+        </a>
+
+        <div class="form-accounts">
+            <p>Tổng số tất cả các doanh thu: <span th:text="${totalAllRevenues}"></span></p>
+        </div>
+
+        <form class="form-inline my-2 my-lg-0" method="GET" th:action="@{/managerevenues}" style="margin-left: 15px;">
+            <input class="form-control mr-sm-2" type="text" name="revenueId" th:placeholder="${revenueId != null ? ('Tìm kiếm theo mã doanh thu: ' + revenueId) : 'Tìm kiếm theo mã doanh thu'}" style="border: 2px solid rgb(182,232,241); border-radius: 10px;">
+            <button class="btn btn-search my-2 my-sm-0" type="submit"><span class="material-symbols-outlined">search</span></button>
+        </form>
+
+        <form class="form-inline my-2 my-lg-0" method="GET" th:action="@{/managerevenues}" style="margin-left: 15px;">
+            <input class="form-control mr-sm-2" type="text" name="orderId" th:placeholder="${orderId != null ? ('Tìm kiếm theo mã đơn hàng: ' + orderId) : 'Tìm kiếm theo mã đơn hàng'}" style="border: 2px solid rgb(182,232,241); border-radius: 10px;">
+            <button class="btn btn-search my-2 my-sm-0" type="submit"><span class="material-symbols-outlined">search</span></button>
+        </form>
+
+        <form class="form-inline my-2 my-lg-0" method="GET" th:action="@{/managerevenues}" style="margin-left: 15px;">
+            <input class="form-control mr-sm-2" type="text" name="revenue" th:placeholder="${revenue != null ? ('Tìm kiếm theo giá trị doanh thu: ' + revenue) : 'Tìm kiếm theo giá trị doanh thu'}" style="border: 2px solid rgb(182,232,241); border-radius: 10px;">
+            <button class="btn btn-search my-2 my-sm-0" type="submit"><span class="material-symbols-outlined">search</span></button>
+        </form>
+
+        <form class="form-inline my-2 my-lg-0" method="GET" th:action="@{/managerevenues}" style="margin-left: 15px;">
+            <input class="form-control mr-sm-2" type="date" name="dateStr" th:placeholder="${dateStr != null ? ('Tìm kiếm theo ngày: ' + dateStr) : 'Tìm kiếm theo ngày'}" style="border: 2px solid rgb(182,232,241); border-radius: 10px;">
+            <button class="btn btn-search my-2 my-sm-0" type="submit"><span class="material-symbols-outlined">search</span></button>
+        </form>
+
+        <div class="dropdown mb-3 mt-3"  style="margin-left: 15px;">
+            <button class="btn btn-filter-status dropdown-toggle" type="button" id="revenueDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Sắp xếp:
+                <span th:switch="${revenueOption}">
+                    <span th:case="12">Doanh thu tăng dần</span>
+                    <span th:case="21">Doanh thu giảm dần</span>
+                    <span th:case="*">Không có</span>
+                </span>
+            </button>
+            <div class="dropdown-menu" aria-labelledby="revenueDropdown">
+                <a class="dropdown-item" th:href="@{/managerevenues(page=1, size=${size},  sort=${sort}, revenueId=${revenueId}, orderId=${orderId}, revenue=${revenue}, dateStr=${dateStr != null ? dateStr : ''}, revenueMin=${revenueMin}, revenueMax=${revenueMax}, revenueOption=12)}">Doanh thu tăng dần</a>
+                <a class="dropdown-item" th:href="@{/managerevenues(page=1, size=${size},  sort=${sort}, revenueId=${revenueId}, orderId=${orderId}, revenue=${revenue}, dateStr=${dateStr != null ? dateStr : ''}, revenueMin=${revenueMin}, revenueMax=${revenueMax}, revenueOption=21)}">Doanh thu giảm dần</a>
+            </div>
+        </div>
+
+        <div class="container main-01" style="background-color: white;" >
+            <table class="table table-striped table-bordered mt-3">
+                <thead class="thead-title">
+                <tr style="color: rgb(2,88,155);">
+                    <th scope="col" class="align-middle text-center">Mã doanh thu</th>
+                    <th scope="col" class="align-middle text-center">Mã đơn hàng</th>
+                    <th scope="col" class="align-middle text-center">Doanh thu</th>
+                    <th scope="col" class="align-middle text-center">Ngày nhập</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="revenue : ${revenues.content}" th:id="'revenue-' + ${revenue.id}">
+                    <td class="align-middle text-center" th:text="${revenue.id}"></td>
+                    <td class="align-middle text-center" th:text="${revenue.order.id}"></td>
+                    <td class="align-middle text-center" th:text="${#numbers.formatInteger(revenue.revenue, 0, 'POINT' )+ ' đ'}" style="color: orangered;"></td>
+                    <td class="align-middle text-center" th:text="${#temporals.format(revenue.date.toLocalDateTime(), 'dd/MM/yyyy hh:mm:ss')}"></td>
+
+                    <!-- Thêm các nút thao tác tại đây -->
+                </tr>
+                </tbody>
+            </table>
+            <!-- Thêm phần tử phân trang tại đây -->
+            <div class="frame-number">
+                <div th:if="${revenues.totalPages > 1}">
+                    <ul class="pagination">
+                        <li th:if="${revenues.hasPrevious()}" class="page-item">
+                            <a class="page-link" th:href="@{/managerevenues(page=${revenues.number}, size=${size},  sort=${sort}, revenueId=${revenueId}, orderId=${orderId}, revenue=${revenue}, dateStr=${dateStr}, revenueMin=${revenueMin}, revenueMax=${revenueMax}, revenueOption=${revenueOption})}">
+                                <span class="material-symbols-outlined">navigate_before</span>
+                            </a>
+                        </li>
+
+                        <th:block th:each="pageNumber : ${#numbers.sequence(0, revenues.totalPages - 1)}">
+                            <li class="page-item" th:classappend="${pageNumber == revenues.number ? 'active' : ''}">
+                                <th:block th:if="${pageNumber == revenues.number}">
+                                    <span class="page-link" th:text="${pageNumber + 1}"></span>
+                                </th:block>
+                                <th:block th:unless="${pageNumber == revenues.number}">
+                                    <a class="page-link" th:inline="text" th:href="@{/managerevenues(page=${pageNumber + 1}, size=${size},  sort=${sort}, revenueId=${revenueId}, orderId=${orderId}, revenue=${revenue}, dateStr=${dateStr}, revenueMin=${revenueMin}, revenueMax=${revenueMax}, revenueOption=${revenueOption})}" th:text="${pageNumber + 1}"></a>
+                                </th:block>
+                            </li>
+                        </th:block>
+
+                        <li th:if="${revenues.hasNext()}" class="page-item">
+                            <a class="page-link" th:href="@{/managerevenues(page=${revenues.number + 2}, size=${size},  sort=${sort}, revenueId=${revenueId}, orderId=${orderId}, revenue=${revenue}, dateStr=${dateStr}, revenueMin=${revenueMin}, revenueMax=${revenueMax}, revenueOption=${revenueOption})}">
+                                <span class="material-symbols-outlined">navigate_next</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+<!-- Thêm các tệp tin JavaScript -->
+<script th:src="@{/js/jquery-3.4.1.slim.min.js}"></script>
+<script th:src="@{/js/popper.min.js}"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+
+</body>
+
+</html>

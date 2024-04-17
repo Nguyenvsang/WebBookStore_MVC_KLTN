@@ -199,7 +199,7 @@
         </div>
 
         <form class="form-inline my-2 my-lg-0" method="GET" th:action="@{/managebookreviews}" style="margin-left: 15px;">
-            <input class="form-control mr-sm-2" type="text" name="keyword" th:placeholder="${keyword != null ? ('Tìm kiếm từ khóa: ' + keyword) : 'Tìm kiếm từ khóa'}" style="border: 2px solid rgb(182,232,241); border-radius: 10px;">
+            <input class="form-control mr-sm-2" type="text" name="search" th:placeholder="${search != null ? ('Tìm kiếm từ khóa: ' + search) : 'Tìm kiếm từ khóa'}" style="border: 2px solid rgb(182,232,241); border-radius: 10px;">
             <button class="btn btn-search my-2 my-sm-0" type="submit"><span class="material-symbols-outlined">search</span></button>
         </form>
 

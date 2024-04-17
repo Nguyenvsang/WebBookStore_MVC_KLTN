@@ -62,5 +62,6 @@ public interface BookService {
 	// Phương thức để lấy sách theo trạng thái
 	List<Book> getBooksByStatus(int status);
 
+	// Lấy danh sách sách với các tham số tìm kiếm và lọc, phân trang
 	Page<Book> getFilteredFavoriteBooks(Integer accountId, Integer categoryId, String searchKeyword, Double priceMin, Double priceMax, String publisher, Pageable pageable);
 }
