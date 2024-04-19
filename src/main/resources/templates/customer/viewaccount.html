@@ -181,7 +181,10 @@
 					<h5 style="color: #211f7f; align-items: center;  margin: 0px 5px 0px 0px">Thông tin cá nhân</h5>
 				</div>
 				<div class="text-center" style="align-items: center">
-					<a th:href="@{/updateaccount}" class="content" style="text-decoration: none; color: #5cbcd5; margin-left: 5px">Chỉnh sửa</a>
+					<a th:href="@{/updateaccount}" class="content" style="text-decoration: none; color: #5cbcd5; display: flex; align-items: center ">
+						<span class="material-symbols-outlined" style="margin: 0px 5px; font-size: 1.2em;">ink_highlighter</span>
+						<h6 style="margin: 0px">Chỉnh sửa</h6>
+					</a>
 				</div>
 			</div>
 
@@ -285,10 +288,10 @@
 											<th rowspan="1" class="next-table-header-node first" style="padding: 10px 20px;">
 												<div class="next-table-cell-wrapper">Đơn hàng số</div>
 											</th>
-											<th rowspan="1" class="next-table-header-node " style="padding: 10px 20px;">
+											<th rowspan="1" class="next-table-header-node " style="padding: 10px 20px; text-align: center">
 												<div class="next-table-cell-wrapper">Ngày đặt hàng</div>
 											</th>
-											<th rowspan="1" class="next-table-header-node " style="padding: 10px 20px;">
+											<th rowspan="1" class="next-table-header-node " style="padding: 10px 20px; text-align: center">
 												<div class="next-table-cell-wrapper">Sản phẩm</div>
 											</th>
 											<th rowspan="1" class="next-table-header-node " style="text-align: right; padding: 10px 20px;">
@@ -313,10 +316,10 @@
 									<col style="width: 10%;">
 								</colgroup>
 								<tbody>
-									<tr th:each="order : ${orders}" style="border-top: 1px solid #cecece;" onmouseover="this.style.backgroundColor='#f2f5f6';" onmouseout="this.style.backgroundColor='transparent';">
+									<tr th:each="order : ${orders}" style="border-top: 1px solid #cecece; height: 115px" onmouseover="this.style.backgroundColor='#f2f5f6';" onmouseout="this.style.backgroundColor='transparent';">
 										<td rowspan="1" class="next-table-header-node first" th:text="${order.id}" style="padding: 10px 20px;"></td>
-										<td rowspan="1" class="next-table-header-node " th:text="${#temporals.format(order.dateOrder.toLocalDateTime(), 'dd/MM/yyyy')}" style="padding: 10px 20px;"></td>
-										<td rowspan="1" class="next-table-header-node " style="padding: 10px 20px;">
+										<td rowspan="1" class="next-table-header-node " th:text="${#temporals.format(order.dateOrder.toLocalDateTime(), 'dd/MM/yyyy')}" style="padding: 10px 20px; text-align: center"></td>
+										<td rowspan="1" class="next-table-header-node " style="padding: 10px 20px; text-align: center">
 											<img th:src="${order.orderitems[0].book.bookImages[0].path}" width="60px">
 										</td>
 										<td rowspan="1" class="next-table-header-node " style="text-align: right; padding: 10px 20px; color: orangered; font-weight: bold;" th:text="${#numbers.formatInteger(order.totalPrice, 0, 'POINT') + ' đ'}"></td>

@@ -6,6 +6,19 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+
+    <!--Thêm đoạn javascript bên dưới để có thể thực hiện dropdown Account	?\\-->
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <!-- Popper JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <style>
+
     <style>
 
         body { background-color: #f8f9fa  }
@@ -17,14 +30,13 @@
             color: rgb(2,88,155);
         }
         .form-container {
-
             border-radius: 5px;
             padding: 20px;
             border-radius: 15px;
-            margin-top: 20px;
-            margin-bottom: 20px;
-            margin-left: 100px;
-            margin-right: 100px;
+            margin-top: 40px;
+            margin-bottom: 40px;
+            margin-left: 280px;
+            margin-right: 280px;
         }
         .btn-cancle {
             border: 2px solid rgb(241,56,71);
@@ -36,20 +48,24 @@
         }
 
         .btn-order {
-            background-color: rgb(2,88,155);
-            border-radius: 10px;
-            color: white;
+            background-color: #3448c5;
+			border-radius: 50px;
+			color: white;
+			width: 200px;
+			box-shadow: 0px 4px 6px rgba(0, 0.4, 0, 0.2);
         }
         .btn-order:hover {
-            color: rgb(182,232,241);
+            background-color: #211f7f;
+			color: white;
+			box-shadow: 0px 6px 8px rgba(0, 0.4, 0, 0.2);
         }
 
         .frame {
             background-color: rgb(182,232,241);
             border-radius: 10px;
             height: 50px;
-            margin-top: 20px;
-            margin-bottom: 20px;
+            margin-top: 40px;
+            margin-bottom: 40px;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -83,17 +99,160 @@
 
         .form-container {
             box-shadow: 0 8px 10px rgb(226, 226, 226);
-
         }
+
+        .form-check {
+            margin: 5px 0px;
+            align-items: center;
+            display: flex;
+        }
+
+        #reason0 {
+            width: 10px;
+            height: 10px;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            border-radius: 50%;
+            box-shadow: 0 0 0 1px #5591c5;
+            margin-right: 5px;
+        }
+
+        #reason0:checked {
+            box-shadow: 0 0 0 1px #d7ebff, 0 0 0 4px #d7ebff;
+        }
+
+        #reason1 {
+			width: 10px;
+			height: 10px;
+			-webkit-appearance: none;
+			-moz-appearance: none;
+			appearance: none;
+			border-radius: 50%;
+			box-shadow: 0 0 0 1px #5591c5;
+			margin-right: 5px;
+		}
+
+		#reason1:checked {
+			box-shadow: 0 0 0 1px #d7ebff, 0 0 0 4px #d7ebff;
+		}
+
+        #reason2 {
+			width: 10px;
+			height: 10px;
+			-webkit-appearance: none;
+			-moz-appearance: none;
+			appearance: none;
+			border-radius: 50%;
+			box-shadow: 0 0 0 1px #5591c5;
+			margin-right: 5px;
+		}
+
+		#reason2:checked {
+			box-shadow: 0 0 0 1px #d7ebff, 0 0 0 4px #d7ebff;
+		}
+
+        #reason3 {
+			width: 10px;
+			height: 10px;
+			-webkit-appearance: none;
+			-moz-appearance: none;
+			appearance: none;
+			border-radius: 50%;
+			box-shadow: 0 0 0 1px #5591c5;
+			margin-right: 5px;
+		}
+
+		#reason3:checked {
+			box-shadow: 0 0 0 1px #d7ebff, 0 0 0 4px #d7ebff;
+		}
+
+        #reason4 {
+			width: 10px;
+			height: 10px;
+			-webkit-appearance: none;
+			-moz-appearance: none;
+			appearance: none;
+			border-radius: 50%;
+			box-shadow: 0 0 0 1px #5591c5;
+			margin-right: 5px;
+		}
+
+		#reason4:checked {
+			box-shadow: 0 0 0 1px #d7ebff, 0 0 0 4px #d7ebff;
+		}
+
+        #reason5 {
+			width: 10px;
+			height: 10px;
+			-webkit-appearance: none;
+			-moz-appearance: none;
+			appearance: none;
+			border-radius: 50%;
+			box-shadow: 0 0 0 1px #5591c5;
+			margin-right: 5px;
+		}
+
+		#reason5:checked {
+			box-shadow: 0 0 0 1px #d7ebff, 0 0 0 4px #d7ebff;
+		}
+
+        #reason6 {
+			width: 10px;
+			height: 10px;
+			-webkit-appearance: none;
+			-moz-appearance: none;
+			appearance: none;
+			border-radius: 50%;
+			box-shadow: 0 0 0 1px #5591c5;
+			margin-right: 5px;
+		}
+
+		#reason6:checked {
+			box-shadow: 0 0 0 1px #d7ebff, 0 0 0 4px #d7ebff;
+		}
+
+        #reason7 {
+			width: 10px;
+			height: 10px;
+			-webkit-appearance: none;
+			-moz-appearance: none;
+			appearance: none;
+			border-radius: 50%;
+			box-shadow: 0 0 0 1px #5591c5;
+			margin-right: 5px;
+		}
+
+		#reason7:checked {
+			box-shadow: 0 0 0 1px #d7ebff, 0 0 0 4px #d7ebff;
+		}
+
+        .material-symbols-outlined.back {
+			color: rgb(2,88,155);
+		}
+
+		.material-symbols-outlined.back:hover {
+			color: rgb(182,232,241);
+		}
+
     </style>
 </head>
 <body>
 <div th:replace="~{layout/header :: header}"></div>
 <div class="container-fluid mb-4">
     <div class="container">
-        <div class="form-container" style="background-color: white;">
-            <h3 class="text-center">CHỌN LÝ DO HỦY ĐƠN HÀNG [[${orderId}]]</h3>
-            <form th:action="@{/cancelorder(orderId=${orderId})}" method="post">
+        <div class="form-container" style="background-color: white; box-shadow: 0 8px 10px rgb(226, 226, 226);">
+            <div class="col-00" style="display: flex">
+                <a th:href="@{/vieworderitems(orderId=${orderId})}" class="before">
+                    <span class="material-symbols-outlined back">arrow_back_ios</span>
+                </a>
+                <h5 style="color: #211f7f; align-items: center;  margin: 0px 5px 0px 0px">Lý do hủy đơn hàng</h5>
+            </div>
+            <div class="col-order d-flex" style="justify-content: flex-end; font-size: 20px; padding: 0px 20px">
+                <p style="margin: 0px 5px 0px 0px; color: #f17746">MÃ ĐƠN HÀNG:</p>
+                <span class="align-middle text-center" style="color: #f17746">[[${orderId}]]</span>
+            </div>
+            <form th:action="@{/cancelorder(orderId=${orderId})}" method="post" style="margin-top: 10px">
                 <div class="form-check">
                     <input class="form-check-input" type="radio" name="cancelReason" id="reason0" value="0">
                     <label class="form-check-label" for="reason0">Đặt nhầm sản phẩm</label>
@@ -128,17 +287,37 @@
                 </div>
                 <div class="form-group">
                     <label for="otherReason">Lý do khác:</label>
-                    <input type="text" class="form-control" id="otherReason" name="otherReason">
+                    <input type="text" class="form-control" id="otherReason" name="otherReason" style="border-radius: 50px">
                 </div>
                 <div class="text-center">
-                    <button type="submit" class="btn btn-order">Xác nhận hủy</button>
-                    <a th:href="@{/vieworderitems(orderId=${orderId})}" class="btn btn-cancle">Không hủy nữa</a>
+                    <a type="submit" class="btn btn-order" style="color: white;">Xác nhận hủy</a>
                 </div>
             </form>
         </div>
     </div>
 </div>
 <div th:replace="~{layout/footer :: footer}"></div>
-</body>
+<script>
+    var checkboxes = document.querySelectorAll('input[type="radio"][name="cancelReason"]');
 
+    checkboxes.forEach(function(checkbox) {
+        checkbox.addEventListener('change', function() {
+            checkboxes.forEach(function(c) {
+                c.style.backgroundColor = '';
+            });
+            if (this.checked) {
+                this.style.backgroundColor = '#5591c5';
+            }
+        });
+    });
+
+    // Set the background color for the checked checkbox when the page loads
+    var checkedCheckbox = document.querySelector('input[type="radio"][name="cancelReason"]:checked');
+    if (checkedCheckbox) {
+        checkedCheckbox.style.backgroundColor = '#5591c5';
+    }
+</script>
+
+
+</body>
 </html>

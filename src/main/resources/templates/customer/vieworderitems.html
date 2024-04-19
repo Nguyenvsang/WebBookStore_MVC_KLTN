@@ -10,7 +10,8 @@
     <style>
 		
 		body { background-color: #f8f9fa  }
-		
+
+
     	h3 {
         	text-align: center;
         	margin-top: 20px;
@@ -144,8 +145,9 @@
 			background-color: orange;
 		}
 
+
 		.badge-01 {
-			color: #f17746;
+			color: #5390f5;
 			height: 40px;
 			font-weight: bold; /* In đậm */
 			font-size: 20px; /* Tăng kích thước chữ */
@@ -192,7 +194,7 @@
 		}
 
 
-		.alert-confirm {
+		.alert.confirm {
 			background-color: #ffebae;
 		}
 
@@ -214,8 +216,9 @@
 			justify-content: center;
 			height: 25px;
 			width: auto;
+			padding 5px;
 		}
-		
+
 	</style>
 </head>
 <body>
@@ -230,9 +233,9 @@
 					<h5 style="color: #211f7f; align-items: center;  margin: 0px 5px 0px 0px">Chi tiết đơn hàng</h5>
 				</div>
 				<div class="row-order d-flex align-items-center" style="justify-content: flex-end; height: 50px; border-bottom: 1px solid #cecece;">
-					<div class="col-order d-flex" style="justify-content: flex-end; font-size: 20px; padding: 0px 20px">
-						<p style="margin: 0px 5px 0px 0px">MÃ ĐƠN HÀNG:</p>
-						<span th:text="${order.id}" class="align-middle text-center"> </span>
+					<div class="col-order d-flex" style="justify-content: flex-end; font-size: 20px; padding: 0px 20px;">
+						<p style="margin: 0px 5px 0px 0px; color: #f17746">MÃ ĐƠN HÀNG:</p>
+						<span th:text="${order.id}" class="align-middle text-center" style="color: #f17746"> </span>
 					</div>
 					<div style="border-left: 2px solid #a2abb4; height: 20px;"></div>
 					<div class="col-order d-flex" style="justify-content: flex-end; padding: 0px 20px">
@@ -257,7 +260,22 @@
 						Bạn đã xác nhận rằng ĐÃ NHẬN HÀNG
 					</div>
 					<p style="color: green; margin-top: 15px; font-weight: bold; ">Cảm ơn bạn đã mua sắm tại KNOWLEDGE YOUNG!</p>
+					<form th:action="@{/receivedorder}" th:if="${order.status == 10}" method="post" style="display: flex; justify-content: flex-end; align-items: flex-end; margin-top: 20px">
+						<input type="hidden" name="orderId" th:value="${order.id}" />
+						<button type="submit" class="btn btn-receive">Mua lại</button>
+					</form>
 				</div>
+
+				<div th:if="${order.status == 3 && daysBetween <= 15}">
+					<div class="alert confirm d-flex align-items-center" role="alert" style="color: #fe6502; font-weight: bold; margin-bottom: 20px">
+						<span class="material-symbols-outlined" style="margin-right: 10px">notification_important</span>
+						<span th:if="${lastReturnDate != null}" th:text="'Bạn có thể yêu cầu trả hàng đến hết ngày ' + ${#temporals.format(lastReturnDate.toLocalDateTime(), 'dd/MM/yyyy')} + ' , sau ngày đó bạn không thể yêu cầu trả hàng được nữa!' "></span>
+					</div>
+					<div class="row d-flex align-items-center justify-content-center">
+						<h6 style="color: #3448c5; margin: 0px 0px">Nếu bạn đã hài lòng và không có ý định trả hàng, vui lòng nhấn vào nút Đã nhận hàng</h6>
+					</div>
+				</div>
+
 				<div class="row-title d-flex align-items-center" style="height: 50px">
 					<h6>Địa chỉ nhận hàng</h6>
 				</div>
@@ -320,13 +338,7 @@
 						</form>
 					</div>
 				</div>
-				<div th:if="${order.status == 3 && daysBetween <= 15}" >
-					<div class="alert-confirm d-flex align-items-center" role="alert" style="color: #fe6502; font-weight: bold; margin-bottom: 20px">
-						<span class="material-symbols-outlined" style="margin-right: 10px">notification_important</span>
-						<span th:if="${lastReturnDate != null}" th:text="'Bạn có thể yêu cầu trả hàng đến hết ngày ' + ${#temporals.format(lastReturnDate.toLocalDateTime(), 'dd/MM/yyyy')} + ' , sau ngày đó bạn không thể yêu cầu trả hàng được nữa!' "></span>
-					</div>
-					<h6>Nếu bạn đã hài lòng và không có ý định trả hàng, vui lòng nhấn vào nút Đã nhận hàng</h6>
-				</div>
+
 				<div class="TWLNg9">
 					<div class="qJkRlY"></div>
 				</div>
@@ -342,7 +354,7 @@
 						<tbody>
 						<tr th:each="orderItem : ${orderItems}" onmouseover="this.style.backgroundColor='#f2f5f6';" onmouseout="this.style.backgroundColor='transparent';" style="border-top: 1px solid #cecece;">
 							<td rowspan="1" class="next-table-header-node first" style="padding: 20px 20px;">
-								<img th:src="${order.orderitems[0].book.bookImages[0].path}" width="70px">
+								<img th:src="${orderItem.book.bookImages[0].path}" width="70px">
 							</td>
 							<td rowspan="1" class="next-table-header-node " th:text="${orderItem.book.name}" style="padding: 10px 20px;"></td>
 							<td rowspan="1" class="next-table-header-node " th:text="${orderItem.quantity}" style="padding: 10px 20px; text-align: center;"></td>
@@ -352,21 +364,22 @@
 					</table>
 				</div>
 
-				<div class="row-pay d-flex align-items-center" style="padding: 0px 0px 20px 0px; width: 100%; border-top: 2px solid #cecece; padding: 20px 0px">
+				<div class="row-pay d-flex align-items-center" style="padding: 0px 0px 20px 0px; width: 100%; border-top: 1px solid #cecece; padding: 20px 0px">
 					<div class="col-04" style="width: 80%; display: flex; justify-content: flex-end; align-items: flex-end;">
-						<p style="margin: 0px 0px 0px">Tổng thanh toán</p>
+						<h6 style="margin: 0px 0px 0px">Tổng thanh toán</h6>
 					</div>
 					<div class="col-05" style="width: 20%; display: flex; justify-content: flex-end; align-items: flex-end; padding: 0px 20px">
 						<p th:text="${#numbers.formatInteger(order.totalPrice, 0, 'POINT') + ' đ'}" class="align-middle text-center" style="color: orangered; font-weight: bold; margin: 0px 0px 0px"></p>
 					</div>
 				</div>
 
-				<div class="row-status-pay d-flex align-items-center" style="padding: 0px 0px 20px 0px; width: 100%; border-top: 2px solid #cecece; padding: 20px 0px">
-					<div class="col-04" style="display: flex; justify-content: flex-end; align-items: flex-end;">
-						<p style="margin: 0px 0px 0px">Trạng thái</p>
-					</div>
-					<div class="col-05" style="display: flex; padding: 0px 20px">
-						<span th:switch="${order.paymentStatus.status}">
+				<div class="row-status-pay d-flex align-items-center" style="padding: 0px 0px 20px 0px; width: 100%; border-top: 1px solid #cecece; padding: 20px 0px">
+<!--					<div class="col-04" style="display: flex; justify-content: flex-end; align-items: flex-end;">-->
+<!--						<p >Trạng thái</p>-->
+<!--					</div>-->
+					<div class="col-05" style="display: flex; padding: 0px 20px;">
+						<span th:if="${order.status != 4}" th:switch="${order.paymentStatus.status}" style="display: flex; align-items: center">
+							<span style="margin: 0px 0px 0px; margin-right: 10px">Trạng thái</span>
 							<span th:case="0" class="badge badge-primary">Chưa thanh toán</span>
 							<span th:case="1" class="badge badge-success">Đã thanh toán</span>
 							<span th:case="2" class="badge badge-warning">Xử lý hoàn tiền</span>
