@@ -260,19 +260,31 @@
 						Bạn đã xác nhận rằng ĐÃ NHẬN HÀNG
 					</div>
 					<p style="color: green; margin-top: 15px; font-weight: bold; ">Cảm ơn bạn đã mua sắm tại KNOWLEDGE YOUNG!</p>
-					<form th:action="@{/receivedorder}" th:if="${order.status == 10}" method="post" style="display: flex; justify-content: flex-end; align-items: flex-end; margin-top: 20px">
+				</div>
+
+				<div th:if="${order.status == 3 || order.status == 10 && daysBetween <= 15}">
+					<div class="alert confirm d-flex align-items-center" role="alert" style="color: #fe6502; font-weight: bold; margin-bottom: 20px">
+						<span class="material-symbols-outlined" style="margin-right: 10px">notification_important</span>
+						<span th:if="${lastReturnDate != null}" th:text="'Bạn có thể yêu cầu trả hàng đến hết ngày ' + ${#temporals.format(lastReturnDate.toLocalDateTime(), 'dd/MM/yyyy')} + ' , sau ngày đó bạn không thể yêu cầu trả hàng được nữa!' "></span>
+					</div>
+				</div>
+
+				<!-- Hiển thị thông báo nếu có -->
+				<div th:if="${param.message}" class="alert"
+					 th:classappend="${#strings.containsIgnoreCase(param.message, 'thành công') ? 'alert-success' : 'alert-danger'}">
+					<span th:text="${param.message}"></span>
+				</div>
+
+				<div th:if="${order.isCompleted != 0}" class="row-order align-items-center">
+					<form th:action="@{/receivedorder}" th:if="${order.isCompleted != 0}" method="post" style="display: flex; justify-content: flex-end; align-items: flex-end; margin-top: 20px">
 						<input type="hidden" name="orderId" th:value="${order.id}" />
 						<button type="submit" class="btn btn-receive">Mua lại</button>
 					</form>
 				</div>
 
 				<div th:if="${order.status == 3 && daysBetween <= 15}">
-					<div class="alert confirm d-flex align-items-center" role="alert" style="color: #fe6502; font-weight: bold; margin-bottom: 20px">
-						<span class="material-symbols-outlined" style="margin-right: 10px">notification_important</span>
-						<span th:if="${lastReturnDate != null}" th:text="'Bạn có thể yêu cầu trả hàng đến hết ngày ' + ${#temporals.format(lastReturnDate.toLocalDateTime(), 'dd/MM/yyyy')} + ' , sau ngày đó bạn không thể yêu cầu trả hàng được nữa!' "></span>
-					</div>
 					<div class="row d-flex align-items-center justify-content-center">
-						<h6 style="color: #3448c5; margin: 0px 0px">Nếu bạn đã hài lòng và không có ý định trả hàng, vui lòng nhấn vào nút Đã nhận hàng</h6>
+						<h6 style="color: #3448c5; margin: 0px 0px">Nếu bạn đã nhận hàng vui lòng nhấn vào nút Đã nhận hàng nhé! Sau đó bạn vẫn có quyền trả hàng</h6>
 					</div>
 				</div>
 
@@ -329,7 +341,7 @@
 					<div class="col-03 center-content" style="width: 240px; align-items: flex-end; justify-content: flex-end">
 						<div class="row-operation" style="display: flex; justify-content: flex-end; align-items: flex-end;">
 							<a th:if="${order.status == 0}" class="btn btn-destroy" th:href="@{/cancelorder(orderId=${order.id})}">Hủy đơn</a>
-							<a th:if="${order.status == 3 && daysBetween <= 15}" class="btn btn-return" th:href="@{/returnorder(orderId=${order.id})}">Trả hàng</a>
+							<a th:if="${order.status == 3 || order.status == 10 && daysBetween <= 15}" class="btn btn-return" th:href="@{/returnorder(orderId=${order.id})}">Trả hàng</a>
 							<span th:if="${order.status != 0 && !(order.status == 3 && daysBetween <= 15)}"></span>
 						</div>
 						<form th:action="@{/receivedorder}" th:if="${order.status == 3}" method="post" style="display: flex; justify-content: flex-end; align-items: flex-end; margin-top: 20px">
@@ -389,12 +401,6 @@
 					</div>
 				</div>
 			</div>
-		</div>
-
-		<!-- Hiển thị thông báo nếu có -->
-		<div th:if="${param.message}" class="alert"
-			 th:classappend="${#strings.containsIgnoreCase(param.message, 'thành công') ? 'alert-success' : 'alert-danger'}">
-			<span th:text="${param.message}"></span>
 		</div>
         
     </div>

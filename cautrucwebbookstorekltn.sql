@@ -153,6 +153,8 @@ CREATE TABLE `Order` (
 	-- Khai báo thuộc tính account_id kiểu int và là khóa ngoại tham chiếu đến bảng Account
 	account_id INT,
 	FOREIGN KEY (account_id) REFERENCES Account(id),
+    -- Khai báo thuộc tính is_completed kiểu int, không được null và mặc định là 0
+	is_completed INT NOT NULL DEFAULT 0,
 	-- Khai báo thuộc tính status kiểu int, không được null
 	status INT NOT NULL
 );

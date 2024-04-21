@@ -41,6 +41,9 @@ public class Order {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "account_id")
     private Account account;
+	@Column(name = "is_completed", columnDefinition = "int NOT NULL DEFAULT 0")
+	private int isCompleted; // 0: Đơn hàng chưa hoàn thành, 1: Đơn hàng đã hoàn thành
+							 // 2: Đơn hàng đã hủy thành công, 3: Đơn hàng đã trả thành công
     @Column(name = "status", columnDefinition = "int NOT NULL")
     private int status; // 0: Chờ xác nhận, 1: Chờ lấy hàng, 
     					// 2: Đang giao, 3: Đã giao
@@ -59,9 +62,11 @@ public class Order {
 //	Nếu Yêu cầu hủy đơn mà đã thanh toán tiền cho đơn đó thì khi ở trạng thái Đã hủy đơn cũng bao gồm Xử lý hoàn tiền cho khách
 //	Được yêu cầu trả hàng trong vòng 15 ngày (không kể giờ phút giây) kể từ khi giao hàng thành công (Đã giao). Quá 15 ngày thì nút Trả hàng sẽ biến mất và trên hệ thống admin sẽ chuyển trạng thái đơn hàng thành Đã nhận hàng
 //	Được yêu cầu hủy đơn khi đơn hàng ở trạng thái Chờ xác nhận
-//	Nếu đã nhấn Đã nhận hàng thì khách hàng không thể chọn Trả hàng sau đó nữa
+//	Nếu đã nhấn Đã nhận hàng thì khách hàng vẫn có thể chọn Trả hàng sau đó
 // Khi đơn hàng có trạng thái 10 (đã nhận hàng), hệ thống sẽ tự động cập nhật trạng thái thanh toán của đơn hàng đó thành 1 (đã thanh toán).
-// Từ đây, doanh thu và lợi nhuận sẽ được tính cho đơn hàng đó.
+// Khi Admin xác nhận Đơn hàng Đã hoàn thành thì doanh thu và lợi nhuận sẽ được tính cho đơn hàng đó.
+// Nếu đơn đã Hủy thì Admin phải chuyển isCompleted về Đơn hàng đã hủy thành công
+// Nếu đơn đã Trả thành công thì Admin phải chuyển isCompleted về Đơn hàng đã trả thành công
 
     //bi-directional one-to-many association with OrderItem
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "order")

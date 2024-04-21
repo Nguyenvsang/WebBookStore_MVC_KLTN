@@ -166,7 +166,7 @@
 	        </table>
         </div>
 
-		<div class="frame-main-2">
+		<div class="frame-main-3">
 			<h4>Đổi trạng thái đơn hàng và trạng thái thanh toán tại đây</h4>
 			<table class="table table-striped">
 				<thead class="thead-title">
@@ -212,6 +212,18 @@
 					</td>
 				</tr>
 			</table>
+			<h4>Xác nhận mức độ hoàn thành của đơn hàng này. Doanh thu, lợi nhuận chỉ được tính khi đơn hàng đã hoàn thành</h4>
+			<span>
+				<form method="POST" th:action="@{/updateiscompleted}" style="border-radius: 10px;">
+					<input type="hidden" name="orderId" th:value="${order.id}">
+					<select class="form-control" name="iscompleted" onchange="this.form.submit()" style="border-radius: 10px;">
+						<option value="0" th:selected="${order.isCompleted == 0}">Chưa hoàn thành</option>
+						<option value="1" th:selected="${order.isCompleted == 1}">Đã hoàn thành</option>
+						<option value="2" th:selected="${order.isCompleted == 2}">Đã hủy</option>
+						<option value="3" th:selected="${order.isCompleted == 3}">Đã trả hàng</option>
+					</select>
+				</form>
+			</span>
 		</div>
         
         

@@ -134,7 +134,23 @@ public class AdminOrderController {
 		}
 
 		// Nếu là Trả hàng thành công thì TTTT tự động chuyển qua Đã hoàn tiền
+		// Duyệt qua từng món hàng để trả lại số lượng sách
 		if (status == 7) {
+			// Lấy danh sách OrderItem từ OrderItemService
+			List<OrderItem> orderItems = orderItemService.getOrderItemsByOrder(order);
+			// Duyệt qua từng món hàng để trả lại số lượng sách
+			for (OrderItem orderItem : orderItems) {
+				Book book = orderItem.getBook();
+				// Cập nhật số lượng sách và kiểm tra trạng thái
+				int remainingQuantity = book.getQuantity() + orderItem.getQuantity();
+				if (remainingQuantity > 0 && book.getStatus() == 0) {
+					book.setStatus(1);
+					book.setQuantity(remainingQuantity);
+				} else {
+					book.setQuantity(remainingQuantity);
+				}
+				bookService.updateBook(book);
+			}
 			// Lấy trạng thái thanh toán dựa trên order
 			PaymentStatus paymentStatus = paymentStatusService.getPaymentStatusByOrder(order);
 			// Cập nhật trạng thái thanh toán mới
@@ -142,10 +158,59 @@ public class AdminOrderController {
 			paymentStatusService.updatePaymentStatus(paymentStatus);
 		}
 
-		// Khi đơn hàng có trạng thái 10 (đã nhận hàng),
-		// hệ thống sẽ tự động cập nhật trạng thái thanh toán của đơn hàng đó thành 1 (đã thanh toán).
-		// Từ đây, doanh thu và lợi nhuận sẽ được tính cho đơn hàng đó.
-		if (status == 10) {
+	    // Cập nhật trạng thái đơn hàng
+	    order.setStatus(status);
+
+	    // Cập nhật đơn hàng thông qua Service
+	    orderService.updateOrder(order);
+
+	    // Chuyển hướng về trang manageorderitems
+	    return "redirect:/manageorderitems?orderId=" + orderId;
+	}
+
+	@PostMapping("/updatepaymentstatus")
+	public String updatePaymentStatus(@RequestParam("orderId") int orderId,
+									@RequestParam("paymentstatus") int paymentstatus,
+									HttpSession session) {
+		Account admin = (Account) session.getAttribute("admin");
+
+		// Kiểm tra xem admin đã đăng nhập hay chưa
+		if (admin == null) {
+			// Nếu chưa đăng nhập, chuyển hướng về trang đăng nhập
+			return "redirect:/loginadmin";
+		}
+
+		// Lấy đơn hàng từ Service
+		Order order = orderService.getOrderById(orderId);
+		// Lấy trạng thái thanh toán dựa trên order
+		PaymentStatus paymentStatus = paymentStatusService.getPaymentStatusByOrder(order);
+		// Cập nhật trạng thái thanh toán mới
+		paymentStatus.setStatus(paymentstatus);
+		paymentStatusService.updatePaymentStatus(paymentStatus);
+
+		// Chuyển hướng về trang manageorderitems
+		return "redirect:/manageorderitems?orderId=" + orderId;
+	}
+
+	@PostMapping("/updateiscompleted")
+	public String updateIsCompleted(@RequestParam("orderId") int orderId,
+									@RequestParam("iscompleted") int iscompleted,
+									RedirectAttributes redirectAttributes,
+									HttpSession session) {
+		Account admin = (Account) session.getAttribute("admin");
+
+		// Kiểm tra xem admin đã đăng nhập hay chưa
+		if (admin == null) {
+			// Nếu chưa đăng nhập, chuyển hướng về trang đăng nhập
+			return "redirect:/loginadmin";
+		}
+
+		// Lấy đơn hàng từ Service
+		Order order = orderService.getOrderById(orderId);
+		// Xử lý từng loại iscompleted cho phù hợp
+		if (iscompleted == 1){
+			// Nếu Admin chọn "Đơn hàng đã hoàn thành" thì sẽ tính doanh thu, lợi nhuận
+			// hệ thống sẽ tự động cập nhật trạng thái thanh toán của đơn hàng đó thành 1 (đã thanh toán).
 			// Kiểm tra xem Order đã tồn tại Revenue chưa
 			Revenue existingRevenue = revenueService.getRevenueByOrder(order);
 			if (existingRevenue == null) {
@@ -213,36 +278,9 @@ public class AdminOrderController {
 			paymentStatus.setStatus(1); // Đã thanh toán
 			paymentStatusService.updatePaymentStatus(paymentStatus);
 		}
-
-	    // Cập nhật trạng thái đơn hàng
-	    order.setStatus(status);
-
-	    // Cập nhật đơn hàng thông qua Service
-	    orderService.updateOrder(order);
-
-	    // Chuyển hướng về trang manageorderitems
-	    return "redirect:/manageorderitems?orderId=" + orderId;
-	}
-
-	@PostMapping("/updatepaymentstatus")
-	public String updatePaymentStatus(@RequestParam("orderId") int orderId,
-									@RequestParam("paymentstatus") int paymentstatus,
-									HttpSession session) {
-		Account admin = (Account) session.getAttribute("admin");
-
-		// Kiểm tra xem admin đã đăng nhập hay chưa
-		if (admin == null) {
-			// Nếu chưa đăng nhập, chuyển hướng về trang đăng nhập
-			return "redirect:/loginadmin";
-		}
-
-		// Lấy đơn hàng từ Service
-		Order order = orderService.getOrderById(orderId);
-		// Lấy trạng thái thanh toán dựa trên order
-		PaymentStatus paymentStatus = paymentStatusService.getPaymentStatusByOrder(order);
-		// Cập nhật trạng thái thanh toán mới
-		paymentStatus.setStatus(paymentstatus);
-		paymentStatusService.updatePaymentStatus(paymentStatus);
+		// Cập nhật trạng thái hoàn thành của đơn hàng
+		order.setIsCompleted(iscompleted);
+		orderService.updateOrder(order);
 
 		// Chuyển hướng về trang manageorderitems
 		return "redirect:/manageorderitems?orderId=" + orderId;
