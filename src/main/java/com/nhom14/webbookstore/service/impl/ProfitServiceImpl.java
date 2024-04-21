@@ -5,9 +5,12 @@ import com.nhom14.webbookstore.entity.Profit;
 import com.nhom14.webbookstore.repository.ProfitRepository;
 import com.nhom14.webbookstore.service.ProfitService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -52,5 +55,15 @@ public class ProfitServiceImpl implements ProfitService {
         LocalDateTime start = LocalDateTime.of(year, month, 1, 0, 0);
         LocalDateTime end = start.plusMonths(1);
         return profitRepository.sumProfitBetweenDates(start, end); //Không có sẽ trả về 0
+    }
+
+    @Override
+    public Page<Profit> getFilteredProfits(Long profitId, Integer orderitemId, Double costPrice, Double sellPrice, Double profit, LocalDate date, Double profitMin, Double profitMax, Pageable pageable) {
+        return profitRepository.findWithFilters(profitId, orderitemId, costPrice, sellPrice, profit, date, profitMin, profitMax, pageable);
+    }
+
+    @Override
+    public List<Profit> getAllProfits() {
+        return profitRepository.findAll();
     }
 }

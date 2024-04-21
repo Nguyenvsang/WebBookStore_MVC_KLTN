@@ -125,7 +125,6 @@
 						<div class="col-md-10">
 							<select id="paymentMethods" name="paymentMethods" class="form-control" style="border-radius: 10px;">
 								<option value="cash">Thanh toán khi nhận hàng</option>
-								<option value="MoMo">Thanh toán bằng Momo</option>
 								<option value="VNPAY">Cổng thanh toán VNPAY</option>
 							</select>
 						</div>
@@ -136,12 +135,35 @@
 				           <h5>Tổng số tiền: <span th:text="${#numbers.formatInteger(totalAmount, 0, 'POINT') + ' đ'}"></span></h5>
 				        </div>
 		            </div>
-		            
-		            <div class="text-center">
-		                <button type="submit" class="btn btn-order">Đặt hàng</button>
-		                <a th:href="@{/viewcart}" class="btn btn-cancle">Hủy</a>
-		            </div>
+
+					<div class="text-center">
+						<input type="hidden" name="idSelectedCartItems" id="idSelectedCartItems" th:value="${idSelectedCartItems}">
+						<button type="submit" class="btn btn-order">Đặt hàng</button>
+						<a th:href="@{/viewcart}" class="btn btn-cancle">Hủy</a>
+					</div>
 		        </form>
+				<h3 class="text-center">CÁC MÓN HÀNG ĐÃ CHỌN</h3>
+				<table>
+					<thead>
+					<tr>
+						<th class="align-middle text-center">ID</th>
+						<th class="align-middle text-center">Số lượng</th>
+						<th class="align-middle text-center">Tên sách</th>
+						<th class="align-middle text-center">Giá</th>
+						<th class="align-middle text-center">Tổng cộng</th>
+					</tr>
+					</thead>
+					<tbody>
+					<tr th:each="cartItem : ${selectedCartItems}">
+						<td th:text="${cartItem.id}" class="align-middle text-center"></td>
+						<td th:text="${cartItem.quantity}" class="align-middle text-center"></td>
+						<td th:text="${cartItem.book.name}" class="align-middle text-center"></td>
+						<td th:text="${cartItem.book.sellPrice}" class="align-middle text-center"></td>
+						<td th:text="${cartItem.quantity * cartItem.book.sellPrice}" class="align-middle text-center"></td>
+					</tr>
+					</tbody>
+				</table>
+
 			</div>
 		</div>
     </div>

@@ -1,9 +1,12 @@
 package com.nhom14.webbookstore.service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import com.nhom14.webbookstore.entity.Account;
 import com.nhom14.webbookstore.entity.Order;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface OrderService {
 
@@ -31,6 +34,6 @@ public interface OrderService {
 	// Phương thức để cập nhật một đơn hàng
 	void updateOrder(Order order);
 
-	
-
+	// Lấy danh sách đơn hàng với các tham số tìm kiếm và lọc, phân trang
+    Page<Order> getFilteredOrders(Integer orderId, Integer accounId, LocalDate dateOrder, LocalDate expectedDeliveryDate1, LocalDate expectedDeliveryDate2, LocalDate deliveryDate, Double totalPrice, String name, String address, String phoneNumber, String email, Integer status, Double totalPriceMin, Double totalPriceMax, Pageable pageable);
 }

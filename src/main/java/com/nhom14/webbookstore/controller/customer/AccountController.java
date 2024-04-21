@@ -5,10 +5,10 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
-import java.util.Random;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.util.*;
 
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeRequestUrl;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeTokenRequest;
@@ -22,6 +22,10 @@ import com.nhom14.webbookstore.service.OrderService;
 import jakarta.servlet.http.HttpServletResponse;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -355,7 +359,31 @@ public class AccountController {
 	}
 	
 	@GetMapping("/viewaccount")
-	public String viewAccount(Model model, HttpSession session) {
+	public String viewAccount(
+			@RequestParam(value = "orderId", required = false) Integer orderId,
+			@RequestParam(value = "accountId", required = false) Integer accountId,
+			@RequestParam(value = "dateOrderStr", required = false) String dateOrderStr,
+			@RequestParam(value = "expectedDeliveryDate1Str", required = false) String expectedDeliveryDate1Str,
+			@RequestParam(value = "expectedDeliveryDate2Str", required = false) String expectedDeliveryDate2Str,
+			@RequestParam(value = "deliveryDateStr", required = false) String deliveryDateStr,
+			@RequestParam(value = "totalPrice", required = false) Double totalPrice,
+			@RequestParam(value = "name", required = false) String name,
+			@RequestParam(value = "address", required = false) String address,
+			@RequestParam(value = "phoneNumber", required = false) String phoneNumber,
+			@RequestParam(value = "email", required = false) String email,
+			@RequestParam(value = "status", required = false) Integer status,
+
+
+			@RequestParam(value = "totalPriceMin", required = false) Double totalPriceMin, // Lọc tổng tiền theo khoảng giá
+			@RequestParam(value = "totalPriceMax", required = false) Double totalPriceMax, // Lọc tổng tiền theo khoảng giá
+			@RequestParam(value = "sortOption", required = false, defaultValue = "dateOrder_desc") String sortOption,
+			// sortOption: dateOrder_asc (tăng dần), dateOrder_desc
+			@RequestParam(value = "page", required = false, defaultValue = "1") Integer currentPage,
+			@RequestParam(value = "size", required = false, defaultValue = "10") Integer pageSize,
+			Model model,
+			HttpSession session,
+			RedirectAttributes redirectAttributes
+	) {
 		Account account = (Account) session.getAttribute("account");
 
 	    // Kiểm tra xem người dùng đã đăng nhập hay chưa
@@ -371,14 +399,70 @@ public class AccountController {
         int randomNumber = random.nextInt();
         model.addAttribute("randomNumber", randomNumber);
 
-		// Lấy danh sách đơn hàng theo tài khoản
-		List<Order> orders = orderService.getOrdersByAccount(account);
+		Sort sort = Sort.unsorted();
+		if (sortOption != null) {
+			if ("dateOrder_asc".equals(sortOption)) {
+				sort = sort.and(Sort.by("dateOrder").ascending());
+			} else if ("dateOrder_desc".equals(sortOption)) {
+				sort = sort.and(Sort.by("dateOrder").descending());
+			}
+		}
+
+		Pageable pageable = PageRequest.of(currentPage - 1, pageSize, sort);
+
+		// Chuyển đổi chuỗi ngày thành đối tượng LocalDate
+		LocalDate dateOrder = parseDate(dateOrderStr, redirectAttributes);
+		LocalDate expectedDeliveryDate1 = parseDate(expectedDeliveryDate1Str, redirectAttributes);
+		LocalDate expectedDeliveryDate2 = parseDate(expectedDeliveryDate2Str, redirectAttributes);
+		LocalDate deliveryDate = parseDate(deliveryDateStr, redirectAttributes);
+
+		// Gọi phương thức getFilteredOrders với các tham số tìm kiếm và lọc
+		Page<Order> orders = orderService.getFilteredOrders(orderId, account.getId(), dateOrder, expectedDeliveryDate1, expectedDeliveryDate2, deliveryDate, totalPrice, name, address, phoneNumber, email, status, totalPriceMin, totalPriceMax, pageable);
 
 		// Đặt danh sách đơn hàng vào thuộc tính model để sử dụng trong View
 		model.addAttribute("orders", orders);
 
+		// Thêm các bộ lọc nếu có để dùng cho trang tiếp theo
+		Map<String, Object> params = new HashMap<>();
+		params.put("orderId", orderId);
+		params.put("accountId", account.getId());
+		params.put("dateOrderStr", dateOrderStr);
+		params.put("expectedDeliveryDate1Str", expectedDeliveryDate1Str);
+		params.put("expectedDeliveryDate2Str", expectedDeliveryDate2Str);
+		params.put("deliveryDateStr", deliveryDateStr);
+		params.put("totalPrice", totalPrice);
+		params.put("name", name);
+		params.put("address", address);
+		params.put("phoneNumber", phoneNumber);
+		params.put("email", email);
+		params.put("status", status);
+		params.put("totalPriceMin", totalPriceMin);
+		params.put("totalPriceMax", totalPriceMax);
+		params.put("sortOption", sortOption);
+
+		for (Map.Entry<String, Object> entry : params.entrySet()) {
+			if (entry.getValue() != null) {
+				model.addAttribute(entry.getKey(), entry.getValue());
+			}
+		}
+
         // Forward đến trang xem thông tin tài khoản
         return "customer/viewaccount";
+	}
+
+	private LocalDate parseDate(String dateStr, RedirectAttributes redirectAttributes) {
+		if (dateStr != null && !dateStr.isEmpty()) {
+			try {
+				return LocalDate.parse(dateStr, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+			} catch (DateTimeParseException e) {
+				// Xử lý trường hợp khi dateStr không phải là một ngày hợp lệ
+				// Ví dụ: hiển thị thông báo lỗi cho người dùng
+				redirectAttributes.addAttribute("message", "Ngày không hợp lệ!");
+				// Chuyển hướng về trang managerevenues
+				return null;
+			}
+		}
+		return null;
 	}
 	
 	@GetMapping("/updateaccount")
@@ -604,5 +688,10 @@ public class AccountController {
 		// Hiển thị thông báo thành công
 		redirectAttributes.addAttribute("message", "Thêm mật khẩu thành công.");
 		return "redirect:/viewaccount";
+	}
+
+	@GetMapping("/customer/error")
+	public String showError() {
+		return "customer/error";
 	}
 }

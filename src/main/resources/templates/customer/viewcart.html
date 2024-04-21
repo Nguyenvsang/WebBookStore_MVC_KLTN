@@ -160,6 +160,12 @@
 	<div th:replace="~{layout/header :: header}"></div>
     <div class="container-fluid mb-4" >
 
+		<!-- Hiển thị thông báo nếu có -->
+		<div th:if="${param.message}" class="alert"
+			 th:classappend="${#strings.containsIgnoreCase(param.message, 'thành công') ? 'alert-success' : 'alert-danger'}">
+			<span th:text="${param.message}"></span>
+		</div>
+
 		<!--Đang chỉnh sửa add to cart-->
 		<div class="container">
 			<div class="container-body" style="padding: 0px">
@@ -223,7 +229,7 @@
 									<tr th:each="cartItem : ${cartItems}" style="border-top: 1px solid #cecece;" onmouseover="this.style.backgroundColor='#f2f5f6';" onmouseout="this.style.backgroundColor='transparent';">
 
 										<td rowspan="1" class="next-table-header-node first " style="padding: 20px 20px;">
-											<input type="checkbox" class="itemCheckbox" style="width: 20px; height: 20px; margin: 10px;">
+											<input type="checkbox" class="itemCheckbox" th:data-item-id="${cartItem.id}" th:data-price="${cartItem.book.sellPrice}" th:data-quantity="${cartItem.quantity}" style="width: 20px; height: 20px; margin: 10px;">
 										</td>
 
 										<td rowspan="1" class="next-table-header-node" style="padding: 20px 20px;">
@@ -309,7 +315,11 @@
 									<h5 id="totalpricecart" th:text="${#numbers.formatInteger(totalAmount, 0, 'POINT') + ' đ'}" style="color: orangered; font-weight: bold;"></h5>
 								</td>
 								<td rowspan="1" class="next-table-header-node last" style="padding: 20px 0px 20px 0px; align-items: right">
-									<a th:href="@{/shippinginformation(totalAmount=${totalAmount})}" class="btn btn-purchase">Mua hàng</a>
+									<form th:action="@{/shippinginformation}" method="post">
+										<!-- Các trường form khác ở đây -->
+										<input type="hidden" name="idSelectedCartItems" id="idSelectedCartItems">
+										<button type="submit" class="btn btn-purchase">Mua hàng</button>
+									</form>
 								</td>
 							</tr>
 							</tbody>
@@ -364,23 +374,127 @@
             xhr.send("itemId=" + itemId + "&quantity=" + quantity);
 		}
 
-		// Chọn tất cả quyển sách trong giỏ hàng khi chọn 'checkAll'
-        document.getElementById('checkAll').onclick = function() {
-            var checkboxes = document.getElementsByClassName('itemCheckbox');
-            for (var i = 0; i < checkboxes.length; i++) {
-                checkboxes[i].checked = this.checked;
-            }
-            document.getElementById('check-All').checked = this.checked;
-        };
+		// Cập nhật trạng thái của hộp kiểm 'check-All' khi 'checkAll' thay đổi
+		document.getElementById('checkAll').addEventListener('change', function() {
+			document.getElementById('check-All').checked = this.checked;
+		});
 
-        // Chọn tất cả quyển sách trong giỏ hàng khi chọn 'check-All'
-        document.getElementById('check-All').onclick = function() {
-            var checkboxes = document.getElementsByClassName('itemCheckbox');
-            for (var i = 0; i < checkboxes.length; i++) {
-                checkboxes[i].checked = this.checked;
-            }
-            document.getElementById('checkAll').checked = this.checked;
-        };
+		// Cập nhật trạng thái của hộp kiểm 'checkAll' khi 'check-All' thay đổi
+		document.getElementById('check-All').addEventListener('change', function() {
+			document.getElementById('checkAll').checked = this.checked;
+		});
+
+		// Chọn hoặc bỏ chọn tất cả quyển sách trong giỏ hàng khi 'checkAll' hoặc 'check-All' thay đổi
+		document.querySelectorAll('#checkAll, #check-All').forEach(function(checkbox) {
+			checkbox.addEventListener('change', function() {
+				var checkboxes = document.getElementsByClassName('itemCheckbox');
+				for (var i = 0; i < checkboxes.length; i++) {
+					checkboxes[i].checked = this.checked;
+				}
+				document.getElementById('checkAll').checked = this.checked;
+				document.getElementById('check-All').checked = this.checked;
+				updateTotalPrice();
+			});
+		});
+
+		// Kiểm tra xem tất cả các hộp kiểm có được chọn không
+		function checkAllSelected() {
+			var checkboxes = document.getElementsByClassName('itemCheckbox');
+			for (var i = 0; i < checkboxes.length; i++) {
+				if (!checkboxes[i].checked) {
+					return false;
+				}
+			}
+			return true;
+		}
+
+		// Cập nhật trạng thái của hộp kiểm 'checkAll' và 'check-All' mỗi khi trạng thái của một hộp kiểm thay đổi
+		document.querySelectorAll('.itemCheckbox').forEach(function(checkbox) {
+			checkbox.addEventListener('change', function() {
+				var allSelected = checkAllSelected();
+				document.getElementById('checkAll').checked = allSelected;
+				document.getElementById('check-All').checked = allSelected;
+				updateTotalPrice();
+			});
+		});
+
+
+		// Lưu trạng thái checkbox khi trang được tải lại
+		window.addEventListener('unload', function() {
+			var checkedItems = Array.from(document.querySelectorAll('.itemCheckbox:checked')).map(checkbox => checkbox.dataset.itemId);
+			sessionStorage.setItem('checkedItems', JSON.stringify(checkedItems));
+			// Lưu trạng thái của hộp kiểm 'checkAll' và 'check-All'
+			var checkAllChecked = document.getElementById('checkAll').checked;
+			sessionStorage.setItem('checkAllChecked', checkAllChecked);
+			var check_AllChecked = document.getElementById('check-All').checked;
+    		sessionStorage.setItem('check_AllChecked', check_AllChecked);
+		});
+
+		// Khôi phục trạng thái checkbox khi trang được tải
+		window.addEventListener('load', function() {
+			var checkedItems = JSON.parse(sessionStorage.getItem('checkedItems')) || [];
+			checkedItems.forEach(function(itemId) {
+				var checkbox = document.querySelector(`.itemCheckbox[data-item-id="${itemId}"]`);
+				if (checkbox) checkbox.checked = true;
+			});
+			// Khôi phục trạng thái của hộp kiểm 'checkAll' và 'check-All'
+			var checkAllChecked = sessionStorage.getItem('checkAllChecked') === 'true';
+			document.getElementById('checkAll').checked = checkAllChecked;
+			var check_AllChecked = sessionStorage.getItem('check_AllChecked') === 'true';
+    		document.getElementById('check-All').checked = check_AllChecked;
+			updateTotalPrice();
+		});
+
+		function updateTotalPrice() {
+			var totalPrice = Array.from(document.querySelectorAll('.itemCheckbox:checked')).reduce(function(total, checkbox) {
+				var price = parseFloat(checkbox.dataset.price);
+				var quantity = parseInt(checkbox.dataset.quantity);
+				if (isNaN(price)) {
+					price = 0;
+				}
+				if (isNaN(quantity)) {
+					quantity = 0;
+				}
+				return total + price * quantity;
+			}, 0);
+			document.querySelector('#totalpricecart').textContent = totalPrice.toLocaleString('vi-VN', {style : 'currency', currency : 'VND'});
+		}
+
+
+
+
+
+		// Gọi hàm updateTotalPrice() mỗi khi số lượng hoặc trạng thái checkbox thay đổi
+		document.querySelectorAll('.itemCheckbox, .item-quantity').forEach(function(element) {
+			element.addEventListener('change', updateTotalPrice);
+		});
+
+		// Gọi hàm updateTotalPrice() ngay sau khi trang được tải để hiển thị tổng giá tiền ban đầu
+		window.addEventListener('load', function() {
+			var checkedItems = JSON.parse(sessionStorage.getItem('checkedItems')) || [];
+			checkedItems.forEach(function(itemId) {
+				document.querySelector(`.itemCheckbox[data-item-id="${itemId}"]`).checked = true;
+			});
+			updateTotalPrice();
+		});
+
+		// Lưu danh sách các cartitem ID đã được check khi người dùng nhấn nút "Mua hàng"
+		document.querySelector('.btn-purchase').addEventListener('click', function(event) {
+			event.preventDefault(); // Ngăn chặn hành vi mặc định của nút
+			var idSelectedCartItems = Array.from(document.querySelectorAll('.itemCheckbox:checked')).map(checkbox => checkbox.dataset.itemId);
+
+			// Cập nhật giá trị của trường ẩn với danh sách các ID đã chọn
+			document.getElementById('idSelectedCartItems').value = idSelectedCartItems.join(',');
+
+			// Gửi form
+			event.target.form.submit();
+		});
+
+
+
+
+
+
 
 	</script>
 	<div th:replace="~{layout/footer :: footer}"></div>

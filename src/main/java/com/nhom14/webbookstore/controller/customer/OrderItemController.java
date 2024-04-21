@@ -20,6 +20,7 @@ import com.nhom14.webbookstore.service.OrderItemService;
 import com.nhom14.webbookstore.service.OrderService;
 
 import jakarta.servlet.http.HttpSession;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class OrderItemController {
@@ -36,6 +37,7 @@ public class OrderItemController {
 	@GetMapping("/vieworderitems")
 	public String viewOrderItems(@RequestParam int orderId,
 								 HttpSession session,
+								 RedirectAttributes redirectAttributes,
 								 Model model) {
 		Account account = (Account) session.getAttribute("account");
 
@@ -47,6 +49,13 @@ public class OrderItemController {
 
 		// Lấy đối tượng Order từ OrderService bằng orderId
 		Order order = orderService.getOrderById(orderId);
+
+		// Kiểm xem order có thuộc về người dùng đang đăng nhập không
+		if(order.getAccount().getId()!=account.getId()){
+			// Thêm thông báo lỗi
+			redirectAttributes.addAttribute("message", "Có lỗi xảy ra vui lòng thử lại sau!");
+			return "redirect:/customer/error";
+		}
 
 		// Lấy danh sách OrderItem từ OrderItemService
 		List<OrderItem> orderItems = orderItemService.getOrderItemsByOrder(order);

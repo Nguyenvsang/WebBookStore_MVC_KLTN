@@ -1,10 +1,13 @@
 package com.nhom14.webbookstore.service.impl;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.nhom14.webbookstore.entity.Account;
@@ -86,5 +89,10 @@ public class OrderServiceImpl implements OrderService {
 	public void updateOrder(Order order) {
 		orderRepository.save(order);
 	}
-	
+
+	@Override
+	public Page<Order> getFilteredOrders(Integer orderId, Integer accountId, LocalDate dateOrder, LocalDate expectedDeliveryDate1, LocalDate expectedDeliveryDate2, LocalDate deliveryDate, Double totalPrice, String name, String address, String phoneNumber, String email, Integer status, Double totalPriceMin, Double totalPriceMax, Pageable pageable) {
+		return orderRepository.findWithFilters(orderId, accountId, dateOrder, expectedDeliveryDate1, expectedDeliveryDate2, deliveryDate, totalPrice, name, address, phoneNumber, email, status, totalPriceMin, totalPriceMax, pageable);
+	}
+
 }

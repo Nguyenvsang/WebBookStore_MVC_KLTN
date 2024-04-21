@@ -7,7 +7,11 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import com.nhom14.webbookstore.DTO.PaymentResDTO;
 import com.nhom14.webbookstore.config.VNPAYPaymentConfig;
@@ -16,10 +20,18 @@ import com.nhom14.webbookstore.service.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -39,16 +51,18 @@ public class OrderController {
 	private CartService cartService;
 	private CartItemService cartItemService;
 	private BookService bookService;
-
     private PaymentStatusService paymentStatusService;
+    private RevenueService revenueService;
+    private ProfitService profitService;
+    private BookImportService bookImportService;
 
 	@Autowired
-	public OrderController(OrderService orderService, 
-			OrderItemService orderItemService, 
-			CartService cartService, 
-			CartItemService cartItemService,
-			BookService bookService,
-            PaymentStatusService paymentStatusService) {
+	public OrderController(OrderService orderService,
+                           OrderItemService orderItemService,
+                           CartService cartService,
+                           CartItemService cartItemService,
+                           BookService bookService,
+                           PaymentStatusService paymentStatusService, RevenueService revenueService, ProfitService profitService, BookImportService bookImportService) {
 		super();
 		this.orderService = orderService;
 		this.orderItemService = orderItemService;
@@ -56,13 +70,62 @@ public class OrderController {
 		this.cartItemService = cartItemService;
 		this.bookService = bookService;
 		this.paymentStatusService = paymentStatusService;
-	}
-	
-	@GetMapping("/shippinginformation")
-    public String shippingInformation(@RequestParam(value = "totalAmount", required = false) Double totalAmount,
-    		//Double chấp nhận totalAmount là null còn double thì không
-    		HttpSession session, 
-    		Model model) {
+        this.revenueService = revenueService;
+        this.profitService = profitService;
+        this.bookImportService = bookImportService;
+    }
+
+    @GetMapping("/shippinginformation")
+    public String showShippingInformationForm(Model model,
+                                              HttpSession session,
+                                              RedirectAttributes redirectAttributes) {
+        Account account = (Account) session.getAttribute("account");
+
+        // Kiểm tra xem người dùng đã đăng nhập hay chưa
+        if (account == null) {
+            // Nếu chưa đăng nhập, chuyển hướng đến trang đăng nhập
+            return "redirect:/customer/loginaccount";
+        }
+
+        String idSelectedCartItems = (String) session.getAttribute("idSelectedCartItems");
+
+        // Kiểm tra xem giỏ hàng có hàng không
+        Cart cart = cartService.getCartByAccount(account);
+        List<CartItem> cartItems = cartItemService.getCartItemsByCart(cart);
+        if (cartItems.isEmpty() || idSelectedCartItems == null || idSelectedCartItems.isEmpty()) {
+            redirectAttributes.addAttribute("message", "Vui lòng chọn ít nhất 1 món hàng!");
+            return "redirect:/viewcart";
+        }
+
+        // Chuyển chuỗi selectedItems thành danh sách
+        List<Integer> idSelectedCartItemsList = Arrays.stream(idSelectedCartItems.split(","))
+                .map(Integer::parseInt)
+                .toList();
+
+        // Lọc danh sách cartItems để chỉ giữ lại những mục đã được chọn
+        List<CartItem> selectedCartItems = cartItems.stream()
+                .filter(cartItem -> idSelectedCartItemsList.contains(cartItem.getId()))
+                .toList();
+
+        // Tính toán tổng số tiền cho các mục đã chọn
+        double totalAmount = 0;
+        for (CartItem cartItem : selectedCartItems) {
+            totalAmount += cartItem.getQuantity() * cartItem.getBook().getSellPrice();
+        }
+
+        model.addAttribute("account", account);
+        model.addAttribute("idSelectedCartItems", idSelectedCartItems);
+        model.addAttribute("totalAmount", totalAmount);
+        model.addAttribute("selectedCartItems", selectedCartItems);
+
+        return "customer/shippinginformation";
+    }
+
+
+
+    @PostMapping("/shippinginformation")
+    public String shippingInformation(@RequestParam String idSelectedCartItems,
+                                      HttpSession session) {
 
         Account account = (Account) session.getAttribute("account");
 
@@ -71,27 +134,18 @@ public class OrderController {
             // Nếu chưa đăng nhập, chuyển hướng về trang đăng nhập
             return "redirect:/customer/loginaccount";
         }
-
-        // Kiểm tra xem giỏ hàng có hàng không
-        Cart cart = cartService.getCartByAccount(account);
-        List<CartItem> cartItems = cartItemService.getCartItemsByCart(cart);
-        if (cartItems.isEmpty() || totalAmount == null) {
-            return "redirect:/viewcart";
-        }
-
-        model.addAttribute("account", account);
-        model.addAttribute("totalAmount", totalAmount);
-
-        return "customer/shippinginformation";
+        session.setAttribute("idSelectedCartItems", idSelectedCartItems);
+        return "redirect:/shippinginformation";
     }
-	
-	@PostMapping("/placeorder")
+
+    @PostMapping("/placeorder")
     public String placeOrder(HttpSession session, 
     		@RequestParam("name") String name, 
     		@RequestParam("address") String address, 
     		@RequestParam("phoneNumber") String phoneNumber, 
     		@RequestParam("email") String email,
             @RequestParam("paymentMethods") String paymentMethods,
+            @RequestParam String idSelectedCartItems,
     		Model model,
     		RedirectAttributes redirectAttributes) {
         // Kiểm tra đăng nhập
@@ -108,11 +162,25 @@ public class OrderController {
         List<CartItem> cartItems = cartItemService.getCartItemsByCart(cart);
         if (cartItems.isEmpty()) {
             // Chuyển hướng nếu giỏ hàng trống
+            redirectAttributes.addAttribute("message", "Vui lòng chọn ít nhất 1 món hàng!");
             return "redirect:/viewcart";
         }
 
-        // Tính toán tổng số tiền trong giỏ hàng
-        double totalAmount = calculateTotalAmount(cartItems);
+        // Chuyển chuỗi selectedItems thành danh sách
+        List<Integer> idSelectedCartItemsList = Arrays.stream(idSelectedCartItems.split(","))
+                .map(Integer::parseInt)
+                .toList();
+
+        // Lọc danh sách cartItems để chỉ giữ lại những mục đã được chọn
+        List<CartItem> selectedCartItems = cartItems.stream()
+                .filter(cartItem -> idSelectedCartItemsList.contains(cartItem.getId()))
+                .toList();
+
+        // Tính toán tổng số tiền cho các mục đã chọn
+        double totalAmount = 0;
+        for (CartItem cartItem : selectedCartItems) {
+            totalAmount += cartItem.getQuantity() * cartItem.getBook().getSellPrice();
+        }
 
         // Tạo đối tượng đơn hàng
         Order order = new Order();
@@ -141,7 +209,7 @@ public class OrderController {
         Order lastOrder = orderService.getLastOrder(cart.getAccount());
 
         // Tạo danh sách các mục đơn hàng (OrderItem) từ giỏ hàng
-        for (CartItem cartItem : cartItems) {
+        for (CartItem cartItem : selectedCartItems) {
             OrderItem orderItem = new OrderItem();
             orderItem.setQuantity(cartItem.getQuantity());
             Book book = cartItem.getBook();
@@ -166,8 +234,6 @@ public class OrderController {
             
             // Xóa mục giỏ hàng khỏi giỏ hàng
             cartItemService.deleteCartItem(cartItem);
-
-            
         }
 
         // Tạo đối tượng trạng thái thanh toán
@@ -180,11 +246,7 @@ public class OrderController {
 
 
         // Chuyển hướng đến trang xác nhận đơn hàng hoặc trang thanh toán Momo
-        if ("MoMo".equals(paymentMethods)) {
-            // Nếu người dùng chọn "Thanh toán bằng Momo", chuyển hướng đến trang thanh toán Momo
-            redirectAttributes.addAttribute("orderId", lastOrder.getId());
-            return "redirect:/byMoMoPayment";
-        } else if ("VNPAY".equals(paymentMethods)){
+        if ("VNPAY".equals(paymentMethods)){
             // Nếu người dùng chọn "Cổng thanh toán VNPAY", chuyển hướng đến trang đến đó
             redirectAttributes.addAttribute("orderId", lastOrder.getId());
             return "redirect:/createvnpaypayment";
@@ -204,7 +266,30 @@ public class OrderController {
     }
 	
 	@GetMapping("/vieworders")
-	public String viewOrders(Model model, HttpSession session) {
+	public String viewOrders(
+            @RequestParam(value = "orderId", required = false) Integer orderId,
+            @RequestParam(value = "accountId", required = false) Integer accountId,
+            @RequestParam(value = "dateOrderStr", required = false) String dateOrderStr,
+            @RequestParam(value = "expectedDeliveryDate1Str", required = false) String expectedDeliveryDate1Str,
+            @RequestParam(value = "expectedDeliveryDate2Str", required = false) String expectedDeliveryDate2Str,
+            @RequestParam(value = "deliveryDateStr", required = false) String deliveryDateStr,
+            @RequestParam(value = "totalPrice", required = false) Double totalPrice,
+            @RequestParam(value = "name", required = false) String name,
+            @RequestParam(value = "address", required = false) String address,
+            @RequestParam(value = "phoneNumber", required = false) String phoneNumber,
+            @RequestParam(value = "email", required = false) String email,
+            @RequestParam(value = "status", required = false) Integer status,
+
+
+            @RequestParam(value = "totalPriceMin", required = false) Double totalPriceMin, // Lọc tổng tiền theo khoảng giá
+            @RequestParam(value = "totalPriceMax", required = false) Double totalPriceMax, // Lọc tổng tiền theo khoảng giá
+            @RequestParam(value = "sortOption", required = false, defaultValue = "dateOrder_desc") String sortOption,
+            // sortOption: dateOrder_asc (tăng dần), dateOrder_desc
+            @RequestParam(value = "page", required = false, defaultValue = "1") Integer currentPage,
+            @RequestParam(value = "size", required = false, defaultValue = "10") Integer pageSize,
+            Model model,
+            HttpSession session,
+            RedirectAttributes redirectAttributes) {
 	    // Kiểm tra đăng nhập
 	    Account account = (Account) session.getAttribute("account");
 
@@ -214,17 +299,74 @@ public class OrderController {
 	        return "redirect:/customer/loginaccount";
 	    }
 
-	    // Lấy danh sách đơn hàng theo tài khoản 
-	    List<Order> orders = orderService.getOrdersByAccount(account);
+        Sort sort = Sort.unsorted();
+        if (sortOption != null) {
+            if ("dateOrder_asc".equals(sortOption)) {
+                sort = sort.and(Sort.by("dateOrder").ascending());
+            } else if ("dateOrder_desc".equals(sortOption)) {
+                sort = sort.and(Sort.by("dateOrder").descending());
+            }
+        }
+
+        Pageable pageable = PageRequest.of(currentPage - 1, pageSize, sort);
+
+        // Chuyển đổi chuỗi ngày thành đối tượng LocalDate
+        LocalDate dateOrder = parseDate(dateOrderStr, redirectAttributes);
+        LocalDate expectedDeliveryDate1 = parseDate(expectedDeliveryDate1Str, redirectAttributes);
+        LocalDate expectedDeliveryDate2 = parseDate(expectedDeliveryDate2Str, redirectAttributes);
+        LocalDate deliveryDate = parseDate(deliveryDateStr, redirectAttributes);
+
+        // Gọi phương thức getFilteredOrders với các tham số tìm kiếm và lọc
+        Page<Order> orders = orderService.getFilteredOrders(orderId, account.getId(), dateOrder, expectedDeliveryDate1, expectedDeliveryDate2, deliveryDate, totalPrice, name, address, phoneNumber, email, status, totalPriceMin, totalPriceMax, pageable);
 
 	    // Đặt danh sách đơn hàng vào thuộc tính model để sử dụng trong View
 	    model.addAttribute("orders", orders);
 
+        // Thêm các bộ lọc nếu có để dùng cho trang tiếp theo
+        Map<String, Object> params = new HashMap<>();
+        params.put("orderId", orderId);
+        params.put("accountId", account.getId());
+        params.put("dateOrderStr", dateOrderStr);
+        params.put("expectedDeliveryDate1Str", expectedDeliveryDate1Str);
+        params.put("expectedDeliveryDate2Str", expectedDeliveryDate2Str);
+        params.put("deliveryDateStr", deliveryDateStr);
+        params.put("totalPrice", totalPrice);
+        params.put("name", name);
+        params.put("address", address);
+        params.put("phoneNumber", phoneNumber);
+        params.put("email", email);
+        params.put("status", status);
+        params.put("totalPriceMin", totalPriceMin);
+        params.put("totalPriceMax", totalPriceMax);
+        params.put("sortOption", sortOption);
+
+        for (Map.Entry<String, Object> entry : params.entrySet()) {
+            if (entry.getValue() != null) {
+                model.addAttribute(entry.getKey(), entry.getValue());
+            }
+        }
+
 	    // Forward đến trang vieworders.html
 	    return "customer/vieworders";
 	}
-	
-	@GetMapping("/orderconfirmation")
+
+    private LocalDate parseDate(String dateStr, RedirectAttributes redirectAttributes) {
+        if (dateStr != null && !dateStr.isEmpty()) {
+            try {
+                return LocalDate.parse(dateStr, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+            } catch (DateTimeParseException e) {
+                // Xử lý trường hợp khi dateStr không phải là một ngày hợp lệ
+                // Ví dụ: hiển thị thông báo lỗi cho người dùng
+                redirectAttributes.addAttribute("message", "Ngày không hợp lệ!");
+                // Chuyển hướng về trang managerevenues
+                return null;
+            }
+        }
+        return null;
+    }
+
+
+    @GetMapping("/orderconfirmation")
 	public String orderConfirmation(@RequestParam("orderId") Integer orderId, Model model) {
 	    // Lấy đơn hàng từ cơ sở dữ liệu dựa trên id
 	    Order order = orderService.getOrderById(orderId);
@@ -236,19 +378,6 @@ public class OrderController {
 
 	    return "customer/orderconfirmation";
 	}
-
-    @GetMapping("/byMoMoPayment")
-    public String byMoMoPayment(@RequestParam("orderId") Integer orderId, Model model) {
-        // Lấy đơn hàng từ cơ sở dữ liệu dựa trên id
-        Order order = orderService.getOrderById(orderId);
-
-        // Thực hiện các bước để tích hợp thanh toán Momo tại đây
-
-        // Đặt đơn hàng vào model để hiển thị trên trang thanh toán Momo
-        model.addAttribute("order", order);
-
-        return "customer/bymomopayment";
-    }
 
     @GetMapping("/createvnpaypayment")
     public String createVNPAYPayment(HttpServletRequest req, HttpServletResponse resp,
@@ -418,7 +547,8 @@ public class OrderController {
     @PostMapping("/receivedorder")
     public String receivedOrder(@RequestParam("orderId") Integer orderId,
                                 RedirectAttributes redirectAttributes,
-                                HttpSession session) {
+                                HttpSession session,
+                                Model model) {
         // Kiểm tra đăng nhập
         Account account = (Account) session.getAttribute("account");
 
@@ -430,8 +560,89 @@ public class OrderController {
 
         Order order = orderService.getOrderById(orderId);
 
+        // Kiểm xem order có thuộc về người dùng đang đăng nhập không
+        if(order.getAccount().getId()!=account.getId()){
+            // Thêm thông báo lỗi
+            redirectAttributes.addAttribute("message", "Có lỗi xảy ra vui lòng thử lại sau!");
+            return "redirect:/customer/error";
+        }
+
         // Đặt trạng thái là Đã nhận hàng
         order.setStatus(10);
+
+        // Khi đơn hàng có trạng thái 10 (đã nhận hàng),
+        // hệ thống sẽ tự động cập nhật trạng thái thanh toán của đơn hàng đó thành 1 (đã thanh toán).
+        // Từ đây, doanh thu và lợi nhuận sẽ được tính cho đơn hàng đó.
+        if (order.getStatus() == 10) {
+            // Kiểm tra xem Order đã tồn tại Revenue chưa
+            Revenue existingRevenue = revenueService.getRevenueByOrder(order);
+            if (existingRevenue == null) {
+                // Tính toán doanh thu
+                double revenueAmount = order.getTotalPrice();
+
+                // Tạo bản ghi doanh thu mới
+                Revenue revenue = new Revenue();
+                revenue.setOrder(order);
+                revenue.setRevenue(revenueAmount);
+                revenue.setDate(new Timestamp(System.currentTimeMillis()));
+                revenueService.addRevenue(revenue);
+            }
+
+            // Lấy tất cả các OrderItem của Order
+            List<OrderItem> orderItems = orderItemService.getOrderItemsByOrder(order);
+
+            for (OrderItem orderItem : orderItems) {
+                // Kiểm tra xem OrderItem đã tồn tại Profit chưa
+                Profit existingProfit = profitService.getProfitByOrderItem(orderItem);
+                if (existingProfit == null) {
+                    // Lấy Book tương ứng với OrderItem
+                    Book book = orderItem.getBook();
+
+                    // Lấy đợt nhập sách mới nhất của Book
+                    BookImport latestBookImport = bookImportService.getLatestBookImportByBook(book);
+
+                    if (latestBookImport == null){
+                        redirectAttributes.addAttribute("message", "Không tìm thấy đợt nhập sách!");
+                        // Chuyển hướng về trang manageorderitems
+                        return "redirect:/vieworderitems?orderId=" + orderId;
+                    }
+
+                    // Kiểm tra xem số lượng còn lại có đủ để đáp ứng yêu cầu của OrderItem hay không
+                    if (latestBookImport.getRemainingQuantity() >= orderItem.getQuantity()) {
+                        // Trừ remaining_quantity và cập nhật BookImport
+                        latestBookImport.setRemainingQuantity(latestBookImport.getRemainingQuantity() - orderItem.getQuantity());
+                        bookImportService.updateBookImport(latestBookImport);
+                    } else {
+                        // Xử lý trường hợp không đủ sách...
+                        redirectAttributes.addAttribute("message", "Có lỗi xảy ra, vui lòng thử lại sau!" + latestBookImport.getRemainingQuantity() +"----------" + orderItem.getQuantity());
+                        // Chuyển hướng về trang manageorderitems
+                        return "redirect:/vieworderitems?orderId=" + orderId;
+                    }
+
+                    orderItem.setCostPrice(latestBookImport.getImportPrice());
+                    orderItemService.updateOrderItem(orderItem);
+
+                    // Tính toán lợi nhuận
+                    double profitAmount = (orderItem.getSellPrice() - latestBookImport.getImportPrice()) * orderItem.getQuantity();
+
+                    // Tạo bản ghi lợi nhuận mới
+                    Profit profit = new Profit();
+                    profit.setOrderItem(orderItem);
+                    profit.setCostPrice(latestBookImport.getImportPrice());
+                    profit.setSellPrice(orderItem.getSellPrice());
+                    profit.setProfit(profitAmount);
+                    profit.setDate(new Timestamp(System.currentTimeMillis()));
+                    profitService.addProfit(profit);
+                }
+            }
+            // Lấy trạng thái thanh toán dựa trên order
+            PaymentStatus paymentStatus = paymentStatusService.getPaymentStatusByOrder(order);
+            // Cập nhật trạng thái thanh toán mới
+            paymentStatus.setStatus(1); // Đã thanh toán
+            paymentStatusService.updatePaymentStatus(paymentStatus);
+        }
+
+        // Lưu vào CSDL
         orderService.updateOrder(order);
 
         // Chuyển đến trang xem chi tiết đơn hàng

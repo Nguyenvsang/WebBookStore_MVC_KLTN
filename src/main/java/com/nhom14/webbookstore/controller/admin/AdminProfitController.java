@@ -1,8 +1,8 @@
 package com.nhom14.webbookstore.controller.admin;
 
 import com.nhom14.webbookstore.entity.Account;
-import com.nhom14.webbookstore.entity.Revenue;
-import com.nhom14.webbookstore.service.RevenueService;
+import com.nhom14.webbookstore.entity.Profit;
+import com.nhom14.webbookstore.service.ProfitService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -22,25 +22,27 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Controller
-public class AdminRevenueController {
-    private RevenueService revenueService;
+public class AdminProfitController {
+    private ProfitService profitService;
 
     @Autowired
-    public AdminRevenueController(RevenueService revenueService) {
+    public AdminProfitController(ProfitService profitService) {
         super();
-        this.revenueService = revenueService;
+        this.profitService = profitService;
     }
 
-    @GetMapping("/managerevenues")
-    public String manageRevenues(
-            @RequestParam(value = "revenueId", required = false) Long revenueId,
-            @RequestParam(value = "orderId", required = false) Integer orderId,
-            @RequestParam(value = "revenue", required = false) Double revenue,
+    @GetMapping("/manageprofits")
+    public String manageProfits(
+            @RequestParam(value = "profitId", required = false) Long profitId,
+            @RequestParam(value = "orderitemId", required = false) Integer orderitemId,
+            @RequestParam(value = "costPrice", required = false) Double costPrice,
+            @RequestParam(value = "sellPrice", required = false) Double sellPrice,
+            @RequestParam(value = "profit", required = false) Double profit,
             @RequestParam(value = "dateStr", required = false) String dateStr,
-            @RequestParam(value = "revenueMin", required = false) Double revenueMin, // Lọc doanh thu theo khoảng giá
-            @RequestParam(value = "revenueMax", required = false) Double revenueMax, // Lọc doanh thu theo khoảng giá
-            @RequestParam(value = "revenueOption", required = false) Integer revenueOption,
-            // Sếp doanh thu tăng dần nếu giá trị priceOption là 12, giảm dần nếu giá trị là 21
+            @RequestParam(value = "profitMin", required = false) Double profitMin, // Lọc lợi nhuận theo khoảng giá
+            @RequestParam(value = "profitMax", required = false) Double profitMax, // Lọc lợi nhuận theo khoảng giá
+            @RequestParam(value = "profitOption", required = false) Integer profitOption,
+            // Sếp lợi nhuận tăng dần nếu giá trị priceOption là 12, giảm dần nếu giá trị là 21
             @RequestParam(value = "page", required = false, defaultValue = "1") Integer currentPage,
             @RequestParam(value = "size", required = false, defaultValue = "10") Integer pageSize,
             Model model,
@@ -55,11 +57,11 @@ public class AdminRevenueController {
         }
 
         Sort sort = Sort.unsorted();
-        if (revenueOption != null) {
-            if (revenueOption == 12) {
-                sort = sort.and(Sort.by("revenue").ascending());
-            } else if (revenueOption == 21) {
-                sort = sort.and(Sort.by("revenue").descending());
+        if (profitOption != null) {
+            if (profitOption == 12) {
+                sort = sort.and(Sort.by("profit").ascending());
+            } else if (profitOption == 21) {
+                sort = sort.and(Sort.by("profit").descending());
             }
         }
 
@@ -75,27 +77,29 @@ public class AdminRevenueController {
                 // Ví dụ: hiển thị thông báo lỗi cho người dùng
                 redirectAttributes.addAttribute("message", "Ngày không hợp lệ!");
                 // Chuyển hướng về trang managerevenues
-                return "redirect:/managerevenues";
+                return "redirect:/manageprofits";
             }
         }
 
-        // Gọi phương thức getFilteredRevenues với các tham số tìm kiếm và lọc
-        Page<Revenue> revenues = revenueService.getFilteredRevenues(revenueId, orderId, revenue, date, revenueMin, revenueMax, pageable);
-        // Tổng số tất cả các bản ghi doanh thu
-        long totalAllRevenues = revenueService.getAllRevenues().size();
+        // Gọi phương thức getFilteredProfits với các tham số tìm kiếm và lọc
+        Page<Profit> profits = profitService.getFilteredProfits(profitId, orderitemId, costPrice, sellPrice, profit, date, profitMin, profitMax, pageable);
+        // Tổng số tất cả các bản ghi lợi nhuận
+        long totalAllProfits = profitService.getAllProfits().size();
 
-        model.addAttribute("revenues", revenues);
-        model.addAttribute("totalAllRevenues", totalAllRevenues);
+        model.addAttribute("profits", profits);
+        model.addAttribute("totalAllProfits", totalAllProfits);
 
         // Thêm các bộ lọc nếu có để dùng cho trang tiếp theo
         Map<String, Object> params = new HashMap<>();
-        params.put("revenueId", revenueId);
-        params.put("orderId", orderId);
-        params.put("revenue", revenue);
+        params.put("profitId", profitId);
+        params.put("orderitemId", orderitemId);
+        params.put("costPrice", costPrice);
+        params.put("sellPrice", sellPrice);
+        params.put("profit", profit);
         params.put("dateStr", dateStr);
-        params.put("revenueMin", revenueMin);
-        params.put("revenueMax", revenueMax);
-        params.put("revenueOption", revenueOption);
+        params.put("profitMin", profitMin);
+        params.put("profitMax", profitMax);
+        params.put("profitOption", profitOption);
 
         for (Map.Entry<String, Object> entry : params.entrySet()) {
             if (entry.getValue() != null) {
@@ -103,6 +107,6 @@ public class AdminRevenueController {
             }
         }
 
-        return "admin/managerevenues";
+        return "admin/manageprofits";
     }
 }
