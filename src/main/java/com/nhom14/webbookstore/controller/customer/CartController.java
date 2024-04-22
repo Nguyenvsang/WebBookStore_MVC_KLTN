@@ -3,6 +3,8 @@ package com.nhom14.webbookstore.controller.customer;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -172,4 +174,66 @@ public class CartController {
         // Chuyển hướng về trang hiển thị giỏ hàng
         return "redirect:/viewcart";
     }
+
+	@PostMapping("/addtocartfromallbooks")
+	public ResponseEntity<?> addToCartFromAllBooks(@RequestParam("bookId") int bookId,
+												   @RequestParam("quantity") int quantity,
+												   HttpSession session) {
+		Account account = (Account) session.getAttribute("account");
+
+		// Kiểm tra xem người dùng đã đăng nhập hay chưa
+		if (account == null) {
+			// Nếu chưa đăng nhập, trả về thông báo lỗi
+			String message = "Bạn cần đăng nhập để thêm sản phẩm vào giỏ hàng";
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(message);
+		}
+
+		// Kiểm tra số lượng hợp lệ
+		if (quantity <= 0) {
+			// Số lượng không hợp lệ, trả về thông báo lỗi
+			String message = "Số lượng không hợp lệ";
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(message);
+		}
+
+		// Kiểm tra xem giỏ hàng của người dùng đã tồn tại hay chưa
+		Cart cart = cartService.getCartByAccount(account);
+		if (cart == null) {
+			// Nếu giỏ hàng chưa tồn tại, thêm giỏ hàng mới
+			cart = new Cart(account);
+			cartService.addCart(cart);
+		}
+
+		// Tìm CartItem theo cart và book
+		Book book = bookService.getActiveBookById(bookId);
+		if (book == null) { // Trường hợp lỡ nhận id sách đã ngừng kinh doanh
+			String message = "Đã có lỗi xảy ra, vui lòng thử lại sau!";
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(message);
+		}
+		CartItem cartItem = cartItemService.getCartItemByCartAndBook(cart, book);
+
+		if (cartItem == null) {
+			// Nếu CartItem chưa tồn tại, tạo mới và thêm vào giỏ hàng
+			cartItem = new CartItem(quantity, cart, book);
+			cartItemService.addCartItem(cartItem);
+		} else {
+			// Nếu CartItem đã tồn tại, cộng dồn số lượng
+			int currentQuantity = cartItem.getQuantity();
+			int newQuantity = currentQuantity + quantity;
+
+			// Kiểm tra số lượng tồn kho
+			if (newQuantity > book.getQuantity()) {
+				// Số lượng vượt quá số lượng tồn kho, trả về thông báo lỗi
+				String message = "Số lượng vượt quá số lượng tồn kho";
+				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(message);
+			}
+
+			cartItem.setQuantity(newQuantity);
+			cartItemService.updateCartItem(cartItem);
+		}
+
+		// Tạo và trả về ResponseEntity
+		String message = "Thêm vào giỏ hàng thành công";
+		return ResponseEntity.ok(message);
+	}
+
 }

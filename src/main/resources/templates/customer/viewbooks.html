@@ -348,7 +348,22 @@
 			position: relative;
   			z-index: 1;
 		}
-		
+
+		.notification {
+			position: fixed;
+			top: 20px;
+			left: 50%;
+			transform: translateX(-50%);
+			background-color: #333;
+			color: #fff;
+			padding: 10px 20px;
+			border-radius: 5px;
+			opacity: 1;
+			transition: opacity 0.5s ease;
+			z-index: 9999; /* Đảm bảo thông báo hiển thị trên cùng */
+			width: auto; /* Đảm bảo thông báo co dãn tự động theo nội dung */
+			white-space: nowrap; /* Ngăn chặn trường hợp nội dung quá dài bị ngắt dòng */
+		}
 
 	</style>
 </head>
@@ -608,6 +623,16 @@
 															<p class="card-text" style="font-size: 16px; text-align: left;"><span th:text="${#numbers.formatInteger(book.sellPrice, 0, 'POINT')}" ></span> đ</p>
 										                </div>
 										            </div>
+
+													<!-- Thêm form thêm vào giỏ hàng tại đây -->
+													<form th:action="@{/addtocartfromallbooks}" method="post" style="display: flex; justify-content: center; align-items: center;">
+														<input type="hidden" name="bookId" th:value="${book.id}">
+														<input type="hidden" name="quantity" value="1">
+														<button type="submit" class="btn btn-add-cart btn-block">
+															<i class="material-symbols-outlined">shopping_cart</i>
+														</button>
+													</form>
+
 												</div>
 											</div>
 								        </div>
@@ -655,37 +680,91 @@
 	
 	<div th:replace="~{layout/footer :: footer}"></div>
 	<!-- Thêm các tệp tin JavaScript -->
-    <script th:src="@{/js/jquery-3.4.1.slim.min.js}"></script>
-    <script th:src="@{/js/popper.min.js}"></script>
-    <script th:src="@{/js/bootstrap.min.js}"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> <!-- Để xài ajax -->
 	<script>
-	var modal = document.getElementById("myModal");
-	var modalImg = document.getElementById("img01");
-	var img1 = document.getElementById("myImg1");
-	var img2 = document.getElementById("myImg2");
-	var img3 = document.getElementById("myImg3");
-	var closeBtn = document.getElementById("closeBtn");
-	
-	img1.onclick = function(){
-	  modal.style.display = "block";
-	  modalImg.src = this.src;
-	}
-	
-	img2.onclick = function(){
-	  modal.style.display = "block";
-	  modalImg.src = this.src;
-	}
-	
-	img3.onclick = function(){
-	  modal.style.display = "block";
-	  modalImg.src = this.src;
-	}
-	
-	closeBtn.onclick = function() { 
-	  modal.style.display = "none";
-	}
+		var modal = document.getElementById("myModal");
+		var modalImg = document.getElementById("img01");
+		var img1 = document.getElementById("myImg1");
+		var img2 = document.getElementById("myImg2");
+		var img3 = document.getElementById("myImg3");
+		var closeBtn = document.getElementById("closeBtn");
+
+		img1.onclick = function(){
+		  modal.style.display = "block";
+		  modalImg.src = this.src;
+		}
+
+		img2.onclick = function(){
+		  modal.style.display = "block";
+		  modalImg.src = this.src;
+		}
+
+		img3.onclick = function(){
+		  modal.style.display = "block";
+		  modalImg.src = this.src;
+		}
+
+		closeBtn.onclick = function() {
+		  modal.style.display = "none";
+		}
+
+		// hàm để tạo và hiển thị thông báo
+		function showNotification(message) {
+			var notification = document.createElement('div');
+			notification.textContent = message;
+			notification.className = 'notification';
+			document.body.appendChild(notification);
+
+			setTimeout(function() {
+				notification.style.opacity = '0';
+				setTimeout(function() {
+					notification.remove();
+					adjustNotificationPositions(); // Điều chỉnh vị trí của các thông báo còn lại sau khi xóa thông báo đã ẩn đi
+				}, 1000);
+			}, 3000);
+
+			adjustNotificationPositions(); // Điều chỉnh vị trí của tất cả các thông báo
+		}
+
+		function adjustNotificationPositions() {
+			var notifications = document.querySelectorAll('.notification');
+			var topOffset = 100; // Vị trí mặc định cho thông báo đầu tiên
+			for (var i = notifications.length - 1; i >= 0; i--) {
+				notifications[i].style.top = topOffset + 'px';
+				topOffset += notifications[i].offsetHeight + 10; // Khoảng cách giữa các thông báo
+			}
+		}
+
+
+
+
+		// Xử lý nút add to cart
+		document.querySelectorAll('form').forEach(function(form) {
+			form.addEventListener('submit', function(event) {
+				event.preventDefault();
+
+				var bookId = this.querySelector('input[name="bookId"]').value;
+
+				var xhr = new XMLHttpRequest();
+				xhr.open('POST', '/webbookstore/addtocartfromallbooks', true);
+				xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+				xhr.onload = function() {
+					if (xhr.status === 200) {
+						// Hiển thị thông báo thành công
+						showNotification(xhr.responseText);
+					} else {
+						// Hiển thị thông báo lỗi
+						var errorMessage = xhr.responseText || 'Đã có lỗi xảy ra. Vui lòng thử lại sau.';
+						showNotification(errorMessage);
+					}
+				};
+				xhr.send('bookId=' + bookId + '&quantity=1');
+			});
+		});
+
 	</script>
-	
+	<script th:src="@{/js/popper.min.js}"></script>
+	<script th:src="@{/js/bootstrap.min.js}"></script>
 	
 </body>
 </html>
