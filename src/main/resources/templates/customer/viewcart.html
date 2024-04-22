@@ -104,6 +104,21 @@
         	border-radius: 15px;
         	background-color: white;
 		}
+
+		.container-body-01 {
+	        padding: 20px;
+        	margin-top: 40px;
+        	margin-bottom: 40px;
+        	border-radius: 15px;
+        	background-color: white;
+        	position: sticky;
+  			bottom: 0px;
+  			box-shadow: 0 8px 10px rgb(226, 226, 226);
+  			border: 0.5px solid #cecece;
+		}
+
+
+
 		.text-right {
 			margin: 20px;
 		}
@@ -309,7 +324,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="container-body" style="padding: 20px 20px 10px 20px;">
+			<div class="container-body-01" style="padding: 20px 20px 10px 20px;">
 				<div class="row-voucher" style="border-bottom: 1px solid #cecece; padding: 0px 0px 10px; margin: 0px">
 					<h6 style="text-align: right; color: #211f7f;">Chọn hoặc nhập mã</h6>
 				</div>
@@ -562,13 +577,6 @@
 				event.target.form.submit();
 			});
 		}
-
-
-
-
-
-
-
 
 	</script>
 	<div th:replace="~{layout/footer :: footer}"></div>

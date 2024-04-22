@@ -246,23 +246,22 @@
 </head>
 <body>
 	<div th:replace="~{layout/header :: header}"></div>
-    <div class="container-fluid mb-4">
-        
-        <!-- Hiển thị thông báo nếu có -->
-        <div th:if="${param.message}" class="alert"
-		     th:classappend="${#strings.containsIgnoreCase(param.message, 'thành công') ? 'alert-success' : 'alert-danger'}">
-		    <span th:text="${param.message}"></span>
-		</div>
-        
-        
+	<!-- Hiển thị thông báo nếu có -->
+	<div id="myAlert" th:if="${param.message}" class="alert"
+		 th:classappend="${#strings.containsIgnoreCase(param.message, 'thành công') ? 'alert-success' : 'alert-danger'}">
+		<span th:text="${param.message}"></span>
+	</div>
+	<div class="container-fluid mb-4">
         <div class="container main">
-	        <div class="frame-01" style="background-color: white;">
-				<p class="text" style="height: 40px;">
-		            <a th:href="@{/viewbooks}" class="btn btn-back" style="margin: 10px;">
-						<span class="material-symbols-outlined back">arrow_back_ios</span>
-					</a>
-		        </p>
-				<h3>THÔNG TIN SÁCH</h3>
+	        <div class="frame-01" style="background-color: white; padding: 20px">
+				<div class="row-cart align-items-center">
+					<div class="col-00" style="display: flex">
+						<a th:href="@{/viewbooks}" class="before">
+							<span class="material-symbols-outlined back">arrow_back_ios</span>
+						</a>
+						<h5 style="color: #211f7f; align-items: center;  margin: 0px 5px 0px 0px">Thông tin sách</h5>
+					</div>
+				</div>
 				<div class="frame-02">
 		            <div class="row no-gutters">
 						<div class="col-md-4">
@@ -635,6 +634,12 @@
 				});
 			});
 		});
+	</script>
+	<script>
+		// Đặt thời gian cho alert
+        setTimeout(function() {
+            document.getElementById('myAlert').style.display = 'none';
+        }, 5000);  // Alert sẽ biến mất sau 5 giây
 	</script>
     
 <div th:replace="~{layout/footer :: footer}"></div>
