@@ -238,6 +238,17 @@
 
         }
 
+
+        .form-group.row {
+			width: 100% ;
+			margin: 0px;
+			margin-top: 10px;
+		}
+
+        .col-info {
+			width: 833px;
+		}
+
     </style>
     <script>
         var checkFileSizeImg1 = function(event) {
@@ -336,13 +347,13 @@
 <div class="container-fluid mb-4">
     <div class="container">
         <div class="form-container" style="background-color: white;">
-            <div class="col-00" style="display: flex">
-                <a th:href="@{/vieworderitems(orderId=${orderId})}" class="before">
+            <div class="col-00" style="display: flex; align-items: center;">
+                <a th:href="@{/vieworderitems(orderId=${orderId})}" class="before" style="align-items: center; display: flex; text-decoration: none;">
                     <span class="material-symbols-outlined back">arrow_back_ios</span>
                 </a>
-                <h5 style="color: #211f7f; align-items: center;  margin: 0px 5px 0px 0px">Lý do trả hàng</h5>
+                <h6 style="color: #211f7f; align-items: center;  margin: 0px 5px 0px 0px; font-family: Verdana; font-weight: bold">Lý do trả hàng</h6>
             </div>
-            <div class="col-order d-flex" style="justify-content: flex-end; font-size: 20px;">
+            <div class="col-order d-flex" style="justify-content: flex-end; font-size: 20px; border-bottom: 1px solid #cecece; padding: 10px">
                 <p style="margin: 0px 5px 0px 0px; color: #f17746">MÃ ĐƠN HÀNG:</p>
                 <span class="align-middle text-center" style="color: #f17746">[[${orderId}]]</span>
             </div>
@@ -462,30 +473,34 @@
                     </div>
                 </div>
 
-                <h5 class="text" style="margin: 20px 0px;">Thông tin người trả hàng</h5>
-                <div class="form-group row">
+                <h6 class="text" style="margin: 20px 0px;">Thông tin người trả hàng</h6>
+                <div class="form-group row d-flex align-items-center" style="border-radius: 50px; border: 1px solid #cecece;">
+                    <span class="material-symbols-outlined" style="color: grey; margin: 5px">person_2</span>
+                    <div class="col-info">
+                        <input type="text" id="name" name="name" th:value="${account.firstName} + ' ' + ${account.lastName}" required class="form-control"
+                               style="border-radius: 50px; padding: 6px 0px; border: none;">
+                    </div>
+                </div>
 
-                    <label for="name" class="col-md-2 col-form-label">Tên:</label>
-                    <div class="col-md-10">
-                        <input type="text" id="name" name="name" th:value="${account.firstName} + ' ' + ${account.lastName}" required class="form-control" style="border-radius: 10px;">
+                <div class="form-group row d-flex align-items-center" style="border-radius: 50px; border: 1px solid #cecece;">
+                    <span class="material-symbols-outlined" style="color: grey; margin: 5px">location_on</span>
+                    <div class="col-info">
+                        <input type="text" id="address" name="address" th:value="${account.address}" required class="form-control"
+                               style="border-radius: 50px; padding: 6px 0px; border: none;">
                     </div>
                 </div>
-                <div class="form-group row">
-                    <label for="address" class="col-md-2 col-form-label">Địa chỉ:</label>
-                    <div class="col-md-10">
-                        <input type="text" id="address" name="address" th:value="${account.address}" required class="form-control" style="border-radius: 10px;">
+                <div class="form-group row d-flex align-items-center" style="border-radius: 50px; border: 1px solid #cecece;">
+                    <span class="material-symbols-outlined" style="color: grey; margin: 5px">call</span>
+                    <div class="col-info">
+                        <input type="text" id="phoneNumber" name="phoneNumber" th:value="${account.phoneNumber}" required class="form-control"
+                               style="border-radius: 50px; padding: 6px 0px; border: none;">
                     </div>
                 </div>
-                <div class="form-group row">
-                    <label for="phoneNumber" class="col-md-2 col-form-label">Số điện thoại:</label>
-                    <div class="col-md-10">
-                        <input type="text" id="phoneNumber" name="phoneNumber" th:value="${account.phoneNumber}" required class="form-control" style="border-radius: 10px;">
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="email" class="col-md-2 col-form-label">Email:</label>
-                    <div class="col-md-10">
-                        <input type="email" id="email" name="email" th:value="${account.email}" required class="form-control" style="border-radius: 10px;">
+                <div class="form-group row d-flex align-items-center" style="border-radius: 50px; border: 1px solid #cecece; margin-bottom: 20px">
+                    <span class="material-symbols-outlined" style="color: grey; margin: 5px">mail</span>
+                    <div class="col-info">
+                        <input type="email" id="email" name="email" th:value="${account.email}" required class="form-control"
+                               style="border-radius: 50px; padding: 6px 0px; border: none;">
                     </div>
                 </div>
                 <div class="text-center">

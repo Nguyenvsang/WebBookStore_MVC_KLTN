@@ -178,8 +178,19 @@
 		.btn-continue:hover {
 			color: rgb(182,232,241)
 		}
-		
-		
+
+		.title-book{
+			text-decoration: none;
+			color: black;
+			font-family: Helvetica;
+		}
+
+		.title-book:hover {
+			text-decoration: none;
+			color: #5390f5;
+			font-weight: bold;
+			font-family: Helvetica;
+		}
 	</style>
 </head>
 <body>
@@ -209,10 +220,10 @@
 			<div class="container-body" style="padding: 0px">
 				<div class="col-00">
 					<div class="row-cart d-flex align-items-center">
-						<h5 style="color: #211f7f; align-items: center;  margin: 0px; padding: 20px 0px 0px 20px">Giỏ hàng</h5>
+						<h6 style="color: #211f7f; align-items: center;  margin: 0px; padding: 20px 0px 0px 20px; font-family: Verdana; font-weight: bold">Giỏ hàng</h6>
 						<div class="form-cart" th:if="${totalAllCartItems != null}"
-							 style="color: orangered; align-items: center;  margin: 0px 5px 0px 0px; padding: 20px 0px 0px 5px; font-weight: 500;">
-							<p style="margin: 0px 0px 0px">(<span th:text="${totalAllCartItems}"></span> quyển sách)</p>
+							 style="color: orangered; align-items: center;  margin: 0px 5px 0px 0px; padding: 20px 0px 0px 10px; font-weight: 500;">
+							<p style="margin: 0px 0px 0px; font-family: Verdana; font-size: 15px">(<span th:text="${totalAllCartItems}"></span> quyển sách)</p>
 						</div>
 					</div>
 					<div class="next-table only-bottom-border" style="margin-top: 20px">
@@ -271,13 +282,17 @@
 										</td>
 
 										<td rowspan="1" class="next-table-header-node" style="padding: 20px 20px;">
-											<img th:src="${cartItem.book.bookImages[0].path}" style="width: 100px;">
+											<a th:href="@{/detailbook/{id} (id=${cartItem.book.id})}">
+												<img th:src="${cartItem.book.bookImages[0].path}" style="width: 100px;">
+											</a>
 										</td>
 
 										<td rowspan="1" class="next-table-header-node" style="padding: 20px 20px; display: flex; flex-direction: column; justify-content: space-between; height: 190px">
-											<div class="row-book" style="height: 160px">
-												<span th:if="${#strings.length(cartItem.book.name) > 100}" th:text="${#strings.substring(cartItem.book.name, 0, 100) + '...'}"></span>
-												<span th:if="${#strings.length(cartItem.book.name) <= 100}" th:text="${cartItem.book.name}"></span>
+											<div class="row-book" style="height: 160px; text-decoration: none" th:href="@{/detailbook/{id} (id=${cartItem.book.id})}">
+												<a href="#" class="title-book">
+													<span th:if="${#strings.length(cartItem.book.name) > 100}" th:text="${#strings.substring(cartItem.book.name, 0, 100) + '...'}"></span>
+													<span th:if="${#strings.length(cartItem.book.name) <= 100}" th:text="${cartItem.book.name}"></span>
+												</a>
 											</div>
 											<div class="row-price-book" style="height: 30px; font-weight: bold;">
 												<span th:text="${#numbers.formatInteger(cartItem.book.sellPrice, 0, 'POINT')+ ' đ'}"></span>

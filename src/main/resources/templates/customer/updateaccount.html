@@ -129,11 +129,11 @@
 			<form id="editInfo" th:action="@{/updateaccount}" th:object="${account}" method="post" enctype="multipart/form-data">
 
 				<div class="row-00 d-flex align-items-center" style="height: 30px; margin-bottom: 15px; margin: 0px 0px 0px">
-					<div class="col-00" style="display: flex">
-						<a th:href="@{/viewaccount}" class="before">
+					<div class="col-00" style="display: flex; align-items: center;">
+						<a th:href="@{/viewaccount}" class="before" style="align-items: center; display: flex; text-decoration: none;">
 							<span class="material-symbols-outlined back">arrow_back_ios</span>
 						</a>
-						<h5 style="color: #211f7f; align-items: center;  margin: 0px 5px 0px 0px">Chỉnh sửa thông tin</h5>
+						<h6 style="color: #211f7f; align-items: center;  margin: 0px 5px 0px 0px; font-family: Verdana; font-weight: bold">Chỉnh sửa thông tin</h6>
 					</div>
 				</div>
 
@@ -205,7 +205,7 @@
 					<input type="text" class="form-control" id="address" th:field="*{address}" required>
 				</div>
 
-				<div class="text-center" style="display: flex; justify-content: flex-end; margin-right: 20px">
+				<div class="text-center" style="display: flex; justify-content: center; margin-right: 20px">
 					<button type="submit" class="btn btn-save">Lưu</button>
 				</div>
 			</form>
