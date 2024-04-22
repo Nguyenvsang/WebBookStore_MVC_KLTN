@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.sql.Timestamp;
+
 @Setter
 @Getter
 @Entity
@@ -25,6 +27,9 @@ public class InfoCancelOrder {
                         //7: Khác
     @Column(name = "other_type", columnDefinition = "text")
     private String otherType;
+
+    @Column(name = "date", columnDefinition = "datetime(6)")
+    private Timestamp date;
 
     public InfoCancelOrder() {
 

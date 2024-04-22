@@ -201,6 +201,8 @@ CREATE TABLE InfoCancelOrder (
 	type INT,
     -- Khai báo thuộc tính other_type kiểu text, có thể null
     other_type text,
+    -- Khai báo thuộc tính date kiểu datetime(6), có thể null
+    date DATETIME(6),
     -- Khai báo thuộc tính order_id kiểu int và là khóa ngoại tham chiếu đến bảng Order
     order_id INT,
     FOREIGN KEY (order_id) REFERENCES `Order`(id)

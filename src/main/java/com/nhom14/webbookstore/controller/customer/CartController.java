@@ -123,8 +123,9 @@ public class CartController {
 
         // Kiểm tra xem giỏ hàng có hàng không
         if (cartItems.isEmpty()) {
-            model.addAttribute("message", "Giỏ hàng trống!");
+            model.addAttribute("message", "Giỏ hàng trống! Lựa chọn sách để thêm vào giỏ hàng và quay lại đây để xem");
             model.addAttribute("totalAmount", null);
+			model.addAttribute("cartItems", cartItems);
             // Chuyển hướng đến trang viewcart
             return "customer/viewcart";
         }

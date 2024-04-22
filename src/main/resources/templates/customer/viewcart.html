@@ -152,6 +152,17 @@
 			border-radius: 10px;
 			font-size: larger;
 		}
+
+		.btn-continue {
+				background-color: rgb(2,88,155);
+				border-radius: 10px;
+				color: white;
+				margin-top: 30px;
+				margin-bottom: 20px;
+		}
+		.btn-continue:hover {
+			color: rgb(182,232,241)
+		}
 		
 		
 	</style>
@@ -166,8 +177,20 @@
 			<span th:text="${param.message}"></span>
 		</div>
 
+		<!-- Hiển thị thông báo kiểu model nếu có (dùng khi giỏ hàng trống) -->
+		<div class="container-body" style="padding: 0px">
+			<div th:if="${message}" class="alert"
+				 th:classappend="${message.contains('thành công') ? 'alert-success' : 'alert-danger'}"
+				 th:text="${message}"></div>
+		</div>
+
+		<!-- Nếu giỏ hàng trống thì dẫn hướng về trang viewbooks -->
+		<p th:if="${cartItems.isEmpty()}" class="text-center">
+			<a class="btn btn-continue" th:href="@{/viewbooks}">Duyệt qua các quyển sách</a>
+		</p>
+
 		<!--Đang chỉnh sửa add to cart-->
-		<div class="container">
+		<div th:if="${!cartItems.isEmpty()}" class="container">
 			<div class="container-body" style="padding: 0px">
 				<div class="col-00">
 					<div class="row-cart d-flex align-items-center">
@@ -333,56 +356,72 @@
 
 
     <script th:inline="javascript">
-        function increaseQuantity(itemId, maxQuantity) {
-            var quantityInput = document.getElementById("quantity_" + itemId);
-            var oldQuantity = parseInt(quantityInput.value);
-            var newQuantity = oldQuantity + 1;
+		function increaseQuantity(itemId, maxQuantity) {
+			var quantityInput = document.getElementById("quantity_" + itemId);
+			if (quantityInput) {
+				var oldQuantity = parseInt(quantityInput.value);
+				var newQuantity = oldQuantity + 1;
 
-            if (oldQuantity < maxQuantity) {
-                quantityInput.value = newQuantity;
-                updateCartItem(itemId, newQuantity);
-            } else {
-                alert("Số lượng đã đạt giới hạn.");
-            }
-        }
+				if (oldQuantity < maxQuantity) {
+					quantityInput.value = newQuantity;
+					updateCartItem(itemId, newQuantity);
+				} else {
+					alert("Số lượng đã đạt giới hạn.");
+				}
+			}
+		}
 
-        function decreaseQuantity(itemId) {
-		    var quantityInput = document.getElementById("quantity_" + itemId);
-		    var oldQuantity = parseInt(quantityInput.value);
-		    var newQuantity = oldQuantity - 1;
+		function decreaseQuantity(itemId) {
+			var quantityInput = document.getElementById("quantity_" + itemId);
+			if (quantityInput) {
+				var oldQuantity = parseInt(quantityInput.value);
+				var newQuantity = oldQuantity - 1;
 
-		    if (oldQuantity > 1) {
-		        quantityInput.value = newQuantity;
-		        updateCartItem(itemId, newQuantity);
-		    }
+				if (oldQuantity > 1) {
+					quantityInput.value = newQuantity;
+					updateCartItem(itemId, newQuantity);
+				}
+			}
 		}
 
 		function updateCartItem(itemId, quantity) {
-		    // Gửi yêu cầu AJAX đến máy chủ để cập nhật số lượng sản phẩm trong giỏ hàng
-		    var xhr = new XMLHttpRequest();
-            xhr.open("POST", "/webbookstore/updatecartitem", true);
-            xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-            xhr.onreadystatechange = function () {
-                if (xhr.readyState === 4 && xhr.status === 200) {
-                    // Xử lý phản hồi từ server (nếu cần)
-                    // Tải lại trang sau khi cập nhật giỏ hàng
-                    location.reload();
-                } else {
-                    console.error("Update cart item failed");
-                }
-            };
-            xhr.send("itemId=" + itemId + "&quantity=" + quantity);
+			// Gửi yêu cầu AJAX đến máy chủ để cập nhật số lượng sản phẩm trong giỏ hàng
+			var xhr = new XMLHttpRequest();
+			xhr.open("POST", "/webbookstore/updatecartitem", true);
+			xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+			xhr.onreadystatechange = function () {
+				if (xhr.readyState === 4 && xhr.status === 200) {
+					// Xử lý phản hồi từ server (nếu cần)
+					// Tải lại trang sau khi cập nhật giỏ hàng
+					location.reload();
+				} else {
+					console.error("Update cart item failed");
+				}
+			};
+			xhr.send("itemId=" + itemId + "&quantity=" + quantity);
 		}
 
 		// Cập nhật trạng thái của hộp kiểm 'check-All' khi 'checkAll' thay đổi
-		document.getElementById('checkAll').addEventListener('change', function() {
-			document.getElementById('check-All').checked = this.checked;
-		});
+		var checkAll = document.getElementById('checkAll');
+		if (checkAll) {
+			checkAll.addEventListener('change', function() {
+				var check_All = document.getElementById('check-All');
+				if (check_All) {
+					check_All.checked = this.checked;
+				}
+			});
+		}
 
 		// Cập nhật trạng thái của hộp kiểm 'checkAll' khi 'check-All' thay đổi
-		document.getElementById('check-All').addEventListener('change', function() {
-			document.getElementById('checkAll').checked = this.checked;
-		});
+		var check_All = document.getElementById('check-All');
+		if (check_All) {
+			check_All.addEventListener('change', function() {
+				var checkAll = document.getElementById('checkAll');
+				if (checkAll) {
+					checkAll.checked = this.checked;
+				}
+			});
+		}
 
 		// Chọn hoặc bỏ chọn tất cả quyển sách trong giỏ hàng khi 'checkAll' hoặc 'check-All' thay đổi
 		document.querySelectorAll('#checkAll, #check-All').forEach(function(checkbox) {
@@ -391,8 +430,14 @@
 				for (var i = 0; i < checkboxes.length; i++) {
 					checkboxes[i].checked = this.checked;
 				}
-				document.getElementById('checkAll').checked = this.checked;
-				document.getElementById('check-All').checked = this.checked;
+				var checkAll = document.getElementById('checkAll');
+				if (checkAll) {
+					checkAll.checked = this.checked;
+				}
+				var check_All = document.getElementById('check-All');
+				if (check_All) {
+					check_All.checked = this.checked;
+				}
 				updateTotalPrice();
 			});
 		});
@@ -412,8 +457,14 @@
 		document.querySelectorAll('.itemCheckbox').forEach(function(checkbox) {
 			checkbox.addEventListener('change', function() {
 				var allSelected = checkAllSelected();
-				document.getElementById('checkAll').checked = allSelected;
-				document.getElementById('check-All').checked = allSelected;
+				var checkAll = document.getElementById('checkAll');
+				if (checkAll) {
+					checkAll.checked = allSelected;
+				}
+				var check_All = document.getElementById('check-All');
+				if (check_All) {
+					check_All.checked = allSelected;
+				}
 				updateTotalPrice();
 			});
 		});
@@ -421,13 +472,23 @@
 
 		// Lưu trạng thái checkbox khi trang được tải lại
 		window.addEventListener('unload', function() {
-			var checkedItems = Array.from(document.querySelectorAll('.itemCheckbox:checked')).map(checkbox => checkbox.dataset.itemId);
-			sessionStorage.setItem('checkedItems', JSON.stringify(checkedItems));
-			// Lưu trạng thái của hộp kiểm 'checkAll' và 'check-All'
-			var checkAllChecked = document.getElementById('checkAll').checked;
-			sessionStorage.setItem('checkAllChecked', checkAllChecked);
-			var check_AllChecked = document.getElementById('check-All').checked;
-    		sessionStorage.setItem('check_AllChecked', check_AllChecked);
+			// Kiểm tra nếu giỏ hàng trống
+			var checkAll = document.getElementById('checkAll');
+			var cartIsEmpty = (checkAll === null);
+			if (cartIsEmpty) {
+				// Xóa hết các checkbox đã được lưu
+				sessionStorage.removeItem('checkedItems');
+				sessionStorage.removeItem('checkAllChecked');
+				sessionStorage.removeItem('check_AllChecked');
+			} else {
+				var checkedItems = Array.from(document.querySelectorAll('.itemCheckbox:checked')).map(checkbox => checkbox.dataset.itemId);
+				sessionStorage.setItem('checkedItems', JSON.stringify(checkedItems));
+				// Lưu trạng thái của hộp kiểm 'checkAll' và 'check-All'
+				var checkAllChecked = checkAll.checked;
+				sessionStorage.setItem('checkAllChecked', checkAllChecked);
+				var check_AllChecked = document.getElementById('check-All').checked;
+				sessionStorage.setItem('check_AllChecked', check_AllChecked);
+			}
 		});
 
 		// Khôi phục trạng thái checkbox khi trang được tải
@@ -439,9 +500,15 @@
 			});
 			// Khôi phục trạng thái của hộp kiểm 'checkAll' và 'check-All'
 			var checkAllChecked = sessionStorage.getItem('checkAllChecked') === 'true';
-			document.getElementById('checkAll').checked = checkAllChecked;
+			var checkAll = document.getElementById('checkAll');
+			if (checkAll) {
+				checkAll.checked = checkAllChecked;
+			}
 			var check_AllChecked = sessionStorage.getItem('check_AllChecked') === 'true';
-    		document.getElementById('check-All').checked = check_AllChecked;
+			var check_All = document.getElementById('check-All');
+			if (check_All) {
+				check_All.checked = check_AllChecked;
+			}
 			updateTotalPrice();
 		});
 
@@ -457,12 +524,11 @@
 				}
 				return total + price * quantity;
 			}, 0);
-			document.querySelector('#totalpricecart').textContent = totalPrice.toLocaleString('vi-VN', {style : 'currency', currency : 'VND'});
+			var totalpricecart = document.querySelector('#totalpricecart');
+			if (totalpricecart) {
+				totalpricecart.textContent = totalPrice.toLocaleString('vi-VN', {style : 'currency', currency : 'VND'});
+			}
 		}
-
-
-
-
 
 		// Gọi hàm updateTotalPrice() mỗi khi số lượng hoặc trạng thái checkbox thay đổi
 		document.querySelectorAll('.itemCheckbox, .item-quantity').forEach(function(element) {
@@ -473,22 +539,30 @@
 		window.addEventListener('load', function() {
 			var checkedItems = JSON.parse(sessionStorage.getItem('checkedItems')) || [];
 			checkedItems.forEach(function(itemId) {
-				document.querySelector(`.itemCheckbox[data-item-id="${itemId}"]`).checked = true;
+				var checkbox = document.querySelector(`.itemCheckbox[data-item-id="${itemId}"]`);
+				if (checkbox) checkbox.checked = true;
 			});
 			updateTotalPrice();
 		});
 
 		// Lưu danh sách các cartitem ID đã được check khi người dùng nhấn nút "Mua hàng"
-		document.querySelector('.btn-purchase').addEventListener('click', function(event) {
-			event.preventDefault(); // Ngăn chặn hành vi mặc định của nút
-			var idSelectedCartItems = Array.from(document.querySelectorAll('.itemCheckbox:checked')).map(checkbox => checkbox.dataset.itemId);
+		var btnPurchase = document.querySelector('.btn-purchase');
+		if (btnPurchase) {
+			btnPurchase.addEventListener('click', function(event) {
+				event.preventDefault(); // Ngăn chặn hành vi mặc định của nút
+				var idSelectedCartItems = Array.from(document.querySelectorAll('.itemCheckbox:checked')).map(checkbox => checkbox.dataset.itemId);
 
-			// Cập nhật giá trị của trường ẩn với danh sách các ID đã chọn
-			document.getElementById('idSelectedCartItems').value = idSelectedCartItems.join(',');
+				// Cập nhật giá trị của trường ẩn với danh sách các ID đã chọn
+				var idSelectedCartItemsInput = document.getElementById('idSelectedCartItems');
+				if (idSelectedCartItemsInput) {
+					idSelectedCartItemsInput.value = idSelectedCartItems.join(',');
+				}
 
-			// Gửi form
-			event.target.form.submit();
-		});
+				// Gửi form
+				event.target.form.submit();
+			});
+		}
+
 
 
 

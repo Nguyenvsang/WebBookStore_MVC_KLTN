@@ -333,7 +333,7 @@
 							</div>
 							<div th:if="${order.status == 4}" class="notify d-flex align-items-center" role="alert">
 								<span class="material-symbols-outlined order" style="margin-right: 10px; margin-left: 20px">contract_delete</span>
-								<span th:text="${#temporals.format(order.deliveryDate.toLocalDateTime(), 'dd/MM/yyyy')}"></span>
+								<span th:if="${order.infoCancelOrder != null}" th:text="${#temporals.format(order.infoCancelOrder.date.toLocalDateTime(), 'dd/MM/yyyy')}"></span>
 								<p style="margin: 0px 0px 0px; padding: 0 20px; font-weight: bold; color: #f17746;">Đã hủy đơn</p>
 							</div>
 						</div>

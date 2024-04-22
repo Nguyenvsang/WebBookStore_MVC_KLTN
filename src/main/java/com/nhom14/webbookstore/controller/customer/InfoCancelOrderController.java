@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.sql.Timestamp;
+
 @Controller
 public class InfoCancelOrderController {
     private InfoCancelOrderService infoCancelOrderService;
@@ -72,6 +74,7 @@ public class InfoCancelOrderController {
         infoCancelOrder.setOrder(order);
         infoCancelOrder.setType(type);
         infoCancelOrder.setOtherType(otherType);
+        infoCancelOrder.setDate(new Timestamp(System.currentTimeMillis())); // Thêm ngày hủy đơn thành công
         // Lưu vào CSDL
         infoCancelOrderService.addInfoCancelOrder(infoCancelOrder);
 

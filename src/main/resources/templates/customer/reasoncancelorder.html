@@ -235,6 +235,14 @@
 			color: rgb(182,232,241);
 		}
 
+        .hidden {
+            display: none;
+        }
+
+        #message {
+            color: red;
+        }
+
     </style>
 </head>
 <body>
@@ -285,12 +293,13 @@
                     <input class="form-check-input" type="radio" name="cancelReason" id="reason7" value="7" checked>
                     <label class="form-check-label" for="reason7">Khác</label>
                 </div>
+                <div id="message" class="hidden"></div>
                 <div class="form-group">
                     <label for="otherReason">Lý do khác:</label>
                     <input type="text" class="form-control" id="otherReason" name="otherReason" style="border-radius: 50px">
                 </div>
                 <div class="text-center">
-                    <a type="submit" class="btn btn-order" style="color: white;">Xác nhận hủy</a>
+                    <input type="submit" class="btn btn-order" style="color: white;" value="Xác nhận hủy">
                 </div>
             </form>
         </div>
@@ -316,6 +325,33 @@
     if (checkedCheckbox) {
         checkedCheckbox.style.backgroundColor = '#5591c5';
     }
+
+    // Bắt buộc phải nhập lý do khi chọn "Khác"
+    $(document).ready(function() {
+        // Khi form được gửi đi
+        $("form").on("submit", function(e) {
+            // Kiểm tra xem nếu nút "Khác" đã được chọn
+            if ($("#reason7").is(":checked")) {
+                // Kiểm tra xem ô nhập liệu "Lý do khác" có trống không
+                if ($("#otherReason").val().trim() === "") {
+                    // Nếu trống, hiển thị thông báo yêu cầu người dùng nhập vào
+                    // Thay thế hộp thoại alert() bằng thông báo trong thẻ div
+                    var messageDiv = document.getElementById('message');
+                    messageDiv.textContent = 'Vui lòng nhập lý do hủy đơn hàng.';
+                    messageDiv.classList.remove('hidden');
+                    // Chặn việc gửi form
+                    e.preventDefault();
+                } else {
+                    // Nếu ô "Lý do khác" không trống, ẩn thông báo
+                    var messageDiv = document.getElementById('message');
+                    messageDiv.textContent = '';
+                    messageDiv.classList.add('hidden');
+                }
+            }
+        });
+    });
+
+
 </script>
 
 
