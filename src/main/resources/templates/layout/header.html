@@ -176,13 +176,17 @@
 												<span class="material-symbols-outlined" style="margin-right: 8px;">favorite</span>
 												<span>Sách yêu thích</span>
 											</a>
-											<a class="dropdown-item d-flex align-items-center justify-content-center" th:href="@{/customer/logoutaccount}"
-											   style="color: rgb(0, 0, 160); width: 240px; border: 1px solid #d7ebff; border-radius: 50px; margin: 10px"
+											<form id="logoutForm" th:action="@{/customer/logoutaccount}" method="post" style="display: none;">
+											</form>
+											<a class="dropdown-item d-flex align-items-center justify-content-center"
+											   style="color: rgb(0, 0, 160); width: 240px; border: 1px solid #d7ebff; border-radius: 50px; margin: 10px; cursor: pointer;"
 											   onmouseover="this.style.backgroundColor='#d7ebff'; this.style.boxShadow='0px 6px 8px rgba(0, 0, 0, 0.2)';"
-											   onmouseout="this.style.backgroundColor='transparent'; this.style.boxShadow='0px 0px 0px rgba(0, 0, 0, 0)';">
+											   onmouseout="this.style.backgroundColor='transparent'; this.style.boxShadow='0px 0px 0px rgba(0, 0, 0, 0)';"
+											   onclick="document.getElementById('logoutForm').submit();">
 												<span class="material-symbols-outlined" style="margin-right: 8px;">logout</span>
 												<span> Đăng xuất</span>
 											</a>
+
 										</div>
 									</li>
 									<li class="nav-item dropdown" th:unless="${session.account != null}" style="margin-left: 60px;">

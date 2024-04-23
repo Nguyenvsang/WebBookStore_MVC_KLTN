@@ -218,6 +218,8 @@ CREATE TABLE InfoReturnOrder (
     detail_reason TEXT NOT NULL,
     -- Khai báo thuộc tính request_date kiểu datetime(6), không được null
     request_date datetime(6) NOT NULL,
+    -- Khai báo thuộc tính return_date kiểu datetime(6), được null
+    return_date datetime(6),
     -- Khai báo thuộc tính name kiểu VARCHAR(255), không được null
     name VARCHAR(255) NOT NULL,
     -- Khai báo thuộc tính address kiểu VARCHAR(255), không được null

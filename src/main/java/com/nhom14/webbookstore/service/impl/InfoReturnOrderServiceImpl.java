@@ -27,4 +27,9 @@ public class InfoReturnOrderServiceImpl implements InfoReturnOrderService {
     public InfoReturnOrder getInfoReturnOrderByOrder(Order order) {
         return infoReturnOrderRepository.findByOrder(order); //không có sẽ trả về null
     }
+
+    @Override
+    public void updateInfoReturnOrder(InfoReturnOrder infoReturnOrder) {
+        infoReturnOrderRepository.save(infoReturnOrder);
+    }
 }

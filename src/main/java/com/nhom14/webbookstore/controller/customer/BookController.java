@@ -2,6 +2,7 @@ package com.nhom14.webbookstore.controller.customer;
 
 import com.nhom14.webbookstore.entity.*;
 import com.nhom14.webbookstore.service.*;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -182,7 +183,9 @@ public class BookController {
 	}
 
 	@GetMapping("/detailbook/{id}")
-	public String viewDetailBook(@PathVariable Integer id, Model model,
+	public String viewDetailBook(@PathVariable Integer id,
+                                 Model model,
+                                 HttpServletRequest request, //Dùng cho nút Quay lại
                                  HttpSession session) {
 		// Lấy thông tin về cuốn sách từ id
 	    Book book = bookService.getBookById(id);
@@ -228,6 +231,15 @@ public class BookController {
 	    model.addAttribute("categories", categories);
         model.addAttribute("bookReviews", bookReviews);
         model.addAttribute("loggedInUserReview", loggedInUserReview);
+        // Lưu URL trang trước đó vào session
+        String referer = request.getHeader("Referer");
+        String currentUrl = request.getRequestURL().toString();
+
+        // Kiểm tra xem referer có khác với URL hiện tại hay không (tránh trường hợp 1 trang lặp lại)
+        // và có chứa cụm "/viewbooks" hoặc "/viewcart" (tránh trường hợp vượt quá kiểm soát)
+        if (referer != null && !referer.equals(currentUrl) && (referer.contains("/viewbooks") || referer.contains("/viewcart"))) {
+            session.setAttribute("previousUrl", referer);
+        }
 
 	    return "customer/detailbook";
 	}

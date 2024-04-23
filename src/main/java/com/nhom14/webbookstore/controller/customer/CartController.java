@@ -1,6 +1,9 @@
 package com.nhom14.webbookstore.controller.customer;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -88,7 +91,7 @@ public class CartController {
 	            // Số lượng vượt quá số lượng tồn kho, lưu thông báo lỗi vào Model và chuyển hướng về trang chi tiết sách
 	            String message = "Số lượng vượt quá số lượng tồn kho";
 	            redirectAttributes.addAttribute("message", message);
-	            return "redirect:/detailbook/" + bookId; // Thay đổi đường dẫn tới trang chi tiết sách của bạn
+	            return "redirect:/detailbook/" + bookId;
 	        }
 
 	        cartItem.setQuantity(newQuantity);
@@ -101,53 +104,71 @@ public class CartController {
 	    redirectAttributes.addAttribute("message", message);
 	    return "redirect:/detailbook/" + bookId;
 	}
-	
+
 	@GetMapping("/viewcart")
-    public String viewCart(Model model, HttpSession session) {
-        Account account = (Account) session.getAttribute("account");
+	public String viewCart(Model model, HttpSession session) {
+		Account account = (Account) session.getAttribute("account");
 
-        Cart cart;
-        if (account != null) {
-            cart = cartService.getCartByAccount(account); //xai account.getCart() se bi loi
+		if (account == null) {
+			return "redirect:/customer/loginaccount";
+		}
 
-            if (cart == null) {
-                cart = new Cart(account);
-                cartService.addCart(cart);
-            }
-        } else {
-            // Xử lý khi không có tài khoản (chưa đăng nhập)
-            // Chuyển hướng đến trang đăng nhập
-            return "redirect:/customer/loginaccount";
-        }
+		Cart cart;
+		cart = cartService.getCartByAccount(account); //xai account.getCart() se bi loi
 
-        // Lấy danh sách các mục trong giỏ hàng
-        List<CartItem> cartItems = cartItemService.getCartItemsByCart(cart);// xai cart.getCartItems() se bị loi
+		if (cart == null) {
+			cart = new Cart(account);
+			cartService.addCart(cart);
+		}
 
-        // Kiểm tra xem giỏ hàng có hàng không
-        if (cartItems.isEmpty()) {
-            model.addAttribute("message", "Giỏ hàng trống! Lựa chọn sách để thêm vào giỏ hàng và quay lại đây để xem");
-            model.addAttribute("totalAmount", null);
-			model.addAttribute("cartItems", cartItems);
-            // Chuyển hướng đến trang viewcart
-            return "customer/viewcart";
-        }
+		List<CartItem> cartItems = cartItemService.getCartItemsByCart(cart);
 
-        // Tính toán tổng số tiền trong giỏ hàng
-        double totalAmount = calculateTotalAmount(cartItems);
-        
-        // Tổng số đầu sách trong giỏ hàng
-        int totalAllCartItems = cartItems.size();
+		if (cartItems.isEmpty()) {
+			model.addAttribute("message", "Giỏ hàng trống! Lựa chọn sách để thêm vào giỏ hàng và quay lại đây để xem");
+			return "customer/viewcart";
+		}
 
-        // Lưu thông tin giỏ hàng và tổng số tiền vào model attribute
-        model.addAttribute("cartItems", cartItems);
-        model.addAttribute("totalAmount", totalAmount);
-        model.addAttribute("totalAllCartItems", totalAllCartItems);
+		List<CartItem> availableItems = new ArrayList<>();
+		List<CartItem> unavailableItems = new ArrayList<>();
 
-        // Chuyển hướng đến trang viewcart
-        return "customer/viewcart";
-    }
+		for (CartItem cartItem : cartItems) {
+			processCartItem(cartItem, availableItems, unavailableItems);
+		}
 
-    private double calculateTotalAmount(List<CartItem> cartItems) {
+		// Chuyển đổi từ List<CartItem> sang List<String>
+		List<String> unavailableItemIds = unavailableItems.stream()
+				.map(cartItem -> Integer.toString(cartItem.getId()))
+				.collect(Collectors.toList());
+
+		// Nối các id lại với nhau bằng dấu phẩy
+		String unavailableItemIdsString = String.join(",", unavailableItemIds);
+
+		double totalAmount = calculateTotalAmount(availableItems);
+		int totalAllAvailableCartItems = availableItems.size();
+
+		model.addAttribute("cartItems", cartItems);
+		model.addAttribute("availableItems", availableItems);
+		model.addAttribute("totalAmount", totalAmount);
+		model.addAttribute("totalAllAvailableCartItems", totalAllAvailableCartItems);
+		model.addAttribute("unavailableItems", unavailableItems);
+		model.addAttribute("unavailableItemIdsString", unavailableItemIdsString);
+
+		return "customer/viewcart";
+	}
+
+	private void processCartItem(CartItem cartItem, List<CartItem> availableItems, List<CartItem> unavailableItems) {
+		Book book = cartItem.getBook();
+		int quantity = cartItem.getQuantity();
+
+		if(book.getStatus() == 0 || book.getQuantity() < quantity){
+			unavailableItems.add(cartItem);
+		} else {
+			availableItems.add(cartItem);
+		}
+	}
+
+
+	private double calculateTotalAmount(List<CartItem> cartItems) {
         double totalAmount = 0.0;
         for (CartItem cartItem : cartItems) {
             totalAmount += cartItem.getQuantity() * cartItem.getBook().getSellPrice();
@@ -157,7 +178,8 @@ public class CartController {
     
     @GetMapping("/removefromcart")
     public String removeFromCart(@RequestParam("itemId") int itemId,
-    		HttpSession session) {
+								 RedirectAttributes redirectAttributes,
+    							 HttpSession session) {
     	
     	Account account = (Account) session.getAttribute("account");
 
@@ -166,14 +188,58 @@ public class CartController {
 	        // Nếu chưa đăng nhập, chuyển hướng về trang đăng nhập
 	        return "redirect:/customer/loginaccount";
 	    }
-	    
-	    // Xóa CartItem khỏi giỏ hàng
+
+
 	    CartItem cartItem = cartItemService.getCartItemById(itemId);
+		// Kiểm tra xem cartitem có thuộc về giỏ hàng của người đang đăng nhập không
+		if (cartItem.getCart().getAccount().getId()!=account.getId()){
+			// Nếu không thuộc về thì trả về trang lỗi
+			redirectAttributes.addAttribute("message", "Có lỗi xảy ra vui lòng thử lại sau!");
+			return "redirect:/customer/error";
+		}
+		// Xóa CartItem khỏi giỏ hàng
         cartItemService.deleteCartItem(cartItem);
         
         // Chuyển hướng về trang hiển thị giỏ hàng
         return "redirect:/viewcart";
     }
+
+	@PostMapping("/removeallfromcart")
+	public String removeAllFromCart(@RequestParam("itemIds") String itemIds,
+									RedirectAttributes redirectAttributes,
+									HttpSession session) {
+		Account account = (Account) session.getAttribute("account");
+
+		// Kiểm tra xem người dùng đã đăng nhập hay chưa
+		if (account == null) {
+			// Nếu chưa đăng nhập, chuyển hướng về trang đăng nhập
+			return "redirect:/customer/loginaccount";
+		}
+
+		// Chuyển đổi từ chuỗi các id thành danh sách các id
+		List<Integer> itemIdList = Arrays.stream(itemIds.split(","))
+				.map(Integer::parseInt)
+				.toList();
+
+		// Duyệt qua danh sách các id
+		for (Integer itemId : itemIdList) {
+			CartItem cartItem = cartItemService.getCartItemById(itemId);
+
+			// Kiểm tra xem cartitem có thuộc về giỏ hàng của người đang đăng nhập không
+			if (cartItem.getCart().getAccount().getId() != account.getId()) {
+				// Nếu không thuộc về thì trả về trang lỗi
+				redirectAttributes.addAttribute("message", "Có lỗi xảy ra vui lòng thử lại sau!");
+				return "redirect:/customer/error";
+			}
+
+			// Xóa CartItem khỏi giỏ hàng
+			cartItemService.deleteCartItem(cartItem);
+		}
+
+		// Chuyển hướng về trang hiển thị giỏ hàng
+		return "redirect:/viewcart";
+	}
+
 
 	@PostMapping("/addtocartfromallbooks")
 	public ResponseEntity<?> addToCartFromAllBooks(@RequestParam("bookId") int bookId,

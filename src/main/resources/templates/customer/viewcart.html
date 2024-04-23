@@ -218,12 +218,13 @@
 		<!--Đang chỉnh sửa add to cart-->
 		<div th:if="${!cartItems.isEmpty()}" class="container">
 			<div class="container-body" style="padding: 0px">
-				<div class="col-00">
+				<!--Hiển thị các món hàng còn hàng (nếu có)-->
+				<div th:if="${!availableItems.isEmpty()}" class="col-00">
 					<div class="row-cart d-flex align-items-center">
 						<h6 style="color: #211f7f; align-items: center;  margin: 0px; padding: 20px 0px 0px 20px; font-family: Verdana; font-weight: bold">Giỏ hàng</h6>
-						<div class="form-cart" th:if="${totalAllCartItems != null}"
+						<div class="form-cart" th:if="${totalAllAvailableCartItems != null}"
 							 style="color: orangered; align-items: center;  margin: 0px 5px 0px 0px; padding: 20px 0px 0px 10px; font-weight: 500;">
-							<p style="margin: 0px 0px 0px; font-family: Verdana; font-size: 15px">(<span th:text="${totalAllCartItems}"></span> quyển sách)</p>
+							<p style="margin: 0px 0px 0px; font-family: Verdana; font-size: 15px">(<span th:text="${totalAllAvailableCartItems}"></span> quyển sách)</p>
 						</div>
 					</div>
 					<div class="next-table only-bottom-border" style="margin-top: 20px">
@@ -275,7 +276,7 @@
 										<col style="width: 10%;">
 									</colgroup>
 									<tbody>
-									<tr th:each="cartItem : ${cartItems}" style="border-top: 1px solid #cecece;" onmouseover="this.style.backgroundColor='#f2f5f6';" onmouseout="this.style.backgroundColor='transparent';">
+									<tr th:each="cartItem : ${availableItems}" style="border-top: 1px solid #cecece;" onmouseover="this.style.backgroundColor='#f2f5f6';" onmouseout="this.style.backgroundColor='transparent';">
 
 										<td rowspan="1" class="next-table-header-node first " style="padding: 20px 20px;">
 											<input type="checkbox" class="itemCheckbox" th:data-item-id="${cartItem.id}" th:data-price="${cartItem.book.sellPrice}" th:data-quantity="${cartItem.quantity}" style="width: 20px; height: 20px; margin: 10px;">
@@ -288,7 +289,7 @@
 										</td>
 
 										<td rowspan="1" class="next-table-header-node" style="padding: 20px 20px; display: flex; flex-direction: column; justify-content: space-between; height: 190px">
-											<div class="row-book" style="height: 160px; text-decoration: none" th:href="@{/detailbook/{id} (id=${cartItem.book.id})}">
+											<div class="row-book" style="height: 160px; text-decoration: none" th:href="@{/detailbook/{id} (id=${cartItem.book.id}, referer='/viewcart')}">
 												<a href="#" class="title-book">
 													<span th:if="${#strings.length(cartItem.book.name) > 100}" th:text="${#strings.substring(cartItem.book.name, 0, 100) + '...'}"></span>
 													<span th:if="${#strings.length(cartItem.book.name) <= 100}" th:text="${cartItem.book.name}"></span>
@@ -338,8 +339,116 @@
 						</div>
 					</div>
 				</div>
+
+				<!--Hiển thị các món hàng không có sẵn-->
+				<div th:if="${!unavailableItems.isEmpty()}" style="color: #333333">--------------------------------------------------------------------------------------------------------------------------------------------------------------</div>
+				<div th:if="${!unavailableItems.isEmpty()}" class="col-00">
+					<div class="row-cart d-flex align-items-center">
+						<h6 style="color: #211f7f; align-items: center;  margin: 0px; padding: 20px 0px 0px 20px; font-family: Verdana; font-weight: bold">Sản phẩm không có sẵn</h6>
+						<div class="form-cart" th:if="${unavailableItems.size() != 0}"
+							 style="color: orangered; align-items: center;  margin: 0px 5px 0px 0px; padding: 20px 0px 0px 10px; font-weight: 500;">
+							<p style="margin: 0px 0px 0px; font-family: Verdana; font-size: 15px">(<span th:text="${unavailableItems.size()}"></span> quyển sách)</p>
+						</div>
+					</div>
+					<div class="next-table only-bottom-border" style="margin-top: 20px">
+						<div class="next-table-inner">
+							<div class="next-table-header" style="height: 50px; border-top: 1px solid #cecece; background-color: #f2f5f6">
+								<div class="next-table-header-inner">
+									<table>
+										<colgroup style="width: 1020px;">
+											<col style="width: 7%;">
+											<col style="width: 43%;">
+											<col style="width: 20%;">
+											<col style="width: 20%;">
+											<col style="width: 10%;">
+
+										</colgroup>
+										<tbody>
+										<tr>
+											<th rowspan="1" class="next-table-header-node first" style="padding: 10px 20px;">
+												<div>X</div>
+											</th>
+											<th rowspan="1" class="next-table-header-node " style="padding: 10px 0px;">
+												<form th:action="@{/removeallfromcart}" method="post">
+													<input type="hidden" name="itemIds" th:value="${unavailableItemIdsString}" />
+													<button type="submit" class="btn btn-danger">
+														Xóa tất cả
+													</button>
+												</form>
+											</th>
+											<th rowspan="1" class="next-table-header-node " style="padding: 10px 20px; text-align: center;">
+												<div class="next-table-cell-wrapper">Số lượng</div>
+											</th>
+											<th rowspan="1" class="next-table-header-node " style="padding: 10px 20px; text-align: center">
+												<div class="next-table-cell-wrapper">Thành tiền</div>
+											</th>
+											<th rowspan="1" class="next-table-header-node " style="padding: 10px 20px; text-align: center">
+												<div class="next-table-cell-wrapper">Thao tác</div>
+											</th>
+										</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+
+							<div class="next-table-body">
+								<table>
+									<colgroup style="width: 1020px;">
+										<col style="width: 7%;">
+										<col style="width: 12%;">
+										<col style="width: 31%;">
+										<col style="width: 20%;">
+										<col style="width: 20%;">
+										<col style="width: 10%;">
+									</colgroup>
+									<tbody>
+									<tr th:each="cartItem : ${unavailableItems}" style="border-top: 1px solid #cecece;" onmouseover="this.style.backgroundColor='#f2f5f6';" onmouseout="this.style.backgroundColor='transparent';">
+
+										<td rowspan="1" class="next-table-header-node first " style="padding: 20px 20px;">
+											<div>X</div>
+										</td>
+
+										<td rowspan="1" class="next-table-header-node" style="padding: 20px 20px;">
+											<a th:href="@{/detailbook/{id} (id=${cartItem.book.id})}">
+												<img th:src="${cartItem.book.bookImages[0].path}" style="width: 100px;">
+											</a>
+										</td>
+
+										<td rowspan="1" class="next-table-header-node" style="padding: 20px 20px; display: flex; flex-direction: column; justify-content: space-between; height: 190px">
+											<div class="row-book" style="height: 160px; text-decoration: none" th:href="@{/detailbook/{id} (id=${cartItem.book.id}, referer='/viewcart')}">
+												<a href="#" class="title-book">
+													<span th:if="${#strings.length(cartItem.book.name) > 100}" th:text="${#strings.substring(cartItem.book.name, 0, 100) + '...'}"></span>
+													<span th:if="${#strings.length(cartItem.book.name) <= 100}" th:text="${cartItem.book.name}"></span>
+												</a>
+											</div>
+											<div class="row-price-book" style="height: 30px; font-weight: bold;">
+												<span th:text="${#numbers.formatInteger(cartItem.book.sellPrice, 0, 'POINT')+ ' đ'}"></span>
+											</div>
+										</td>
+
+
+										<td rowspan="1" class="next-table-header-node" style="padding: 10px 20px;">
+											<span th:text="${cartItem.quantity}"></span>
+										</td>
+
+										<td rowspan="1" class="next-table-header-node" style="padding: 10px 20px; text-align: right; color: orangered; font-weight: bold;" th:id="'totalpriceitem_' + ${cartItem.id}" th:text="${#numbers.formatInteger(cartItem.quantity * cartItem.book.sellPrice, 0, 'POINT')+ ' đ'}"></td>
+
+										<td rowspan="1" class="next-table-header-node last" style="padding: 10px 20px; text-align: center" >
+											<a th:href="@{/removefromcart(itemId=${cartItem.id})}" class="delete">
+												<span class="material-symbols-outlined delete">delete</span>
+											</a>
+										</td>
+									</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!--Kết thúc hiển thị các món hàng hết hàng (nếu có)-->
+
 			</div>
-			<div class="container-body-01" style="padding: 20px 20px 10px 20px;">
+			<div th:if="${!availableItems.isEmpty()}" class="container-body-01" style="padding: 20px 20px 10px 20px;">
 				<div class="row-voucher" style="border-bottom: 1px solid #cecece; padding: 0px 0px 10px; margin: 0px">
 					<h6 style="text-align: right; color: #211f7f;">Chọn hoặc nhập mã</h6>
 				</div>

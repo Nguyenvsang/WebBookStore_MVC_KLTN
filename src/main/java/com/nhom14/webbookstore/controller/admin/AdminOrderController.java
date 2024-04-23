@@ -24,10 +24,11 @@ public class AdminOrderController {
 	private BookImportService bookImportService;
 	private RevenueService revenueService;
 	private ProfitService profitService;
+	private InfoReturnOrderService infoReturnOrderService;
 	
 	@Autowired
 	public AdminOrderController(OrderService orderService, BookService bookService,
-                                PaymentStatusService paymentStatusService, OrderItemService orderItemService, BookImportService bookImportService, RevenueService revenueService, ProfitService profitService) {
+                                PaymentStatusService paymentStatusService, OrderItemService orderItemService, BookImportService bookImportService, RevenueService revenueService, ProfitService profitService, InfoReturnOrderService infoReturnOrderService) {
 		super();
 		this.orderService = orderService;
 		this.bookService = bookService;
@@ -36,6 +37,7 @@ public class AdminOrderController {
         this.bookImportService = bookImportService;
         this.revenueService = revenueService;
         this.profitService = profitService;
+        this.infoReturnOrderService = infoReturnOrderService;
     }
 	
 	@GetMapping("/manageorders")
@@ -135,6 +137,7 @@ public class AdminOrderController {
 
 		// Nếu là Trả hàng thành công thì TTTT tự động chuyển qua Đã hoàn tiền
 		// Duyệt qua từng món hàng để trả lại số lượng sách
+		// Lưu ngày trả hàng thành công vào
 		if (status == 7) {
 			// Lấy danh sách OrderItem từ OrderItemService
 			List<OrderItem> orderItems = orderItemService.getOrderItemsByOrder(order);
@@ -156,6 +159,11 @@ public class AdminOrderController {
 			// Cập nhật trạng thái thanh toán mới
 			paymentStatus.setStatus(3); // Đã hoàn tiền
 			paymentStatusService.updatePaymentStatus(paymentStatus);
+
+			// Lấy thông tin trả hàng theo order để lưu ngày trả hàng thành công, lưu vào CSDL
+			InfoReturnOrder infoReturnOrder = infoReturnOrderService.getInfoReturnOrderByOrder(order);
+			infoReturnOrder.setReturnDate(new Timestamp(System.currentTimeMillis()));
+			infoReturnOrderService.updateInfoReturnOrder(infoReturnOrder);
 		}
 
 	    // Cập nhật trạng thái đơn hàng

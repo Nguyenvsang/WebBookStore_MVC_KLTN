@@ -30,6 +30,9 @@ public class InfoReturnOrder {
     @Column(name = "request_date", columnDefinition = "datetime(6) NOT NULL")
     private Timestamp requestDate;
 
+    @Column(name = "return_date", columnDefinition = "datetime(6)")
+    private Timestamp returnDate; // Thêm trường ngày Trả hàng thành công
+
     @Column(name = "name", columnDefinition = "varchar(255) NOT NULL")
     private String name;
 
