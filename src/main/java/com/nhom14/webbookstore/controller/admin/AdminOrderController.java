@@ -243,37 +243,37 @@ public class AdminOrderController {
 					// Lấy Book tương ứng với OrderItem
 					Book book = orderItem.getBook();
 
-					// Lấy đợt nhập sách mới nhất của Book
-					BookImport latestBookImport = bookImportService.getLatestBookImportByBook(book);
+					// Lấy đợt nhập sách đang bán của Book
+					BookImport bookImport = bookImportService.getBookImportByBookAndStatus(book, 1);
 
-					if (latestBookImport == null){
+					if (bookImport == null){
 						redirectAttributes.addAttribute("message", "Không tìm thấy đợt nhập sách!");
 						// Chuyển hướng về trang manageorderitems
 						return "redirect:/manageorderitems?orderId=" + orderId;
 					}
 
 					// Kiểm tra xem số lượng còn lại có đủ để đáp ứng yêu cầu của OrderItem hay không
-					if (latestBookImport.getRemainingQuantity() >= orderItem.getQuantity()) {
+					if (bookImport.getRemainingQuantity() >= orderItem.getQuantity()) {
 						// Trừ remaining_quantity và cập nhật BookImport
-						latestBookImport.setRemainingQuantity(latestBookImport.getRemainingQuantity() - orderItem.getQuantity());
-						bookImportService.updateBookImport(latestBookImport);
+						bookImport.setRemainingQuantity(bookImport.getRemainingQuantity() - orderItem.getQuantity());
+						bookImportService.updateBookImport(bookImport);
 					} else {
 						// Xử lý trường hợp không đủ sách...
-						redirectAttributes.addAttribute("message", "Có lỗi xảy ra, vui lòng thử lại sau!" + latestBookImport.getRemainingQuantity() +"----------" + orderItem.getQuantity());
+						redirectAttributes.addAttribute("message", "Có lỗi xảy ra, vui lòng thử lại sau!" + bookImport.getRemainingQuantity() +"----------" + orderItem.getQuantity());
 						// Chuyển hướng về trang manageorderitems
 						return "redirect:/manageorderitems?orderId=" + orderId;
 					}
 
-					orderItem.setCostPrice(latestBookImport.getImportPrice());
+					orderItem.setCostPrice(bookImport.getImportPrice());
 					orderItemService.updateOrderItem(orderItem);
 
 					// Tính toán lợi nhuận
-					double profitAmount = (orderItem.getSellPrice() - latestBookImport.getImportPrice()) * orderItem.getQuantity();
+					double profitAmount = (orderItem.getSellPrice() - bookImport.getImportPrice()) * orderItem.getQuantity();
 
 					// Tạo bản ghi lợi nhuận mới
 					Profit profit = new Profit();
 					profit.setOrderItem(orderItem);
-					profit.setCostPrice(latestBookImport.getImportPrice());
+					profit.setCostPrice(bookImport.getImportPrice());
 					profit.setSellPrice(orderItem.getSellPrice());
 					profit.setProfit(profitAmount);
 					profit.setDate(new Timestamp(System.currentTimeMillis()));

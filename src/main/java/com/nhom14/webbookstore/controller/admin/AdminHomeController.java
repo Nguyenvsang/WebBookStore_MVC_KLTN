@@ -15,4 +15,9 @@ public class AdminHomeController {
 	public String showAboutUs() {
 		return "admin/aboutusadmin";
 	}
+
+	@GetMapping("/erroradmin")
+	public String showError() {
+		return "admin/erroradmin";
+	}
 }

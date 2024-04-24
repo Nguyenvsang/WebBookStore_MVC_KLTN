@@ -34,4 +34,19 @@ public class BookImportServiceImpl implements BookImportService {
         return bookImportRepository.findTopByBookOrderByImportDateDesc(book);
         // Không tìm thấy sẽ trả về null
     }
+
+    @Override
+    public void saveBookImport(BookImport bookImport) {
+        bookImportRepository.save(bookImport);
+    }
+
+    @Override
+    public BookImport getBookImportByBookAndStatus(Book book, int status) {
+        return bookImportRepository.findFirstByBookAndStatus(book, status);
+    }
+
+    @Override
+    public List<BookImport> getBookImportsByBookOrderByImportDateDesc(Book book) {
+        return bookImportRepository.findByBookOrderByImportDateDesc(book);
+    }
 }

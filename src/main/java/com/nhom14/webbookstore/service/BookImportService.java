@@ -13,4 +13,12 @@ public interface BookImportService {
     void updateBookImport(BookImport bookImport);
 
     BookImport getLatestBookImportByBook(Book book);
+
+    void saveBookImport(BookImport bookImport);
+
+    // Lấy đợt nhập sách theo sách và trạng thái
+    BookImport getBookImportByBookAndStatus(Book book, int status);
+
+    // Sắp xếp kết quả theo thời gian nhập giảm dần
+    List<BookImport> getBookImportsByBookOrderByImportDateDesc(Book book);
 }

@@ -33,4 +33,7 @@ public class BookImport {
 
     @Column(name = "import_date", columnDefinition = "DATE NOT NULL")
     private Timestamp importDate;
+
+    @Column(name = "status", columnDefinition = "INT NOT NULL")
+    private int status; // 0: Ngừng bán, 1: Đang bán, 2: Chưa bán
 }

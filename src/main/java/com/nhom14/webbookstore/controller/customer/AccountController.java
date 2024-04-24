@@ -689,9 +689,4 @@ public class AccountController {
 		redirectAttributes.addAttribute("message", "Thêm mật khẩu thành công.");
 		return "redirect:/viewaccount";
 	}
-
-	@GetMapping("/customer/error")
-	public String showError() {
-		return "customer/error";
-	}
 }

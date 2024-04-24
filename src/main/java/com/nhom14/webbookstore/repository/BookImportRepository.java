@@ -12,4 +12,8 @@ public interface BookImportRepository extends JpaRepository<BookImport, Long> {
     List<BookImport> findByBookOrderByImportDateAsc(Book book);
 
     BookImport findTopByBookOrderByImportDateDesc(Book book);
+
+    BookImport findFirstByBookAndStatus(Book book, int status);
+
+    List<BookImport> findByBookOrderByImportDateDesc(Book book);
 }

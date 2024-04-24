@@ -15,4 +15,9 @@ public class HomeController {
 	public String showAboutUs() {
 		return "customer/aboutus";
 	}
+
+	@GetMapping("/customer/error")
+	public String showError() {
+		return "customer/error";
+	}
 }

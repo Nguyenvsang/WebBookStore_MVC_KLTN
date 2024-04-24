@@ -324,7 +324,9 @@ CREATE TABLE BookImport (
   -- Khai báo thuộc tính import_price kiểu double, không được null
   import_price DOUBLE NOT NULL,
   -- Khai báo thuộc tính import_date kiểu DATETIME(6), không được null
-  import_date DATETIME(6) NOT NULL
+  import_date DATETIME(6) NOT NULL,
+  -- Khai báo thuộc tính status kiểu int, không được null
+  status INT NOT NULL
   );
 
 -- Tạo bảng BookPrice

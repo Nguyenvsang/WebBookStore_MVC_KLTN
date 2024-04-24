@@ -20,6 +20,8 @@ import java.util.concurrent.Future;
 
 import javax.imageio.ImageIO;
 
+import com.nhom14.webbookstore.entity.*;
+import com.nhom14.webbookstore.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -33,18 +35,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.nhom14.webbookstore.entity.Account;
-import com.nhom14.webbookstore.entity.Author;
-import com.nhom14.webbookstore.entity.Book;
-import com.nhom14.webbookstore.entity.BookAuthor;
-import com.nhom14.webbookstore.entity.BookImage;
-import com.nhom14.webbookstore.entity.Category;
-import com.nhom14.webbookstore.service.AuthorService;
-import com.nhom14.webbookstore.service.BookAuthorService;
-import com.nhom14.webbookstore.service.BookImageService;
-import com.nhom14.webbookstore.service.BookService;
-import com.nhom14.webbookstore.service.CategoryService;
-import com.nhom14.webbookstore.service.CloudinaryService;
 import com.nhom14.webbookstore.service.BookImageService;
 
 import jakarta.servlet.ServletContext;
@@ -59,11 +49,12 @@ public class AdminBookController {
 	private BookAuthorService bookAuthorService;
 	private AuthorService authorService;
 	private BookImageService bookImageService;
+	private BookImportService bookImportService;
 	
 	@Autowired
 	public AdminBookController(BookService bookService, CategoryService categoryService,
-			CloudinaryService cloudinaryService, BookAuthorService bookAuthorService,
-			AuthorService authorService, BookImageService bookImageService) {
+                               CloudinaryService cloudinaryService, BookAuthorService bookAuthorService,
+                               AuthorService authorService, BookImageService bookImageService, BookImportService bookImportService) {
 		super();
 		this.bookService = bookService;
 		this.categoryService = categoryService;
@@ -71,7 +62,8 @@ public class AdminBookController {
 		this.bookAuthorService = bookAuthorService;
 		this.authorService = authorService;
 		this.bookImageService = bookImageService;
-	}
+        this.bookImportService = bookImportService;
+    }
 	
 	@GetMapping("/managebooks")
 	public String manageBooks(@RequestParam(value = "status", required = false) Integer status,
@@ -349,6 +341,9 @@ public class AdminBookController {
 	    
 	    // Truy xuất dữ liệu từ nguồn dữ liệu
 	    Book book = bookService.getBookById(bookId);
+
+		// Lấy danh sách các đợt nhập sách cho cuốn sách
+		List<BookImport> bookImports = bookImportService.getBookImportsByBookOrderByImportDateDesc(book);
 	    
 	    List<BookAuthor> bookAuthors = bookAuthorService.getByBook(book);
 	    String authors = "";
@@ -362,6 +357,7 @@ public class AdminBookController {
 	    // Đặt thuộc tính vào model để sử dụng trong view
 	    model.addAttribute("book", book);
 	    model.addAttribute("authors", authors);
+		model.addAttribute("bookImports", bookImports);
 
 	    // Forward đến trang chi tiết sách
 	    return "admin/managedetailbook";
