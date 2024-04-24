@@ -30,24 +30,36 @@
 		}
 		
 		.frame-02 {
-			margin-top: 20px;
-			margin-bottom: 20px;
-			margin-left: 20px;
-			margin-right: 0px;
-			border: 1px solid rgb(255, 255, 255);
-			
+
 		}
+
+
 		.btn-add-cart {
-			border-radius: 10px;
-			color: black;
-			background-color: white;
-			border: 2px solid rgb(2,88,155);			
+			background-color: #3448c5;
+			border-radius: 50px;
+			color: white;
+			width: 200px;
+			box-shadow: 0px 4px 6px rgba(0, 0.4, 0, 0.2);
 		}
 		.btn-add-cart:hover {
-			color:rgb(2,88,155); /* Thay đổi màu văn bản khi trỏ chuột vào nút */
-			background-color: azure;
-		} 
-		
+			background-color: #211f7f;
+			color: white;
+			box-shadow: 0px 6px 8px rgba(0, 0.4, 0, 0.2);
+		}
+
+		.btn-buy-now {
+			background-color: #de2652;
+			border-radius: 50px;
+			color: white;
+			width: 200px;
+			box-shadow: 0px 4px 6px rgba(0, 0.4, 0, 0.2);
+		}
+		.btn-buy-now:hover {
+			background-color: #c90e0f;
+			color: white;
+			box-shadow: 0px 6px 8px rgba(0, 0.4, 0, 0.2);
+		}
+
 		.btn-back {
 			border-radius: 10px;
 			color: white;
@@ -79,10 +91,6 @@
 		
 		.frame-description-01 {
 			margin-bottom: 20px;			
-		}
-		
-		.card-title {
-    		border-radius: 20px
 		}
 		
 		p.card-text.text-description {
@@ -240,7 +248,64 @@
 			font-weight: bold;
 		}
 
+		.col {
+			padding: 0px;
+		}
 
+		.col-data {
+			font-weight: bold;
+			width: 284px
+		}
+
+		.col-author {
+			padding: 0px;
+			color: #5390f5;
+			display: flex;
+			justify-content: flex-start;
+			font-weight: bold;
+			width: 284px;
+		}
+
+		.image {
+			border: 1px solid #cecece;
+			border-radius: 15px;
+			margin-top: 10px;
+		}
+
+		.image:hover {
+			border: 1px solid #211f7f;
+		}
+
+		.card-title {
+ 			text-decoration: none;
+			color: black;
+			font-family: Helvetica;
+		}
+
+		.card-title:hover {
+			text-decoration: none;
+			font-family: Helvetica;
+		}
+
+		.col-increase {
+			align-items: center;
+			margin-right: 20px;
+		}
+
+		.col-decrease {
+			align-items: center;
+			margin-left: 20px;
+		}
+
+		.favorite{
+			color: grey;
+			font-weight: bold;
+		}
+
+		.favorite:hover {
+			color: #5390f5;
+			font-weight: bold;
+		}
 	</style>
 	
 </head>
@@ -251,105 +316,134 @@
 		 th:classappend="${#strings.containsIgnoreCase(param.message, 'thành công') ? 'alert-success' : 'alert-danger'}">
 		<span th:text="${param.message}"></span>
 	</div>
-	<div class="container-fluid mb-4">
-        <div class="container main">
+
+	<!-- Kiểm tra xem sách có còn kinh doanh không -->
+	<div th:if="${book.status == 0}" class="alert alert-danger">
+		Sách này đã ngừng kinh doanh
+	</div>
+
+	<div class="container-fluid mb-4" style=" margin: 40px 0px 20px">
+        <div class="container" style="padding: 0px;">
 	        <div class="frame-01" style="background-color: white; padding: 20px">
-				<div class="row-cart align-items-center">
-					<div class="col-00" style="display: flex">
-						<a th:href="${session.previousUrl}" class="before">
+				<div class="row-cart d-flex align-items-center" style="padding-bottom: 10px">
+					<div class="col-00 d-flex align-items-center">
+						<a th:href="${session.previousUrl}" class="before" style="align-items: center; display: flex; text-decoration: none;">
 							<span class="material-symbols-outlined back">arrow_back_ios</span>
 						</a>
 						<h5 style="color: #211f7f; align-items: center;  margin: 0px 5px 0px 0px">Thông tin sách</h5>
 					</div>
 				</div>
-				<div class="frame-02">
-		            <div class="row no-gutters">
-						<div class="col-md-4">
-							<div class="row">
-								<div class="col-md-4">
-				                    <img th:src="${book.bookImages[1].path + '?v=' + randomNumber}" alt="Book Image 1" width="90" style="margin-bottom: 10px;"><br>
-				                    <img th:src="${book.bookImages[2].path + '?v=' + randomNumber}" alt="Book Image 1" width="90" style="margin-bottom: 10px;"><br>
-				                    <img th:src="${book.bookImages[3].path + '?v=' + randomNumber}" alt="Book Image 1" width="90" style="margin-bottom: 10px;"><br>
+				<div class="frame-02" style="padding-top: 10px; border-top: 1px solid #cecece;">
+		            <div class="row no-gutters" style="display: flex">
+						<div class="col-image d-flex" style="width: 495px">
+							<div class="row-image d-flex" style="width: 495px">
+								<div class="col-list-image" style="width: 100px; margin-left: 20px">
+				                    <img th:src="${book.bookImages[1].path + '?v=' + randomNumber}" class="image" alt="Book Image 1" width="100" style="padding: 10px;"><br>
+				                    <img th:src="${book.bookImages[2].path + '?v=' + randomNumber}" class="image" alt="Book Image 1" width="100" style="padding: 10px;"><br>
+				                    <img th:src="${book.bookImages[3].path + '?v=' + randomNumber}" class="image" alt="Book Image 1" width="100" style="padding: 10px;"><br>
 				                </div>
-				                <div class="col-md-8">
-				                    <img th:src="${book.bookImages[0].path}" alt="Book Image" class="card-img" style="border-radius: 15px;">
+				                <div class="col-image-large" style="width: 375px; padding: 0px">
+				                    <img th:src="${book.bookImages[0].path}" alt="Book Image" class="card-img" style="border-radius: 15px; width: 295px; margin: 10px 25px 10px 45px">
 				                </div>
 							</div>
 						</div>
-		                <div class="col-md-8">
-		                    <div class="card-body">
-		                        <h5 class="card-title" th:text="${book.name}"></h5>
-		                        <div class="row main" style="margin-right: 250px;">
-									<div class="col" style="margin-left: 20px;" >
-										
-										<div class="row one" style="display: flex; justify-content: center; align-items: center;">
+		                <div class="col-content" style="width: 598px; padding: 10px 20px 10px 10px">
+		                    <div class="card-body" style="padding: 0px">
+		                        <h4 class="card-title" th:text="${book.name}" style="margin: 0px"></h4>
+		                        <div class="row-main" style="border-bottom: 1px solid #cecece; padding: 0px 0px 10px">
+									<div class="col" style="padding: 0px;">
+										<div class="row-one" style="display: flex; justify-content: center; align-items: center; padding: 20px 0px 10px">
 											<div class="col">
 						                        <p class="card-text" style="display: flex; justify-content: left; align-items: center;">Tác giả:</p>
 											</div>
-											<div class="col" style="display: flex; justify-content: left; align-items: center;">
+											<div class="col-author" style="width: 284px; display: flex; justify-content: left; align-items: center;">
 												<span th:each="bookauthor : ${book.bookAuthors}" th:text="${bookauthor.author.name}"></span>
 											</div>
 										</div>
 										
-					                    <div class="row two" style="display: flex; justify-content: center; align-items: center;"> 
+					                    <div class="row-two" style="display: flex; justify-content: center; align-items: center; padding-bottom: 10px">
 											<div class="col">
 					                        	<p class="card-text" style="display: flex; justify-content: left; align-items: center;">Nhà xuất bản: </p>
 											</div>
-											<div class="col" style="display: flex; justify-content: left; align-items: center;">
+											<div class="col-data" style="display: flex; justify-content: left; align-items: center;">
 												<span th:text="${book.publisher}"></span>
 											</div>
 					                    </div>
-	
-					                    <div class="row third" style="display: flex; justify-content: center; align-items: center;"> 
-											<div class="col">  
-					                        	<p class="card-text" style="display: flex; justify-content: left; align-items: center;">Số lượng: </p>
-											</div>
-											<div class="col" style="display: flex; justify-content: left; align-items: center;">
-												<span th:text="${book.quantity}"></span>
-											</div>
-					                    </div>
 					                    
-					                    <div class="row four" style="display: flex; justify-content: center; align-items: center;">
+					                    <div class="row-four" style="display: flex; justify-content: center; align-items: center; padding-bottom: 10px">
 											<div class="col">
 					                        	<p class="card-text" style="display: flex; justify-content: left; align-items: center;">Danh mục:</p>
 											</div>
-											<div class="col" style="display: flex; justify-content: left; align-items: center;">
+											<div class="col-data" style="display: flex; justify-content: left; align-items: center;">
 												 <span th:text="${book.category.name}"></span>
 											</div>	
 					                    </div>
-					                        									
-				                        	<p class="card-text" style="font-size: 30px; font-weight: bold;text-align: left; color: orangered;"><span th:text="${#numbers.formatInteger(book.sellPrice, 0, 'POINT')}" ></span> đ</p>
+										<div class="row-price-favorite d-flex align-items-center" style="justify-content: space-between">
+											<div class="col-price d-flex align-items-center">
+												<p class="card-text"
+												   style="font-size: 30px; font-weight: bold;text-align: left; color: orangered; ">
+													<span th:text="${#numbers.formatInteger(book.sellPrice, 0, 'POINT')}" ></span> đ
+												</p>
+											</div>
+											<div class="col-favorite d-flex align-items-center">
+												<form id="favoriteForm" class="favorite">
+													<input type="hidden" name="bookId" th:value="${book.id}" />
+													<a type="submit" class=" d-flex align-items-center">
+														<i class="fa fa-heart fa-x d-flex align-items-center" style="margin-right: 5px"></i>
+														<span  th:text="${isFavorite} ? 'Đã yêu thích' : 'Yêu thích'"></span>
+													</a>
+												</form>
+											</div>
+										</div>
 									</div>																		
 		                        </div>
 
-								<!-- Kiểm tra xem sách có còn kinh doanh không -->
-								<div th:if="${book.status == 0}" class="alert alert-danger">
-									Sách này đã ngừng kinh doanh
-								</div>
-
 								<!-- Nếu đã ngừng kinh doanh thì không hiển thị các nút tương tác -->
 								<div th:if="${book.status != 0}">
-									<div class="d-flex flex-grow-2">
+									<div class="row-add-to-cart" style="padding: 20px 0px">
 										<form th:action="@{/addtocart}" method="post">
-													<div class="col col-number">
-														<div class="col col-number" style="margin-bottom: 10px; ">
-															<input style="border: 2px solid rgb(2,88,155);" type="number" id="quantity" name="quantity" class="form-control" min="1" th:max="${book.quantity}" value="1">
+
+											<div class="row-quantity d-flex">
+												<div class="col-quantity">
+													<div class="row-01 d-flex align-items-center justify-content-center"
+														 style="background: white; border-radius: 50px; border: 1px solid #cecece; width: 130px">
+														<div class="col-decrease">
+															<div class="input-group">
+																<a class="outline" type="button" th:onclick="'decreaseQuantity(' + ${book.id} + ')'" style="align-items: center; justify-items: center; display: flex;">
+																	<span class="material-symbols-outlined" style="color: grey; font-weight: bold; font-size: small">remove</span></a>
+															</div>
+														</div>
+														<div class="col" style="width: 62px">
+															<input id="quantity" name="quantity" class="form-control text-center align-middle" min="1" th:max="${book.quantity}" value="1" th:id="'quantity_' + ${book.id}"
+																   style="text-align: center; border: none; width: 62px">
+														</div>
+														<div class="col-increase">
+															<div class="input-group">
+																<a class="outline" type="button" th:onclick="'increaseQuantity(' + ${book.id} + ', ' + ${book.quantity} + ')'" style="align-items: center; justify-items: center; display: flex;">
+																	<span class="material-symbols-outlined" style="color: grey; font-weight: bold; font-size: small">add</span></a>
+															</div>
 														</div>
 													</div>
-													<div class="col-add-cart" style="margin-bottom: 20px;">
-														<div class="col">
-															<input type="hidden" name="bookId" th:value="${book.id}">
-															<button type="submit" class="btn btn-add-cart btn-block">Thêm vào giỏ hàng</button>
-														</div>
+												</div>
+												<div class="col-third" style="display: flex; justify-content: center; align-items: center; color: grey; font-weight: bold">
+													<p style="margin: 0px 0px 0px 20px">Còn lại</p>
+													<div class="col-data" style="display: flex; justify-content: center; align-items: center; width: 30px">
+														<span th:text="${book.quantity}"></span>
 													</div>
-										</form>
-									</div>
-									<div class="ml-2">
-										<form id="favoriteForm">
-											<input type="hidden" name="bookId" th:value="${book.id}" />
-											<button type="submit" class="btn btn-primary" th:class="${isFavorite} ? 'btn-success' : 'btn-primary'">
-												<span th:text="${isFavorite} ? 'Đã thêm vào danh sách yêu thích' : 'Thêm vào danh sách yêu thích'"></span>
-											</button>
+													<p style="margin: 0px">trong kho hàng</p>
+												</div>
+											</div>
+
+											<div class="row-add-cart d-flex" style="margin: 20px 0px 0px ">
+												<div class="col-add-to-cart">
+													<input type="hidden" name="bookId" th:value="${book.id}">
+													<button type="submit" class="btn btn-add-cart btn-block">Thêm vào giỏ hàng</button>
+												</div>
+												<div class="col-buy-now" style="margin-left: 10px">
+													<input type="hidden" name="bookId" th:value="${book.id}">
+													<button type="submit" class="btn btn-buy-now btn-block">Mua ngay</button>
+												</div>
+											</div>
 										</form>
 									</div>
 								</div>
@@ -608,11 +702,11 @@
 
 		// Xử lý nhấn nút Thêm/Xóa vào/khỏi danh sách yêu thích
 		$(document).ready(function() {
-			$('#favoriteForm button').on('click', function(event) {
+			$('#favoriteForm a').on('click', function(event) {
 				event.preventDefault();
 
 				var form = $('#favoriteForm');
-				var button = $(this);
+				var a = $(this);
 
 				$.ajax({
 					type: 'POST',
@@ -622,11 +716,17 @@
 						if (response.status === 'redirect') {
 							window.location.href = response.location;
 						} else if (response.status === 'success' && response.message == 'added') {
-							button.text('Đã thêm vào danh sách yêu thích');
-							button.css('background-color', 'blue');
+							a.find('span').text('Đã thêm yêu thích');
+							a.find('i').removeClass('fa-heart').addClass('fa-heart-o');
+							a.css('background-color', 'white');
+							a.css('color', 'green'); /* Màu xanh biển */
+							a.addClass('active');
 						} else if (response.status === 'success' && response.message == 'deleted') {
-							button.text('Đã xóa khỏi danh sách yêu thích');
-							button.css('background-color', 'gray');
+							a.find('span').text('Đã xóa yêu thích');
+							a.find('i').removeClass('fa-heart').addClass('fa-heart-o');
+							a.css('background-color', 'white');
+							a.css('color', 'grey');
+							a.removeClass('active');
 						} else if (response.status === 'error') {
 							alert(response.message);
 						}
@@ -639,7 +739,22 @@
 		// Đặt thời gian cho alert
         setTimeout(function() {
             document.getElementById('myAlert').style.display = 'none';
-        }, 5000);  // Alert sẽ biến mất sau 5 giây
+        }, 10000);  // Alert sẽ biến mất sau 5 giây
+	</script>
+	<script>
+		function increaseQuantity(bookId, maxQuantity) {
+            var quantityInput = document.getElementById('quantity_' + bookId);
+            if (quantityInput.value < maxQuantity) {
+                quantityInput.value++;
+            }
+        }
+
+        function decreaseQuantity(bookId) {
+            var quantityInput = document.getElementById('quantity_' + bookId);
+            if (quantityInput.value > 1) {
+                quantityInput.value--;
+            }
+        }
 	</script>
     
 <div th:replace="~{layout/footer :: footer}"></div>

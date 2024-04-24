@@ -320,24 +320,24 @@
 							<div th:text="${#temporals.format(order.dateOrder.toLocalDateTime(), 'dd/MM/yyyy')}" class="align-middle text-center"></div>
 							<p style="margin: 0px 0px 0px; padding: 0 20px; font-weight: bold; color: grey;">Đặt hàng thành công</p>
 						</div>
-						<div class="row-delivery align-items-center" style="margin-top: 10px">
-							<div th:if="${order.status == 0 || order.status == 1 || order.status == 2}" class="date d-flex align-items-center" role="alert">
+						<div class="row-delivery align-items-center">
+							<div th:if="${order.status == 0 || order.status == 1 || order.status == 2}" class="date d-flex align-items-center" role="alert" style="margin-top: 10px">
 								<span class="material-symbols-outlined order" style="margin-right: 10px; margin-left: 20px">hourglass_top</span>
 								<span th:text="${#temporals.format(order.expectedDeliveryDate1.toLocalDateTime(), 'dd/MM/yyyy')} + ' - ' + ${#temporals.format(order.expectedDeliveryDate2.toLocalDateTime(), 'dd/MM/yyyy')}"></span>
 								<p style="margin: 0px 0px 0px; padding: 0 20px; font-weight: bold; color: #5cbcd5;">Ngày giao hàng dự kiến</p>
 							</div>
-							<div th:if="${order.deliveryDate != null && order.status != 4 && order.status != 1 && order.status !=2 && order.status != 0}" class="date d-flex align-items-center" role="alert">
+							<div th:if="${order.deliveryDate != null && order.status != 4 && order.status != 1 && order.status !=2 && order.status != 0}" class="date d-flex align-items-center" role="alert" style="margin-top: 10px">
 								<span class="material-symbols-outlined order" style="margin-right: 10px; margin-left: 20px">hourglass_bottom</span>
 								<span th:text="${#temporals.format(order.deliveryDate.toLocalDateTime(), 'dd/MM/yyyy')}"></span>
 								<p style="margin: 0px 0px 0px; padding: 0 20px; font-weight: bold; color: green;">Ngày giao hàng</p>
 							</div>
-							<div th:if="${order.status == 4}" class="notify d-flex align-items-center" role="alert">
+							<div th:if="${order.status == 4}" class="notify d-flex align-items-center" role="alert" style="margin-top: 10px">
 								<span class="material-symbols-outlined order" style="margin-right: 10px; margin-left: 20px">contract_delete</span>
 								<span th:if="${order.infoCancelOrder != null}" th:text="${#temporals.format(order.infoCancelOrder.date.toLocalDateTime(), 'dd/MM/yyyy')}"></span>
 								<p style="margin: 0px 0px 0px; padding: 0 20px; font-weight: bold; color: #f17746;">Đã hủy đơn</p>
 							</div>
-							<div th:if="${order.status == 7}" class="notify d-flex align-items-center" role="alert">
-								<span class="material-symbols-outlined order" style="margin-right: 10px; margin-left: 20px">hourglass_bottom</span>
+							<div th:if="${order.status == 7}" class="notify d-flex align-items-center" role="alert" style="margin-top: 10px">
+								<span class="material-symbols-outlined order" style="margin-right: 10px; margin-left: 20px">task_alt</span>
 								<span th:if="${order.infoReturnOrder.returnDate != null}" th:text="${#temporals.format(order.infoReturnOrder.returnDate.toLocalDateTime(), 'dd/MM/yyyy')}"></span>
 								<p style="margin: 0px 0px 0px; padding: 0 20px; font-weight: bold; color: green;">Trả hàng thành công</p>
 							</div>

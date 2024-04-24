@@ -111,10 +111,10 @@
         	margin-bottom: 40px;
         	border-radius: 15px;
         	background-color: white;
-        	position: sticky;
   			bottom: 0px;
   			box-shadow: 0 8px 10px rgb(226, 226, 226);
   			border: 0.5px solid #cecece;
+  			position: sticky;
 		}
 
 
@@ -156,7 +156,13 @@
 		.material-symbols-outlined.delete:hover {
 			color: rgb(2,88,155);
 		}
-		
+		.all-delete{
+			color: grey;
+		}
+		.all-delete:hover {
+			color: rgb(2,88,155);
+		}
+
 		.form-cart{
 			color: orangered;
 			margin-bottom: 30px;
@@ -191,32 +197,66 @@
 			font-weight: bold;
 			font-family: Helvetica;
 		}
+
+		.TWLNg9 {
+			padding: 3px 0;
+		}
+		.qJkRlY {
+			background-image: repeating-linear-gradient(45deg,#6fa6d6,#6fa6d6 33px,transparent 0,transparent 41px,#f18d9b 0,#f18d9b 74px,transparent 0,transparent 82px);
+			background-position-x: -1.875rem;
+			background-size: 7.25rem .1875rem;
+			height: .1875rem;
+			width: 100%
+		}
+
+		.btn-continue {
+			background-color: #3448c5;
+			border-radius: 50px;
+			color: white;
+			width: 200px;
+			box-shadow: 0px 4px 6px rgba(0, 0.4, 0, 0.2);
+			font-weight: bold;
+		}
+
+		.btn-continue:hover {
+			background-color: #211f7f;
+			color: white;
+			box-shadow: 0px 6px 8px rgba(0, 0.4, 0, 0.2);
+			font-weight: bold;
+		}
+
 	</style>
 </head>
 <body>
 	<div th:replace="~{layout/header :: header}"></div>
-    <div class="container-fluid mb-4" >
+	<!-- Hiển thị thông báo nếu có -->
+	<div th:if="${param.message}" class="alert" id="myAlert02"
+		 th:classappend="${#strings.containsIgnoreCase(param.message, 'thành công') ? 'alert-success' : 'alert-danger'}">
+		<span th:text="${param.message}"></span>
+	</div>
 
-		<!-- Hiển thị thông báo nếu có -->
-		<div th:if="${param.message}" class="alert"
-			 th:classappend="${#strings.containsIgnoreCase(param.message, 'thành công') ? 'alert-success' : 'alert-danger'}">
-			<span th:text="${param.message}"></span>
+	<!-- Hiển thị thông báo kiểu model nếu có (dùng khi giỏ hàng trống) -->
+
+	<div th:if="${message}" class="alert" id="myAlert01"
+		 th:classappend="${message.contains('thành công') ? 'alert-success' : 'alert-danger'}"
+		 th:text="${message}">
+	</div>
+
+
+	<!-- Nếu giỏ hàng trống thì dẫn hướng về trang viewbooks -->
+	<div class="container" th:if="${cartItems == null}" style="padding: 0px">
+		<div class="container-body" style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 0px; height: 350px">
+			<img src="https://res.cloudinary.com/dylwewmt0/image/upload/v1713857142/PHOTO_LIST/Cart/cart.jpg" alt="" style="width: 180px;">
+			<div class="row d-flex align-items-center justify-content-center">
+				<p style="margin: 0px; color: grey; font-weight: bold;">Chưa có sản phẩm trong giỏ hàng của bạn.</p>
+			</div>
+			<a class="btn btn-continue" th:href="@{/viewbooks}">Mua sắm ngay!</a>
 		</div>
+	</div>
 
-		<!-- Hiển thị thông báo kiểu model nếu có (dùng khi giỏ hàng trống) -->
-		<div class="container-body" style="padding: 0px">
-			<div th:if="${message}" class="alert"
-				 th:classappend="${message.contains('thành công') ? 'alert-success' : 'alert-danger'}"
-				 th:text="${message}"></div>
-		</div>
-
-		<!-- Nếu giỏ hàng trống thì dẫn hướng về trang viewbooks -->
-		<p th:if="${cartItems.isEmpty()}" class="text-center">
-			<a class="btn btn-continue" th:href="@{/viewbooks}">Duyệt qua các quyển sách</a>
-		</p>
-
+	<div class="container-fluid mb-4" >
 		<!--Đang chỉnh sửa add to cart-->
-		<div th:if="${!cartItems.isEmpty()}" class="container">
+		<div th:if="${cartItems != null}" class="container">
 			<div class="container-body" style="padding: 0px">
 				<!--Hiển thị các món hàng còn hàng (nếu có)-->
 				<div th:if="${!availableItems.isEmpty()}" class="col-00">
@@ -341,7 +381,11 @@
 				</div>
 
 				<!--Hiển thị các món hàng không có sẵn-->
-				<div th:if="${!unavailableItems.isEmpty()}" style="color: #333333">--------------------------------------------------------------------------------------------------------------------------------------------------------------</div>
+				<div th:if="${!unavailableItems.isEmpty()}" style="color: #333333">
+					<div class="TWLNg9" style="padding: 40px 0px 20px">
+						<div class="qJkRlY"></div>
+					</div>
+				</div>
 				<div th:if="${!unavailableItems.isEmpty()}" class="col-00">
 					<div class="row-cart d-flex align-items-center">
 						<h6 style="color: #211f7f; align-items: center;  margin: 0px; padding: 20px 0px 0px 20px; font-family: Verdana; font-weight: bold">Sản phẩm không có sẵn</h6>
@@ -353,11 +397,10 @@
 					<div class="next-table only-bottom-border" style="margin-top: 20px">
 						<div class="next-table-inner">
 							<div class="next-table-header" style="height: 50px; border-top: 1px solid #cecece; background-color: #f2f5f6">
-								<div class="next-table-header-inner">
+								<div class="next-table-header-inner" style="height: 50px;">
 									<table>
 										<colgroup style="width: 1020px;">
-											<col style="width: 7%;">
-											<col style="width: 43%;">
+											<col style="width: 50%;">
 											<col style="width: 20%;">
 											<col style="width: 20%;">
 											<col style="width: 10%;">
@@ -365,24 +408,22 @@
 										</colgroup>
 										<tbody>
 										<tr>
-											<th rowspan="1" class="next-table-header-node first" style="padding: 10px 20px;">
-												<div>X</div>
-											</th>
-											<th rowspan="1" class="next-table-header-node " style="padding: 10px 0px;">
-												<form th:action="@{/removeallfromcart}" method="post">
+											<th rowspan="1" class="next-table-header-node first d-flex align-items-center" style="padding: 0px 20px; height: 50px; color: grey">
+												<form th:action="@{/removeallfromcart}" method="post" class="all-delete">
 													<input type="hidden" name="itemIds" th:value="${unavailableItemIdsString}" />
-													<button type="submit" class="btn btn-danger">
-														Xóa tất cả
-													</button>
+													<a type="submit" class=" d-flex align-items-center">
+														<span class="material-symbols-outlined  d-flex align-items-center" style="margin: 0px 20px 0px 5px">delete</span>
+															Xóa tất cả
+													</a>
 												</form>
 											</th>
-											<th rowspan="1" class="next-table-header-node " style="padding: 10px 20px; text-align: center;">
+											<th rowspan="1" class="next-table-header-node " style="padding: 0px 20px; text-align: center; height: 50px;">
 												<div class="next-table-cell-wrapper">Số lượng</div>
 											</th>
-											<th rowspan="1" class="next-table-header-node " style="padding: 10px 20px; text-align: center">
+											<th rowspan="1" class="next-table-header-node " style="padding: 0px 20px; text-align: right; height: 50px;">
 												<div class="next-table-cell-wrapper">Thành tiền</div>
 											</th>
-											<th rowspan="1" class="next-table-header-node " style="padding: 10px 20px; text-align: center">
+											<th rowspan="1" class="next-table-header-node last" style="padding: 0px 20px; text-align: center; height: 50px;">
 												<div class="next-table-cell-wrapper">Thao tác</div>
 											</th>
 										</tr>
@@ -405,7 +446,7 @@
 									<tr th:each="cartItem : ${unavailableItems}" style="border-top: 1px solid #cecece;" onmouseover="this.style.backgroundColor='#f2f5f6';" onmouseout="this.style.backgroundColor='transparent';">
 
 										<td rowspan="1" class="next-table-header-node first " style="padding: 20px 20px;">
-											<div>X</div>
+											<div class="text-center"><span class="material-symbols-outlined" style="color: grey">disabled_by_default</span></div>
 										</td>
 
 										<td rowspan="1" class="next-table-header-node" style="padding: 20px 20px;">
@@ -427,7 +468,7 @@
 										</td>
 
 
-										<td rowspan="1" class="next-table-header-node" style="padding: 10px 20px;">
+										<td rowspan="1" class="next-table-header-node" style="padding: 10px 20px;  text-align: center;">
 											<span th:text="${cartItem.quantity}"></span>
 										</td>
 
@@ -703,6 +744,19 @@
 		}
 
 	</script>
+<!--	<script>-->
+<!--		// Đặt thời gian cho alert-->
+<!--        setTimeout(function() {-->
+<!--            document.getElementById('myAlert01').style.display = 'none';-->
+<!--        }, 10000);  // Alert sẽ biến mất sau 5 giây-->
+<!--	</script>-->
+	<script>
+		// Đặt thời gian cho alert
+        setTimeout(function() {
+            document.getElementById('myAlert02').style.display = 'none';
+        }, 10000);  // Alert sẽ biến mất sau 10 giây
+	</script>
+
 	<div th:replace="~{layout/footer :: footer}"></div>
 	<!-- Thêm các tệp tin JavaScript -->
     <script th:src="@{/js/jquery-3.4.1.slim.min.js}"></script>
