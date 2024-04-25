@@ -35,5 +35,9 @@ public class BookImport {
     private Timestamp importDate;
 
     @Column(name = "status", columnDefinition = "INT NOT NULL")
-    private int status; // 0: Ngừng bán, 1: Đang bán, 2: Chưa bán
+    private int status; // 0: Ngừng bán, 1: Đang bán, 2: Chưa bán, 3: Hủy bỏ
+    // 0: Ngừng bán khi hết hàng, số lượng còn lại bằng 0
+    // 2: Chưa bán khi đang có đợt đang bán diễn ra và đợt này chưa bán hết số lượng
+    // 3: Hủy bỏ khi nhầm lẫn
+    // Chỉ tự động gán costPrice và quantity cho Book khi thêm mới với status 1 hoặc khi update từ status 2 sang 1
 }

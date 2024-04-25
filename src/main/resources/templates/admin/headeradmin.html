@@ -56,7 +56,16 @@
 									Tác giả</a>
 			                </li>
 	                	</div>
-	                	
+
+						<div class="col-01" style="margin-left: 20px; margin-right: 20px;">
+							<li class="nav-item" th:if="${session.admin != null}">
+								<a class="nav-link" th:href="@{/addbookimport}" style="color:rgb(0, 0, 160); font-family: Arial, sans-serif; padding: 0%; display: flex; align-items: center; justify-content: center;">
+									<span class="material-symbols-outlined" style="display: flex;">system_update_alt</span></a>
+								<a class="nav-link" th:href="@{/addbookimport}" style="color:rgb(0, 0, 160); font-family: Arial, sans-serif; padding: 0%;">
+									Nhập sách</a>
+							</li>
+						</div>
+
 	                	<div class="col-01" style="margin-left: 20px; margin-right: 20px;">
 			                <li class="nav-item" th:if="${session.admin != null}">
 								<a class="nav-link" th:href="@{/managebooks}" style="color:rgb(0, 0, 160); font-family: Arial, sans-serif; padding: 0%; display: flex; align-items: center; justify-content: center;">

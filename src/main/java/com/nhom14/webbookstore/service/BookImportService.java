@@ -21,4 +21,7 @@ public interface BookImportService {
 
     // Sắp xếp kết quả theo thời gian nhập giảm dần
     List<BookImport> getBookImportsByBookOrderByImportDateDesc(Book book);
+
+    // Phương thức lấy đợt nhập theo id
+    BookImport getBookImportById(long id);
 }

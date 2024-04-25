@@ -49,4 +49,9 @@ public class BookImportServiceImpl implements BookImportService {
     public List<BookImport> getBookImportsByBookOrderByImportDateDesc(Book book) {
         return bookImportRepository.findByBookOrderByImportDateDesc(book);
     }
+
+    @Override
+    public BookImport getBookImportById(long id) {
+        return bookImportRepository.findById(id).orElse(null);
+    }
 }

@@ -48,6 +48,13 @@
 <body>
 <div th:replace="~{admin/headeradmin :: header}"></div>
 <div class="container">
+
+    <!-- Hiển thị thông báo nếu có -->
+    <div th:if="${param.message}" class="alert"
+         th:classappend="${#strings.containsIgnoreCase(param.message, 'thành công') ? 'alert-success' : 'alert-danger'}">
+        <span th:text="${param.message}"></span>
+    </div>
+
     <!-- Form cập nhật thông tin đợt nhập sách -->
     <div class="container-body" style="background-color: white;">
         <a th:href="@{/managedetailbook(bookId=${bookImport.book.id})}" class="btn btn-out" style="margin: 10px;">
@@ -84,20 +91,21 @@
                 <!-- Ngày nhập -->
                 <div class="form-group">
                     <label for="importDate">Ngày nhập:</label>
-                    <input type="date" class="form-control" id="importDate" name="importDate" th:value="${bookImport.importDate}" required />
+                    <input type="date" class="form-control" id="importDate" name="importDate" th:value="${#dates.format(bookImport.importDate, 'yyyy-MM-dd')}" required style="border-radius: 10px;" />
                 </div>
                 <!-- Giờ nhập -->
                 <div class="form-group">
                     <label for="importTime">Giờ nhập:</label>
-                    <input type="time" class="form-control" id="importTime" name="importTime" th:value="${bookImport.importTime}" required />
+                    <input type="time" class="form-control" id="importTime" name="importTime" th:value="${#dates.format(bookImport.importDate, 'HH:mm')}" required />
                 </div>
                 <!-- Trạng thái -->
                 <div class="form-group">
                     <label for="status" style="color: rgb(2,88,155);">Trạng thái:</label>
                     <select class="form-control" id="status" name="status" th:value="${bookImport.status}" style="border-radius: 10px;" required>
-                        <option value="0" th:selected="${bookImport.status == 0}">Ngừng bán</option>
-                        <option value="1" th:selected="${bookImport.status == 1}">Đang bán</option>
                         <option value="2" th:selected="${bookImport.status == 2}">Chưa bán</option>
+                        <option value="1" th:selected="${bookImport.status == 1}">Đang bán</option>
+                        <option value="0" th:selected="${bookImport.status == 0}">Ngừng bán</option>
+                        <option value="0" th:selected="${bookImport.status == 3}">Hủy bỏ</option>
                     </select>
                 </div>
                 <div class="text-center mb-4">
