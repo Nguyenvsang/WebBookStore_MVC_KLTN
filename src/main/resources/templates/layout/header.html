@@ -150,7 +150,7 @@
 												>
 												<img th:src="${#strings.isEmpty(session.account.img) ? 'https://res.cloudinary.com/dosdzo1lg/image/upload/v1709875316/WebBookStoreKLTN/img_account/account_default.jpg' : session.account.img + '?v=' + randomNumber}" style="width: 30px; height: 30px; border-radius: 50%;">
 											</div>
-											<span th:text="${#strings.isEmpty(session.account) ? 'Guest' : session.account['firstName'] + ' ' + session.account['lastName']}" style="color:rgb(0, 0, 160); font-family: Arial, sans-serif;"></span>
+											<span th:text="${#strings.isEmpty(session.account) ? 'Guest' : session.account['firstName'] + ' ' + session.account['lastName']}" style="color:rgb(0, 0, 160); font-family: Arial, sans-serif; font-size: 16px"></span>
 										</a>
 										<div class="dropdown-menu" aria-labelledby="navbarDropdown" style="weight: 0px; height: 200px; border-radius: 10px;">
 											<a class="dropdown-item d-flex align-items-center justify-content-center" th:href="@{/viewaccount}"
@@ -189,7 +189,7 @@
 									</li>
 									<li class="nav-item-header dropdown" th:unless="${session.account != null}" style="margin-left: 60px;">
 										<a class="nav-link-header dropdown-toggle d-flex align-items-center" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-										   style="color: rgb(0, 0, 160);">
+										   style="color: rgb(0, 0, 160); text-decoration: none;">
 											<span class="material-symbols-outlined">person_2</span>
 											<span style="font-size: 16px">Tài khoản</span>
 										</a>

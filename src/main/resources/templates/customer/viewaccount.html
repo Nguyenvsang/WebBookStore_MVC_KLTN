@@ -51,6 +51,10 @@
 			border-radius: 50px;
 		}
 
+		.form-control-name-user {
+			width: auto;
+		}
+
 		.btn-edit-password {
 			background-color: #3448c5;
 			color: white;
@@ -213,7 +217,7 @@
 			</div>
 
 			<div class="row" style="width: 980px; margin: 0px 0px; border-bottom: 1px solid #cecece">
-				<div class="col-01 center-content align-items-center justify-content-center" style="width: 400px">
+				<div class="col-01 center-content align-items-center justify-content-center" style="width: 310px">
 					<div class="form-group">
 						<div th:if="${session.account != null and session.account.img != ''}">
 							<img th:src="${session.account.img + '?v=' + randomNumber}" class="img-thumbnail" id="currentImage" alt="Hình ảnh hiện tại" style="width: 200px; height: 200px;">
@@ -224,8 +228,10 @@
 					</div>
 					<div class="form-group" style="display: flex; align-items: center; margin: 0px; justify-content: center; height: 25px">
 						<div class="row-01" style="display: flex;">
-							<output class="form-control" id="firstName" name="firstName" th:text="${account.firstName}" style="border: none; padding: 0px 0px; margin-right: 3px; font-weight: 500; height: 25px; color: rgb(2,88,155);"></output>
-							<output class="form-control" id="lastName" name="lastName" th:text="${account.lastName}" style="border: none; padding: 0px 0px; font-weight: 500; height: 25px; color: rgb(2,88,155);"></output>
+							<output class="form-control-name-user" id="firstName" name="firstName" th:text="${account.firstName}"
+									style="display: flex; justify-content: flex-end; border: none; padding: 0px 0px; margin-right: 5px; font-weight: 500; height: 25px; color: rgb(2,88,155);"></output>
+							<output class="form-control-name-user" id="lastName" name="lastName" th:text="${account.lastName}"
+									style="border: none; padding: 0px 0px; font-weight: 500; height: 25px; color: rgb(2,88,155); width: auto"></output>
 						</div>
 					</div>
 
@@ -237,35 +243,35 @@
 				</div>
 				<div class="col-02 justify-content-center">
 					<div class="row-02" style="display: flex">
-						<div class="col-03 align-items-center justify-content-center" style="width: 280px">
+						<div class="col-03 align-items-center justify-content-center" style="width: 330px">
 							<div class="form-group" style="margin: 0px">
 								<label for="email">Email:</label>
-								<div class="row-icon">
-									<span class="material-symbols-outlined" style="color: grey; margin-left: 12px;">mail</span>
+								<div class="row-icon" style="width: 315px">
+									<span class="material-symbols-outlined" style="color: grey; margin-left: 8px;">mail</span>
 									<output class="form-control" id="email" name="email" th:text="${account.email}" style="border-radius: 50px; border: none;" ></output>
 								</div>
 							</div>
 							<div class="form-group">
 								<label for="dob">Ngày sinh:</label>
-								<div class="row-icon">
-									<span class="material-symbols-outlined" style="color: grey; margin-left: 12px;">calendar_month</span>
+								<div class="row-icon" style="width: 315px">
+									<span class="material-symbols-outlined" style="color: grey; margin-left: 8px;">calendar_month</span>
 									<output class="form-control" id="dob" name="dob" th:text="${#dates.format(account.dateOfBirth, 'dd/MM/yyyy')}" style="border-radius: 50px; border: none;"></output>
 								</div>
 							</div>
 						</div>
-						<div class="col-04 align-items-center justify-content-center" style="width: 280px">
+						<div class="col-04 align-items-center justify-content-center" style="width: 320px">
 							<div class="form-group" style="margin: 0px">
 								<label for="phoneNumber">Số điện thoại:</label>
-								<div class="row-icon">
-									<span class="material-symbols-outlined" style="color: grey; margin-left: 12px;">call</span>
+								<div class="row-icon" style="width: 315px">
+									<span class="material-symbols-outlined" style="color: grey; margin-left: 8px;">call</span>
 									<output class="form-control" id="phoneNumber" name="phoneNumber" th:text="${account.phoneNumber}" style="border-radius: 50px; border: none;"></output>
 								</div>
 							</div>
 							<div class="form-group">
 								<label for="gender">Giới tính:</label>
-								<div class="row-icon">
-									<span id="female-icon" class="material-symbols-outlined" style="color: grey; margin-left: 12px;">female</span>
-									<span id="male-icon" class="material-symbols-outlined" style="color: grey; margin-left: 12px;">male</span>
+								<div class="row-icon" style="width: 315px">
+									<span id="female-icon" class="material-symbols-outlined" style="color: grey; margin-left: 8px;">female</span>
+									<span id="male-icon" class="material-symbols-outlined" style="color: grey; margin-left: 8px;">male</span>
 									<output class="form-control" id="gender" name="gender" th:text="${account.gender}" style="border-radius: 50px; border: none;"></output>
 								</div>
 							</div>
@@ -287,7 +293,7 @@
 	            <label for="address">Địa chỉ:</label>
 				<div class="row-icon" style="width: 980px;">
 					<span class="material-symbols-outlined" style="color: grey; margin-left: 12px;">location_on</span>
-					<output class="form-control" id="address" name="address" th:text="${account.address}" style="border-radius: 50px; border: none; border-radius: 15px"></output>
+					<output class="form-control" id="address" name="address" th:text="${account.address}" style="border-radius: 50px; border: none;"></output>
 				</div>
 	        </div>
         </div>

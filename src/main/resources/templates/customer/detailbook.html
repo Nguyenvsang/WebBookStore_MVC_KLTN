@@ -314,6 +314,19 @@
 			color: #5390f5;
 			font-weight: bold;
 		}
+
+		.detail-row {
+			display: flex;
+			align-items: baseline;
+		}
+		.detail-row p {
+			margin-right: 10px;
+		}
+		.detail-row pre {
+			font-size: 16px;
+			font-family: Arial;
+			color: rgb(2,88,155);
+		}
 	</style>
 	
 </head>
@@ -325,10 +338,10 @@
 		<span th:text="${param.message}"></span>
 	</div>
 
-	<!-- Kiểm tra xem sách có còn kinh doanh không -->
-	<div th:if="${book.status == 0}" class="alert alert-danger">
-		Sách này đã ngừng kinh doanh
-	</div>
+<!--	&lt;!&ndash; Kiểm tra xem sách có còn kinh doanh không &ndash;&gt;-->
+<!--	<div th:if="${book.status == 0}" class="alert alert-danger">-->
+<!--		Sách này đã ngừng kinh doanh-->
+<!--	</div>-->
 
 	<div class="container-fluid mb-4" style=" margin: 40px 0px 20px">
         <div class="container" style="padding: 0px;">
@@ -461,6 +474,10 @@
 									</div>
 								</div>
 		                    </div>
+							<!-- Kiểm tra xem sách có còn kinh doanh không -->
+							<div th:if="${book.status == 0}" class="alert alert-danger" style="font-weight: bold; color: red;">
+								Sách này đã ngừng kinh doanh
+							</div>
 		                </div>
 		            </div>
 				</div>

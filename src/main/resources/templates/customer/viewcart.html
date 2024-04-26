@@ -329,8 +329,8 @@
 										</td>
 
 										<td rowspan="1" class="next-table-header-node" style="padding: 20px 20px; display: flex; flex-direction: column; justify-content: space-between; height: 190px">
-											<div class="row-book" style="height: 160px; text-decoration: none" th:href="@{/detailbook/{id} (id=${cartItem.book.id}, referer='/viewcart')}">
-												<a href="#" class="title-book">
+											<div class="row-book" style="height: 160px; text-decoration: none">
+												<a href="#" class="title-book" th:href="@{/detailbook/{id} (id=${cartItem.book.id})}">
 													<span th:if="${#strings.length(cartItem.book.name) > 100}" th:text="${#strings.substring(cartItem.book.name, 0, 100) + '...'}"></span>
 													<span th:if="${#strings.length(cartItem.book.name) <= 100}" th:text="${cartItem.book.name}"></span>
 												</a>
@@ -456,8 +456,8 @@
 										</td>
 
 										<td rowspan="1" class="next-table-header-node" style="padding: 20px 20px; display: flex; flex-direction: column; justify-content: space-between; height: 190px">
-											<div class="row-book" style="height: 160px; text-decoration: none" th:href="@{/detailbook/{id} (id=${cartItem.book.id}, referer='/viewcart')}">
-												<a href="#" class="title-book">
+											<div class="row-book" style="height: 160px; text-decoration: none" >
+												<a href="#" class="title-book" th:href="@{/detailbook/{id} (id=${cartItem.book.id})}">
 													<span th:if="${#strings.length(cartItem.book.name) > 100}" th:text="${#strings.substring(cartItem.book.name, 0, 100) + '...'}"></span>
 													<span th:if="${#strings.length(cartItem.book.name) <= 100}" th:text="${cartItem.book.name}"></span>
 												</a>

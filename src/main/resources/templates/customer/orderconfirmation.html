@@ -267,7 +267,7 @@
 					</div>
 				</div>
 				<div th:if="${order.status == 0}" class="row-order align-items-center">
-					<div th:if="${order.status == 0}" class="alert alert-success d-flex">
+					<div th:if="${order.status == 0}" class="alert alert-success d-flex" style="font-weight: bold; color: rgb(98,191,94);">
 						Đơn hàng của bạn đã được đặt thành công.
 					</div>
 					<p style="color: green; margin-top: 15px; font-weight: bold; ">Cảm ơn bạn đã đặt hàng!</p>
@@ -329,7 +329,7 @@
 					</div>
 					<div class="col-03 center-content" style="width: 240px; align-items: flex-end; justify-content: flex-end">
 						<div class="row-operation" style="display: flex; justify-content: flex-end; align-items: flex-end;">
-<!--							<a th:if="${order.status == 0}" class="btn btn-destroy" th:href="@{/cancelorder(orderId=${order.id})}">Hủy đơn</a>-->
+							<a th:if="${order.status == 0}" class="btn btn-destroy" th:href="@{/cancelorder(orderId=${order.id})}">Hủy đơn</a>
 							<a th:if="${order.status == 3 && daysBetween <= 15}" class="btn btn-return" th:href="@{/returnorder(orderId=${order.id})}">Trả hàng</a>
 							<span th:if="${order.status != 0 && !(order.status == 3 && daysBetween <= 15)}"></span>
 						</div>

@@ -103,7 +103,7 @@
 <!-- Hiển thị thông báo nếu có -->
 <div th:if="${param.message}" class="alert"
 	 th:classappend="${#strings.containsIgnoreCase(param.message, 'thành công') ? 'alert-success' : 'alert-danger'}">
-	<span th:text="${param.message}"></span>
+	<span th:text="${param.message}" style="font-weight: bold; color: rgb(247,80,80); justify-content: center; display: flex"></span>
 </div>
 <div class="container mt-4 mb-4">
     <div class="row justify-content-center">
