@@ -275,13 +275,6 @@
 					<span th:text="${param.message}"></span>
 				</div>
 
-				<div th:if="${order.isCompleted != 0 || order.status == 4 || order.status == 7 || order.status == 10}" class="row-order align-items-center">
-					<form th:action="@{/repurchase}" method="post" style="display: flex; justify-content: flex-end; align-items: flex-end; margin-top: 20px">
-						<input type="hidden" name="orderId" th:value="${order.id}" />
-						<button type="submit" class="btn btn-receive">Mua lại</button>
-					</form>
-				</div>
-
 				<div th:if="${order.status == 3 && daysBetween <= 15}">
 					<div class="row d-flex align-items-center justify-content-center">
 						<h6 style="color: #3448c5; margin: 0px 0px">Nếu bạn đã nhận hàng vui lòng nhấn vào nút Đã nhận hàng nhé! Sau đó bạn vẫn có quyền trả hàng</h6>
@@ -404,6 +397,12 @@
 							<span th:case="4" class="badge badge-success">Không cần thanh toán</span>
 						</span>
 					</div>
+				</div>
+				<div th:if="${order.isCompleted != 0 || order.status == 4 || order.status == 7 || order.status == 10}" class="row-order align-items-center">
+					<form th:action="@{/repurchase}" method="post" style="display: flex; justify-content: center; align-items: flex-end;">
+						<input type="hidden" name="orderId" th:value="${order.id}" />
+						<button type="submit" class="btn btn-receive">Mua lại</button>
+					</form>
 				</div>
 			</div>
 		</div>

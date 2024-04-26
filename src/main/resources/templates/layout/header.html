@@ -62,8 +62,8 @@
 
     <header class="navbar navbar-expand" style="padding: 0%; position: sticky; top: 0; z-index: 9999;">
 		<div class="header" style="width: 100%; background-color: #d7ebff;">
-			<div class="container d-flex align-items-center" style="max-width: 1200px;">
-				<div class="col-3">
+			<div class="container d-flex align-items-center" style="max-width: 1200px; padding: 0px">
+				<div class="col-3" style="padding: 0px">
 					<div class="navbar-header" style="display: flex; align-items:center; height:40px; width: 100%;">
 						<p style="display: flex; font: inherit; margin: 0 0 0px; color:rgb(0, 0, 160); font-weight: bold;" >
 							KNOWLEDGE YOUNG
@@ -91,11 +91,11 @@
 <!--					</div>-->
 <!--				</div>-->
 				<!--			header được trải dài toàn màn hình-->
-				<div class="container-fluid" style="background-color: #fff; display: flex; align-items:center; box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);">
-					<div class="container" style="max-width: 1400px; height: 70px">
-						<div class="col-3" style="display: flex; align-items:center;">
+				<div class="container-fluid d-flex align-items-center justify-content-center" style="background-color: #fff; display: flex; align-items:center; box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1); width: 100%; padding: 0px">
+					<div class="container-header d-flex align-items-center justify-content-center" style="max-width: 1200px; height: 70px; padding: 0px; margin: 0px">
+						<div class="col-01" style="display: flex; align-items:center; padding: 0px; width: 250px">
 							<ul class="navbar-nav mr-auto navbar-nav-left" style="display: flex; align-items:center; " >
-								<a class="navbar-brand" href="#" th:href="@{/viewbooks}" style="margin-left: 100px;">
+								<a class="navbar-brand" href="#" th:href="@{/viewbooks}">
 									<img src="https://res.cloudinary.com/dylwewmt0/image/upload/v1711425586/PHOTO_LIST/icon/logo.png" alt="Knowledge Young" style="width:50px;">
 								</a>
 								<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
@@ -105,16 +105,15 @@
 
 								<li class="nav-item active" style="display: flex; align-items:center; justify-content: center;">
 									<a class="nav-link-book d-flex align-items-center justify-content-center" th:href="@{/viewbooks}"
-									   style="color:rgb(0, 0, 160); font-family: Arial, sans-serif; display: flex; text-decoration: none;">
-										<span class="material-symbols-outlined" style="font-size: 30px; margin-right: 8px; margin-left: 5px">auto_stories</span>
-										Sách
+									   style="font-size: 16px; color:rgb(0, 0, 160); font-family: Arial, sans-serif; display: flex; text-decoration: none; width: 120px">
+										<span class="material-symbols-outlined" style="font-size: 30px; margin-right: 8px; margin-left: 5px">widgets</span>Danh mục
 										<span class="sr-only">(current)</span>
 									</a>
 								</li>
 							</ul>
 						</div>
 
-						<div class="col-6" style="display: flex; align-items:center; justify-content: center;">
+						<div class="col-02" style="display: flex; align-items:center; justify-content: center; width: 700px; margin: 0px">
 							<div class= "search"
 								 style="display: flex; justify-content: center; border-radius: 50px; background-color: white; align-items: center; width: 700px; height: 40px; border: 1px solid #cecece;
 									transition: box-shadow 0.3s ease; "
@@ -127,17 +126,16 @@
 							</div>
 						</div>
 
-						<div class="col-3" style="display: flex; align-items:center; justify-content: center;">
-							<div style="margin-right: 78px;">
-								<ul class="navbar-nav mr-auto navbar-nav-left" style="align-items:center;">
-
-									<li class="nav-item" th:if="${session.account != null}" style="align-items:center;">
+						<div class="col-account-cart" style="display: flex; align-items:center; justify-content: flex-end; width: 250px">
+							<div class="content-icon">
+								<ul class="navbar-nav mr-auto">
+									<li class="nav-item" th:if="${session.account != null}" style="display: flex; align-items:center;">
 										<a class="nav-link" th:href="@{/viewcart}" style="color:rgb(0, 0, 160); font-family: Arial, sans-serif; align-items:center;">
-											<span class="material-symbols-outlined" style="font-size: 30px;">shopping_cart</span>
+											<span class="material-symbols-outlined" style="font-size: 30px;">shopping_bag</span>
 										</a>
 									</li>
 
-									<li class="nav-item dropdown" th:if="${session.account != null}">
+									<li class="nav-item dropdown d-flex align-items-center justify-content-flex-end" th:if="${session.account != null}">
 										<a class="nav-link dropdown-toggle d-flex align-items-center justify-content-center" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
 										   style="color: rgb(0, 0, 160);">
 											<div class="circle" style="width: 40px;
@@ -189,10 +187,11 @@
 
 										</div>
 									</li>
-									<li class="nav-item dropdown" th:unless="${session.account != null}" style="margin-left: 60px;">
-										<a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: rgb(0, 0, 160);">
-											<span class="material-symbols-outlined">person</span>
-											<span>Tài khoản</span>
+									<li class="nav-item-header dropdown" th:unless="${session.account != null}" style="margin-left: 60px;">
+										<a class="nav-link-header dropdown-toggle d-flex align-items-center" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+										   style="color: rgb(0, 0, 160);">
+											<span class="material-symbols-outlined">person_2</span>
+											<span style="font-size: 16px">Tài khoản</span>
 										</a>
 
 										<div aria-labelledby="navbarDropdown" class="dropdown-menu" style="weight: 0px; height: 163px; border-radius: 10px;">

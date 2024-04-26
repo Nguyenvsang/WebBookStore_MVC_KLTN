@@ -38,26 +38,34 @@
 			background-color: #3448c5;
 			border-radius: 50px;
 			color: white;
-			width: 200px;
+			width: 220px;
 			box-shadow: 0px 4px 6px rgba(0, 0.4, 0, 0.2);
+			font-weight: bold;
+			height: 40px
 		}
 		.btn-add-cart:hover {
 			background-color: #211f7f;
 			color: white;
 			box-shadow: 0px 6px 8px rgba(0, 0.4, 0, 0.2);
+			font-weight: bold;
+			height: 40px
 		}
 
 		.btn-buy-now {
 			background-color: #de2652;
 			border-radius: 50px;
 			color: white;
-			width: 200px;
+			width: 220px;
 			box-shadow: 0px 4px 6px rgba(0, 0.4, 0, 0.2);
+			font-weight: bold;
+			height: 40px
 		}
 		.btn-buy-now:hover {
 			background-color: #c90e0f;
 			color: white;
 			box-shadow: 0px 6px 8px rgba(0, 0.4, 0, 0.2);
+			font-weight: bold;
+			height: 40px
 		}
 
 		.btn-back {
@@ -354,7 +362,7 @@
 									<div class="col" style="padding: 0px;">
 										<div class="row-one" style="display: flex; justify-content: center; align-items: center; padding: 20px 0px 10px">
 											<div class="col">
-						                        <p class="card-text" style="display: flex; justify-content: left; align-items: center;">Tác giả:</p>
+						                        <p class="card-text" style="display: flex; justify-content: left; align-items: center; font-family: Helvetica;">Tác giả:</p>
 											</div>
 											<div class="col-author" style="width: 284px; display: flex; justify-content: left; align-items: center;">
 												<span th:each="bookauthor : ${book.bookAuthors}" th:text="${bookauthor.author.name}"></span>
@@ -363,7 +371,7 @@
 										
 					                    <div class="row-two" style="display: flex; justify-content: center; align-items: center; padding-bottom: 10px">
 											<div class="col">
-					                        	<p class="card-text" style="display: flex; justify-content: left; align-items: center;">Nhà xuất bản: </p>
+					                        	<p class="card-text" style="font-family: Helvetica; display: flex; justify-content: left; align-items: center;">Nhà xuất bản: </p>
 											</div>
 											<div class="col-data" style="display: flex; justify-content: left; align-items: center;">
 												<span th:text="${book.publisher}"></span>
@@ -372,7 +380,7 @@
 					                    
 					                    <div class="row-four" style="display: flex; justify-content: center; align-items: center; padding-bottom: 10px">
 											<div class="col">
-					                        	<p class="card-text" style="display: flex; justify-content: left; align-items: center;">Danh mục:</p>
+					                        	<p class="card-text" style="display: flex; justify-content: left; align-items: center; font-family: Helvetica;">Danh mục:</p>
 											</div>
 											<div class="col-data" style="display: flex; justify-content: left; align-items: center;">
 												 <span th:text="${book.category.name}"></span>
@@ -426,22 +434,27 @@
 													</div>
 												</div>
 												<div class="col-third" style="display: flex; justify-content: center; align-items: center; color: grey; font-weight: bold">
-													<p style="margin: 0px 0px 0px 20px">Còn lại</p>
-													<div class="col-data" style="display: flex; justify-content: center; align-items: center; width: 30px">
+													<p style="margin: 0px 0px 0px 20px; font-family: Helvetica;">Còn lại</p>
+													<div class="col-data" style="font-family: Helvetica; display: flex; justify-content: center; align-items: center; width: 30px">
 														<span th:text="${book.quantity}"></span>
 													</div>
-													<p style="margin: 0px">trong kho hàng</p>
+													<p style="margin: 0px; font-family: Helvetica;">trong kho hàng</p>
 												</div>
 											</div>
 
 											<div class="row-add-cart d-flex" style="margin: 20px 0px 0px ">
 												<div class="col-add-to-cart">
 													<input type="hidden" name="bookId" th:value="${book.id}">
-													<button type="submit" class="btn btn-add-cart btn-block">Thêm vào giỏ hàng</button>
+													<button type="submit" class="btn btn-add-cart btn-block" style="font-family: Helvetica; display: flex; align-items: center; justify-content: center">
+														<span class="material-symbols-outlined" style="display: flex; align-items: center; color: white; margin: 0px 5px 0px 0px">
+															shopping_bag
+														</span>
+														Thêm vào giỏ hàng
+													</button>
 												</div>
 												<div class="col-buy-now" style="margin-left: 10px">
 													<input type="hidden" name="bookId" th:value="${book.id}">
-													<button type="submit" class="btn btn-buy-now btn-block">Mua ngay</button>
+													<button type="submit" class="btn btn-buy-now btn-block" style="font-family: Helvetica;">Mua ngay</button>
 												</div>
 											</div>
 										</form>
