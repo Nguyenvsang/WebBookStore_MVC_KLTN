@@ -267,11 +267,17 @@
 					</div>
 				</div>
 				<div th:if="${order.status == 0}" class="row-order align-items-center">
-					<div th:if="${order.status == 0}" class="alert alert-success d-flex" style="font-weight: bold; color: rgb(98,191,94);">
+					<div th:if="${order.paymentStatus.status == 0}" class="alert alert-success d-flex" style="font-weight: bold; color: rgb(98,191,94);">
 						Đơn hàng của bạn đã được đặt thành công.
 					</div>
+					<div th:if="${order.paymentStatus.status == 5}" class="alert alert-success d-flex" style="font-weight: bold; color: rgb(98,191,94);">
+						Đơn hàng của bạn đang chờ thanh toán lại.
+					</div>
+					<div th:if="${order.paymentStatus.status == 1}" class="alert alert-success d-flex" style="font-weight: bold; color: rgb(98,191,94);">
+						Đơn hàng của bạn đã được thanh toán thành công.
+					</div>
 					<p style="color: green; margin-top: 15px; font-weight: bold; ">Cảm ơn bạn đã đặt hàng!</p>
-					<form th:action="@{/receivedorder}" th:if="${order.status == 10}" method="post" style="display: flex; justify-content: flex-end; align-items: flex-end; margin-top: 20px">
+					<form th:action="@{/repurchase}" th:if="${order.isCompleted != 0 || order.status == 4 || order.status == 7 || order.status == 10}" method="post" style="display: flex; justify-content: flex-end; align-items: flex-end; margin-top: 20px">
 						<input type="hidden" name="orderId" th:value="${order.id}" />
 						<button type="submit" class="btn btn-receive">Mua lại</button>
 					</form>
@@ -329,6 +335,7 @@
 					</div>
 					<div class="col-03 center-content" style="width: 240px; align-items: flex-end; justify-content: flex-end">
 						<div class="row-operation" style="display: flex; justify-content: flex-end; align-items: flex-end;">
+							<a th:if="${order.paymentStatus.status == 5}" class="btn btn-destroy" th:href="@{/createvnpaypayment(orderId=${order.id})}">Thanh toán lại</a>
 							<a th:if="${order.status == 0}" class="btn btn-destroy" th:href="@{/cancelorder(orderId=${order.id})}">Hủy đơn</a>
 							<a th:if="${order.status == 3 && daysBetween <= 15}" class="btn btn-return" th:href="@{/returnorder(orderId=${order.id})}">Trả hàng</a>
 							<span th:if="${order.status != 0 && !(order.status == 3 && daysBetween <= 15)}"></span>
@@ -386,6 +393,7 @@
 							<span th:case="2" class="badge badge-warning">Xử lý hoàn tiền</span>
 							<span th:case="3" class="badge badge-success">Đã hoàn tiền</span>
 							<span th:case="4" class="badge badge-success">Không cần thanh toán</span>
+							<span th:case="5" class="badge badge-warning">Chờ thanh toán lại</span>
 						</span>
 					</div>
 				</div>

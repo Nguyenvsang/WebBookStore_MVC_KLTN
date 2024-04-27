@@ -240,6 +240,7 @@ public class OrderController {
         PaymentStatus paymentStatus = new PaymentStatus();
         paymentStatus.setOrder(lastOrder);
         paymentStatus.setStatus(0); // Chưa thanh toán
+        paymentStatus.setPaymentMethod(0); // Thanh toán khi nhận hàng
 
         // Thêm trạng thái thanh toán vào cơ sở dữ liệu
         paymentStatusService.addPaymentStatus(paymentStatus);
@@ -247,7 +248,9 @@ public class OrderController {
 
         // Chuyển hướng đến trang xác nhận đơn hàng hoặc trang thanh toán Momo
         if ("VNPAY".equals(paymentMethods)){
-            // Nếu người dùng chọn "Cổng thanh toán VNPAY", chuyển hướng đến trang đến đó
+            // Nếu người dùng chọn "Cổng thanh toán VNPAY", đổi paymentMethod và chuyển hướng đến trang đến đó
+            paymentStatus.setPaymentMethod(1);
+            paymentStatusService.addPaymentStatus(paymentStatus);
             redirectAttributes.addAttribute("orderId", lastOrder.getId());
             return "redirect:/createvnpaypayment";
         } else {
@@ -486,7 +489,16 @@ public class OrderController {
     }
 
     @GetMapping("/vnpay_return")
-    public String handleVNPAYReturn(HttpServletRequest req, Model model) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
+    public String handleVNPAYReturn(HttpServletRequest req, Model model, HttpSession session) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
+        // Kiểm tra đăng nhập
+        Account account = (Account) session.getAttribute("account");
+
+        // Kiểm tra xem người dùng đã đăng nhập hay chưa
+        if (account == null) {
+            // Nếu chưa đăng nhập, chuyển hướng về trang đăng nhập
+            return "redirect:/customer/loginaccount";
+        }
+
         // Lấy thông tin từ URL trả về
         String vnp_ResponseCode = req.getParameter("vnp_ResponseCode");
         String vnp_TxnRef = req.getParameter("vnp_TxnRef");
@@ -515,9 +527,21 @@ public class OrderController {
             // Cập nhật trạng thái thanh toán mới
             paymentStatus.setStatus(1); // Đã thanh toán
 
+            // Tính toán ngày giao hàng dự kiến 1 và 2 (chủ yếu dành cho trường hợp thanh toán lại)
+            Timestamp dateOrder = new Timestamp(System.currentTimeMillis());// Hoặc ngày thanh toán lại
+            Calendar c = Calendar.getInstance();
+            c.setTimeInMillis(dateOrder.getTime());
+            c.add(Calendar.DATE, 3);  // Ngày giao hàng dự kiến 1: 3 ngày sau ngày đặt hàng
+            order.setExpectedDeliveryDate1(new Timestamp(c.getTimeInMillis()));
+            c.add(Calendar.DATE, 2);  // Ngày giao hàng dự kiến 2: thêm 2 ngày nữa (tổng cộng 5 ngày sau ngày đặt hàng)
+            order.setExpectedDeliveryDate2(new Timestamp(c.getTimeInMillis()));
+            orderService.updateOrder(order);
+
             // Tạo thông báo
             message = "Giao dịch thành công! Số tiền: " + Double.parseDouble(vnp_Amount) / 100;
         } else {
+            // Cập nhật trạng thái thanh toán mới
+            paymentStatus.setStatus(5); // Chờ thanh toán lại
             // Tạo thông báo
             message = "Giao dịch thất bại!";
         }

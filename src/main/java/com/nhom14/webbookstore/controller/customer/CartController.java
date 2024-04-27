@@ -3,6 +3,7 @@ package com.nhom14.webbookstore.controller.customer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -175,34 +176,35 @@ public class CartController {
         }
         return totalAmount;
     }
-    
-    @GetMapping("/removefromcart")
-    public String removeFromCart(@RequestParam("itemId") int itemId,
-								 RedirectAttributes redirectAttributes,
-    							 HttpSession session) {
-    	
-    	Account account = (Account) session.getAttribute("account");
 
-	    // Kiểm tra xem người dùng đã đăng nhập hay chưa
-	    if (account == null) {
-	        // Nếu chưa đăng nhập, chuyển hướng về trang đăng nhập
-	        return "redirect:/customer/loginaccount";
-	    }
-
-
-	    CartItem cartItem = cartItemService.getCartItemById(itemId);
-		// Kiểm tra xem cartitem có thuộc về giỏ hàng của người đang đăng nhập không
-		if (cartItem.getCart().getAccount().getId()!=account.getId()){
-			// Nếu không thuộc về thì trả về trang lỗi
-			redirectAttributes.addAttribute("message", "Có lỗi xảy ra vui lòng thử lại sau!");
-			return "redirect:/customer/error";
+	@GetMapping("/removefromcart")
+	public ResponseEntity<String> removeFromCart(@RequestParam("itemId") int itemId, HttpSession session) {
+		// Kiểm tra đăng nhập và sở hữu của cart item
+		if (!isLoggedIn(session)) {
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Bạn cần đăng nhập để thực hiện hành động này.");
 		}
-		// Xóa CartItem khỏi giỏ hàng
-        cartItemService.deleteCartItem(cartItem);
-        
-        // Chuyển hướng về trang hiển thị giỏ hàng
-        return "redirect:/viewcart";
-    }
+
+		CartItem cartItem = cartItemService.getCartItemById(itemId);
+		if (cartItem == null || !isCartItemOwner(cartItem, session)) {
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Bạn không có quyền thực hiện hành động này.");
+		}
+
+		// Xóa cart item và trả về phản hồi thành công
+		cartItemService.deleteCartItem(cartItem);
+		return ResponseEntity.ok("CartItem removed successfully");
+	}
+
+	// Kiểm tra trạng thái đăng nhập
+	private boolean isLoggedIn(HttpSession session) {
+		Account account = (Account) session.getAttribute("account");
+		return account != null;
+	}
+
+	// Kiểm tra xem người dùng có sở hữu cart item không
+	private boolean isCartItemOwner(CartItem cartItem, HttpSession session) {
+		Account account = (Account) session.getAttribute("account");
+		return account != null && cartItem.getCart().getAccount().getId() == account.getId();
+	}
 
 	@PostMapping("/removeallfromcart")
 	public String removeAllFromCart(@RequestParam("itemIds") String itemIds,
@@ -216,24 +218,34 @@ public class CartController {
 			return "redirect:/customer/loginaccount";
 		}
 
-		// Chuyển đổi từ chuỗi các id thành danh sách các id
-		List<Integer> itemIdList = Arrays.stream(itemIds.split(","))
-				.map(Integer::parseInt)
-				.toList();
-
-		// Duyệt qua danh sách các id
-		for (Integer itemId : itemIdList) {
-			CartItem cartItem = cartItemService.getCartItemById(itemId);
-
-			// Kiểm tra xem cartitem có thuộc về giỏ hàng của người đang đăng nhập không
-			if (cartItem.getCart().getAccount().getId() != account.getId()) {
-				// Nếu không thuộc về thì trả về trang lỗi
-				redirectAttributes.addAttribute("message", "Có lỗi xảy ra vui lòng thử lại sau!");
-				return "redirect:/customer/error";
+		// Kiểm tra xem có phải muốn xóa tất cả (bao gồm sản phẩm có hàng và hết hàng không)
+		if (Objects.equals(itemIds, "all")) {
+			Cart cart = cartService.getCartByAccount(account);
+			List<CartItem> cartItems = cartItemService.getCartItemsByCart(cart);
+			for (CartItem cartItem : cartItems) {
+				// Xóa CartItem khỏi giỏ hàng
+				cartItemService.deleteCartItem(cartItem);
 			}
+		} else {
+			// Chuyển đổi từ chuỗi các id thành danh sách các id
+			List<Integer> itemIdList = Arrays.stream(itemIds.split(","))
+					.map(Integer::parseInt)
+					.toList();
 
-			// Xóa CartItem khỏi giỏ hàng
-			cartItemService.deleteCartItem(cartItem);
+			// Duyệt qua danh sách các id
+			for (Integer itemId : itemIdList) {
+				CartItem cartItem = cartItemService.getCartItemById(itemId);
+
+				// Kiểm tra xem cartitem có thuộc về giỏ hàng của người đang đăng nhập không
+				if (cartItem.getCart().getAccount().getId() != account.getId()) {
+					// Nếu không thuộc về thì trả về trang lỗi
+					redirectAttributes.addAttribute("message", "Có lỗi xảy ra vui lòng thử lại sau!");
+					return "redirect:/customer/error";
+				}
+
+				// Xóa CartItem khỏi giỏ hàng
+				cartItemService.deleteCartItem(cartItem);
+			}
 		}
 
 		// Chuyển hướng về trang hiển thị giỏ hàng

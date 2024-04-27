@@ -225,6 +225,11 @@
 			font-weight: bold;
 		}
 
+		button:focus {
+			outline: none;
+		}
+
+
 	</style>
 </head>
 <body>
@@ -316,7 +321,7 @@
 										<col style="width: 10%;">
 									</colgroup>
 									<tbody>
-									<tr th:each="cartItem : ${availableItems}" style="border-top: 1px solid #cecece;" onmouseover="this.style.backgroundColor='#f2f5f6';" onmouseout="this.style.backgroundColor='transparent';">
+									<tr th:each="cartItem : ${availableItems}" th:attr="data-cart-item-type='Available'" style="border-top: 1px solid #cecece;" onmouseover="this.style.backgroundColor='#f2f5f6';" onmouseout="this.style.backgroundColor='transparent';">
 
 										<td rowspan="1" class="next-table-header-node first " style="padding: 20px 20px;">
 											<input type="checkbox" class="itemCheckbox" th:data-item-id="${cartItem.id}" th:data-price="${cartItem.book.sellPrice}" th:data-quantity="${cartItem.quantity}" style="width: 20px; height: 20px; margin: 10px;">
@@ -368,9 +373,9 @@
 										<td rowspan="1" class="next-table-header-node" style="padding: 10px 20px; text-align: right; color: orangered; font-weight: bold;" th:id="'totalpriceitem_' + ${cartItem.id}" th:text="${#numbers.formatInteger(cartItem.quantity * cartItem.book.sellPrice, 0, 'POINT')+ ' đ'}"></td>
 
 										<td rowspan="1" class="next-table-header-node last" style="padding: 10px 20px; text-align: center" >
-											<a th:href="@{/removefromcart(itemId=${cartItem.id})}" class="delete">
+											<span class="delete-btn" th:attr="data-cart-item-id=${cartItem.id}" style="cursor: pointer;">
 												<span class="material-symbols-outlined delete">delete</span>
-											</a>
+											</span>
 										</td>
 									</tr>
 									</tbody>
@@ -411,10 +416,10 @@
 											<th rowspan="1" class="next-table-header-node first d-flex align-items-center" style="padding: 0px 20px; height: 50px; color: grey">
 												<form th:action="@{/removeallfromcart}" method="post" class="all-delete">
 													<input type="hidden" name="itemIds" th:value="${unavailableItemIdsString}" />
-													<a type="submit" class=" d-flex align-items-center">
-														<span class="material-symbols-outlined  d-flex align-items-center" style="margin: 0px 20px 0px 5px">delete</span>
-															Xóa tất cả
-													</a>
+													<button type="submit" class="d-flex align-items-center" style="padding: 0; border: none; background: none;">
+														<span class="material-symbols-outlined d-flex align-items-center" style="margin: 0px 20px 0px 5px">delete</span>
+														Xóa tất cả
+													</button>
 												</form>
 											</th>
 											<th rowspan="1" class="next-table-header-node " style="padding: 0px 20px; text-align: center; height: 50px;">
@@ -443,7 +448,7 @@
 										<col style="width: 10%;">
 									</colgroup>
 									<tbody>
-									<tr th:each="cartItem : ${unavailableItems}" style="border-top: 1px solid #cecece;" onmouseover="this.style.backgroundColor='#f2f5f6';" onmouseout="this.style.backgroundColor='transparent';">
+									<tr th:each="cartItem : ${unavailableItems}" th:attr="data-cart-item-type='unavailable'" style="border-top: 1px solid #cecece;" onmouseover="this.style.backgroundColor='#f2f5f6';" onmouseout="this.style.backgroundColor='transparent';">
 
 										<td rowspan="1" class="next-table-header-node first " style="padding: 20px 20px;">
 											<div class="text-center"><span class="material-symbols-outlined" style="color: grey">disabled_by_default</span></div>
@@ -475,9 +480,9 @@
 										<td rowspan="1" class="next-table-header-node" style="padding: 10px 20px; text-align: right; color: orangered; font-weight: bold;" th:id="'totalpriceitem_' + ${cartItem.id}" th:text="${#numbers.formatInteger(cartItem.quantity * cartItem.book.sellPrice, 0, 'POINT')+ ' đ'}"></td>
 
 										<td rowspan="1" class="next-table-header-node last" style="padding: 10px 20px; text-align: center" >
-											<a th:href="@{/removefromcart(itemId=${cartItem.id})}" class="delete">
+											<span class="delete-btn" th:attr="data-cart-item-id=${cartItem.id}" style="cursor: pointer;">
 												<span class="material-symbols-outlined delete">delete</span>
-											</a>
+											</span>
 										</td>
 									</tr>
 									</tbody>
@@ -510,6 +515,13 @@
 									<h6 style="margin: 0px 70px 8px 0px;">Chọn tất cả</h6>
 								</td>
 								<td rowspan="1" class="next-table-header-node" style="padding: 20px 20px;">
+									<form th:action="@{/removeallfromcart}" method="post" class="all-delete">
+										<input type="hidden" name="itemIds" value="all" />
+										<button type="submit" class="d-flex align-items-center" style="padding: 0; border: none; background: none;">
+											<span class="material-symbols-outlined d-flex align-items-center" style="margin: 0px 20px 0px 5px">delete</span>
+											Xóa tất cả
+										</button>
+									</form>
 								</td>
 								<td rowspan="1" class="next-table-header-node" style="padding: 20px 0px 20px 0px; text-align: right">
 									<h6>Tổng thanh toán:</h6>
@@ -744,17 +756,71 @@
 		}
 
 	</script>
-<!--	<script>-->
+
+	<!-- Xử lý xóa từng cartitem bất đồng bộ-->
+	<script th:inline="javascript">
+		document.addEventListener("DOMContentLoaded", function() {
+			var deleteButtons = document.querySelectorAll('.delete-btn');
+			deleteButtons.forEach(function(button) {
+				button.addEventListener('click', function() {
+					var cartItemId = button.dataset.cartItemId;
+					var cartItemType = button.dataset.cartItemType; // Lấy giá trị của thuộc tính
+					// Xóa cart item khỏi DOM
+					button.closest('tr').remove(); // Tìm phần tử cha <tr> gần nhất và xóa nó
+					// Gửi yêu cầu xóa đến backend
+					var xhr = new XMLHttpRequest();
+					xhr.open('GET', '/webbookstore/removefromcart?itemId=' + cartItemId);
+					xhr.onload = function() {
+						if (xhr.status === 200) {
+							if (cartItemType === 'Available') {
+								totalAllAvailableCartItems--; // Giảm giá trị cho cart items "Available"
+							} else {
+								unavailableItems--; // Giảm giá trị cho cart items "Unavailable"
+							}
+						} else {
+							// Hiển thị thông báo lỗi
+							var errorMessage = xhr.responseText || 'Đã có lỗi xảy ra. Vui lòng tải lại trang, hoặc đăng nhập lại.';
+							updateErrorMessage(errorMessage);
+						}
+					};
+					xhr.onerror = function() {
+						console.error('Request failed');
+					};
+					xhr.send();
+				});
+			});
+
+			function updateErrorMessage(message) {
+				var alertDiv = document.getElementById('myAlert01');
+				if (alertDiv) {
+					alertDiv.textContent = message;
+					if (message.includes('thành công')) {
+						alertDiv.classList.remove('alert-danger');
+						alertDiv.classList.add('alert-success');
+					} else {
+						alertDiv.classList.remove('alert-success');
+						alertDiv.classList.add('alert-danger');
+					}
+				}
+			}
+		});
+	</script>
+
+
+	<!--	<script>-->
 <!--		// Đặt thời gian cho alert-->
 <!--        setTimeout(function() {-->
 <!--            document.getElementById('myAlert01').style.display = 'none';-->
 <!--        }, 10000);  // Alert sẽ biến mất sau 5 giây-->
 <!--	</script>-->
 	<script>
+		var myAlert02 = document.getElementById('myAlert02'); // Tránh bị null
 		// Đặt thời gian cho alert
-        setTimeout(function() {
+		if (myAlert02){
+			setTimeout(function() {
             document.getElementById('myAlert02').style.display = 'none';
-        }, 10000);  // Alert sẽ biến mất sau 10 giây
+        	}, 10000);  // Alert sẽ biến mất sau 10 giây
+		}
 	</script>
 
 	<div th:replace="~{layout/footer :: footer}"></div>

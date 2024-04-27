@@ -269,6 +269,13 @@
 					</div>
 				</div>
 
+				<div th:if="${order.paymentStatus.status == 5}">
+					<div class="alert confirm d-flex align-items-center" role="alert" style="color: #fe6502; font-weight: bold; margin-bottom: 20px">
+						<span class="material-symbols-outlined" style="margin-right: 10px">notification_important</span>
+						<span th:text=" 'Vui lòng thanh toán lại càng sớm càng tốt. Chỉ khi đã thanh toán, đơn hàng của bạn mới được xử lý!' "></span>
+					</div>
+				</div>
+
 				<!-- Hiển thị thông báo nếu có -->
 				<div th:if="${param.message}" class="alert"
 					 th:classappend="${#strings.containsIgnoreCase(param.message, 'thành công') ? 'alert-success' : 'alert-danger'}">
@@ -338,6 +345,7 @@
 					</div>
 					<div class="col-03 center-content" style="width: 240px; align-items: flex-end; justify-content: flex-end">
 						<div class="row-operation" style="display: flex; justify-content: flex-end; align-items: flex-end;">
+							<a th:if="${order.paymentStatus.status == 5}" class="btn btn-destroy" th:href="@{/createvnpaypayment(orderId=${order.id})}">Thanh toán lại</a>
 							<a th:if="${order.status == 0}" class="btn btn-destroy" th:href="@{/cancelorder(orderId=${order.id})}">Hủy đơn</a>
 							<a th:if="${order.status == 3 || order.status == 10 && daysBetween <= 15}" class="btn btn-return" th:href="@{/returnorder(orderId=${order.id})}">Trả hàng</a>
 							<span th:if="${order.status != 0 && !(order.status == 3 && daysBetween <= 15)}"></span>
@@ -395,6 +403,14 @@
 							<span th:case="2" class="badge badge-warning">Xử lý hoàn tiền</span>
 							<span th:case="3" class="badge badge-success">Đã hoàn tiền</span>
 							<span th:case="4" class="badge badge-success">Không cần thanh toán</span>
+							<span th:case="5" class="badge badge-warning">Chờ thanh toán lại</span>
+						</span>
+					</div>
+					<div class="col-05" style="display: flex; padding: 0px 20px;">
+						<span th:switch="${order.paymentStatus.paymentMethod}" style="display: flex; align-items: center">
+							<span style="margin: 0px 0px 0px; margin-right: 10px">Phương thức</span>
+							<span th:case="0" class="badge badge-primary">Thanh toán khi nhận hàng</span>
+							<span th:case="1" class="badge badge-success">Thanh toán qua VNPAY</span>
 						</span>
 					</div>
 				</div>

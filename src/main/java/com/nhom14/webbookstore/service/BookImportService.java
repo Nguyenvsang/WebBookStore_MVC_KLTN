@@ -2,7 +2,10 @@ package com.nhom14.webbookstore.service;
 
 import com.nhom14.webbookstore.entity.Book;
 import com.nhom14.webbookstore.entity.BookImport;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
+import java.util.Collection;
 import java.util.List;
 
 public interface BookImportService {
@@ -24,4 +27,10 @@ public interface BookImportService {
 
     // Phương thức lấy đợt nhập theo id
     BookImport getBookImportById(long id);
+
+    // Lấy danh sách đợt nhập sách với các tham số tìm kiếm và lọc, phân trang
+    Page<BookImport> getFilteredBookImports(Integer bookId, String searchKeyword, Integer status, Pageable pageable);
+
+    // Lấy tất cả các đợt nhập sách
+    List<BookImport> getAllBookImports();
 }

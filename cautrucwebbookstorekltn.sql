@@ -189,6 +189,7 @@ CREATE TABLE PaymentStatus (
   -- Khai báo thuộc tính info kiểu varchar(255)
   info varchar(255),
   -- Khai báo thuộc tính order_id kiểu int và là khóa ngoại tham chiếu đến bảng Order
+  payment_method INT NOT NULL DEFAULT 0,
   order_id INT,
   FOREIGN KEY (order_id) REFERENCES `Order`(id)
 );

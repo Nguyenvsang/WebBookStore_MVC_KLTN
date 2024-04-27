@@ -208,6 +208,8 @@ public class BookServiceImpl implements BookService {
 	@Override
 	public Page<Book> getFilteredFavoriteBooks(Integer accountId, Integer categoryId, String searchKeyword, Double priceMin, Double priceMax, String publisher, Pageable pageable) {
 		return bookRepository.findWithFilters(accountId, categoryId, searchKeyword, priceMin, priceMax, publisher, pageable);
+		// Không tìm thấy sẽ trả về một đối tượng Page<Book> rỗng
+		// nghĩa là .getTotalElements() = 0
 	}
 
 }

@@ -5,6 +5,8 @@ import com.nhom14.webbookstore.entity.BookImport;
 import com.nhom14.webbookstore.repository.BookImportRepository;
 import com.nhom14.webbookstore.service.BookImportService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -53,5 +55,15 @@ public class BookImportServiceImpl implements BookImportService {
     @Override
     public BookImport getBookImportById(long id) {
         return bookImportRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public Page<BookImport> getFilteredBookImports(Integer bookId, String searchKeyword, Integer status, Pageable pageable) {
+        return bookImportRepository.findWithFilters(bookId, searchKeyword, status, pageable);
+    }
+
+    @Override
+    public List<BookImport> getAllBookImports() {
+        return bookImportRepository.findAll(); // Nếu không có sách sẽ trả về empty list
     }
 }
