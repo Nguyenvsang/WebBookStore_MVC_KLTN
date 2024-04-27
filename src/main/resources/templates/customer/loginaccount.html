@@ -95,15 +95,22 @@
 			color: rgb(2,88,155);
 		}
 
+		.alert-success {
+			color: rgb(91,181,111);
+		}
+		.alert-danger {
+			color: rgb(247,80,80);
+		}
+
 	</style>
 	
 </head>
 <body>
 <div th:replace="~{layout/header :: header}"></div>
 <!-- Hiển thị thông báo nếu có -->
-<div th:if="${param.message}" class="alert"
+<div th:if="${param.message}" class="alert" id="myAlert"
 	 th:classappend="${#strings.containsIgnoreCase(param.message, 'thành công') ? 'alert-success' : 'alert-danger'}">
-	<span th:text="${param.message}" style="font-weight: bold; color: rgb(247,80,80); justify-content: center; display: flex"></span>
+	<span th:text="${param.message}" style="font-weight: bold;justify-content: center; display: flex"></span>
 </div>
 <div class="container mt-4 mb-4">
     <div class="row justify-content-center">
@@ -275,5 +282,11 @@
 		   fjs.parentNode.insertBefore(js, fjs);
 		 }(document, 'script', 'facebook-jssdk'));
 	</script>
+<script>
+	// Đặt thời gian cho alert
+    setTimeout(function() {
+        document.getElementById('myAlert').style.display = 'none';
+    }, 10000);  // Alert sẽ biến mất sau 10 giây
+</script>
 </body>
 </html>

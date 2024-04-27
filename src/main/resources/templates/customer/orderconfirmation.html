@@ -233,6 +233,10 @@
 			box-shadow: 0px 6px 8px rgba(0, 0.4, 0, 0.2);
 		}
 
+		.alert.confirm {
+			background-color: #ffebae;
+		}
+
 	</style>
 </head>
 <body>
@@ -267,13 +271,13 @@
 					</div>
 				</div>
 				<div th:if="${order.status == 0}" class="row-order align-items-center">
-					<div th:if="${order.paymentStatus.status == 0}" class="alert alert-success d-flex" style="font-weight: bold; color: rgb(98,191,94);">
+					<div th:if="${order.paymentStatus.status == 0}" class="alert alert-success d-flex" style="font-weight: bold;justify-content: center; display: flex">
 						Đơn hàng của bạn đã được đặt thành công.
 					</div>
-					<div th:if="${order.paymentStatus.status == 5}" class="alert alert-success d-flex" style="font-weight: bold; color: rgb(98,191,94);">
+					<div th:if="${order.paymentStatus.status == 5}" class="alert confirm d-flex" style="color: #fe6502; font-weight: bold;justify-content: center; display: flex">
 						Đơn hàng của bạn đang chờ thanh toán lại.
 					</div>
-					<div th:if="${order.paymentStatus.status == 1}" class="alert alert-success d-flex" style="font-weight: bold; color: rgb(98,191,94);">
+					<div th:if="${order.paymentStatus.status == 1}" class="alert alert-success d-flex" style="font-weight: bold;justify-content: center; display: flex">
 						Đơn hàng của bạn đã được thanh toán thành công.
 					</div>
 					<p style="color: green; margin-top: 15px; font-weight: bold; ">Cảm ơn bạn đã đặt hàng!</p>

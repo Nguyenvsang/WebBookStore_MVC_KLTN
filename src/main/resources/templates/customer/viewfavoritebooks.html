@@ -352,7 +352,12 @@
             position: relative;
               z-index: 1;
         }
-
+        ..alert-success {
+			color: rgb(91,181,111);
+		}
+		.alert-danger {
+			color: rgb(247,80,80);
+		}
 
     </style>
 </head>
@@ -362,18 +367,15 @@
     <img class="modal-content" id="img01">
 </div>
 <div th:replace="~{layout/header :: header}"></div>
+<!-- Hiển thị thông báo nếu có -->
+<div th:if="${message}" class="alert"
+     th:classappend="${message.contains('thành công') ? 'alert-success' : 'alert-danger'}"
+     th:text="${message}" style="font-weight: bold;justify-content: center; display: flex">
+</div>
 <div class="main-container col2-left-layout no-margin-top">
 
     <div class="container main" style="background-color: white;">
         <div class="container-inner">
-
-            <!-- Hiển thị thông báo nếu có -->
-            <div th:if="${message}" class="alert"
-                 th:classappend="${message.contains('thành công') ? 'alert-success' : 'alert-danger'}"
-                 th:text="${message}">
-            </div>
-
-
             <div class="d-flex justify-content-center" style="margin-bottom: 10px; margin-right: 10px;">
 
                 <div class="col-left sidebar col-lg-3 col-md-3 col-sm-12 col-xs-12" style="border-right: 1px solid #cecece; width: 280px;" >

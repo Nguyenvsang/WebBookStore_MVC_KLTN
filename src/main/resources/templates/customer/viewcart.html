@@ -229,6 +229,20 @@
 			outline: none;
 		}
 
+		.delete-all{
+			color: grey;
+		}
+
+		.delete-all:hover {
+			color: rgb(2,88,155);
+		}
+
+		.alert-success {
+			color: rgb(91,181,111);
+		}
+		.alert-danger {
+			color: rgb(247,80,80);
+		}
 
 	</style>
 </head>
@@ -237,14 +251,14 @@
 	<!-- Hiển thị thông báo nếu có -->
 	<div th:if="${param.message}" class="alert" id="myAlert02"
 		 th:classappend="${#strings.containsIgnoreCase(param.message, 'thành công') ? 'alert-success' : 'alert-danger'}">
-		<span th:text="${param.message}"></span>
+		<span th:text="${param.message}" style="font-weight: bold;justify-content: center; display: flex"></span>
 	</div>
 
 	<!-- Hiển thị thông báo kiểu model nếu có (dùng khi giỏ hàng trống) -->
 
 	<div th:if="${message}" class="alert" id="myAlert01"
 		 th:classappend="${message.contains('thành công') ? 'alert-success' : 'alert-danger'}"
-		 th:text="${message}">
+		 th:text="${message}" style="font-weight: bold;justify-content: center; display: flex">
 	</div>
 
 
@@ -414,9 +428,10 @@
 										<tbody>
 										<tr>
 											<th rowspan="1" class="next-table-header-node first d-flex align-items-center" style="padding: 0px 20px; height: 50px; color: grey">
-												<form th:action="@{/removeallfromcart}" method="post" class="all-delete">
+												<form th:action="@{/removeallfromcart}" method="post">
 													<input type="hidden" name="itemIds" th:value="${unavailableItemIdsString}" />
-													<button type="submit" class="d-flex align-items-center" style="padding: 0; border: none; background: none;">
+													<button type="submit" class="d-flex align-items-center" onmouseover="this.style.color='rgb(2,88,155)';"
+															onmouseout="this.style.color='grey';" style="padding: 0; border: none; background: none; font-weight: bold; color: grey">
 														<span class="material-symbols-outlined d-flex align-items-center" style="margin: 0px 20px 0px 5px">delete</span>
 														Xóa tất cả
 													</button>
@@ -515,10 +530,11 @@
 									<h6 style="margin: 0px 70px 8px 0px;">Chọn tất cả</h6>
 								</td>
 								<td rowspan="1" class="next-table-header-node" style="padding: 20px 20px;">
-									<form th:action="@{/removeallfromcart}" method="post" class="all-delete">
+									<form th:action="@{/removeallfromcart}" method="post" >
 										<input type="hidden" name="itemIds" value="all" />
-										<button type="submit" class="d-flex align-items-center" style="padding: 0; border: none; background: none;">
-											<span class="material-symbols-outlined d-flex align-items-center" style="margin: 0px 20px 0px 5px">delete</span>
+										<button type="submit" class="d-flex align-items-center"  onmouseover="this.style.color='rgb(2,88,155)';"
+												onmouseout="this.style.color='grey';" style="padding: 0; border: none; background: none; font-weight: bold; color: grey">
+											<span class="material-symbols-outlined d-flex align-items-center" style="margin: 0px 20px 0px 5px;">delete</span>
 											Xóa tất cả
 										</button>
 									</form>

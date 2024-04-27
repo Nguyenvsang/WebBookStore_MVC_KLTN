@@ -189,6 +189,12 @@
             background-color: rgb(182,232,241);
         }
 
+		.alert-success {
+			color: rgb(91,181,111);
+		}
+		.alert-danger {
+			color: rgb(247,80,80);
+		}
 	</style>
 </head>
 <body>
@@ -197,7 +203,7 @@
 	<!-- Hiển thị thông báo nếu có -->
 	<div id="myAlert" th:if="${param.message}" class="alert"
 		 th:classappend="${#strings.containsIgnoreCase(param.message, 'thành công') ? 'alert-success' : 'alert-danger'}">
-		<span th:text="${param.message}"></span>
+		<span th:text="${param.message}" style="font-weight: bold;justify-content: center; display: flex"></span>
 	</div>
 	<!--Nếu không có đơn hàng nào thì không hiển thị-->
 	<div th:if="${orders.isEmpty()}"> </div>
@@ -422,5 +428,6 @@
 		}
 	};
 	</script>
+
 </body>
 </html>

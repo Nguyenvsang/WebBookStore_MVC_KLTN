@@ -327,6 +327,13 @@
 			font-family: Arial;
 			color: rgb(2,88,155);
 		}
+
+		.alert-success {
+			color: rgb(91,181,111);
+		}
+		.alert-danger {
+			color: rgb(247,80,80);;
+		}
 	</style>
 	
 </head>
@@ -335,7 +342,7 @@
 	<!-- Hiển thị thông báo nếu có -->
 	<div id="myAlert" th:if="${param.message}" class="alert"
 		 th:classappend="${#strings.containsIgnoreCase(param.message, 'thành công') ? 'alert-success' : 'alert-danger'}">
-		<span th:text="${param.message}"></span>
+		<span th:text="${param.message}" style="font-weight: bold;justify-content: center; display: flex"></span>
 	</div>
 
 <!--	&lt;!&ndash; Kiểm tra xem sách có còn kinh doanh không &ndash;&gt;-->
@@ -475,7 +482,7 @@
 								</div>
 		                    </div>
 							<!-- Kiểm tra xem sách có còn kinh doanh không -->
-							<div th:if="${book.status == 0}" class="alert alert-danger" style="font-weight: bold; color: red;">
+							<div th:if="${book.status == 0}" class="alert alert-danger" style="color:  rgb(247,80,80); font-weight: bold;justify-content: center; display: flex">
 								Sách này đã ngừng kinh doanh
 							</div>
 		                </div>
