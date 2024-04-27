@@ -163,7 +163,18 @@
 			color: rgb(2,88,155);
 		}
 
-		.form-cart{
+		.form-cart-total-avail{
+			color: orangered;
+			margin-bottom: 30px;
+			margin-top: 40px;
+			text-align: center;
+			justify-content: center;
+			display: flex;
+			border-radius: 10px;
+			font-size: larger;
+		}
+
+		.form-cart-total-unavail{
 			color: orangered;
 			margin-bottom: 30px;
 			margin-top: 40px;
@@ -281,7 +292,7 @@
 				<div th:if="${!availableItems.isEmpty()}" class="col-00">
 					<div class="row-cart d-flex align-items-center">
 						<h6 style="color: #211f7f; align-items: center;  margin: 0px; padding: 20px 0px 0px 20px; font-family: Verdana; font-weight: bold">Giỏ hàng</h6>
-						<div class="form-cart" th:if="${totalAllAvailableCartItems != null}"
+						<div class="form-cart-total-avail" th:if="${totalAllAvailableCartItems != null}"
 							 style="color: orangered; align-items: center;  margin: 0px 5px 0px 0px; padding: 20px 0px 0px 10px; font-weight: 500;">
 							<p style="margin: 0px 0px 0px; font-family: Verdana; font-size: 15px">(<span th:text="${totalAllAvailableCartItems}"></span> quyển sách)</p>
 						</div>
@@ -335,7 +346,7 @@
 										<col style="width: 10%;">
 									</colgroup>
 									<tbody>
-									<tr th:each="cartItem : ${availableItems}" th:attr="data-cart-item-type='Available'" style="border-top: 1px solid #cecece;" onmouseover="this.style.backgroundColor='#f2f5f6';" onmouseout="this.style.backgroundColor='transparent';">
+									<tr th:each="cartItem : ${availableItems}" style="border-top: 1px solid #cecece;" onmouseover="this.style.backgroundColor='#f2f5f6';" onmouseout="this.style.backgroundColor='transparent';">
 
 										<td rowspan="1" class="next-table-header-node first " style="padding: 20px 20px;">
 											<input type="checkbox" class="itemCheckbox" th:data-item-id="${cartItem.id}" th:data-price="${cartItem.book.sellPrice}" th:data-quantity="${cartItem.quantity}" style="width: 20px; height: 20px; margin: 10px;">
@@ -387,7 +398,7 @@
 										<td rowspan="1" class="next-table-header-node" style="padding: 10px 20px; text-align: right; color: orangered; font-weight: bold;" th:id="'totalpriceitem_' + ${cartItem.id}" th:text="${#numbers.formatInteger(cartItem.quantity * cartItem.book.sellPrice, 0, 'POINT')+ ' đ'}"></td>
 
 										<td rowspan="1" class="next-table-header-node last" style="padding: 10px 20px; text-align: center" >
-											<span class="delete-btn" th:attr="data-cart-item-id=${cartItem.id}" style="cursor: pointer;">
+											<span class="delete-btn" th:attr="data-cart-item-type='Available', data-cart-item-id=${cartItem.id}" style="cursor: pointer;">
 												<span class="material-symbols-outlined delete">delete</span>
 											</span>
 										</td>
@@ -408,7 +419,7 @@
 				<div th:if="${!unavailableItems.isEmpty()}" class="col-00">
 					<div class="row-cart d-flex align-items-center">
 						<h6 style="color: #211f7f; align-items: center;  margin: 0px; padding: 20px 0px 0px 20px; font-family: Verdana; font-weight: bold">Sản phẩm không có sẵn</h6>
-						<div class="form-cart" th:if="${unavailableItems.size() != 0}"
+						<div class="form-cart-total-unavail" th:if="${unavailableItems.size() != 0}"
 							 style="color: orangered; align-items: center;  margin: 0px 5px 0px 0px; padding: 20px 0px 0px 10px; font-weight: 500;">
 							<p style="margin: 0px 0px 0px; font-family: Verdana; font-size: 15px">(<span th:text="${unavailableItems.size()}"></span> quyển sách)</p>
 						</div>
@@ -463,7 +474,7 @@
 										<col style="width: 10%;">
 									</colgroup>
 									<tbody>
-									<tr th:each="cartItem : ${unavailableItems}" th:attr="data-cart-item-type='unavailable'" style="border-top: 1px solid #cecece;" onmouseover="this.style.backgroundColor='#f2f5f6';" onmouseout="this.style.backgroundColor='transparent';">
+									<tr th:each="cartItem : ${unavailableItems}" style="border-top: 1px solid #cecece;" onmouseover="this.style.backgroundColor='#f2f5f6';" onmouseout="this.style.backgroundColor='transparent';">
 
 										<td rowspan="1" class="next-table-header-node first " style="padding: 20px 20px;">
 											<div class="text-center"><span class="material-symbols-outlined" style="color: grey">disabled_by_default</span></div>
@@ -495,7 +506,7 @@
 										<td rowspan="1" class="next-table-header-node" style="padding: 10px 20px; text-align: right; color: orangered; font-weight: bold;" th:id="'totalpriceitem_' + ${cartItem.id}" th:text="${#numbers.formatInteger(cartItem.quantity * cartItem.book.sellPrice, 0, 'POINT')+ ' đ'}"></td>
 
 										<td rowspan="1" class="next-table-header-node last" style="padding: 10px 20px; text-align: center" >
-											<span class="delete-btn" th:attr="data-cart-item-id=${cartItem.id}" style="cursor: pointer;">
+											<span class="delete-btn" th:attr="data-cart-item-type='Unavailable', data-cart-item-id=${cartItem.id}" style="cursor: pointer;">
 												<span class="material-symbols-outlined delete">delete</span>
 											</span>
 										</td>
@@ -775,6 +786,11 @@
 
 	<!-- Xử lý xóa từng cartitem bất đồng bộ-->
 	<script th:inline="javascript">
+		// Lấy phần tử hiển thị tổng số quyển sách còn hàng
+    	var totalAvailableElement = document.querySelector(".form-cart-total-avail span");
+    	// Lấy phần tử hiển thị tổng số sản phẩm không có sẵn
+    	var totalUnavailableElement = document.querySelector(".form-cart-total-unavail span");
+
 		document.addEventListener("DOMContentLoaded", function() {
 			var deleteButtons = document.querySelectorAll('.delete-btn');
 			deleteButtons.forEach(function(button) {
@@ -783,15 +799,30 @@
 					var cartItemType = button.dataset.cartItemType; // Lấy giá trị của thuộc tính
 					// Xóa cart item khỏi DOM
 					button.closest('tr').remove(); // Tìm phần tử cha <tr> gần nhất và xóa nó
+					// Giảm tổng số sản phầm (còn hàng và không có sẵn)
+					if (totalAvailableElement && cartItemType === 'Available') {
+						totalAvailableElement.textContent = parseInt(totalAvailableElement.textContent) - 1; // Giảm giá trị cho cart items "Available"
+					}
+					if (totalUnavailableElement && cartItemType === 'Unavailable') {
+						totalUnavailableElement.textContent = parseInt(totalUnavailableElement.textContent) - 1; // Giảm giá trị cho cart items "Unavailable"
+					}
+
 					// Gửi yêu cầu xóa đến backend
 					var xhr = new XMLHttpRequest();
 					xhr.open('GET', '/webbookstore/removefromcart?itemId=' + cartItemId);
 					xhr.onload = function() {
 						if (xhr.status === 200) {
-							if (cartItemType === 'Available') {
-								totalAllAvailableCartItems--; // Giảm giá trị cho cart items "Available"
-							} else {
-								unavailableItems--; // Giảm giá trị cho cart items "Unavailable"
+							// Kiểm tra nếu tổng số sản phẩm (còn hàng và không có sẵn) bằng 0
+							if (totalAvailableElement && totalUnavailableElement && parseInt(totalAvailableElement.textContent) === 0 && parseInt(totalUnavailableElement.textContent) === 0) {
+								window.location.reload(); // Tải lại trang giỏ hàng
+							}
+							// Kiểm tra nếu tổng số sản phẩm còn hàng bằng 0 và sp không có sẵn là null
+							if (totalAvailableElement && !totalUnavailableElement && parseInt(totalAvailableElement.textContent) === 0) {
+								window.location.reload(); // Tải lại trang giỏ hàng
+							}
+							// Kiểm tra nếu tổng số sản phẩm còn hàng là null và sp không có sẵn bằng 0
+							if (!totalAvailableElement && totalUnavailableElement && parseInt(totalUnavailableElement.textContent) === 0) {
+								window.location.reload(); // Tải lại trang giỏ hàng
 							}
 						} else {
 							// Hiển thị thông báo lỗi
