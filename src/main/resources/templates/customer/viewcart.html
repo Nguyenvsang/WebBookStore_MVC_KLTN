@@ -382,8 +382,9 @@
 														</div>
 													</div>
 													<div class="col">
-														<input type="text-center align-middle" class="form-control" th:value="${cartItem.quantity}" th:id="'quantity_' + ${cartItem.id}"
-															   style="text-align: center;">
+                                                        <input type="text-center align-middle" class="form-control item-quantity" th:value="${cartItem.quantity}" th:id="'quantity_' + ${cartItem.id}"
+                                                               th:data-item-id="${cartItem.id}" th:data-max-quantity="${cartItem.book.quantity}"
+                                                               th:data-old-quantity="${cartItem.quantity}" style="text-align: center;">
 													</div>
 													<div class="col-increase">
 														<div class="input-group">
@@ -852,14 +853,6 @@
 			}
 		});
 	</script>
-
-
-	<!--	<script>-->
-<!--		// Đặt thời gian cho alert-->
-<!--        setTimeout(function() {-->
-<!--            document.getElementById('myAlert01').style.display = 'none';-->
-<!--        }, 10000);  // Alert sẽ biến mất sau 5 giây-->
-<!--	</script>-->
 	<script>
 		var myAlert02 = document.getElementById('myAlert02'); // Tránh bị null
 		// Đặt thời gian cho alert
@@ -869,6 +862,54 @@
         	}, 10000);  // Alert sẽ biến mất sau 10 giây
 		}
 	</script>
+    <script>
+		document.querySelectorAll('.item-quantity').forEach(function(input) {
+			input.addEventListener('change', function() {
+				var itemId = this.dataset.itemId;
+				var maxQuantity = this.dataset.maxQuantity;
+				var newQuantity = parseInt(this.value);
+
+				// Kiểm tra xem số lượng mới có hợp lệ không
+				if (newQuantity > 0 && newQuantity <= maxQuantity) {
+					// Cập nhật số lượng sản phẩm
+					updateCartItem(itemId, newQuantity);
+				} else {
+					// Nếu không, đặt lại số lượng về giá trị cũ và hiển thị thông báo lỗi
+					this.value = this.dataset.oldQuantity;
+					var message = 'Số lượng không hợp lệ. Vui lòng nhập một số từ 1 đến ' + maxQuantity + '.';
+					displayAlert(message, 'alert-danger');
+				}
+			});
+		});
+
+		function displayAlert(message, alertType) {
+			// Kiểm tra xem đã có thông báo chưa
+			if (document.getElementById('myAlert02')) {
+				return;
+			}
+
+			var alertBox = document.createElement('div');
+			alertBox.className = 'alert ' + alertType;
+			alertBox.id = 'myAlert02';
+			alertBox.style.fontWeight = 'bold';
+			alertBox.style.justifyContent = 'center';
+			alertBox.style.display = 'flex';
+
+			var alertText = document.createElement('span');
+			alertText.textContent = message;
+
+			alertBox.appendChild(alertText);
+
+			// Tìm phần tử header và chèn thông báo ngay sau nó
+			var header = document.getElementsByTagName('header')[0];
+			header.parentNode.insertBefore(alertBox, header.nextSibling);
+
+			// Thông báo sẽ tự động biến mất sau 10 giây
+			setTimeout(function() {
+				alertBox.remove();
+			}, 10000);
+		}
+    </script>
 
 	<div th:replace="~{layout/footer :: footer}"></div>
 	<!-- Thêm các tệp tin JavaScript -->
