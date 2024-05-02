@@ -249,72 +249,134 @@
 			width: 833px;
 		}
 
+        .alert-success {
+			color: rgb(91,181,111);
+		}
+		.alert-danger {
+			color: rgb(247,80,80);
+		}
+
     </style>
     <script>
-        var checkFileSizeImg1 = function(event) {
-            var file = event.target.files[0];
-            if(file.size > 10 * 1024 * 1024) { // 10MB
-                alert("File ảnh 1 quá lớn! Vui lòng chọn file ảnh nhỏ hơn 10MB.");
-                event.target.value = ""; // reset the input
-            } else {
-                var output = document.getElementById('outputImg1');
-                output.src = URL.createObjectURL(file);
-                output.onload = function() {
-                    URL.revokeObjectURL(output.src) // free memory
-                }
+        function checkFileSizeImg(event) {
+            var files = event.target.files;
+            var output = document.getElementById('imagePreview');
+            output.innerHTML = '';
+            if(files.length > 4){
+                displayAlert("Bạn chỉ có thể tải lên tối đa 4 hình ảnh.");
+                return;
             }
-        };
-    </script>
-    <script>
-        var checkFileSizeImg2 = function(event) {
-            var file = event.target.files[0];
-            if(file.size > 10 * 1024 * 1024) { // 10MB
-                alert("File ảnh 2 quá lớn! Vui lòng chọn file ảnh nhỏ hơn 10MB.");
-                event.target.value = ""; // reset the input
-            } else {
-                var output = document.getElementById('outputImg2');
-                output.src = URL.createObjectURL(file);
-                output.onload = function() {
-                    URL.revokeObjectURL(output.src) // free memory
+            for(var i = 0; i< files.length; i++)
+            {
+                var file = files[i];
+                // Kiểm tra kích thước file
+                // Nếu file lớn hơn 10MB thì không cho phép upload
+                if(file.size > 10 * 1024 * 1024){
+                    displayAlert("File " + file.name + " có kích thước vượt quá 10MB.!");
+                    return;
                 }
+                // Hiển thị ảnh đã chọn
+                var img = document.createElement("img");
+                img.id = "outputImg" + i;
+                img.width = 170;
+                img.style.border = "1px solid #cecece";
+                img.style.borderRadius = "10px";
+                img.style.margin = "10px";
+                img.style.cursor = "pointer"; // Thêm con trỏ chuột
+                img.onclick = function() { // Thêm sự kiện click
+                    var modal = document.createElement("div");
+                    modal.id = "myModal";
+                    modal.style.display = "flex";
+                    modal.style.justifyContent = "flex-start";
+                    modal.style.alignItems = "center";
+                    modal.style.position = "fixed";
+                    modal.style.zIndex = "9999"; // Đặt zIndex thành một giá trị lớn
+                    modal.style.left = "0";
+                    modal.style.top = "0";
+                    modal.style.width = "100%";
+                    modal.style.height = "100%";
+                    modal.style.overflow = "auto";
+                    modal.style.backgroundColor = "rgba(0,0,0,0.5)";
+
+                    var closeButton = document.createElement("span");
+                    closeButton.innerHTML = "×";
+                    closeButton.style.position = "absolute";
+                    closeButton.style.right = "10px";
+                    closeButton.style.top = "10px";
+                    closeButton.style.height = "40px";
+                    closeButton.style.width = "40px";
+                    closeButton.style.color = "#f1f1f1";
+                    closeButton.style.justifyContent = "center";
+                    closeButton.style.alignItems = "center";
+                    closeButton.style.display = "flex";
+                    closeButton.style.fontSize = "30px";
+                    closeButton.style.fontWeight = "bold";
+                    closeButton.style.cursor = "pointer";
+                    closeButton.style.alignSelf = "flex-start"; // Thêm ở đây
+                    closeButton.onclick = function() {
+                        document.body.removeChild(modal);
+                    };
+
+                    var modalContent = document.createElement("img");
+                    modalContent.src = this.src;
+                    modalContent.style.margin = "auto";
+                    modalContent.style.display = "block";
+                    modalContent.style.width = "80%";
+                    modalContent.style.maxWidth = "700px";
+
+                    modal.appendChild(closeButton);
+                    modal.appendChild(modalContent);
+                    document.body.appendChild(modal);
+
+                    modal.onclick = function(event) {
+                        if (event.target == modal) {
+                            document.body.removeChild(modal);
+                        }
+                    }
+                };
+                output.appendChild(img);
+                img.src = URL.createObjectURL(event.target.files[i]);
             }
-        };
+        }
+
+
+        function displayAlert(message, alertType) {
+			// Kiểm tra xem đã có thông báo chưa
+			if (document.getElementById('myAlert02')) {
+				return;
+			}
+
+			var alertBox = document.createElement('div');
+			alertBox.className = 'alert ' + alertType;
+			alertBox.id = 'myAlert02';
+			alertBox.style.fontWeight = 'bold';
+			alertBox.style.color = 'rgb(247,80,80)';
+			alertBox.style.backgroundColor = 'rgb(247,214,217)';
+			alertBox.style.justifyContent = 'center';
+			alertBox.style.display = 'flex';
+
+			var alertText = document.createElement('span');
+			alertText.textContent = message;
+
+			alertBox.appendChild(alertText);
+
+			// Tìm phần tử header và chèn thông báo ngay sau nó
+			var header = document.getElementsByTagName('header')[0];
+			header.parentNode.insertBefore(alertBox, header.nextSibling);
+
+			// Thông báo sẽ tự động biến mất sau 10 giây
+			setTimeout(function() {
+				alertBox.remove();
+			}, 10000);
+		}
     </script>
+
+
     <script>
-        var checkFileSizeImg3 = function(event) {
-            var file = event.target.files[0];
-            if(file.size > 10 * 1024 * 1024) { // 10MB
-                alert("File ảnh 3 quá lớn! Vui lòng chọn file ảnh nhỏ hơn 10MB.");
-                event.target.value = ""; // reset the input
-            } else {
-                var output = document.getElementById('outputImg3');
-                output.src = URL.createObjectURL(file);
-                output.onload = function() {
-                    URL.revokeObjectURL(output.src) // free memory
-                }
-            }
-        };
-    </script>
-    <script>
-        var checkFileSizeImg4 = function(event) {
-            var file = event.target.files[0];
-            if(file.size > 10 * 1024 * 1024) { // 10MB
-                alert("File ảnh 4 quá lớn! Vui lòng chọn file ảnh nhỏ hơn 10MB.");
-                event.target.value = ""; // reset the input
-            } else {
-                var output = document.getElementById('outputImg4');
-                output.src = URL.createObjectURL(file);
-                output.onload = function() {
-                    URL.revokeObjectURL(output.src) // free memory
-                }
-            }
-        };
-    </script>
-    <script>
-        var checkFileSizeVideo1 = function(event) {
+        function checkFileSizeVideo1(event) {
             var file = event.target.files[0];
             if(file.size > 100 * 1024 * 1024) { // 100MB
-                alert("File video mở hàng quá lớn! Vui lòng chọn file video nhỏ hơn 100MB.");
+                displayAlert("File video mở hàng quá lớn! Vui lòng chọn file video nhỏ hơn 100MB.", 'alert-danger');
                 event.target.value = ""; // reset the input
             } else {
                 var output = document.getElementById('outputVideo1');
@@ -324,12 +386,11 @@
                 }
             }
         };
-    </script>
-    <script>
-        var checkFileSizeVideo2 = function(event) {
+
+        function checkFileSizeVideo2(event) {
             var file = event.target.files[0];
             if(file.size > 100 * 1024 * 1024) { // 100MB
-                alert("File video quay sản phẩm quá lớn! Vui lòng chọn file video nhỏ hơn 100MB.");
+                displayAlert('File video quay sản phẩm quá lớn! Vui lòng chọn file video nhỏ hơn 100MB.', 'alert-danger');
                 event.target.value = ""; // reset the input
             } else {
                 var output = document.getElementById('outputVideo2');
@@ -339,11 +400,48 @@
                 }
             }
         };
+
+        function displayAlert(message, alertType) {
+            // Kiểm tra xem đã có thông báo chưa
+            if (document.getElementById('myAlert02')) {
+                return;
+            }
+
+            var alertBox = document.createElement('div');
+            alertBox.className = 'alert ' + alertType;
+            alertBox.id = 'myAlert02';
+            alertBox.style.fontWeight = 'bold';
+            alertBox.style.color = 'rgb(247,80,80)';
+            alertBox.style.backgroundColor = 'rgb(247,214,217)';
+            alertBox.style.justifyContent = 'center';
+            alertBox.style.display = 'flex';
+
+            var alertText = document.createElement('span');
+            alertText.textContent = message;
+
+            alertBox.appendChild(alertText);
+
+            // Tìm phần tử header và chèn thông báo ngay sau nó
+            var header = document.getElementsByTagName('header')[0];
+            header.parentNode.insertBefore(alertBox, header.nextSibling);
+
+            // Thông báo sẽ tự động biến mất sau 10 giây
+            setTimeout(function() {
+                alertBox.remove();
+            }, 10000);
+        }
     </script>
+
 
 </head>
 <body>
 <div th:replace="~{layout/header :: header}"></div>
+<!-- Hiển thị thông báo nếu có -->
+<!--<div th:if="${param.message}" class="alert" id="myAlert02"-->
+<!--     th:classappend="${#strings.containsIgnoreCase(param.message, 'thành công') ? 'alert-success' : 'alert-danger'}">-->
+<!--    <span th:text="${param.message}" style="font-weight: bold;justify-content: center; display: flex;"></span>-->
+<!--</div>-->
+
 <div class="container-fluid mb-4">
     <div class="container">
         <div class="form-container" style="background-color: white;">
@@ -399,48 +497,14 @@
                 <h6 class="text-center" style="color: #fe6502;">THÊM 4 HÌNH ẢNH VÀ 1 VIDEO MỞ HÀNG, 1 VIDEO QUAY SẢN PHẨM CHO THẤY RÕ SẢN PHẨM NHẬN ĐƯỢC KHÔNG ĐÚNG NHƯ MONG ĐỢI</h6>
                 <h6 class="text-center" style="color: #3448c5;">Lưu ý: Mỗi hình ảnh tối đa 10MB và mỗi video tối đa 100MB</h6>
 
-                <div class="row d-flex justify-content-center" style="width: 100%; padding: 20px; 0px; margin-left: 0px">
+                <div class="row d-flex justify-content-center" style="width: 100%; padding: 20px; 0px; 0px; margin-left: 0px">
                     <div class="col-01" style="justify-content: center; width: 25%">
-                        <input type="file" class="form-control-file" id="image1" name="image1" accept="image/*" onchange="checkFileSizeImg1(event)" style="display:none;" required>
-                        <label for="image1" style="display: flex; justify-content: center;">
+                        <input type="file" class="form-control-file" id="image" name="image" accept="image/*" onchange="checkFileSizeImg(event)" style="display:none;" multiple required>
+                        <label for="image" style="display: flex; align-items: center; justify-content: center; border-radius: 50px; border: 1px solid #cecece; width: 200px; height: 50px">
                             <span class="material-symbols-outlined d-flex align-items-center justify-content-center" style="color: grey; height: 26px; weight: 30px">shift</span>
-                            Chọn ảnh 1
+                            Chọn ảnh
                         </label>
-                        <div class="image-preview" style="display: flex; justify-content: center; align-items: center;">
-                            <img id="outputImg1" width="150" style="border: 1px solid #cecece; border-radius: 5px;"/>
-                        </div>
-                    </div>
-
-                    <div class="col-02" style="justify-content: center; width: 25%">
-                        <input type="file" class="form-control-file" id="image2" name="image2" accept="image/*" onchange="checkFileSizeImg2(event)" style="display:none;" required>
-                        <label for="image2"  style="display: flex; justify-content: center;">
-                            <span class="material-symbols-outlined d-flex align-items-center justify-content-center" style="color: grey; height: 26px; weight: 30px">shift</span>
-                            Chọn ảnh 2
-                        </label>
-                        <div class="image-preview" style="display: flex; justify-content: center; align-items: center;">
-                            <img id="outputImg2" width="150" style="border: 1px solid #cecece; border-radius: 5px;"/>
-                        </div>
-                    </div>
-
-                    <div class="col-03" style="justify-content: center; width: 25%">
-                        <input type="file" class="form-control-file" id="image3" name="image3" accept="image/*" onchange="checkFileSizeImg3(event)" style="display:none;" required>
-                        <label for="image3"  style="display: flex; justify-content: center;">
-                            <span class="material-symbols-outlined d-flex align-items-center justify-content-center" style="color: grey; height: 26px; weight: 30px">shift</span>
-                            Chọn ảnh 3
-                        </label>
-                        <div class="image-preview" style="display: flex; justify-content: center; align-items: center;">
-                            <img id="outputImg3" width="150" style="border: 1px solid #cecece; border-radius: 5px;"/>
-                        </div>
-                    </div>
-
-                    <div class="col-04" style="justify-content: center; width: 25%">
-                        <input type="file" class="form-control-file" id="image4" name="image4" accept="image/*" onchange="checkFileSizeImg4(event)" style="display:none;" required>
-                        <label for="image4"  style="display: flex; justify-content: center;">
-                            <span class="material-symbols-outlined d-flex align-items-center justify-content-center" style="color: grey; height: 26px; weight: 30px">shift</span>
-                            Chọn ảnh 4
-                        </label>
-                        <div class="image-preview" style="display: flex; justify-content: center; align-items: center;">
-                            <img id="outputImg4" width="150" style="border: 1px solid #cecece; border-radius: 5px;"/>
+                        <div class="image-preview" id="imagePreview" style="display: flex; justify-content: center; align-items: center;">
                         </div>
                     </div>
                 </div>
@@ -472,6 +536,7 @@
                         </div>
                     </div>
                 </div>
+
 
                 <h6 class="text" style="margin: 20px 0px;">Thông tin người trả hàng</h6>
                 <div class="form-group row d-flex align-items-center" style="border-radius: 50px; border: 1px solid #cecece;">
@@ -565,6 +630,7 @@
         }
     }
 </script>
+
 </body>
 
 </html>

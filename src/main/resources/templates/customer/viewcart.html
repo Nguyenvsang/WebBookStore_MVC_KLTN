@@ -255,6 +255,20 @@
 			color: rgb(247,80,80);
 		}
 
+
+		<!--Vô hiệu hóa nút number-->
+
+		/* Chrome, Safari, Edge, Opera */
+		input::-webkit-outer-spin-button,
+		input::-webkit-inner-spin-button {
+			-webkit-appearance: none;
+			margin: 0;
+		}
+
+		/* Firefox */
+		input[type=number] {
+			-moz-appearance: textfield;
+		}
 	</style>
 </head>
 <body>
@@ -262,7 +276,7 @@
 	<!-- Hiển thị thông báo nếu có -->
 	<div th:if="${param.message}" class="alert" id="myAlert02"
 		 th:classappend="${#strings.containsIgnoreCase(param.message, 'thành công') ? 'alert-success' : 'alert-danger'}">
-		<span th:text="${param.message}" style="font-weight: bold;justify-content: center; display: flex"></span>
+		<span th:text="${param.message}" style="font-weight: bold;justify-content: center; display: flex;"></span>
 	</div>
 
 	<!-- Hiển thị thông báo kiểu model nếu có (dùng khi giỏ hàng trống) -->
@@ -382,7 +396,7 @@
 														</div>
 													</div>
 													<div class="col">
-                                                        <input type="text-center align-middle" class="form-control item-quantity" th:value="${cartItem.quantity}" th:id="'quantity_' + ${cartItem.id}"
+                                                        <input type="number" pattern="^[0-9]*$" class="form-control item-quantity" th:value="${cartItem.quantity}" th:id="'quantity_' + ${cartItem.id}"
                                                                th:data-item-id="${cartItem.id}" th:data-max-quantity="${cartItem.book.quantity}"
                                                                th:data-old-quantity="${cartItem.quantity}" style="text-align: center;">
 													</div>
@@ -586,7 +600,7 @@
 					quantityInput.value = newQuantity;
 					updateCartItem(itemId, newQuantity);
 				} else {
-					alert("Số lượng đã đạt giới hạn.");
+					displayAlert('Số lượng đã đạt giới hạn.', 'alert-danger');
 				}
 			}
 		}
@@ -862,54 +876,58 @@
         	}, 10000);  // Alert sẽ biến mất sau 10 giây
 		}
 	</script>
-    <script>
+	<script>
 		document.querySelectorAll('.item-quantity').forEach(function(input) {
-			input.addEventListener('change', function() {
-				var itemId = this.dataset.itemId;
-				var maxQuantity = this.dataset.maxQuantity;
-				var newQuantity = parseInt(this.value);
+            input.addEventListener('change', function() {
+                var itemId = this.dataset.itemId;
+                var maxQuantity = parseInt(this.dataset.maxQuantity);
+                var newQuantity = parseInt(this.value);
 
-				// Kiểm tra xem số lượng mới có hợp lệ không
-				if (newQuantity > 0 && newQuantity <= maxQuantity) {
-					// Cập nhật số lượng sản phẩm
-					updateCartItem(itemId, newQuantity);
-				} else {
-					// Nếu không, đặt lại số lượng về giá trị cũ và hiển thị thông báo lỗi
-					this.value = this.dataset.oldQuantity;
-					var message = 'Số lượng không hợp lệ. Vui lòng nhập một số từ 1 đến ' + maxQuantity + '.';
-					displayAlert(message, 'alert-danger');
-				}
-			});
-		});
+                // Kiểm tra xem số lượng mới có hợp lệ không
+                if (newQuantity > 0 && newQuantity <= maxQuantity) {
+                    // Cập nhật số lượng sản phẩm
+                    updateCartItem(itemId, newQuantity);
+                } else if (newQuantity > maxQuantity) {
+                    // Nếu số lượng mới vượt quá số lượng tối đa, đặt lại số lượng về giá trị lớn nhất cho phép
+                    this.value = maxQuantity;
+                    var message =  'Số lượng không hợp lệ. Vui lòng nhập một số từ 1 đến ' + maxQuantity + '.';
+                    displayAlert(message, 'alert-danger');
+                } else {
+                    // Nếu số lượng mới không hợp lệ (như một kí tự không phải số hoặc một số âm), đặt lại số lượng về 1
+                    this.value = 1;
+                }
+            });
+        });
 
-		function displayAlert(message, alertType) {
-			// Kiểm tra xem đã có thông báo chưa
-			if (document.getElementById('myAlert02')) {
-				return;
-			}
+        function displayAlert(message, alertType) {
+            // Kiểm tra xem đã có thông báo chưa
+            if (document.getElementById('myAlert02')) {
+                return;
+            }
 
-			var alertBox = document.createElement('div');
-			alertBox.className = 'alert ' + alertType;
-			alertBox.id = 'myAlert02';
-			alertBox.style.fontWeight = 'bold';
-			alertBox.style.justifyContent = 'center';
-			alertBox.style.display = 'flex';
+            var alertBox = document.createElement('div');
+            alertBox.className = 'alert ' + alertType;
+            alertBox.id = 'myAlert02';
+            alertBox.style.fontWeight = 'bold';
+            alertBox.style.justifyContent = 'center';
+            alertBox.style.display = 'flex';
 
-			var alertText = document.createElement('span');
-			alertText.textContent = message;
+            var alertText = document.createElement('span');
+            alertText.textContent = message;
 
-			alertBox.appendChild(alertText);
+            alertBox.appendChild(alertText);
 
-			// Tìm phần tử header và chèn thông báo ngay sau nó
-			var header = document.getElementsByTagName('header')[0];
-			header.parentNode.insertBefore(alertBox, header.nextSibling);
+            // Tìm phần tử header và chèn thông báo ngay sau nó
+            var header = document.getElementsByTagName('header')[0];
+            header.parentNode.insertBefore(alertBox, header.nextSibling);
 
-			// Thông báo sẽ tự động biến mất sau 10 giây
-			setTimeout(function() {
-				alertBox.remove();
-			}, 10000);
-		}
-    </script>
+            // Thông báo sẽ tự động biến mất sau 10 giây
+            setTimeout(function() {
+                alertBox.remove();
+            }, 10000);
+        }
+	</script>
+
 
 	<div th:replace="~{layout/footer :: footer}"></div>
 	<!-- Thêm các tệp tin JavaScript -->
