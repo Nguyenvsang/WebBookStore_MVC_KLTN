@@ -115,6 +115,15 @@
 			width: 323px;
 		}
 
+		.my-custom-modal .modal-dialog {
+            margin-top: 150px;
+        }
+
+		.my-custom-modal .modal-body {
+			max-height: 400px;  /* Đặt chiều cao tối đa cho phần body của modal */
+			overflow-y: auto;   /* Thêm thanh cuộn dọc nếu nội dung vượt quá chiều cao tối đa */
+		}
+
 	</style>
 </head>
 <body>
@@ -175,7 +184,7 @@
 							<div class="form-group row d-flex align-items-center" style="border-radius: 50px; border: 1px solid #cecece;">
 								<span class="material-symbols-outlined" style="color: grey; margin: 5px">person_2</span>
 								<div class="col-info">
-									<input type="text" id="name" name="name" th:value="${account.firstName} + ' ' + ${account.lastName}" required class="form-control"
+									<input type="text" id="name" name="name" th:value="${addresses[0].recipientName}" required class="form-control"
 										   style="border-radius: 50px; padding: 6px 0px; border: none;">
 								</div>
 							</div>
@@ -190,7 +199,7 @@
 							<div class="form-group row d-flex align-items-center" style="border-radius: 50px; border: 1px solid #cecece;">
 								<span class="material-symbols-outlined" style="color: grey; margin: 5px">call</span>
 								<div class="col-info">
-									<input type="text" id="phoneNumber" name="phoneNumber" th:value="${account.phoneNumber}" required class="form-control"
+									<input type="text" id="phoneNumber" name="phoneNumber" th:value="${addresses[0].phoneNumber}" required class="form-control"
 										   style="border-radius: 50px; padding: 6px 0px; border: none;">
 								</div>
 							</div>
@@ -201,6 +210,60 @@
 										   style="border-radius: 50px; padding: 6px 0px; border: none;">
 								</div>
 							</div>
+							<!-- Button trigger modal -->
+							<button type="button" class="btn btn-warning change-address-btn" data-toggle="modal" data-target="#changeAddressModal" th:attr="data-id=${addresses[0].id}">
+								Chọn địa chỉ khác
+							</button>
+
+							<!-- Modal hiển thị pop up để chọn địa chỉ khác -->
+							<div class="modal fade my-custom-modal" id="changeAddressModal" tabindex="-1" role="dialog" aria-labelledby="changeAddressModalLabel" aria-hidden="true">
+								<div class="modal-dialog" role="document">
+									<div class="modal-content">
+										<div class="modal-header">
+											<h5 class="modal-title" id="changeAddressModalLabel">Chọn địa chỉ</h5>
+											<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+												<span aria-hidden="true">×</span>
+											</button>
+										</div>
+										<div class="modal-body">
+											<!-- Đặt giá trị của addresses[0].id vào thuộc tính data-id của form -->
+											<form id="changeAddressForm" th:attr="data-id=${addresses[0].id}">
+												<div th:each="address : ${addresses}">
+													<div class="card mb-3">
+														<div class="card-body">
+															<input type="radio" name="addressId" th:value="${address.id}" th:checked="${address.id == addresses[0].id}">
+															<p class="card-text">
+																<span class="recipientName" th:text="${address.recipientName}"></span> - <span class="phoneNumber" th:text="${address.phoneNumber}"></span>
+															</p>
+															<p class="card-text">
+																<span class="cityName" th:text="${address.city.name}"></span>, <span class="districtName" th:text="${address.district.name}"></span>, <span class="wardName" th:text="${address.ward.name}"></span>
+															</p>
+															<p class="card-text">
+																<span class="addressDetails" th:text="${address.addressDetails}"></span>
+															</p>
+															<p class="card-text">
+																<span th:text="${address.addressNote}"></span>
+															</p>
+															<p class="card-text">
+																Loại địa chỉ: <span th:text="${address.addressType == 0 ? 'Văn phòng' : 'Nhà'}"></span>
+															</p>
+															<p class="card-text">
+																Mặc định: <span th:text="${address.isDefault == 1 ? 'Có' : 'Không'}"></span>
+															</p>
+														</div>
+													</div>
+												</div>
+											</form>
+										</div>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+											<button type="button" class="btn btn-primary" id="changeAddressConfirm">Chọn</button>
+										</div>
+									</div>
+								</div>
+							</div>
+
+
 						</div>
 					</div>
 
@@ -246,6 +309,42 @@
                 paymentIcon.src = 'https://res.cloudinary.com/dylwewmt0/image/upload/v1713774779/PHOTO_LIST/shippinginfomation/VNPAY.png';
             }
         }
+	</script>
+
+	<script>
+		$(document).ready(function() {
+			// Lấy id của địa chỉ đang được chọn từ thuộc tính data-id của form
+			var currentAddressId = $('#changeAddressForm').data('id');
+
+			$('#changeAddressConfirm').click(function() {
+				var selectedAddressId = $('input[name="addressId"]:checked').val();
+				if (selectedAddressId) {
+					// Cập nhật id của địa chỉ đang được chọn
+					currentAddressId = selectedAddressId;
+
+					// Cập nhật địa chỉ nhận hàng trên giao diện
+					var selectedAddress = $('input[name="addressId"]:checked').closest('.card-body');
+					$('#name').val(selectedAddress.find('.recipientName').text());
+					$('#phoneNumber').val(selectedAddress.find('.phoneNumber').text());
+					$('#address').val(selectedAddress.find('.addressDetails').text() + ', ' +
+									  selectedAddress.find('.wardName').text() + ', ' +
+									  selectedAddress.find('.districtName').text() + ', ' +
+									  selectedAddress.find('.cityName').text());
+
+					// Gửi yêu cầu đến máy chủ để cập nhật địa chỉ nhận hàng
+					// ...
+
+					// Đóng modal
+					$('#changeAddressModal').modal('hide');
+				}
+			});
+
+			// Khi mở modal, chọn radio button tương ứng với địa chỉ đang được chọn
+			$('#changeAddressModal').on('show.bs.modal', function() {
+				$('input[name="addressId"][value="' + currentAddressId + '"]').prop('checked', true);
+			});
+		});
+
 	</script>
 </body>
 </html>

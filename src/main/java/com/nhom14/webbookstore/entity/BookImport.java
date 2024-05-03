@@ -12,7 +12,7 @@ import java.sql.Timestamp;
 @Table(name = "bookimport")
 public class BookImport {
     // chỉ nhập thêm đợt sách mới nếu đợt sách cũ hết,
-    // không cần duyệt qua nhiều đợt nhật, mà chỉ dựa vào đợt nhập mới nhất
+    // không cần duyệt qua nhiều đợt nhập, mà chỉ dựa vào đợt nhập mới nhất
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;

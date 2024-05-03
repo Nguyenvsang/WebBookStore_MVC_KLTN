@@ -55,6 +55,7 @@ public class OrderController {
     private RevenueService revenueService;
     private ProfitService profitService;
     private BookImportService bookImportService;
+    private  AccountAddressService accountAddressService;
 
 	@Autowired
 	public OrderController(OrderService orderService,
@@ -62,7 +63,7 @@ public class OrderController {
                            CartService cartService,
                            CartItemService cartItemService,
                            BookService bookService,
-                           PaymentStatusService paymentStatusService, RevenueService revenueService, ProfitService profitService, BookImportService bookImportService) {
+                           PaymentStatusService paymentStatusService, RevenueService revenueService, ProfitService profitService, BookImportService bookImportService, AccountAddressService accountAddressService) {
 		super();
 		this.orderService = orderService;
 		this.orderItemService = orderItemService;
@@ -73,6 +74,7 @@ public class OrderController {
         this.revenueService = revenueService;
         this.profitService = profitService;
         this.bookImportService = bookImportService;
+        this.accountAddressService = accountAddressService;
     }
 
     @GetMapping("/shippinginformation")
@@ -113,10 +115,14 @@ public class OrderController {
             totalAmount += cartItem.getQuantity() * cartItem.getBook().getSellPrice();
         }
 
+        // Lấy tất cả các địa chỉ để hiển thị trong pop up lựa chọn địa chỉ
+        List<AccountAddress> addresses = accountAddressService.getAddressesByAccount(account);
+
         model.addAttribute("account", account);
         model.addAttribute("idSelectedCartItems", idSelectedCartItems);
         model.addAttribute("totalAmount", totalAmount);
         model.addAttribute("selectedCartItems", selectedCartItems);
+        model.addAttribute("addresses", addresses);
 
         return "customer/shippinginformation";
     }

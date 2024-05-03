@@ -53,7 +53,7 @@ public class Account {
 	private Cart cart;
 
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "account")
-	private List<Order> order;
+	private List<Order> orders;
 
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "account")
 	private List<BookReview> bookReviews;
@@ -63,6 +63,10 @@ public class Account {
 
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "account")
 	private List<FavoriteBook> favoriteBooks;
+
+	//bi-directional one-to-many association with AccountAddress (de quen)
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "account")
+	private List<AccountAddress> accountAddresses;
 
 	// Các phương thức getter, setter, constructor, toString...
 

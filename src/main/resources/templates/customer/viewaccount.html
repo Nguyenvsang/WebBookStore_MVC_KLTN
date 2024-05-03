@@ -296,12 +296,18 @@
 			</div>
 
 	        <div class="form-group" style="margin-top: 15px">
-	            <label for="address">Địa chỉ:</label>
+	            <label for="address">Địa chỉ mặc định:</label>
 				<div class="row-icon" style="width: 980px;">
 					<span class="material-symbols-outlined" style="color: grey; margin-left: 12px;">location_on</span>
 					<output class="form-control" id="address" name="address" th:text="${account.address}" style="border-radius: 50px; border: none;"></output>
 				</div>
 	        </div>
+			<div class="form-group" style="display: flex">
+				<!-- Danh sách địa chỉ -->
+				<div>
+					<a th:href="@{/viewaddresses}" class="btn btn-edit-password">Danh sách địa chỉ</a>
+				</div>
+			</div>
         </div>
 
 		<div class="container-body" style="padding: 0px" th:if="${!orders.isEmpty()}">

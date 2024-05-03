@@ -373,6 +373,40 @@ CREATE TABLE Profit (
   date DATETIME(6) NOT NULL
   );
   
+  -- Tạo bảng accountaddress
+CREATE TABLE AccountAddress (
+  -- Khai báo thuộc tính id kiểu int, không được null, tăng tự động và là khóa chính
+  id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  -- Khai báo thuộc tính account_id kiểu int và là khóa ngoại tham chiếu đến bảng Account
+  account_id INT,
+  -- Khai báo thuộc tính recipient_name kiểu varchar(255), không được null
+  recipient_name varchar(255) NOT NULL,
+  -- Khai báo thuộc tính phone_number kiểu varchar(255), không được null
+  phone_number varchar(255) NOT NULL,
+  -- Khai báo thuộc tính city_id kiểu int và là khóa ngoại tham chiếu đến bảng City
+  city_id INT,
+  -- Khai báo thuộc tính district_id kiểu int và là khóa ngoại tham chiếu đến bảng District
+  district_id INT,
+  -- Khai báo thuộc tính ward_id kiểu int và là khóa ngoại tham chiếu đến bảng Ward
+  ward_id INT,
+  -- Khai báo thuộc tính address_details kiểu varchar(255), không được null
+  address_details varchar(255) NOT NULL,
+  -- Khai báo thuộc tính address_note kiểu varchar(255)
+  address_note varchar(255),
+  -- Khai báo thuộc tính address_type kiểu int, không được null
+  address_type INT NOT NULL,
+  -- Khai báo thuộc tính is_default kiểu int, không được null
+  is_default INT NOT NULL,
+  -- Khai báo khóa ngoại account_id tham chiếu đến bảng Account
+  FOREIGN KEY (account_id) REFERENCES Account(id),
+  -- Khai báo khóa ngoại city_id tham chiếu đến bảng City
+  FOREIGN KEY (city_id) REFERENCES City(id),
+  -- Khai báo khóa ngoại district_id tham chiếu đến bảng District
+  FOREIGN KEY (district_id) REFERENCES District(id),
+  -- Khai báo khóa ngoại ward_id tham chiếu đến bảng Ward
+  FOREIGN KEY (ward_id) REFERENCES Ward(id)
+);
+  
 -- Thêm dữ liệu vào bảng Category
 INSERT INTO Category (name, status) VALUES ("CHÍNH TRỊ - PHÁP LUẬT", 1);
 INSERT INTO Category (name, status) VALUES ("GIÁO TRÌNH", 1);

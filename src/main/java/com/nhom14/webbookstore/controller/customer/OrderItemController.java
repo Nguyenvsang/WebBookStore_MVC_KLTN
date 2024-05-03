@@ -11,6 +11,7 @@ import java.util.List;
 import com.nhom14.webbookstore.entity.*;
 import com.nhom14.webbookstore.service.*;
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,6 +30,7 @@ public class OrderItemController {
 	private BookService bookService;
 	private CartItemService cartItemService;
 
+	@Autowired
 	public OrderItemController(OrderItemService orderItemService, OrderService orderService, CartService cartService, BookService bookService, CartItemService cartItemService) {
 		super();
 		this.orderItemService = orderItemService;
