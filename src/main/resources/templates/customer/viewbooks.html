@@ -632,7 +632,7 @@
 									            			<a th:href="@{/detailbook/{id} (id=${book.id})}" th:text="${book.name}" style="display: inline-block; width: 170px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></a>
 										                </h6>
 
-														<div class="row-price-cart d-flex align-items-center">
+														<div class="row-price-cart d-flex align-items-center justify-content-between">
 															<div class="price-label">
 																<p class="card-text" style="font-size: 16px; text-align: left;"><span th:text="${#numbers.formatInteger(book.sellPrice, 0, 'POINT')}" ></span> đ</p>
 															</div>
@@ -640,7 +640,7 @@
 															<form th:action="@{/addtocartfromallbooks}" method="post" style="display: flex; justify-content: center; align-items: center;">
 																<input type="hidden" name="bookId" th:value="${book.id}">
 																<input type="hidden" name="quantity" value="1">
-																<button type="submit" class="btn btn-add-cart btn-block">
+																<button type="submit" class="btn btn-add-cart btn-block" style="padding: 0px">
 																	<i class="material-symbols-outlined shopping-bag">shopping_bag</i>
 																</button>
 															</form>
