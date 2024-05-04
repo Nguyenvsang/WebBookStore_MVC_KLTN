@@ -15,11 +15,11 @@ public class ImgReturnOrder {
 
     @Column(name = "img1", columnDefinition = "varchar(255) NOT NULL")
     private String img1;
-    @Column(name = "img2", columnDefinition = "varchar(255) NOT NULL")
+    @Column(name = "img2", columnDefinition = "varchar(255)")
     private String img2;
-    @Column(name = "img3", columnDefinition = "varchar(255) NOT NULL")
+    @Column(name = "img3", columnDefinition = "varchar(255)")
     private String img3;
-    @Column(name = "img4", columnDefinition = "varchar(255) NOT NULL")
+    @Column(name = "img4", columnDefinition = "varchar(255)")
     private String img4;
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "inforeturnorder_id")

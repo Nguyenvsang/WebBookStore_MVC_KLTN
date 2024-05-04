@@ -376,7 +376,16 @@ public class OrderController {
 
 
     @GetMapping("/orderconfirmation")
-	public String orderConfirmation(@RequestParam("orderId") Integer orderId, Model model) {
+	public String orderConfirmation(@RequestParam("orderId") Integer orderId, Model model, HttpSession session) {
+        // Kiểm tra đăng nhập
+        Account account = (Account) session.getAttribute("account");
+
+        // Kiểm tra xem người dùng đã đăng nhập hay chưa
+        if (account == null) {
+            // Nếu chưa đăng nhập, chuyển hướng về trang đăng nhập
+            return "redirect:/customer/loginaccount";
+        }
+
 	    // Lấy đơn hàng từ cơ sở dữ liệu dựa trên id
 	    Order order = orderService.getOrderById(orderId);
 

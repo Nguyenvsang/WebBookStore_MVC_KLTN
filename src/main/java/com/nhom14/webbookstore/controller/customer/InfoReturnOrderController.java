@@ -30,6 +30,7 @@ public class InfoReturnOrderController {
     private CloudinaryService cloudinaryService;
     private ImgReturnOrderService imgReturnOrderService;
     private VideoReturnOrderService videoReturnOrderService;
+    private AccountAddressService accountAddressService;
 
     @Autowired
     public InfoReturnOrderController(InfoReturnOrderService infoReturnOrderService,
@@ -37,18 +38,20 @@ public class InfoReturnOrderController {
                                      PaymentStatusService paymentStatusService,
                                      CloudinaryService cloudinaryService,
                                      ImgReturnOrderService imgReturnOrderService,
-                                     VideoReturnOrderService videoReturnOrderService) {
+                                     VideoReturnOrderService videoReturnOrderService, AccountAddressService accountAddressService) {
         this.infoReturnOrderService = infoReturnOrderService;
         this.orderService = orderService;
         this.paymentStatusService = paymentStatusService;
         this.cloudinaryService = cloudinaryService;
         this.imgReturnOrderService = imgReturnOrderService;
         this.videoReturnOrderService = videoReturnOrderService;
+        this.accountAddressService = accountAddressService;
     }
 
     @GetMapping("/returnorder")
     public String showReasonReturnOrder(@RequestParam int orderId,
                                         HttpSession session,
+                                        RedirectAttributes redirectAttributes,
                                         Model model) {
         Account account = (Account) session.getAttribute("account");
 
@@ -58,8 +61,21 @@ public class InfoReturnOrderController {
             return "redirect:/customer/loginaccount";
         }
 
-        model.addAttribute("orderId", orderId);
+        Order order = orderService.getOrderById(orderId);
+
+        // Kiểm xem order có thuộc về người dùng đang đăng nhập không
+        if(order.getAccount().getId()!=account.getId()){
+            // Thêm thông báo lỗi
+            redirectAttributes.addAttribute("message", "Có lỗi xảy ra vui lòng thử lại sau!");
+            return "redirect:/customer/error";
+        }
+
+        // Lấy tất cả các địa chỉ để hiển thị trong pop up lựa chọn địa chỉ
+        List<AccountAddress> addresses = accountAddressService.getAddressesByAccount(account);
+
+        model.addAttribute("order", order);
         model.addAttribute("account", account);
+        model.addAttribute("addresses", addresses);
         return "customer/reasonreturnorder";
     }
 
@@ -67,10 +83,7 @@ public class InfoReturnOrderController {
     public String returnOrder(@RequestParam("orderId") int orderId,
                               @RequestParam("reason") String reason,
                               @RequestParam("detailreason") String detailReason,
-                              @RequestParam("image1") MultipartFile image1,
-                              @RequestParam("image2") MultipartFile image2,
-                              @RequestParam("image3") MultipartFile image3,
-                              @RequestParam("image4") MultipartFile image4,
+                              @RequestParam("images") List<MultipartFile> images,
                               @RequestParam("video1") MultipartFile video1,
                               @RequestParam("video2") MultipartFile video2,
                               @RequestParam("name") String name,
@@ -115,19 +128,15 @@ public class InfoReturnOrderController {
         if(imgReturnOrder == null){
             imgReturnOrder = new ImgReturnOrder();
         }
-        imgReturnOrder.setInfoReturnOrder(newInfoReturnOrder);
-        imgReturnOrder.setImg1("url1");
-        imgReturnOrder.setImg2("url2");
-        imgReturnOrder.setImg3("url3");
-        imgReturnOrder.setImg4("url4");
-        imgReturnOrderService.addImgReturnOrder(imgReturnOrder); // Không cần truy xuất ID mỗi imgReturnOrder từ database
+        imgReturnOrder.setInfoReturnOrder(newInfoReturnOrder); // Không cần truy xuất ID mỗi imgReturnOrder từ database
         // vì khi đã addImgReturnOrder
         // thì Hibernate sẽ tự động tạo một ID cho đối tượng này.
         // ID này sau đó sẽ được Hibernate sử dụng để theo dõi và quản lý đối tượng trong phiên làm việc hiện tại
 
-        boolean addImages = addImages(order, imgReturnOrder, image1, image2, image3, image4, true);
+        // Thêm ảnh vào ImgReturnOrder
+        boolean success = addImages(order, imgReturnOrder, images);
         // Nếu thêm ảnh bị lỗi thì
-        if(addImages == false) {
+        if(!success) {
             // Trở về trạng thái cũ là Đã giao
             order.setStatus(3); // Đã giao
             // Lưu vào CSDL
@@ -164,9 +173,8 @@ public class InfoReturnOrderController {
         return "redirect:/vieworderitems";
     }
 
-    private boolean addImages(Order order, ImgReturnOrder imgReturnOrder, MultipartFile image1, MultipartFile image2,
-                              MultipartFile image3, MultipartFile image4,
-                              boolean success) {
+    private boolean addImages(Order order, ImgReturnOrder imgReturnOrder, List<MultipartFile> images) {
+        boolean success = true;
         try {
             // Tạo public ID cho hình ảnh trên Cloudinary (sử dụng id order)
             String publicId = "WebBookStoreKLTN/img_returnorder/order_" + order.getId();
@@ -175,17 +183,12 @@ public class InfoReturnOrderController {
             List<Callable<String>> uploadTasks = new ArrayList<>();
 
             // Kiểm tra và tạo nhiệm vụ tải lên ảnh cho từng ảnh
-            if (!image1.isEmpty()) {
-                uploadTasks.add(() -> cloudinaryService.uploadImage(image1, publicId + "/1"));
-            }
-            if (!image2.isEmpty()) {
-                uploadTasks.add(() -> cloudinaryService.uploadImage(image2, publicId + "/2"));
-            }
-            if (!image3.isEmpty()) {
-                uploadTasks.add(() -> cloudinaryService.uploadImage(image3, publicId + "/3"));
-            }
-            if (!image4.isEmpty()) {
-                uploadTasks.add(() -> cloudinaryService.uploadImage(image4, publicId + "/4"));
+            for (int i = 0; i < images.size(); i++) {
+                MultipartFile image = images.get(i);
+                final int index = i + 1;
+                if (!image.isEmpty()) {
+                    uploadTasks.add(() -> cloudinaryService.uploadImage(image, publicId + "/" + index));
+                }
             }
 
             // Tạo một ExecutorService để thực hiện các nhiệm vụ tải lên ảnh song song
@@ -194,23 +197,36 @@ public class InfoReturnOrderController {
             // Thực hiện các nhiệm vụ tải lên ảnh và lấy URL của ảnh đã tải lên
             List<Future<String>> uploadResults = executorService.invokeAll(uploadTasks);
 
-            imgReturnOrder.setImg1(uploadResults.get(0).get());
-            imgReturnOrder.setImg2(uploadResults.get(1).get());
-            imgReturnOrder.setImg3(uploadResults.get(2).get());
-            imgReturnOrder.setImg4(uploadResults.get(3).get());
+            // Gán URL của ảnh đã tải lên cho các thuộc tính tương ứng trong imgReturnOrder
+            for (int i = 0; i < uploadResults.size(); i++) {
+                switch (i) {
+                    case 0:
+                        imgReturnOrder.setImg1(uploadResults.get(i).get());
+                        break;
+                    case 1:
+                        imgReturnOrder.setImg2(uploadResults.get(i).get());
+                        break;
+                    case 2:
+                        imgReturnOrder.setImg3(uploadResults.get(i).get());
+                        break;
+                    case 3:
+                        imgReturnOrder.setImg4(uploadResults.get(i).get());
+                        break;
+                }
+            }
 
             // Cập nhật vào CSDL
             imgReturnOrderService.updateImgReturnOrder(imgReturnOrder);
 
             // Đóng ExecutorService sau khi hoàn thành
             executorService.shutdown();
-            return success;
         } catch (Exception e) {
             e.printStackTrace();
             success = false;
-            return success;
         }
+        return success;
     }
+
 
     private boolean addVideos(Order order, VideoReturnOrder videoReturnOrder, MultipartFile video1, MultipartFile video2,
                               boolean success) {

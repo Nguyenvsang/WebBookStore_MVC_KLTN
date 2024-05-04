@@ -256,181 +256,16 @@
 			color: rgb(247,80,80);
 		}
 
-    </style>
-    <script>
-        function checkFileSizeImg(event) {
-            var files = event.target.files;
-            var output = document.getElementById('imagePreview');
-            output.innerHTML = '';
-            if(files.length > 4){
-                displayAlert("Bạn chỉ có thể tải lên tối đa 4 hình ảnh.");
-                return;
-            }
-            for(var i = 0; i< files.length; i++)
-            {
-                var file = files[i];
-                // Kiểm tra kích thước file
-                // Nếu file lớn hơn 10MB thì không cho phép upload
-                if(file.size > 10 * 1024 * 1024){
-                    displayAlert("File " + file.name + " có kích thước vượt quá 10MB.!");
-                    return;
-                }
-                // Hiển thị ảnh đã chọn
-                var img = document.createElement("img");
-                img.id = "outputImg" + i;
-                img.width = 170;
-                img.style.border = "1px solid #cecece";
-                img.style.borderRadius = "10px";
-                img.style.margin = "10px";
-                img.style.cursor = "pointer"; // Thêm con trỏ chuột
-                img.onclick = function() { // Thêm sự kiện click
-                    var modal = document.createElement("div");
-                    modal.id = "myModal";
-                    modal.style.display = "flex";
-                    modal.style.justifyContent = "flex-start";
-                    modal.style.alignItems = "center";
-                    modal.style.position = "fixed";
-                    modal.style.zIndex = "9999"; // Đặt zIndex thành một giá trị lớn
-                    modal.style.left = "0";
-                    modal.style.top = "0";
-                    modal.style.width = "100%";
-                    modal.style.height = "100%";
-                    modal.style.overflow = "auto";
-                    modal.style.backgroundColor = "rgba(0,0,0,0.5)";
-
-                    var closeButton = document.createElement("span");
-                    closeButton.innerHTML = "×";
-                    closeButton.style.position = "absolute";
-                    closeButton.style.right = "10px";
-                    closeButton.style.top = "10px";
-                    closeButton.style.height = "40px";
-                    closeButton.style.width = "40px";
-                    closeButton.style.color = "#f1f1f1";
-                    closeButton.style.justifyContent = "center";
-                    closeButton.style.alignItems = "center";
-                    closeButton.style.display = "flex";
-                    closeButton.style.fontSize = "30px";
-                    closeButton.style.fontWeight = "bold";
-                    closeButton.style.cursor = "pointer";
-                    closeButton.style.alignSelf = "flex-start"; // Thêm ở đây
-                    closeButton.onclick = function() {
-                        document.body.removeChild(modal);
-                    };
-
-                    var modalContent = document.createElement("img");
-                    modalContent.src = this.src;
-                    modalContent.style.margin = "auto";
-                    modalContent.style.display = "block";
-                    modalContent.style.width = "80%";
-                    modalContent.style.maxWidth = "700px";
-
-                    modal.appendChild(closeButton);
-                    modal.appendChild(modalContent);
-                    document.body.appendChild(modal);
-
-                    modal.onclick = function(event) {
-                        if (event.target == modal) {
-                            document.body.removeChild(modal);
-                        }
-                    }
-                };
-                output.appendChild(img);
-                img.src = URL.createObjectURL(event.target.files[i]);
-            }
+        .my-custom-modal .modal-dialog {
+            margin-top: 150px;
         }
 
-
-        function displayAlert(message, alertType) {
-			// Kiểm tra xem đã có thông báo chưa
-			if (document.getElementById('myAlert02')) {
-				return;
-			}
-
-			var alertBox = document.createElement('div');
-			alertBox.className = 'alert ' + alertType;
-			alertBox.id = 'myAlert02';
-			alertBox.style.fontWeight = 'bold';
-			alertBox.style.color = 'rgb(247,80,80)';
-			alertBox.style.backgroundColor = 'rgb(247,214,217)';
-			alertBox.style.justifyContent = 'center';
-			alertBox.style.display = 'flex';
-
-			var alertText = document.createElement('span');
-			alertText.textContent = message;
-
-			alertBox.appendChild(alertText);
-
-			// Tìm phần tử header và chèn thông báo ngay sau nó
-			var header = document.getElementsByTagName('header')[0];
-			header.parentNode.insertBefore(alertBox, header.nextSibling);
-
-			// Thông báo sẽ tự động biến mất sau 10 giây
-			setTimeout(function() {
-				alertBox.remove();
-			}, 10000);
+		.my-custom-modal .modal-body {
+			max-height: 400px;  /* Đặt chiều cao tối đa cho phần body của modal */
+			overflow-y: auto;   /* Thêm thanh cuộn dọc nếu nội dung vượt quá chiều cao tối đa */
 		}
-    </script>
 
-
-    <script>
-        function checkFileSizeVideo1(event) {
-            var file = event.target.files[0];
-            if(file.size > 100 * 1024 * 1024) { // 100MB
-                displayAlert("File video mở hàng quá lớn! Vui lòng chọn file video nhỏ hơn 100MB.", 'alert-danger');
-                event.target.value = ""; // reset the input
-            } else {
-                var output = document.getElementById('outputVideo1');
-                output.src = URL.createObjectURL(file);
-                output.onload = function() {
-                    URL.revokeObjectURL(output.src) // free memory
-                }
-            }
-        };
-
-        function checkFileSizeVideo2(event) {
-            var file = event.target.files[0];
-            if(file.size > 100 * 1024 * 1024) { // 100MB
-                displayAlert('File video quay sản phẩm quá lớn! Vui lòng chọn file video nhỏ hơn 100MB.', 'alert-danger');
-                event.target.value = ""; // reset the input
-            } else {
-                var output = document.getElementById('outputVideo2');
-                output.src = URL.createObjectURL(file);
-                output.onload = function() {
-                    URL.revokeObjectURL(output.src) // free memory
-                }
-            }
-        };
-
-        function displayAlert(message, alertType) {
-            // Kiểm tra xem đã có thông báo chưa
-            if (document.getElementById('myAlert02')) {
-                return;
-            }
-
-            var alertBox = document.createElement('div');
-            alertBox.className = 'alert ' + alertType;
-            alertBox.id = 'myAlert02';
-            alertBox.style.fontWeight = 'bold';
-            alertBox.style.color = 'rgb(247,80,80)';
-            alertBox.style.backgroundColor = 'rgb(247,214,217)';
-            alertBox.style.justifyContent = 'center';
-            alertBox.style.display = 'flex';
-
-            var alertText = document.createElement('span');
-            alertText.textContent = message;
-
-            alertBox.appendChild(alertText);
-
-            // Tìm phần tử header và chèn thông báo ngay sau nó
-            var header = document.getElementsByTagName('header')[0];
-            header.parentNode.insertBefore(alertBox, header.nextSibling);
-
-            // Thông báo sẽ tự động biến mất sau 10 giây
-            setTimeout(function() {
-                alertBox.remove();
-            }, 10000);
-        }
-    </script>
+    </style>
 
 
 </head>
@@ -446,16 +281,16 @@
     <div class="container">
         <div class="form-container" style="background-color: white;">
             <div class="col-00" style="display: flex; align-items: center;">
-                <a th:href="@{/vieworderitems(orderId=${orderId})}" class="before" style="align-items: center; display: flex; text-decoration: none;">
+                <a th:href="@{/vieworderitems(orderId=${order.id})}" class="before" style="align-items: center; display: flex; text-decoration: none;">
                     <span class="material-symbols-outlined back">arrow_back_ios</span>
                 </a>
                 <h6 style="color: #211f7f; align-items: center;  margin: 0px 5px 0px 0px; font-family: Verdana; font-weight: bold">Lý do trả hàng</h6>
             </div>
             <div class="col-order d-flex" style="justify-content: flex-end; font-size: 20px; border-bottom: 1px solid #cecece; padding: 10px">
                 <p style="margin: 0px 5px 0px 0px; color: #f17746">MÃ ĐƠN HÀNG:</p>
-                <span class="align-middle text-center" style="color: #f17746">[[${orderId}]]</span>
+                <span class="align-middle text-center" style="color: #f17746">[[${order.id}]]</span>
             </div>
-            <form th:action="@{/returnorder(orderId=${orderId})}" method="post" enctype="multipart/form-data" style="margin-top: 10px">
+            <form th:action="@{/returnorder(orderId=${order.id})}" method="post" enctype="multipart/form-data" style="margin-top: 10px">
                 <div class="row d-flex align-items-center justify-content-center" style="width: 870px; margin-left: 0px">
                     <div class="col-01 align-items-center" style="width: 33.3%">
                         <div class="form-check">
@@ -499,8 +334,8 @@
 
                 <div class="row d-flex justify-content-center" style="width: 100%; padding: 20px; 0px; 0px; margin-left: 0px">
                     <div class="col-01" style="justify-content: center; width: 25%">
-                        <input type="file" class="form-control-file" id="image" name="image" accept="image/*" onchange="checkFileSizeImg(event)" style="display:none;" multiple required>
-                        <label for="image" style="display: flex; align-items: center; justify-content: center; border-radius: 50px; border: 1px solid #cecece; width: 200px; height: 50px">
+                        <input type="file" class="form-control-file" id="images" name="images" accept="image/*" onchange="checkFileSizeImg(event)" style="display:none;" multiple required>
+                        <label for="images" style="display: flex; align-items: center; justify-content: center; border-radius: 50px; border: 1px solid #cecece; width: 200px; height: 50px">
                             <span class="material-symbols-outlined d-flex align-items-center justify-content-center" style="color: grey; height: 26px; weight: 30px">shift</span>
                             Chọn ảnh
                         </label>
@@ -542,7 +377,7 @@
                 <div class="form-group row d-flex align-items-center" style="border-radius: 50px; border: 1px solid #cecece;">
                     <span class="material-symbols-outlined" style="color: grey; margin: 5px">person_2</span>
                     <div class="col-info">
-                        <input type="text" id="name" name="name" th:value="${account.firstName} + ' ' + ${account.lastName}" required class="form-control"
+                        <input type="text" id="name" name="name" th:value="${order.name}" required class="form-control"
                                style="border-radius: 50px; padding: 6px 0px; border: none;">
                     </div>
                 </div>
@@ -550,24 +385,34 @@
                 <div class="form-group row d-flex align-items-center" style="border-radius: 50px; border: 1px solid #cecece;">
                     <span class="material-symbols-outlined" style="color: grey; margin: 5px">location_on</span>
                     <div class="col-info">
-                        <input type="text" id="address" name="address" th:value="${account.address}" required class="form-control"
+                        <input type="text" id="address" name="address" th:value="${order.address}" required class="form-control"
                                style="border-radius: 50px; padding: 6px 0px; border: none;">
                     </div>
                 </div>
                 <div class="form-group row d-flex align-items-center" style="border-radius: 50px; border: 1px solid #cecece;">
                     <span class="material-symbols-outlined" style="color: grey; margin: 5px">call</span>
                     <div class="col-info">
-                        <input type="text" id="phoneNumber" name="phoneNumber" th:value="${account.phoneNumber}" required class="form-control"
+                        <input type="text" id="phoneNumber" name="phoneNumber" th:value="${order.phoneNumber}" required class="form-control"
                                style="border-radius: 50px; padding: 6px 0px; border: none;">
                     </div>
                 </div>
                 <div class="form-group row d-flex align-items-center" style="border-radius: 50px; border: 1px solid #cecece; margin-bottom: 20px">
                     <span class="material-symbols-outlined" style="color: grey; margin: 5px">mail</span>
                     <div class="col-info">
-                        <input type="email" id="email" name="email" th:value="${account.email}" required class="form-control"
+                        <input type="email" id="email" name="email" th:value="${order.email}" required class="form-control"
                                style="border-radius: 50px; padding: 6px 0px; border: none;">
                     </div>
                 </div>
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-warning change-address-btn" data-toggle="modal" data-target="#changeAddressModal">
+                    Chọn địa chỉ có sẵn
+                </button>
+
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-warning change-address-btn" data-target="#oldAddress">
+                    Giữ nguyên địa chỉ cũ
+                </button>
+
                 <div class="text-center">
                     <button type="submit" class="btn btn-order">Xác nhận trả hàng</button>
                 </div>
@@ -575,7 +420,246 @@
         </div>
     </div>
 </div>
+
+<!-- Modal hiển thị pop up để chọn địa chỉ có sẵn -->
+<div class="modal fade my-custom-modal" id="changeAddressModal" tabindex="-1" role="dialog" aria-labelledby="changeAddressModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="changeAddressModalLabel">Chọn địa chỉ</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Đặt giá trị của addresses[0].id vào thuộc tính data-id của form -->
+                <form id="changeAddressForm">
+                    <div th:each="address : ${addresses}">
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <input type="radio" name="addressId" th:value="${address.id}">
+                                <p class="card-text">
+                                    <span class="recipientName" th:text="${address.recipientName}"></span> - <span class="phoneNumber" th:text="${address.phoneNumber}"></span>
+                                </p>
+                                <p class="card-text">
+                                    <span class="cityName" th:text="${address.city.name}"></span>, <span class="districtName" th:text="${address.district.name}"></span>, <span class="wardName" th:text="${address.ward.name}"></span>
+                                </p>
+                                <p class="card-text">
+                                    <span class="addressDetails" th:text="${address.addressDetails}"></span>
+                                </p>
+                                <p class="card-text">
+                                    <span th:text="${address.addressNote}"></span>
+                                </p>
+                                <p class="card-text">
+                                    Loại địa chỉ: <span th:text="${address.addressType == 0 ? 'Văn phòng' : 'Nhà'}"></span>
+                                </p>
+                                <p class="card-text">
+                                    Mặc định: <span th:text="${address.isDefault == 1 ? 'Có' : 'Không'}"></span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-primary" id="changeAddressConfirm">Chọn</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div th:replace="~{layout/footer :: footer}"></div>
+
+<script>
+    function checkFileSizeImg(event) {
+        var files = event.target.files;
+        var output = document.getElementById('imagePreview');
+        output.innerHTML = '';
+        if(files.length > 4){
+            displayAlert("Bạn chỉ có thể tải lên tối đa 4 hình ảnh.");
+            return;
+        }
+        for(var i = 0; i< files.length; i++)
+        {
+            var file = files[i];
+            // Kiểm tra kích thước file
+            // Nếu file lớn hơn 10MB thì không cho phép upload
+            if(file.size > 10 * 1024 * 1024){
+                displayAlert("File " + file.name + " có kích thước vượt quá 10MB.!");
+                return;
+            }
+            // Hiển thị ảnh đã chọn
+            var img = document.createElement("img");
+            img.id = "outputImg" + i;
+            img.width = 170;
+            img.style.border = "1px solid #cecece";
+            img.style.borderRadius = "10px";
+            img.style.margin = "10px";
+            img.style.cursor = "pointer"; // Thêm con trỏ chuột
+            img.onclick = function() { // Thêm sự kiện click
+                var modal = document.createElement("div");
+                modal.id = "myModal";
+                modal.style.display = "flex";
+                modal.style.justifyContent = "flex-start";
+                modal.style.alignItems = "center";
+                modal.style.position = "fixed";
+                modal.style.zIndex = "9999"; // Đặt zIndex thành một giá trị lớn
+                modal.style.left = "0";
+                modal.style.top = "0";
+                modal.style.width = "100%";
+                modal.style.height = "100%";
+                modal.style.overflow = "auto";
+                modal.style.backgroundColor = "rgba(0,0,0,0.5)";
+
+                var closeButton = document.createElement("span");
+                closeButton.innerHTML = "×";
+                closeButton.style.position = "absolute";
+                closeButton.style.right = "10px";
+                closeButton.style.top = "10px";
+                closeButton.style.height = "40px";
+                closeButton.style.width = "40px";
+                closeButton.style.color = "#f1f1f1";
+                closeButton.style.justifyContent = "center";
+                closeButton.style.alignItems = "center";
+                closeButton.style.display = "flex";
+                closeButton.style.fontSize = "30px";
+                closeButton.style.fontWeight = "bold";
+                closeButton.style.cursor = "pointer";
+                closeButton.style.alignSelf = "flex-start"; // Thêm ở đây
+                closeButton.onclick = function() {
+                    document.body.removeChild(modal);
+                };
+
+                var modalContent = document.createElement("img");
+                modalContent.src = this.src;
+                modalContent.style.margin = "auto";
+                modalContent.style.display = "block";
+                modalContent.style.width = "80%";
+                modalContent.style.maxWidth = "700px";
+
+                modal.appendChild(closeButton);
+                modal.appendChild(modalContent);
+                document.body.appendChild(modal);
+
+                modal.onclick = function(event) {
+                    if (event.target == modal) {
+                        document.body.removeChild(modal);
+                    }
+                }
+            };
+            output.appendChild(img);
+            img.src = URL.createObjectURL(event.target.files[i]);
+        }
+    }
+
+
+    function displayAlert(message, alertType) {
+        // Kiểm tra xem đã có thông báo chưa
+        if (document.getElementById('myAlert02')) {
+            return;
+        }
+
+        var alertBox = document.createElement('div');
+        alertBox.className = 'alert ' + alertType;
+        alertBox.id = 'myAlert02';
+        alertBox.style.fontWeight = 'bold';
+        alertBox.style.color = 'rgb(247,80,80)';
+        alertBox.style.backgroundColor = 'rgb(247,214,217)';
+        alertBox.style.justifyContent = 'center';
+        alertBox.style.display = 'flex';
+
+        var alertText = document.createElement('span');
+        alertText.textContent = message;
+
+        alertBox.appendChild(alertText);
+
+        // Tìm phần tử header và chèn thông báo ngay sau nó
+        var header = document.getElementsByTagName('header')[0];
+        header.parentNode.insertBefore(alertBox, header.nextSibling);
+
+        // Thông báo sẽ tự động biến mất sau 10 giây
+        setTimeout(function() {
+            alertBox.remove();
+        }, 10000);
+    }
+</script>
+
+
+<script>
+    function checkFileSizeVideo1(event) {
+        var file = event.target.files[0];
+        if(file.size > 100 * 1024 * 1024) { // 100MB
+            displayAlert("File video mở hàng quá lớn! Vui lòng chọn file video nhỏ hơn 100MB.", 'alert-danger');
+            event.target.value = ""; // reset the input
+        } else {
+            var videoContainer = document.getElementById('videoContainer');
+            var videoElement = document.getElementById('outputVideo1');
+            if (file) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    videoElement.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+                videoContainer.style.display = 'flex';
+            } else {
+                videoContainer.style.display = 'none';
+            }
+        }
+    };
+
+    function checkFileSizeVideo2(event) {
+        var file = event.target.files[0];
+        if(file.size > 100 * 1024 * 1024) { // 100MB
+            displayAlert('File video quay sản phẩm quá lớn! Vui lòng chọn file video nhỏ hơn 100MB.', 'alert-danger');
+            event.target.value = ""; // reset the input
+        } else {
+            var videoContainer = document.getElementById('videoContainer2');
+            var videoElement = document.getElementById('outputVideo2');
+            if (file) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    videoElement.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+                videoContainer2.style.display = 'flex';
+            } else {
+                videoContainer2.style.display = 'none';
+            }
+        }
+    };
+
+    function displayAlert(message, alertType) {
+        // Kiểm tra xem đã có thông báo chưa
+        if (document.getElementById('myAlert02')) {
+            return;
+        }
+
+        var alertBox = document.createElement('div');
+        alertBox.className = 'alert ' + alertType;
+        alertBox.id = 'myAlert02';
+        alertBox.style.fontWeight = 'bold';
+        alertBox.style.color = 'rgb(247,80,80)';
+        alertBox.style.backgroundColor = 'rgb(247,214,217)';
+        alertBox.style.justifyContent = 'center';
+        alertBox.style.display = 'flex';
+
+        var alertText = document.createElement('span');
+        alertText.textContent = message;
+
+        alertBox.appendChild(alertText);
+
+        // Tìm phần tử header và chèn thông báo ngay sau nó
+        var header = document.getElementsByTagName('header')[0];
+        header.parentNode.insertBefore(alertBox, header.nextSibling);
+
+        // Thông báo sẽ tự động biến mất sau 10 giây
+        setTimeout(function() {
+            alertBox.remove();
+        }, 10000);
+    }
+</script>
+
 <script>
     var checkboxes = document.querySelectorAll('input[type="radio"][name="reason"]');
 
@@ -596,39 +680,59 @@
         checkedCheckbox.style.backgroundColor = '#5591c5';
     }
 </script>
+
 <script>
-    function checkFileSizeVideo1(event) {
-        var videoContainer = document.getElementById('videoContainer');
-        var videoElement = document.getElementById('outputVideo1');
-        var file = event.target.files[0];
-        if (file) {
-            var reader = new FileReader();
-            reader.onload = function(e) {
-                videoElement.src = e.target.result;
-            };
-            reader.readAsDataURL(file);
-            videoContainer.style.display = 'flex';
-        } else {
-            videoContainer.style.display = 'none';
-        }
-    }
+    // Lưu giá trị ban đầu từ order
+    var originalValues = {
+        name: $('#name').val(),
+        address: $('#address').val(),
+        phoneNumber: $('#phoneNumber').val(),
+        email: $('#email').val()
+    };
+
+    // Khi nhấn nút "Giữ nguyên địa chỉ cũ", gán lại giá trị ban đầu cho các trường
+    $('.change-address-btn[data-target="#oldAddress"]').click(function() {
+        $('#name').val(originalValues.name);
+        $('#address').val(originalValues.address);
+        $('#phoneNumber').val(originalValues.phoneNumber);
+        $('#email').val(originalValues.email);
+    });
 </script>
+
 <script>
-    function checkFileSizeVideo2(event) {
-        var videoContainer = document.getElementById('videoContainer2');
-        var videoElement = document.getElementById('outputVideo2');
-        var file = event.target.files[0];
-        if (file) {
-            var reader = new FileReader();
-            reader.onload = function(e) {
-                videoElement.src = e.target.result;
-            };
-            reader.readAsDataURL(file);
-            videoContainer2.style.display = 'flex';
-        } else {
-            videoContainer2.style.display = 'none';
-        }
-    }
+    // Mở pop up chọn địa chỉ và cập nhật địa chỉ có sẵn khi chọn
+    $(document).ready(function() {
+        var currentAddressId;
+
+        $('#changeAddressConfirm').click(function() {
+            var selectedAddressId = $('input[name="addressId"]:checked').val();
+            if (selectedAddressId) {
+                // Cập nhật id của địa chỉ đang được chọn
+                currentAddressId = selectedAddressId;
+
+                // Cập nhật địa chỉ nhận hàng trên giao diện
+                var selectedAddress = $('input[name="addressId"]:checked').closest('.card-body');
+                $('#name').val(selectedAddress.find('.recipientName').text());
+                $('#phoneNumber').val(selectedAddress.find('.phoneNumber').text());
+                $('#address').val(selectedAddress.find('.addressDetails').text() + ', ' +
+                                  selectedAddress.find('.wardName').text() + ', ' +
+                                  selectedAddress.find('.districtName').text() + ', ' +
+                                  selectedAddress.find('.cityName').text());
+
+                // Gửi yêu cầu đến máy chủ để cập nhật địa chỉ nhận hàng
+                // ...
+
+                // Đóng modal
+                $('#changeAddressModal').modal('hide');
+            }
+        });
+
+        // Khi mở modal, chọn radio button tương ứng với địa chỉ đang được chọn
+        $('#changeAddressModal').on('show.bs.modal', function() {
+            $('input[name="addressId"][value="' + currentAddressId + '"]').prop('checked', true);
+        });
+    });
+
 </script>
 
 </body>
