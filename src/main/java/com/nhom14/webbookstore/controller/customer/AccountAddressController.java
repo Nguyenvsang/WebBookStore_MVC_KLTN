@@ -137,7 +137,14 @@ public class AccountAddressController {
 
     @GetMapping("/updateaddress/{id}")
     public String showUpdateAddressForm(@PathVariable("id") int id, Model model,
-                                        RedirectAttributes redirectAttributes) {
+                                        RedirectAttributes redirectAttributes,
+                                        HttpSession session) {
+        // Kiểm tra xem người dùng đã đăng nhập hay chưa
+        Account account = (Account) session.getAttribute("account");
+        if (account == null) {
+            return "redirect:/customer/loginaccount";
+        }
+
         // Tìm địa chỉ bằng ID
         AccountAddress address = accountAddressService.getAccountAddressById(id);
 
@@ -167,9 +174,8 @@ public class AccountAddressController {
                                        @RequestParam("addressDetails") String addressDetails,
                                        @RequestParam("addressNote") String addressNote,
                                        @RequestParam("addressType") int addressType,
-                                       @RequestParam("isDefault") int isDefault,
+                                       @RequestParam(value = "isDefault", required = false) Integer isDefault,
                                        HttpSession session,
-                                       Model model,
                                        RedirectAttributes redirectAttributes) {
         // Kiểm tra xem người dùng đã đăng nhập hay chưa
         Account account = (Account) session.getAttribute("account");
@@ -199,10 +205,14 @@ public class AccountAddressController {
         accountAddress.setAddressDetails(addressDetails);
         accountAddress.setAddressNote(addressNote);
         accountAddress.setAddressType(addressType);
-        accountAddress.setIsDefault(isDefault);
+
+        // Kiểm tra nếu isDefault không null thì cập nhật giá trị
+        if (isDefault != null) {
+            accountAddress.setIsDefault(isDefault);
+        }
 
         // Nếu địa chỉ mới là địa chỉ mặc định
-        if (isDefault == 1) {
+        if (isDefault != null && isDefault == 1) {
             // Tìm địa chỉ mặc định hiện có
             AccountAddress currentDefaultAddress = accountAddressService.getDefaultAddress(account);
 
@@ -230,6 +240,7 @@ public class AccountAddressController {
         return "redirect:/viewaddresses";
     }
 
+
     @PostMapping("/deleteaddress")
     public ResponseEntity<String> deleteAddress(@RequestParam("addressId") Integer addressId,
                                                 HttpSession session) {
@@ -240,6 +251,12 @@ public class AccountAddressController {
             // Nếu chưa đăng nhập, trả về thông báo lỗi
             String message = "Bạn cần đăng nhập để thêm sản phẩm vào giỏ hàng";
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(message);
+        }
+
+        AccountAddress address = accountAddressService.getAccountAddressById(addressId);
+        if (address.getIsDefault() == 1) {
+            // Nếu là địa chỉ mặc định thì không cho xóa
+            return new ResponseEntity<>("Không thể xóa địa chỉ mặc định", HttpStatus.BAD_REQUEST);
         }
 
         try {

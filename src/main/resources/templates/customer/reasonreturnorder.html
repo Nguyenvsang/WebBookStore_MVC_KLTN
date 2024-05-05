@@ -432,7 +432,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <!-- Đặt giá trị của addresses[0].id vào thuộc tính data-id của form -->
+                <!-- -->
                 <form id="changeAddressForm">
                     <div th:each="address : ${addresses}">
                         <div class="card mb-3">
@@ -462,6 +462,8 @@
                 </form>
             </div>
             <div class="modal-footer">
+                <!-- Thêm nút "Thêm địa chỉ" -->
+                <a th:href="@{/addaddress}" class="btn btn-success">Thêm địa chỉ</a>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
                 <button type="button" class="btn btn-primary" id="changeAddressConfirm">Chọn</button>
             </div>

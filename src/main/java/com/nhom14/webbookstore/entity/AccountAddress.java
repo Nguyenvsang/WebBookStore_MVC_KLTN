@@ -42,7 +42,7 @@ public class AccountAddress {
     private String addressNote; // Ghi chú về địa chỉ nếu có
 
     @Column(name = "address_type", columnDefinition = "INT NOT NULL")
-    private int addressType; // loại địa chỉ (0: Văn phòng, 1: Nhà)
+    private int addressType; // loại địa chỉ (0: Văn phòng, 1: Nhà, 2: Khác)
 
     @Column(name = "is_default", columnDefinition = "INT NOT NULL")
     private int isDefault; // 0: Không đặt, 1: Đặt làm mặc định

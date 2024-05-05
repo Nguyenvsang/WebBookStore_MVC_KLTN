@@ -142,7 +142,13 @@
 					</div>
 				</div>
 
-		        <form id="myForm" th:action="@{/placeorder}" method="post" style="width: 100%">
+				<!-- Nếu addresses rỗng, chỉ hiển thị nút Thêm địa chỉ -->
+				<div th:unless="${addresses != null && addresses.size() > 0}">
+					<p>Vui lòng thêm thông tin địa chỉ để có thể đặt hàng!</p>
+					<a th:href="@{/addaddress}" class="btn btn-success">Thêm địa chỉ</a>
+				</div>
+
+		        <form th:if="${addresses != null && addresses.size() > 0}" id="myForm" th:action="@{/placeorder}" method="post" style="width: 100%">
 					<div class="row-01 d-flex justify-content-center" style="width: 100%; border-bottom: 1px solid #cecece;">
 						<div class="col-01" style="width: 65%; padding-right: 20px; border-right: 1px solid #cecece; padding-bottom: 15px">
 							<div class="row-001 d-flex align-items-center" style="padding: 20px 0px 20px 0px;">
@@ -179,6 +185,7 @@
 								</div>
 							</div>
 						</div>
+						<!-- Nếu addresses không rỗng, hiển thị các input -->
 						<div class="col-02" style="width: 35%; padding-left: 20px; padding-bottom: 15px">
 							<h6 class="text-left" style="padding: 20px 0px 10px 0px; margin: 0px">Địa chỉ nhận hàng</h6>
 							<div class="form-group row d-flex align-items-center" style="border-radius: 50px; border: 1px solid #cecece;">
@@ -216,6 +223,7 @@
 							</button>
 
 						</div>
+
 					</div>
 
 		            <div class="form-group row-01" style="padding-bottom: 10px;">
@@ -250,7 +258,7 @@
     </div>
 
 	<!-- Modal hiển thị pop up để chọn địa chỉ khác -->
-	<div class="modal fade my-custom-modal" id="changeAddressModal" tabindex="-1" role="dialog" aria-labelledby="changeAddressModalLabel" aria-hidden="true">
+	<div  th:if="${addresses != null && addresses.size() > 0}"  class="modal fade my-custom-modal" id="changeAddressModal" tabindex="-1" role="dialog" aria-labelledby="changeAddressModalLabel" aria-hidden="true">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -290,6 +298,8 @@
 					</form>
 				</div>
 				<div class="modal-footer">
+					<!-- Thêm nút "Thêm địa chỉ" -->
+					<a th:href="@{/addaddress}" class="btn btn-success">Thêm địa chỉ</a>
 					<button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
 					<button type="button" class="btn btn-primary" id="changeAddressConfirm">Chọn</button>
 				</div>

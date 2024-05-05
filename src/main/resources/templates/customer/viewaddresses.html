@@ -400,15 +400,21 @@
                         <span th:text="${address.addressNote}"></span>
                     </p>
                     <p class="card-text">
-                        Loại địa chỉ: <span th:text="${address.addressType == 0 ? 'Văn phòng' : 'Nhà'}"></span>
+                        Loại địa chỉ:
+                        <span th:switch="${address.addressType}">
+                            <span th:case="0">Văn phòng</span>
+                            <span th:case="1">Nhà</span>
+                            <span th:case="2">Khác</span>
+                        </span>
                     </p>
+
                     <p class="card-text">
                         Mặc định: <span th:text="${address.isDefault == 1 ? 'Có' : 'Không'}"></span>
                     </p>
                     <a th:href="@{/updateaddress/{id}(id=${address.id})}" class="btn btn-warning">Sửa</a>
 
                     <!-- Button trigger modal -->
-                    <button type="button" class="btn btn-danger delete-btn" data-toggle="modal" data-target="#deleteModal" th:attr="data-id=${address.id}">
+                    <button th:if="${address.isDefault != 1}" type="button" class="btn btn-danger delete-btn" data-toggle="modal" data-target="#deleteModal" th:attr="data-id=${address.id}">
                         Xóa
                     </button>
 
