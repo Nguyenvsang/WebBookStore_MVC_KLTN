@@ -240,12 +240,12 @@ CREATE TABLE ImgReturnOrder (
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     -- Khai báo thuộc tính img1 kiểu VARCHAR(255), không được null
     img1 VARCHAR(255) NOT NULL,
-    -- Khai báo thuộc tính img2 kiểu VARCHAR(255), không được null
-    img2 VARCHAR(255) NOT NULL,
-    -- Khai báo thuộc tính img3 kiểu VARCHAR(255), không được null
-    img3 VARCHAR(255) NOT NULL,
-    -- Khai báo thuộc tính img4 kiểu VARCHAR(255), không được null
-    img4 VARCHAR(255) NOT NULL,
+    -- Khai báo thuộc tính img2 kiểu VARCHAR(255)
+    img2 VARCHAR(255),
+    -- Khai báo thuộc tính img3 kiểu VARCHAR(255)
+    img3 VARCHAR(255),
+    -- Khai báo thuộc tính img4 kiểu VARCHAR(255)
+    img4 VARCHAR(255),
     -- Khai báo thuộc tính inforeturnorder_id kiểu int và là khóa ngoại tham chiếu đến bảng InfoReturnOrder
     inforeturnorder_id INT,
     FOREIGN KEY (inforeturnorder_id) REFERENCES InfoReturnOrder(id)
@@ -372,6 +372,36 @@ CREATE TABLE Profit (
   -- Khai báo thuộc tính date kiểu DATETIME(6), không được null
   date DATETIME(6) NOT NULL
   );
+  
+-- Tạo bảng City
+CREATE TABLE City (
+  -- Khai báo thuộc tính id kiểu INT, không được null, tăng tự động và là khóa chính
+  id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  -- Khai báo thuộc tính name kiểu VARCHAR(255)
+  name VARCHAR(255)
+  );
+
+-- Tạo bảng District
+CREATE TABLE District (
+  -- Khai báo thuộc tính id kiểu INT, không được null, tăng tự động và là khóa chính
+  id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  -- Khai báo thuộc tính name kiểu VARCHAR(255)
+  name VARCHAR(255),
+  -- Khai báo thuộc tính city_id kiểu int và là khóa ngoại tham chiếu đến bảng City
+  city_id INT,
+  FOREIGN KEY (city_id) REFERENCES City(id)
+  );
+  
+-- Tạo bảng Ward
+CREATE TABLE Ward (
+  -- Khai báo thuộc tính id kiểu INT, không được null, tăng tự động và là khóa chính
+  id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  -- Khai báo thuộc tính name kiểu VARCHAR(255)
+  name VARCHAR(255),
+  -- Khai báo thuộc tính district_id kiểu int và là khóa ngoại tham chiếu đến bảng District
+  district_id INT,
+  FOREIGN KEY (district_id) REFERENCES District(id)
+  );  
   
   -- Tạo bảng accountaddress
 CREATE TABLE AccountAddress (

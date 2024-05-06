@@ -30,7 +30,8 @@ public class Book {
 	private String name;
 	
 	@Column(name = "cost_price", columnDefinition = "double NOT NULL")
-	private double costPrice;
+	private double costPrice; //Nếu chỉnh sửa giá thì nhớ đầu tiên Ngừng kinh doanh sách
+	// Chỉnh sao cho giá trong book khớp với bookimport, bookprice rồi mới cho Kinh doanh
 	@Column(name = "sell_price", columnDefinition = "double NOT NULL")
 	private double sellPrice;
 

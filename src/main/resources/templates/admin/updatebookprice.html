@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Cập nhật đợt nhập sách</title>
+    <title>Cập nhật giá bán sách</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <style>
@@ -57,11 +57,11 @@
 
     <!-- Form cập nhật thông tin đợt nhập sách -->
     <div class="container-body" style="background-color: white;">
-        <a th:href="${session.previousUrl}" class="btn btn-out" style="margin: 10px;">
+        <a th:href="@{/managedetailbook(bookId=${bookImport.book.id})}" class="btn btn-out" style="margin: 10px;">
             <span class="material-symbols-outlined back">arrow_back_ios</span>
         </a>
         <div class="frame-body">
-            <h3>CẬP NHẬT ĐỢT NHẬP SÁCH</h3>
+            <h3>CẬP NHẬT GIÁ BÁN SÁCH</h3>
             <form th:action="@{/updatebookimport}" method="post">
                 <!-- Mã nhập -->
                 <div class="form-group">

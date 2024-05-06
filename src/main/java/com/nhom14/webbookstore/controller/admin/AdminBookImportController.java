@@ -3,6 +3,7 @@ package com.nhom14.webbookstore.controller.admin;
 import com.nhom14.webbookstore.entity.*;
 import com.nhom14.webbookstore.service.BookImportService;
 import com.nhom14.webbookstore.service.BookService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -17,10 +18,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.sql.Timestamp;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -191,17 +190,17 @@ public class AdminBookImportController {
         }
 
         // Redirect hoặc forward sau khi lưu thành công
-        //return "redirect:/managebookimports"; // Chuyển hướng đến trang quản lý đợt nhập sách
         redirectAttributes.addAttribute("message", "Đã thêm thành công!");
         return "redirect:/addbookimport";
     }
 
     @GetMapping("/updatebookimport")
     public String showUpdateBookImportForm(
-                                    @RequestParam("bookImportId") Long bookImportId,
-                                    RedirectAttributes redirectAttributes,
-                                    Model model,
-                                    HttpSession session) {
+            @RequestParam("bookImportId") Long bookImportId,
+            RedirectAttributes redirectAttributes,
+            HttpServletRequest request, //Dùng cho nút Quay lại
+            Model model,
+            HttpSession session) {
         Account admin = (Account) session.getAttribute("admin");
 
         // Kiểm tra xem người dùng đã đăng nhập hay chưa
@@ -221,6 +220,16 @@ public class AdminBookImportController {
 
         // Đặt thuộc tính vào model để sử dụng trong view
         model.addAttribute("bookImport", bookImport);
+
+        // Lưu URL trang trước đó vào session
+        String referer = request.getHeader("Referer");
+        String currentUrl = request.getRequestURL().toString();
+
+        // Kiểm tra xem referer có khác với URL hiện tại hay không (tránh trường hợp 1 trang lặp lại)
+        // và có chứa cụm "/managebookimports" hoặc "/managedetailbook" (tránh trường hợp vượt quá kiểm soát)
+        if (referer != null && !referer.equals(currentUrl) && (referer.contains("/managebookimports") || referer.contains("/managedetailbook"))) {
+            session.setAttribute("previousUrl", referer);
+        }
 
         return "admin/updatebookimport";
     }
