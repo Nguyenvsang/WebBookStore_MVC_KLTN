@@ -103,15 +103,7 @@
 			box-shadow: 0 8px 10px rgb(226, 226, 226);
 			
 		}
-		.frame-description:hover {
-			background-color:azure
-		}
-		
-		
-		.frame-description-01 {
-			margin-bottom: 20px;			
-		}
-		
+
 		p.card-text.text-description {
 			font-size: 20px;
 			color: rgb(2,88,155);
@@ -170,10 +162,6 @@
 		.row.four {
 			margin-top: 10px;
 			margin-bottom: 10px;
-		}
-		
-		.frame-description-01 {
-			margin: 20px;
 		}
 		
 		.material-symbols-outlined.back {
@@ -397,6 +385,12 @@
 		input[type=number] {
 			-moz-appearance: textfield;
 		}
+
+		button:focus {
+			outline: none;
+		}
+
+
 	</style>
 	
 </head>
@@ -408,6 +402,10 @@
 		<span th:text="${param.message}" style="font-weight: bold;justify-content: center; display: flex"></span>
 	</div>
 
+<!--	<div id="myAlert02" th:if="${param.message}" class="alert"-->
+<!--		 th:classappend="${#strings.containsIgnoreCase(param.message, 'thành công') ? 'alert-success' : 'alert-danger'}">-->
+<!--		<span th:text="${param.message}" style="font-weight: bold;justify-content: center; display: flex"></span>-->
+<!--	</div>-->
 <!--	&lt;!&ndash; Kiểm tra xem sách có còn kinh doanh không &ndash;&gt;-->
 <!--	<div th:if="${book.status == 0}" class="alert alert-danger">-->
 <!--		Sách này đã ngừng kinh doanh-->
@@ -552,24 +550,33 @@
 		            </div>
 				</div>
 	        </div>
-        	<div class="frame-description">	
-				<div class="frame-description-01" style="padding: 20px; font-family: Arial">		
-			        <p class="card-text text-description">Mô tả:</p>
-				    <p class="card-text content" th:text="${book.description}" style="text-align: justify;"></p>
+
+			<div class="frame-description" style="padding: 20px">
+				<div class="row-title" style="padding-bottom: 20px">
+					<h4 class="card-title" th:text="${book.name}" style="margin: 0px"></h4>
 				</div>
-	       	</div>
-	       	<div class="frame-description">	
-				<div class="frame-description-01" style="padding: 20px; font-family: Arial; margin: 0px;">
-			       	<div class="col">
-						<p class="card-text" style="color: rgb(2,88,155); font-size: 20px;">Chi tiết:</p>
-				        <pre class="card-text" th:text="${book.detail}" style="font-size: 16px; font-family: Arial;"></pre>
+				<div class="row-content d-flex" style="">
+					<div class="col-8" style="font-family: Arial; padding: 0px 20px 0px 0px;">
+						<p class="card-text text-description" style="margin-bottom: 10px; color: #5390f5; font-weight: bold">Giới thiệu sách:</p>
+						<div class="content" style="height: 9em; overflow: hidden;">
+							<p class="card-text content" th:text="${book.description}" style="text-align: justify;"></p>
+						</div>
+						<div style="display: flex; justify-content: center; align-items: center;">
+							<button id="readMore" style="display: none; border-radius: 50px; background-color: white; color: #5390f5; margin-top: 20px; border: 1px solid #5390f5; width: 200px; height: 40px">Xem thêm</button>
+							<button id="readLess" style="display: none; border-radius: 50px; background-color: white; color: #5390f5; margin-top: 20px; border: 1px solid #5390f5; width: 200px; height: 40px">Rút gọn</button>
+						</div>
+					</div>
+					<div class="col-4" style="padding: 0px 0px 0px 20px">
+						<p class="card-text" style="color: #5390f5; font-size: 20px; margin-bottom: 10px; font-weight: bold">Chi tiết:</p>
+						<pre class="card-text" th:text="${book.detail}" style="font-size: 16px; font-family: Arial; white-space: pre-wrap;"></pre>
 					</div>
 				</div>
-	       	</div>
+			</div>
+
 
 			<!-- Kiểm tra xem người dùng đã đăng nhập hay chưa -->
 			<div th:if="${session.account == null}">
-				<p>Vui lòng đăng nhập để viết đánh giá cho cuốn sách</p>
+				<p style="padding: 20px 0px; color: rgb(247,80,80);">Vui lòng đăng nhập để viết đánh giá cho cuốn sách!</p>
 			</div>
 
 			<!-- Nếu người dùng đã đăng nhập nhưng chưa viết đánh giá -->
@@ -715,14 +722,34 @@
 					<span class="like-count" th:text="'(' + ${review.bookReviewLikes.size()} + ')'"></span>
 				</div>
 			</div>
-
 		</div>
     </div>
 
 	<script th:src="@{/js/jquery-3.4.1.min.js}"></script>
 	<script th:src="@{/js/popper.min.js}"></script>
 	<script th:src="@{/js/bootstrap.min.js}"></script>
-	
+
+	<script>
+		window.onload = function() {
+            var content = document.querySelector('.content');
+            var readMoreButton = document.getElementById('readMore');
+            var readLessButton = document.getElementById('readLess');
+            if (content.scrollHeight > content.clientHeight) {
+                readMoreButton.style.display = 'block';
+            }
+            readMoreButton.onclick = function() {
+                content.style.height = 'auto';
+                readMoreButton.style.display = 'none';
+                readLessButton.style.display = 'block';
+            }
+            readLessButton.onclick = function() {
+                content.style.height = '9em';
+                readLessButton.style.display = 'none';
+                readMoreButton.style.display = 'block';
+            }
+        }
+	</script>
+
     <script>
 		// Thông báo khi không chọn sao để đánh giá
 		function validateForm() {
@@ -1089,9 +1116,52 @@
                 });
             });
         });
+
 	</script>
+	<script>
+		function increaseQuantity(bookId, maxQuantity) {
+            var quantityInput = document.getElementById('quantity_' + bookId);
+            if (quantityInput.value < maxQuantity) {
+                quantityInput.value++;
+            } else {
+                displayAlert('Xin lỗi, bạn không thể đặt quá ' + maxQuantity + ' cuốn sách.', 'alert-danger');
+                quantityInput.value = maxQuantity;
+            }
+        }
 
+        // Thêm sự kiện onblur vào ô nhập số lượng
+        document.getElementById('quantity_' + bookId).onblur = function() {
+            increaseQuantity(bookId, maxQuantity);
+        }
 
+		function displayAlert(message, alertType) {
+            // Kiểm tra xem đã có thông báo chưa
+            if (document.getElementById('myAlert02')) {
+                return;
+            }
+
+            var alertBox = document.createElement('div');
+            alertBox.className = 'alert ' + alertType;
+            alertBox.id = 'myAlert02';
+            alertBox.style.fontWeight = 'bold';
+            alertBox.style.justifyContent = 'center';
+            alertBox.style.display = 'flex';
+
+            var alertText = document.createElement('span');
+            alertText.textContent = message;
+
+            alertBox.appendChild(alertText);
+
+            // Tìm phần tử header và chèn thông báo ngay sau nó
+            var header = document.getElementsByTagName('header')[0];
+            header.parentNode.insertBefore(alertBox, header.nextSibling);
+
+            // Thông báo sẽ tự động biến mất sau 10 giây
+            setTimeout(function() {
+                alertBox.remove();
+            }, 10000);
+        }
+	</script>
 
 	<div th:replace="~{layout/footer :: footer}"></div>
 <!-- Thêm các tệp tin JavaScript -->

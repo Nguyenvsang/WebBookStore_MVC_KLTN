@@ -54,6 +54,11 @@
 			color: rgb(2,88,155);
 		}
 
+		.dropdown-item.catalog {
+			text-decoration: none;
+			color: black;
+		}
+
 	</style>
 </head>
 <body>
@@ -103,13 +108,119 @@
 									<span class="navbar-toggler-icon"></span>
 								</button>
 
-								<li class="nav-item active" style="display: flex; align-items:center; justify-content: center;">
-									<a class="nav-link-book d-flex align-items-center justify-content-center" th:href="@{/viewbooks}"
-									   style="font-size: 16px; color:rgb(0, 0, 160); font-family: Arial, sans-serif; display: flex; text-decoration: none; width: 120px">
+								<li class="nav-item active dropdown" style="display: flex; align-items:center; justify-content: center;">
+									<a class="nav-link-book d-flex align-items-center justify-content-center dropdown-toggle" th:href="@{/viewbooks}"
+									   style="font-size: 16px; color:rgb(0, 0, 160); font-family: Arial, sans-serif; display: flex; text-decoration: none; width: 120px"
+									   id="navbarDropdown-catalog" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 										<span class="material-symbols-outlined" style="font-size: 30px; margin-right: 8px; margin-left: 5px">widgets</span>Danh mục
 										<span class="sr-only">(current)</span>
 									</a>
+									<div class="dropdown-menu catalog justify-content-center" aria-labelledby="navbarDropdown"
+										 style="padding: 0px; margin-top: 15px; border-radius: 15px; width: 1068px; height: 420px">
+
+										<div class="row-catalog d-flex align-items-center;">
+											<div class="col-background">
+												<img src="https://res.cloudinary.com/dylwewmt0/image/upload/v1714966021/PHOTO_LIST/Catalog/background.png" alt="" style="height: 400px; width: 140px">
+											</div>
+											<div class="col-title">
+												<div class="row-catalog d-flex align-items-center justify-content-center" style="width: 828px; padding-top: 10px">
+													<img src="https://res.cloudinary.com/dylwewmt0/image/upload/v1714925897/PHOTO_LIST/Catalog/Danh_muc.jpg" alt="" style="width:70px;">
+													<p class="dropdown-item"
+													   style="width: auto; background-color: white; padding: 0px; margin: 0px; align-items:center; display: flex; font-size: 30px; color: #5b5a7a; font-style: Palatino">Danh mục sách</p>
+												</div>
+
+												<div class="dropdown-divider" style="width: 900px; border-width: 3px;"></div>
+												<div class="row-catalog-02 d-flex align-items-center;">
+													<div class="col-01" style="width: 460px; display: flex; flex-direction: column; justify-content: center;">
+														<div class="dropdown-item catalog d-flex align-items-center;" style="padding: 0px">
+															<a class="dropdown-item catalog d-flex align-items-center;" id="link1" th:href="@{/viewbooks(category=1, publisher=${publisher}, nameoption=${nameoption}, priceoption=${priceoption}, search=${search}, pricemin=${pricemin}, pricemax=${pricemax}, page=1)}"
+															   style="padding: 10px 0px 0px 10px; background-color: white; font-size: 18px; font-weight: 500; font-style: Helvetica">
+																<img src="https://res.cloudinary.com/dylwewmt0/image/upload/v1714925888/PHOTO_LIST/Catalog/1.jpg" alt="" style="width:60px;">
+																<div class="content" style="display: flex; flex-direction: column; justify-content: center;">
+																	<p style="margin: 0px 0px 0px 15px; color:rgb(0,162,206);">Chính Trị - Pháp Luật</p>
+																	<p style="margin: 0px 0px 0px 15px; font-size: 12px; color: grey">Nghiên cứu quyền lực, quản lý xã hội và luật pháp.</p>
+																</div>
+															</a>
+														</div>
+														<div class="dropdown-item catalog d-flex align-items-center;" style="padding: 0px">
+															<a class="dropdown-item catalog d-flex align-items-center;" id="link2" th:href="@{/viewbooks(category=2, publisher=${publisher}, nameoption=${nameoption}, priceoption=${priceoption}, search=${search}, pricemin=${pricemin}, pricemax=${pricemax}, page=1)}"
+															   style="padding: 10px 0px 0px 10px; background-color: white; font-size: 18px; font-weight: 500; font-style: Helvetica">
+																<img src="https://res.cloudinary.com/dylwewmt0/image/upload/v1714925889/PHOTO_LIST/Catalog/2.jpg" alt="" style="width:60px;">
+																<div class="content" style="display: flex; flex-direction: column; justify-content: center;">
+																	<p style="margin: 0px 0px 0px 15px; color:rgb(0,162,206);">Giáo trình</p>
+																	<p style="margin: 0px 0px 0px 15px; font-size: 12px; color: grey">Tài liệu học tập dựa trên chương trình môn học.</p>
+																</div>
+															</a>
+														</div>
+														<div class="dropdown-item catalog d-flex align-items-center;" style="padding: 0px">
+															<a class="dropdown-item catalog d-flex align-items-center;" id="link3" th:href="@{/viewbooks(category=3, publisher=${publisher}, nameoption=${nameoption}, priceoption=${priceoption}, search=${search}, pricemin=${pricemin}, pricemax=${pricemax}, page=1)}"
+															   style="padding: 10px 0px 0px 10px; background-color: white; font-size: 18px; font-weight: 500; font-style: Helvetica">
+																<img src="https://res.cloudinary.com/dylwewmt0/image/upload/v1714925889/PHOTO_LIST/Catalog/3.jpg" alt="" style="width:60px;">
+																<div class="content" style="display: flex; flex-direction: column; justify-content: center;">
+																	<p style="margin: 0px 0px 0px 15px; color:rgb(0,162,206);">Khoa Học Công Nghệ - Kinh Tế</p>
+																	<p style="margin: 0px 0px 0px 15px; font-size: 12px; color: grey">Tiến bộ khoa học, công nghệ và ảnh hưởng đến kinh tế.</p>
+																</div>
+															</a>
+														</div>
+														<div class="dropdown-item catalog d-flex align-items-center;" style="padding: 0px">
+															<a class="dropdown-item catalog d-flex align-items-center;" id="link4" th:href="@{/viewbooks(category=4, publisher=${publisher}, nameoption=${nameoption}, priceoption=${priceoption}, search=${search}, pricemin=${pricemin}, pricemax=${pricemax}, page=1)}"
+															   style="padding: 10px 0px 0px 10px; background-color: white; font-size: 18px; font-weight: 500; font-style: Helvetica">
+																<img src="https://res.cloudinary.com/dylwewmt0/image/upload/v1714925889/PHOTO_LIST/Catalog/4.jpg" alt="" style="width:60px;">
+																<div class="content" style="display: flex; flex-direction: column; justify-content: center;">
+																	<p style="margin: 0px 0px 0px 15px; color:rgb(0,162,206);">Truyện, Tiểu Thuyết</p>
+																	<p style="margin: 0px 0px 0px 15px; font-size: 12px; color: grey">Tác phẩm văn học dài với câu chuyện và nhân vật phức tạp.</p>
+																</div>
+															</a>
+														</div>
+													</div>
+													<div class="col-02" style="width: 460px; display: flex; flex-direction: column; justify-content: center;">
+														<div class="dropdown-item catalog d-flex align-items-center;" style="padding: 0px">
+															<a class="dropdown-item catalog d-flex align-items-center;" id="link5" th:href="@{/viewbooks(category=5, publisher=${publisher}, nameoption=${nameoption}, priceoption=${priceoption}, search=${search}, pricemin=${pricemin}, pricemax=${pricemax}, page=1)}"
+															   style="padding: 10px 0px 0px; background-color: white; font-size: 18px; font-weight: 500; font-style: Helvetica">
+																<img src="https://res.cloudinary.com/dylwewmt0/image/upload/v1714925889/PHOTO_LIST/Catalog/5.jpg" alt="" style="width:60px;">
+																<div class="content" style="display: flex; flex-direction: column; justify-content: center;">
+																	<p style="margin: 0px 0px 0px 15px; color:rgb(0,162,206);">Tâm Lý, Tâm Linh, Tôn Giáo</p>
+																	<p style="margin: 0px 0px 0px 15px; font-size: 12px; color: grey">Nghiên cứu tâm lý, tâm linh và tôn giáo.</p>
+																</div>
+															</a>
+														</div>
+														<div class="dropdown-item catalog d-flex align-items-center;" style="padding: 0px">
+															<a class="dropdown-item catalog d-flex align-items-center;" id="link6" th:href="@{/viewbooks(category=6, publisher=${publisher}, nameoption=${nameoption}, priceoption=${priceoption}, search=${search}, pricemin=${pricemin}, pricemax=${pricemax}, page=1)}"
+															   style="padding: 10px 0px 0px;  background-color: white; font-size: 18px; font-weight: 500; font-style: Helvetica">
+																<img src="https://res.cloudinary.com/dylwewmt0/image/upload/v1714925889/PHOTO_LIST/Catalog/6.jpg" alt="" style="width:60px;">
+																<div class="content" style="display: flex; flex-direction: column; justify-content: center;">
+																	<p style="margin: 0px 0px 0px 15px; color:rgb(0,162,206);">Thiếu Nhi</p>
+																	<p style="margin: 0px 0px 0px 15px; font-size: 12px; color: grey">Liên quan đến giáo dục, giải trí và phát triển trẻ em.</p>
+																</div>
+															</a>
+														</div>
+														<div class="dropdown-item catalog d-flex align-items-center;" style="padding: 0px">
+															<a class="dropdown-item catalog d-flex align-items-center;" id="link7" th:href="@{/viewbooks(category=7, publisher=${publisher}, nameoption=${nameoption}, priceoption=${priceoption}, search=${search}, pricemin=${pricemin}, pricemax=${pricemax}, page=1)}"
+															   style="padding: 10px 0px 0px;  background-color: white; font-size: 18px; font-weight: 500; font-style: Helvetica">
+																<img src="https://res.cloudinary.com/dylwewmt0/image/upload/v1714925889/PHOTO_LIST/Catalog/7.jpg" alt="" style="width:60px;">
+																<div class="content" style="display: flex; flex-direction: column; justify-content: center;">
+																	<p style="margin: 0px 0px 0px 15px; color:rgb(0,162,206);">Văn Học Nghệ Thuật</p>
+																	<p style="margin: 0px 0px 0px 15px; font-size: 12px; color: grey">Nghiên cứu tác phẩm văn học có giá trị nghệ thuật hoặc trí tuệ.</p>
+																</div>
+															</a>
+														</div>
+														<div class="dropdown-item catalog d-flex align-items-center;" style="padding: 0px">
+															<a class="dropdown-item catalog d-flex align-items-center;" id="link8" th:href="@{/viewbooks(category=8, publisher=${publisher}, nameoption=${nameoption}, priceoption=${priceoption}, search=${search}, pricemin=${pricemin}, pricemax=${pricemax}, page=1)}"
+															   style="padding: 10px 0px 0px;  background-color: white; font-size: 18px; font-weight: 500; font-style: Helvetica">
+																<img src="https://res.cloudinary.com/dylwewmt0/image/upload/v1714925889/PHOTO_LIST/Catalog/8.jpg" alt="" style="width:60px;">
+																<div class="content" style="display: flex; flex-direction: column; justify-content: center;">
+																	<p style="margin: 0px 0px 0px 15px; color:rgb(0,162,206);">Văn Hóa Xã Hội - Lịch Sử</p>
+																	<p style="margin: 0px 0px 0px 15px; font-size: 12px; color: grey">Nghiên cứu lịch sử, văn hóa và phát triển xã hội.</p>
+																</div>
+															</a>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
 								</li>
+
 							</ul>
 						</div>
 

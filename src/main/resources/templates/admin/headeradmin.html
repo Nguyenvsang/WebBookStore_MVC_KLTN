@@ -23,11 +23,11 @@
 	<!-- Header trong Thymeleaf phải thêm <header><> trong file header.html -->
     <header class="navbar navbar-expand-lg navbar-light" style="background-color: aliceblue;">
 		<div class="container" style="margin-top: 10px; margin-bottom: 10px;">
-			
+
 	        <a class="navbar-brand" th:href="@{/aboutusadmin}" style="color: rgb(33,31,127); font-weight: 500; font-size: 30px;">
 				<img src="https://res.cloudinary.com/dylwewmt0/image/upload/v1703188669/PHOTO_LIST/icon/knowledge%20Young.png" alt="Knowledge Young" style="width:120px;" >
 			</a>
-				
+
 	        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
 	            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
 	            <span class="navbar-toggler-icon"></span>
@@ -36,7 +36,7 @@
 	            <ul class="navbar-nav">
 					<div class="row">
 	                <!-- Hiển thị "Username" và "Đăng xuất" và "Giỏ hàng" và "Đơn hàng" -->
-	                	
+
 	                	<div class="col-01" style="margin-left: 80px; margin-right: 20px;">
 			                <li class="nav-item active" th:if="${session.admin != null}">
 								<a class="nav-link" th:href="@{/admin}" style="color:rgb(0, 0, 160); font-family: Arial, sans-serif; padding: 0%; display: flex; align-items: center; justify-content: center;">
@@ -47,7 +47,7 @@
 			                            class="sr-only">(current)</span></a>
 			                </li>
 	                	</div>
-	                	
+
 	                	<div class="col-01" style="margin-left: 20px; margin-right: 20px;">
 			                <li class="nav-item" th:if="${session.admin != null}">
 								<a class="nav-link" th:href="@{/manageauthors}" style="color:rgb(0, 0, 160); font-family: Arial, sans-serif; padding: 0%; display: flex; align-items: center; justify-content: center;" >
@@ -74,16 +74,16 @@
 									Sản phẩm</a>
 			                </li>
 	                	</div>
-	                	
-	                	<div class="col-01" style="margin-left: 20px; margin-right: 20px;">							
+
+	                	<div class="col-01" style="margin-left: 20px; margin-right: 20px;">
 			                <li class="nav-item" th:if="${session.admin != null}">
 								<a class="nav-link" th:href="@{/managecategories}" style="color:rgb(0, 0, 160); font-family: Arial, sans-serif; padding: 0%; display: flex; align-items: center; justify-content: center;">
 									<span class="material-symbols-outlined" style="display: flex;">category</span></a>
 			                    <a class="nav-link" th:href="@{/managecategories}" style="color:rgb(0, 0, 160); font-family: Arial, sans-serif; padding: 0%;">
-									Danh mục</a>							
+									Danh mục</a>
 			                </li>
 	                	</div>
-	                	
+
 	                	<div class="col-01" style="margin-left: 20px; margin-right: 20px;">
 			                <li class="nav-item" th:if="${session.admin != null}">
 								<a class="nav-link" th:href="@{/manageorders}" style="color:rgb(0, 0, 160); font-family: Arial, sans-serif; padding: 0%; display: flex; align-items: center; justify-content: center;">
@@ -110,18 +110,18 @@
 									Thống kê</a>
 							</li>
 						</div>
-	                	
+
 	                	<div class="col-01" style="margin-left: 20px; margin-right: 20px;">
 			                <li class="nav-item" th:if="${session.admin != null}">
 			                    <a class="nav-link" href="#" style="color:rgb(0, 0, 160); font-family: Arial, sans-serif; padding: 0%; display: flex; align-items: center; justify-content: center;">
-									<span class="material-symbols-outlined">waving_hand</span>			                      
+									<span class="material-symbols-outlined">waving_hand</span>
 			                    </a>
 			                    <a class="nav-link" href="#" style="color:rgb(0, 0, 160); font-family: Arial, sans-serif; padding: 0%;"> Xin chào
 			                        <span th:text="${session.admin['firstName']}"></span>
 			                    </a>
 			                </li>
 	                	</div>
-	                	
+
 	                	<div class="col-01" style="margin-left: 20px; margin-right: 20px;">
 			                <li class="nav-item" th:if="${session.admin != null}">
 								<a class="nav-link" th:href="@{/manageaccounts}" style="color:rgb(0, 0, 160); font-family: Arial, sans-serif; padding: 0%; display: flex; align-items: center; justify-content: center;">
@@ -130,7 +130,7 @@
 									Tài khoản</a>
 			                </li>
 	                	</div>
-	                	
+
 	                	<div class="col-01" style="margin-left: 20px; margin-right: 20px;">
 			                <li class="nav-item" th:if="${session.admin != null}">
 								<a class="nav-link"

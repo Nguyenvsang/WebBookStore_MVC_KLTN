@@ -159,9 +159,6 @@
 		.all-delete{
 			color: grey;
 		}
-		.all-delete:hover {
-			color: rgb(2,88,155);
-		}
 
 		.form-cart-total-avail{
 			color: orangered;
@@ -556,7 +553,7 @@
 									<h6 style="margin: 0px 70px 8px 0px;">Chọn tất cả</h6>
 								</td>
 								<td rowspan="1" class="next-table-header-node" style="padding: 20px 20px;">
-									<form th:action="@{/removeallfromcart}" method="post" >
+									<form th:action="@{/removeallfromcart}" method="post" id="delete-all">
 										<input type="hidden" name="itemIds" value="all" />
 										<button type="submit" class="d-flex align-items-center"  onmouseover="this.style.color='rgb(2,88,155)';"
 												onmouseout="this.style.color='grey';" style="padding: 0; border: none; background: none; font-weight: bold; color: grey">
@@ -586,8 +583,6 @@
 			</div>
 		</div>
     </div>
-
-
 
     <script th:inline="javascript">
 		function increaseQuantity(itemId, maxQuantity) {

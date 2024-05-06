@@ -340,6 +340,8 @@
 					<div class="col-03 center-content" style="width: 240px; align-items: flex-end; justify-content: flex-end">
 						<div class="row-operation" style="display: flex; justify-content: flex-end; align-items: flex-end;">
 							<a th:if="${order.paymentStatus.status == 5}" class="btn btn-destroy" th:href="@{/createvnpaypayment(orderId=${order.id})}">Thanh toán lại</a>
+						</div>
+						<div class="row-operation" style="display: flex; justify-content: flex-end; align-items: flex-end; margin-top: 20px">
 							<a th:if="${order.status == 0}" class="btn btn-destroy" th:href="@{/cancelorder(orderId=${order.id})}">Hủy đơn</a>
 							<a th:if="${order.status == 3 && daysBetween <= 15}" class="btn btn-return" th:href="@{/returnorder(orderId=${order.id})}">Trả hàng</a>
 							<span th:if="${order.status != 0 && !(order.status == 3 && daysBetween <= 15)}"></span>
@@ -393,12 +395,15 @@
 						<span th:if="${order.status != 4}" th:switch="${order.paymentStatus.status}" style="display: flex; align-items: center">
 							<span class="material-symbols-outlined" style="color: grey; margin-right: 10px; font-weight: bold">price_check</span>
 							<span style="color: grey; margin-right: 20px; font-weight: bold">Trạng thái</span>
-							<span th:case="0" class="badge none" style="color: #fe6502; font-weight: bold; border: 2px solid #fe6502; border-radius: 50px">Chưa thanh toán</span>
-							<span th:case="1" class="badge success" style="color: green; font-weight: bold; border: 2px solid green; border-radius: 50px">Đã thanh toán</span>
-							<span th:case="2" class="badge process" style="color: rgb(0,162,206); font-weight: bold; border: 2px solid rgb(0,162,206); border-radius: 50px">Xử lý hoàn tiền</span>
-							<span th:case="3" class="badge success" style="color: green; font-weight: bold; border: 2px solid green; border-radius: 50px">Đã hoàn tiền</span>
-							<span th:case="4" class="badge success" style="color: green; font-weight: bold; border: 2px solid green; border-radius: 50px">Không cần thanh toán</span>
-							<span th:case="5" class="badge warning" style="color:rgb(0,162,206); font-weight: bold; border: 1px solid rgb(0,162,206); border-radius: 50px">Chờ thanh toán lại</span>
+							<span th:case="0" class="badge none" style="color: #fe6502; font-weight: bold; border: 2px solid #fe6502; border-radius: 50px; height: 30px">Chưa thanh toán</span>
+							<span th:case="1" class="badge success" style="color: green; font-weight: bold; border: 2px solid green; border-radius: 50px; height: 30px">
+								<span class="material-symbols-outlined" style="margin-right: 5px">task_alt</span>Đã thanh toán</span>
+							<span th:case="2" class="badge process" style="color: rgb(0,162,206); font-weight: bold; border: 2px solid rgb(0,162,206); border-radius: 50px; height: 30px">Xử lý hoàn tiền</span>
+							<span th:case="3" class="badge success" style="color: green; font-weight: bold; border: 2px solid green; border-radius: 50px; height: 30px">
+								<span class="material-symbols-outlined" style="margin-right: 5px">task_alt</span>Đã hoàn tiền</span>
+							<span th:case="4" class="badge success" style="color: green; font-weight: bold; border: 2px solid green; border-radius: 50px; height: 30px">
+								<span class="material-symbols-outlined" style="margin-right: 5px">task_alt</span>Không cần thanh toán</span>
+							<span th:case="5" class="badge warning" style="color:rgb(0,162,206); font-weight: bold; border: 1px solid rgb(0,162,206); border-radius: 50px; height: 30px">Chờ thanh toán lại</span>
 						</span>
 					</div>
 				</div>
