@@ -63,9 +63,9 @@ public class AdminBookImportController {
 
         Pageable pageable = PageRequest.of(currentPage - 1, pageSize, sort);
 
-        // Gọi phương thức getFilteredProfits với các tham số tìm kiếm và lọc
+        // Gọi phương thức getFilteredBookImports với các tham số tìm kiếm và lọc
         Page<BookImport> bookImports = bookImportService.getFilteredBookImports(bookId, searchKeyword, status, pageable);
-        // Tổng số tất cả các bản ghi lợi nhuận
+        // Tổng số tất cả các book import
         long totalAllBookImports = bookImportService.getAllBookImports().size();
 
         model.addAttribute("bookImports", bookImports);
