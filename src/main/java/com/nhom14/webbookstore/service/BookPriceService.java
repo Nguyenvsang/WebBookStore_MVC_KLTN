@@ -1,5 +1,6 @@
 package com.nhom14.webbookstore.service;
 
+import com.nhom14.webbookstore.entity.Book;
 import com.nhom14.webbookstore.entity.BookPrice;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,4 +19,6 @@ public interface BookPriceService {
 
     // Lấy tất cả các đợt gán giá bán sách
     List<BookPrice> getAllBookPrices();
+
+    BookPrice getLatestEffectiveBookPriceByBook(Book book);
 }

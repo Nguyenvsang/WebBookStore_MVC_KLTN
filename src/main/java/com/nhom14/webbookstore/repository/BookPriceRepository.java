@@ -1,5 +1,6 @@
 package com.nhom14.webbookstore.repository;
 
+import com.nhom14.webbookstore.entity.Book;
 import com.nhom14.webbookstore.entity.BookImport;
 import com.nhom14.webbookstore.entity.BookPrice;
 import org.springframework.data.domain.Page;
@@ -9,6 +10,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
+
 @Repository
 public interface BookPriceRepository extends JpaRepository<BookPrice, Long> {
     @Query("SELECT bp FROM BookPrice bp WHERE " +
@@ -17,4 +20,6 @@ public interface BookPriceRepository extends JpaRepository<BookPrice, Long> {
     Page<BookPrice> findWithFilters(@Param("bookId") Integer bookId,
                                     @Param("searchKeyword") String searchKeyword,
                                     Pageable pageable);
+
+    BookPrice findTopByBookAndEffectiveDateLessThanEqualOrderByEffectiveDateDesc(Book book, LocalDateTime now);
 }

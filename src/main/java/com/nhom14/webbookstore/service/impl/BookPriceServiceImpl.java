@@ -1,5 +1,6 @@
 package com.nhom14.webbookstore.service.impl;
 
+import com.nhom14.webbookstore.entity.Book;
 import com.nhom14.webbookstore.entity.BookPrice;
 import com.nhom14.webbookstore.repository.BookPriceRepository;
 import com.nhom14.webbookstore.service.BookPriceService;
@@ -8,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -39,5 +41,11 @@ public class BookPriceServiceImpl implements BookPriceService {
     @Override
     public List<BookPrice> getAllBookPrices() {
         return bookPriceRepository.findAll(); // Nếu không có sách sẽ trả về empty list
+    }
+
+    @Override
+    public BookPrice getLatestEffectiveBookPriceByBook(Book book) {
+        return bookPriceRepository.findTopByBookAndEffectiveDateLessThanEqualOrderByEffectiveDateDesc(book, LocalDateTime.now());
+        // Không có sẽ trả về null
     }
 }

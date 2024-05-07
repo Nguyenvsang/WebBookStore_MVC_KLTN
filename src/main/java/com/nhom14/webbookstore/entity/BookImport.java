@@ -31,7 +31,7 @@ public class BookImport {
     @Column(name = "import_price", columnDefinition = "double NOT NULL")
     private double importPrice;
 
-    @Column(name = "import_date", columnDefinition = "DATE NOT NULL")
+    @Column(name = "import_date", columnDefinition = "DATETIME(6) NOT NULL")
     private Timestamp importDate;
 
     @Column(name = "status", columnDefinition = "INT NOT NULL")
