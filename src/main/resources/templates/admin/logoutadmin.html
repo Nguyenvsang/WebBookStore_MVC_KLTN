@@ -70,7 +70,12 @@
 </head>
 <body>
 <div th:replace="~{admin/headeradmin :: header}"></div>
-<div class="container mt-4 mb-4">
+<div class="container-expand d-flex" style="margin: 0px; padding: 0px; width: 100%">
+	<div class="col-03" style="width: 17%">
+		<div th:replace="~{admin/sidebar :: sidebar}"></div>
+	</div>
+
+	<div class="col-08" style="width: 83%">
     	<div class="row justify-content-center">
         	<div class="col-md-6">
 				<div class="form-container" style="background-color: white;">
@@ -85,6 +90,8 @@
         	</div>
     	</div>
 	</div>
+</div>
+
 
 <!--<div th:replace="~{admin/footeradmin :: footer}"></div>-->
 <!-- Thêm các tệp tin JavaScript -->

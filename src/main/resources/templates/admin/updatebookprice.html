@@ -47,41 +47,48 @@
 </head>
 <body>
 <div th:replace="~{admin/headeradmin :: header}"></div>
-<div class="container">
-
-    <!-- Hiển thị thông báo nếu có -->
-    <div th:if="${param.message}" class="alert"
-         th:classappend="${#strings.containsIgnoreCase(param.message, 'thành công') ? 'alert-success' : 'alert-danger'}">
-        <span th:text="${param.message}"></span>
+<div class="container-expand d-flex" style="margin: 0px; padding: 0px; width: 100%">
+    <div class="col-03" style="width: 17%">
+        <div th:replace="~{admin/sidebar :: sidebar}"></div>
     </div>
 
-    <!-- Form cập nhật -->
-    <div class="container-body" style="background-color: white;">
-        <a th:href="${session.previousUrl}" class="btn btn-out" style="margin: 10px;">
-            <span class="material-symbols-outlined back">arrow_back_ios</span>
-        </a>
-        <div class="frame-body">
-            <h3>CẬP NHẬT GIÁ BÁN SÁCH</h3>
-            <form th:action="@{/updatebookprice}" method="post">
-                <!-- Mã giá bán -->
-                <div class="form-group">
-                    <label for="bookPriceId" style="color: rgb(2,88,155);">Mã giá bán:</label>
-                    <input type="text" class="form-control" id="bookPriceId" name="bookPriceId" th:value="${bookPrice.id}" readonly style="border-radius: 10px;" />
+    <div class="col-08" style="width: 83%">
+        <div class="container">
+            <!-- Hiển thị thông báo nếu có -->
+            <div th:if="${param.message}" class="alert"
+                 th:classappend="${#strings.containsIgnoreCase(param.message, 'thành công') ? 'alert-success' : 'alert-danger'}">
+                <span th:text="${param.message}"></span>
+            </div>
+
+            <!-- Form cập nhật -->
+            <div class="container-body" style="background-color: white;">
+                <a th:href="${session.previousUrl}" class="btn btn-out" style="margin: 10px;">
+                    <span class="material-symbols-outlined back">arrow_back_ios</span>
+                </a>
+                <div class="frame-body">
+                    <h3>CẬP NHẬT GIÁ BÁN SÁCH</h3>
+                    <form th:action="@{/updatebookprice}" method="post">
+                        <!-- Mã giá bán -->
+                        <div class="form-group">
+                            <label for="bookPriceId" style="color: rgb(2,88,155);">Mã giá bán:</label>
+                            <input type="text" class="form-control" id="bookPriceId" name="bookPriceId" th:value="${bookPrice.id}" readonly style="border-radius: 10px;" />
+                        </div>
+                        <!-- Mã sách -->
+                        <div class="form-group">
+                            <label for="bookId" style="color: rgb(2,88,155);">Mã sách:</label>
+                            <input type="text" class="form-control" id="bookId" name="bookId" th:value="${bookPrice.book.id}" readonly style="border-radius: 10px;" />
+                        </div>
+                        <!-- Giá bán -->
+                        <div class="form-group">
+                            <label for="sellPrice" style="color: rgb(2,88,155);">Giá bán:</label>
+                            <input type="number" class="form-control" id="sellPrice" name="sellPrice" th:value="${bookPrice.sellPrice}" min="0" required style="border-radius: 10px;" />
+                        </div>
+                        <div class="text-center mb-4">
+                            <button type="submit" class="btn btn-create">Cập nhật</button>
+                        </div>
+                    </form>
                 </div>
-                <!-- Mã sách -->
-                <div class="form-group">
-                    <label for="bookId" style="color: rgb(2,88,155);">Mã sách:</label>
-                    <input type="text" class="form-control" id="bookId" name="bookId" th:value="${bookPrice.book.id}" readonly style="border-radius: 10px;" />
-                </div>
-                <!-- Giá bán -->
-                <div class="form-group">
-                    <label for="sellPrice" style="color: rgb(2,88,155);">Giá bán:</label>
-                    <input type="number" class="form-control" id="sellPrice" name="sellPrice" th:value="${bookPrice.sellPrice}" min="0" required style="border-radius: 10px;" />
-                </div>
-                <div class="text-center mb-4">
-                    <button type="submit" class="btn btn-create">Cập nhật</button>
-                </div>
-            </form>
+            </div>
         </div>
     </div>
 </div>

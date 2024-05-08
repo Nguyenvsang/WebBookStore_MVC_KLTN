@@ -14,12 +14,12 @@
         	margin-top: 0px;
         	margin-bottom: 0px;  
         	color: rgb(2,88,155);     	
-    } 
-   
+    }
+
 	    .container.main {
 			border: 2px ;
-	        border-radius: 5px;	  
-	        border-radius: 15px;	
+	        border-radius: 5px;
+	        border-radius: 15px;
 	        padding: 15px;
 	        margin-top: 10px;
 	        margin-bottom: 10px;
@@ -74,41 +74,44 @@
 </head>
 <body>
 	<div th:replace="~{admin/headeradmin :: header}"></div>
-    <div class="container-fluid mb-4">
-		<div class="container main">        
-        
-        <!-- Hiển thị thông báo nếu có -->
-	    <div th:if="${param.message}" class="alert"
-			th:classappend="${#strings.containsIgnoreCase(param.message, 'thành công') ? 'alert-success' : 'alert-danger'}">
-			<span th:text="${param.message}"></span>
+	<div class="container-expand d-flex" style="margin: 0px; padding: 0px; width: 100%">
+		<div class="col-03" style="width: 17%">
+			<div th:replace="~{admin/sidebar :: sidebar}"></div>
 		</div>
-        
-        <div class="card">
-			<div class="ml-2">
-	            <a th:href="@{/manageauthors}" class="btn btn-out">
-				<span class="material-symbols-outlined back">arrow_back_ios</span>
-				</a>
-	        </div>
-			<h3>THÔNG TIN TÁC GIẢ</h3>
-            <div class="row no-gutters justify-content: center;">
-                <div class="col-md-12 justify-content: center;">
-					<div class="container-body">
-	                   <div class="card-body">                                                
-	                       <p class="card-text mt-4">Mã: <span th:text="${author.id}"></span></p>
-	                       <h6 class="card-title" style="color: rgb(2,88,155);">Tên tác giả: <span th:text="${author.name}"></span></h6>
-	                       <p class="card-text">Tiểu sử:</p>
-	                       <div class="form-control" style="border-radius: 10px; height: 100px; overflow: hidden;">
-							    <pre class="text" th:text="${author.bio}" style="height: 90px;"></pre>
-							</div>
-	                   </div>
-                </div>
-            </div>
-            <div class="d-flex flex-grow-1 justify-content-center" >
-	          	<a th:href="@{/updateauthor(authorId=${author.id})}" class="btn btn-editinfo">Sửa thông tin</a>
-	            	
-	        </div>
-        </div>
-        
+
+		<div class="col-08" style="width: 83%">
+        <!-- Hiển thị thông báo nếu có -->
+			<div th:if="${param.message}" class="alert"
+				th:classappend="${#strings.containsIgnoreCase(param.message, 'thành công') ? 'alert-success' : 'alert-danger'}">
+				<span th:text="${param.message}"></span>
+			</div>
+
+			<div class="card">
+				<div class="ml-2">
+					<a th:href="@{/manageauthors}" class="btn btn-out">
+					<span class="material-symbols-outlined back">arrow_back_ios</span>
+					</a>
+				</div>
+				<h3>THÔNG TIN TÁC GIẢ</h3>
+				<div class="row no-gutters justify-content: center;">
+					<div class="col-md-12 justify-content: center;">
+						<div class="container-body">
+						   <div class="card-body">
+							   <p class="card-text mt-4">Mã: <span th:text="${author.id}"></span></p>
+							   <h6 class="card-title" style="color: rgb(2,88,155);">Tên tác giả: <span th:text="${author.name}"></span></h6>
+							   <p class="card-text">Tiểu sử:</p>
+							   <div class="form-control" style="border-radius: 10px; height: 100px; overflow: hidden;">
+									<pre class="text" th:text="${author.bio}" style="height: 90px;"></pre>
+								</div>
+						   </div>
+					</div>
+				</div>
+				<div class="d-flex flex-grow-1 justify-content-center" >
+					<a th:href="@{/updateauthor(authorId=${author.id})}" class="btn btn-editinfo">Sửa thông tin</a>
+
+				</div>
+			</div>
+		</div>
     </div>
 	<!--<div th:replace="~{admin/footeradmin :: footer}"></div>-->
 	<!-- Thêm các tệp tin JavaScript -->

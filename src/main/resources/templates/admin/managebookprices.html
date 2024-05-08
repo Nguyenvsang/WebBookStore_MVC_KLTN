@@ -75,16 +75,15 @@
             border-top-right-radius: 15px;
         }
 
-        .container.main {
+        .container-main {
             border: 2px ;
             border-radius: 5px;
             border-radius: 15px;
             padding: 15px;
-            margin-top: 10px;
-            margin-bottom: 10px;
+            margin: 20px;
         }
 
-        .container.main {
+        .container-main {
             box-shadow: 0 8px 10px rgb(226, 226, 226);
         }
         .page-link {
@@ -125,118 +124,123 @@
 </head>
 <body>
 <div th:replace="~{admin/headeradmin :: header}"></div>
-<div class="container-fluid mb-4">
-    <div class="container main" style="background-color: white;">
+<div class="container-expand d-flex" style="margin: 0px; padding: 0px; width: 100%">
 
-        <h3>QUẢN LÝ ĐỢT GÁN GIÁ BÁN SÁCH</h3>
+    <div class="col-03" style="width: 17%">
+        <div th:replace="~{admin/sidebar :: sidebar}"></div>
+    </div>
 
-        <div class="form-categories"  th:if="${totalAllBookPrices != null}">
-            <p>Tổng số tất cả các đợt gán giá bán sách: <span th:text="${totalAllBookPrices}"></span></p>
-        </div>
+    <div class="col-08" style="width: 83%">
+        <div class="container-main" style="background-color: white;">
 
-        <form class="form-inline my-2 my-lg-0" method="GET" th:action="@{/managebookprices}">
-            <input class="form-control mr-sm-2" type="text" name="searchKeyword" placeholder="Tìm kiếm từ khóa" style="border: 2px solid rgb(182,232,241); border-radius: 10px;">
-            <button class="btn btn-search my-2 my-sm-0" type="submit"><span class="material-symbols-outlined">search</span></button>
-        </form>
+            <h3>QUẢN LÝ ĐỢT GÁN GIÁ BÁN SÁCH</h3>
 
-        <div class="mb-3">
-            <div class="col" style="display: flex; justify-content: right;">
-                <a th:href="@{/addbookprice}" class="nav-link add-category" style="font-family: Arial, sans-serif; padding: 0%; display: right; align-items: center; justify-content: right;">
-                    <span class="material-symbols-outlined">add_circle</span></a>
-                <a th:href="@{/addbookprice}" class="nav-link add-category" style="font-family: Arial, sans-serif; padding: 0%; display: right; align-items: center; justify-content: right;">
-                    Thêm đợt gán giá bán sách</a>
+            <div class="form-categories"  th:if="${totalAllBookPrices != null}">
+                <p>Tổng số tất cả các đợt gán giá bán sách: <span th:text="${totalAllBookPrices}"></span></p>
             </div>
-        </div>
 
-        <div class="dropdown mb-3 mt-3">
-            <button class="btn btn-filter-status dropdown-toggle" type="button" id="bookDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Chọn sách
-            </button>
-            <div class="dropdown-menu" aria-labelledby="bookDropdown" style="height: auto; max-height: 200px; overflow-x: hidden;">
-                <!-- Thêm trường nhập tìm kiếm vào đầu dropdown -->
-                <input id="searchKeyword" class="form-control mr-sm-2" type="text" placeholder="Tìm kiếm từ khóa" style="border: 2px solid rgb(182,232,241); border-radius: 10px;">
-                <a class="dropdown-item" th:href="@{/managebookprices}">Tất cả</a>
-                <th:block th:each="book : ${allBooks}">
-                    <a class="dropdown-item" th:href="@{/managebookprices(bookId=${book.id}, sortOption=${sortOption})}" th:text="${book.name}"></a>
-                </th:block>
+            <form class="form-inline my-2 my-lg-0" method="GET" th:action="@{/managebookprices}">
+                <input class="form-control mr-sm-2" type="text" name="searchKeyword" placeholder="Tìm kiếm từ khóa" style="border: 2px solid rgb(182,232,241); border-radius: 10px;">
+                <button class="btn btn-search my-2 my-sm-0" type="submit"><span class="material-symbols-outlined">search</span></button>
+            </form>
+
+            <div class="mb-3">
+                <div class="col" style="display: flex; justify-content: right;">
+                    <a th:href="@{/addbookprice}" class="nav-link add-category" style="font-family: Arial, sans-serif; padding: 0%; display: right; align-items: center; justify-content: right;">
+                        <span class="material-symbols-outlined">add_circle</span></a>
+                    <a th:href="@{/addbookprice}" class="nav-link add-category" style="font-family: Arial, sans-serif; padding: 0%; display: right; align-items: center; justify-content: right;">
+                        Thêm đợt gán giá bán sách</a>
+                </div>
             </div>
-        </div>
 
-
-        <div class="dropdown mb-3 mt-3">
-            <button class="btn btn-filter-status dropdown-toggle" type="button" id="optionDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Kiểu sắp xếp
-            </button>
-            <div class="dropdown-menu" aria-labelledby="optionDropdown">
-                <a class="dropdown-item" th:href="@{/managebookprices(sortOption='d12', bookId=${bookId})}">Ngày tăng dần</a>
-                <a class="dropdown-item" th:href="@{/managebookprices(sortOption='d21', bookId=${bookId})}">Ngày giảm dần</a>
-                <a class="dropdown-item" th:href="@{/managebookprices(sortOption='p12', bookId=${bookId})}">Giá bán tăng dần</a>
-                <a class="dropdown-item" th:href="@{/managebookprices(sortOption='p21', bookId=${bookId})}">Giá bán giảm dần</a>
-            </div>
-        </div>
-
-
-        <table class="table table-striped table-bordered mt-3">
-            <thead class="thead-title">
-            <tr style="color: rgb(2,88,155);">
-                <th scope="col" class="align-middle text-center">Mã giá bán</th>
-                <th scope="col" class="align-middle text-center">Mã sách</th>
-                <th scope="col" class="align-middle text-center">Tên sách</th>
-                <th scope="col" class="align-middle text-center">Giá bán</th>
-                <th scope="col" class="align-middle text-center">Ngày có hiệu lực</th>
-                <th scope="col" class="align-middle text-center">Sửa</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="bookPrice : ${bookPrices}">
-                <td class="align-middle text-center" th:text="${bookPrice.id}"></td>
-                <td class="align-middle text-center" th:text="${bookPrice.book.id}"></td>
-                <td class="align-middle text-center">
-                    <span th:if="${#strings.length(bookPrice.book.name) > 100}" th:text="${#strings.substring(bookPrice.book.name, 0, 100) + '...'}"></span>
-                    <span th:if="${#strings.length(bookPrice.book.name) <= 100}" th:text="${bookPrice.book.name}"></span>
-                </td>
-                <td class="align-middle text-center" th:text="${#numbers.formatInteger(bookPrice.sellPrice, 0, 'POINT')} + ' đ'" style="color: orangered; width: 100px;"></td>
-                <td class="align-middle text-center" th:text="${#temporals.format(bookPrice.effectiveDate.toLocalDateTime(), 'dd/MM/yyyy HH:mm:ss')}"></td>
-                <td class="align-middle text-center">
-                    <a th:href="@{/updatebookprice(bookPriceId=${bookPrice.id})}" class="btn btn-edit">
-                        <span class="material-symbols-outlined">edit</span>
-                    </a>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-
-        <!-- Thêm phần tử phân trang tại đây -->
-        <div class="frame-number">
-            <div th:if="${bookPrices.totalPages > 1}">
-                <ul class="pagination">
-                    <li th:if="${bookPrices.hasPrevious()}" class="page-item">
-                        <a class="page-link" th:href="@{/managebookprices(page=${bookPrices.number}, size=${size}, sortOption=${sortOption}, bookId=${bookId}, searchKeyword=${searchKeyword})}">
-                            <span class="material-symbols-outlined">navigate_before</span>
-                        </a>
-                    </li>
-
-                    <th:block th:each="pageNumber : ${#numbers.sequence(0, bookPrices.totalPages - 1)}">
-                        <li class="page-item" th:classappend="${pageNumber == bookPrices.number ? 'active' : ''}">
-                            <th:block th:if="${pageNumber == bookPrices.number}">
-                                <span class="page-link" th:text="${pageNumber + 1}"></span>
-                            </th:block>
-                            <th:block th:unless="${pageNumber == bookPrices.number}">
-                                <a class="page-link" th:href="@{/managebookprices(page=${pageNumber + 1}, size=${size}, sortOption=${sortOption}, bookId=${bookId}, searchKeyword=${searchKeyword})}" th:text="${pageNumber + 1}"></a>
-                            </th:block>
-                        </li>
+            <div class="dropdown mb-3 mt-3">
+                <button class="btn btn-filter-status dropdown-toggle" type="button" id="bookDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Chọn sách
+                </button>
+                <div class="dropdown-menu" aria-labelledby="bookDropdown" style="height: auto; max-height: 200px; overflow-x: hidden;">
+                    <!-- Thêm trường nhập tìm kiếm vào đầu dropdown -->
+                    <input id="searchKeyword" class="form-control mr-sm-2" type="text" placeholder="Tìm kiếm từ khóa" style="border: 2px solid rgb(182,232,241); border-radius: 10px;">
+                    <a class="dropdown-item" th:href="@{/managebookprices}">Tất cả</a>
+                    <th:block th:each="book : ${allBooks}">
+                        <a class="dropdown-item" th:href="@{/managebookprices(bookId=${book.id}, sortOption=${sortOption})}" th:text="${book.name}"></a>
                     </th:block>
+                </div>
+            </div>
 
-                    <li th:if="${bookPrices.hasNext()}" class="page-item">
-                        <a class="page-link" th:href="@{/managebookprices(page=${bookPrices.number + 2}, size=${size}, sortOption=${sortOption}, bookId=${bookId}, searchKeyword=${searchKeyword})}">
-                            <span class="material-symbols-outlined">navigate_next</span>
+
+            <div class="dropdown mb-3 mt-3">
+                <button class="btn btn-filter-status dropdown-toggle" type="button" id="optionDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Kiểu sắp xếp
+                </button>
+                <div class="dropdown-menu" aria-labelledby="optionDropdown">
+                    <a class="dropdown-item" th:href="@{/managebookprices(sortOption='d12', bookId=${bookId})}">Ngày tăng dần</a>
+                    <a class="dropdown-item" th:href="@{/managebookprices(sortOption='d21', bookId=${bookId})}">Ngày giảm dần</a>
+                    <a class="dropdown-item" th:href="@{/managebookprices(sortOption='p12', bookId=${bookId})}">Giá bán tăng dần</a>
+                    <a class="dropdown-item" th:href="@{/managebookprices(sortOption='p21', bookId=${bookId})}">Giá bán giảm dần</a>
+                </div>
+            </div>
+
+
+            <table class="table table-striped table-bordered mt-3">
+                <thead class="thead-title">
+                <tr style="color: rgb(2,88,155);">
+                    <th scope="col" class="align-middle text-center">Mã giá bán</th>
+                    <th scope="col" class="align-middle text-center">Mã sách</th>
+                    <th scope="col" class="align-middle text-center">Tên sách</th>
+                    <th scope="col" class="align-middle text-center">Giá bán</th>
+                    <th scope="col" class="align-middle text-center">Ngày có hiệu lực</th>
+                    <th scope="col" class="align-middle text-center">Sửa</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="bookPrice : ${bookPrices}">
+                    <td class="align-middle text-center" th:text="${bookPrice.id}"></td>
+                    <td class="align-middle text-center" th:text="${bookPrice.book.id}"></td>
+                    <td class="align-middle text-center">
+                        <span th:if="${#strings.length(bookPrice.book.name) > 100}" th:text="${#strings.substring(bookPrice.book.name, 0, 100) + '...'}"></span>
+                        <span th:if="${#strings.length(bookPrice.book.name) <= 100}" th:text="${bookPrice.book.name}"></span>
+                    </td>
+                    <td class="align-middle text-center" th:text="${#numbers.formatInteger(bookPrice.sellPrice, 0, 'POINT')} + ' đ'" style="color: orangered; width: 100px;"></td>
+                    <td class="align-middle text-center" th:text="${#temporals.format(bookPrice.effectiveDate.toLocalDateTime(), 'dd/MM/yyyy HH:mm:ss')}"></td>
+                    <td class="align-middle text-center">
+                        <a th:href="@{/updatebookprice(bookPriceId=${bookPrice.id})}" class="btn btn-edit">
+                            <span class="material-symbols-outlined">edit</span>
                         </a>
-                    </li>
-                </ul>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+            <!-- Thêm phần tử phân trang tại đây -->
+            <div class="frame-number">
+                <div th:if="${bookPrices.totalPages > 1}">
+                    <ul class="pagination">
+                        <li th:if="${bookPrices.hasPrevious()}" class="page-item">
+                            <a class="page-link" th:href="@{/managebookprices(page=${bookPrices.number}, size=${size}, sortOption=${sortOption}, bookId=${bookId}, searchKeyword=${searchKeyword})}">
+                                <span class="material-symbols-outlined">navigate_before</span>
+                            </a>
+                        </li>
+
+                        <th:block th:each="pageNumber : ${#numbers.sequence(0, bookPrices.totalPages - 1)}">
+                            <li class="page-item" th:classappend="${pageNumber == bookPrices.number ? 'active' : ''}">
+                                <th:block th:if="${pageNumber == bookPrices.number}">
+                                    <span class="page-link" th:text="${pageNumber + 1}"></span>
+                                </th:block>
+                                <th:block th:unless="${pageNumber == bookPrices.number}">
+                                    <a class="page-link" th:href="@{/managebookprices(page=${pageNumber + 1}, size=${size}, sortOption=${sortOption}, bookId=${bookId}, searchKeyword=${searchKeyword})}" th:text="${pageNumber + 1}"></a>
+                                </th:block>
+                            </li>
+                        </th:block>
+
+                        <li th:if="${bookPrices.hasNext()}" class="page-item">
+                            <a class="page-link" th:href="@{/managebookprices(page=${bookPrices.number + 2}, size=${size}, sortOption=${sortOption}, bookId=${bookId}, searchKeyword=${searchKeyword})}">
+                                <span class="material-symbols-outlined">navigate_next</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
-
-
     </div>
 </div>
 

@@ -47,11 +47,11 @@
         }
 
         .thead-title {
-        border-radius: 25px;
-        overflow: hidden;
-        background-color: rgb(182,232,241);
-        color: black;
-        border-radius: 15px
+            border-radius: 25px;
+            overflow: hidden;
+            background-color: rgb(182,232,241);
+            color: black;
+            border-radius: 15px
         }
 
         .thead-title th:first-child {
@@ -82,16 +82,14 @@
                 border-radius: 20px;
             }
 
-        .container.main {
+        .container-main {
             border-radius: 5px;
             border-radius: 15px;
             padding: 15px;
-            margin-top: 10px;
-            margin-bottom: 10px;
+            margin: 20px;
         }
 
-        .container.main{
-            margin-top: 20px;
+        .container-main{
             box-shadow: 0 8px 10px rgb(226, 226, 226);
         }
 
@@ -184,125 +182,129 @@
 </head>
 <body>
 <div th:replace="~{admin/headeradmin :: header}"></div>
-<div class="container-fluid mb-4">
-    <div class="container main" style="background-color: white;">
-        <h3>CHI TIẾT LỢI NHUẬN</h3>
+<div class="container-expand d-flex" style="margin: 0px; padding: 0px; width: 100%">
+    <div class="col-03" style="width: 17%">
+        <div th:replace="~{admin/sidebar :: sidebar}"></div>
+    </div>
 
-        <!-- Hiển thị thông báo nếu có -->
-        <div th:if="${param.message}" class="alert"
-             th:classappend="${#strings.containsIgnoreCase(param.message, 'thành công') ? 'alert-success' : 'alert-danger'}">
-            <span th:text="${param.message}"></span>
-        </div>
+    <div class="col-08" style="width: 83%">
+        <div class="container-main" style="background-color: white;">
+            <h3>CHI TIẾT LỢI NHUẬN</h3>
 
-        <a th:href="@{/statistics}" class="btn btn-back">
-            <span class="material-symbols-outlined back">arrow_back_ios</span>
-        </a>
-
-        <div class="form-accounts">
-            <p>Tổng số tất cả các doanh thu: <span th:text="${totalAllProfits}"></span></p>
-        </div>
-
-        <form class="form-inline my-2 my-lg-0" method="GET" th:action="@{/manageprofits}" style="margin-left: 15px;">
-            <input class="form-control mr-sm-2" type="text" name="profitId" th:placeholder="${profitId != null ? ('Tìm kiếm theo mã lợi nhuận: ' + profitId) : 'Tìm kiếm theo mã lợi nhuận'}" style="border: 2px solid rgb(182,232,241); border-radius: 10px;">
-            <button class="btn btn-search my-2 my-sm-0" type="submit"><span class="material-symbols-outlined">search</span></button>
-        </form>
-
-        <form class="form-inline my-2 my-lg-0" method="GET" th:action="@{/manageprofits}" style="margin-left: 15px;">
-            <input class="form-control mr-sm-2" type="text" name="orderitemId" th:placeholder="${orderitemId != null ? ('Tìm kiếm theo mã món hàng: ' + orderitemId) : 'Tìm kiếm theo mã món hàng'}" style="border: 2px solid rgb(182,232,241); border-radius: 10px;">
-            <button class="btn btn-search my-2 my-sm-0" type="submit"><span class="material-symbols-outlined">search</span></button>
-        </form>
-
-        <form class="form-inline my-2 my-lg-0" method="GET" th:action="@{/manageprofits}" style="margin-left: 15px;">
-            <input class="form-control mr-sm-2" type="text" name="costPrice" th:placeholder="${costPrice != null ? ('Tìm kiếm theo giá nhập: ' + costPrice) : 'Tìm kiếm theo giá nhập'}" style="border: 2px solid rgb(182,232,241); border-radius: 10px;">
-            <button class="btn btn-search my-2 my-sm-0" type="submit"><span class="material-symbols-outlined">search</span></button>
-        </form>
-
-        <form class="form-inline my-2 my-lg-0" method="GET" th:action="@{/manageprofits}" style="margin-left: 15px;">
-            <input class="form-control mr-sm-2" type="text" name="sellPrice" th:placeholder="${sellPrice != null ? ('Tìm kiếm theo giá bán: ' + sellPrice) : 'Tìm kiếm theo giá bán'}" style="border: 2px solid rgb(182,232,241); border-radius: 10px;">
-            <button class="btn btn-search my-2 my-sm-0" type="submit"><span class="material-symbols-outlined">search</span></button>
-        </form>
-
-        <form class="form-inline my-2 my-lg-0" method="GET" th:action="@{/manageprofits}" style="margin-left: 15px;">
-            <input class="form-control mr-sm-2" type="text" name="profit" th:placeholder="${profit != null ? ('Tìm kiếm theo giá trị lợi nhuận: ' + profit) : 'Tìm kiếm theo giá trị lợi nhuận'}" style="border: 2px solid rgb(182,232,241); border-radius: 10px;">
-            <button class="btn btn-search my-2 my-sm-0" type="submit"><span class="material-symbols-outlined">search</span></button>
-        </form>
-
-        <form class="form-inline my-2 my-lg-0" method="GET" th:action="@{/manageprofits}" style="margin-left: 15px;">
-            <input class="form-control mr-sm-2" type="date" name="dateStr" th:placeholder="${dateStr != null ? ('Tìm kiếm theo ngày: ' + dateStr) : 'Tìm kiếm theo ngày'}" style="border: 2px solid rgb(182,232,241); border-radius: 10px;">
-            <button class="btn btn-search my-2 my-sm-0" type="submit"><span class="material-symbols-outlined">search</span></button>
-        </form>
-
-        <div class="dropdown mb-3 mt-3"  style="margin-left: 15px;">
-            <button class="btn btn-filter-status dropdown-toggle" type="button" id="profitDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Sắp xếp:
-                <span th:switch="${profitOption}">
-                    <span th:case="12">Lợi nhuận tăng dần</span>
-                    <span th:case="21">Lợi nhuận giảm dần</span>
-                    <span th:case="*">Không có</span>
-                </span>
-            </button>
-            <div class="dropdown-menu" aria-labelledby="profitDropdown">
-                <a class="dropdown-item" th:href="@{/manageprofits(page=1, size=${size},  sort=${sort}, profitId=${profitId}, orderitemId=${orderitemId}, costPrice=${costPrice}, sellPrice=${sellPrice}, profit=${profit}, dateStr=${dateStr}, profitMin=${profitMin}, profitMax=${profitMax}, profitOption=12)}">Lợi nhuận tăng dần</a>
-                <a class="dropdown-item" th:href="@{/manageprofits(page=1, size=${size},  sort=${sort}, profitId=${profitId}, orderitemId=${orderitemId}, costPrice=${costPrice}, sellPrice=${sellPrice}, profit=${profit}, dateStr=${dateStr}, profitMin=${profitMin}, profitMax=${profitMax}, profitOption=21)}">Lợi nhuận giảm dần</a>
+            <!-- Hiển thị thông báo nếu có -->
+            <div th:if="${param.message}" class="alert"
+                 th:classappend="${#strings.containsIgnoreCase(param.message, 'thành công') ? 'alert-success' : 'alert-danger'}">
+                <span th:text="${param.message}"></span>
             </div>
-        </div>
 
-        <div class="container main-01" style="background-color: white;" >
-            <table class="table table-striped table-bordered mt-3">
-                <thead class="thead-title">
-                <tr style="color: rgb(2,88,155);">
-                    <th scope="col" class="align-middle text-center">Mã lợi nhuận</th>
-                    <th scope="col" class="align-middle text-center">Mã món hàng</th>
-                    <th scope="col" class="align-middle text-center">Giá nhập</th>
-                    <th scope="col" class="align-middle text-center">Giá bán</th>
-                    <th scope="col" class="align-middle text-center">Lợi nhuận</th>
-                    <th scope="col" class="align-middle text-center">Ngày nhập</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="profit : ${profits.content}" th:id="'profit-' + ${profit.id}">
-                    <td class="align-middle text-center" th:text="${profit.id}"></td>
-                    <td class="align-middle text-center" th:text="${profit.orderItem.id}"></td>
-                    <td class="align-middle text-center" th:text="${#numbers.formatInteger(profit.costPrice, 0, 'POINT' )+ ' đ'}" style="color: orangered;"></td>
-                    <td class="align-middle text-center" th:text="${#numbers.formatInteger(profit.sellPrice, 0, 'POINT' )+ ' đ'}" style="color: orangered;"></td>
-                    <td class="align-middle text-center" th:text="${#numbers.formatInteger(profit.profit, 0, 'POINT' )+ ' đ'}" style="color: orangered;"></td>
-                    <td class="align-middle text-center" th:text="${#temporals.format(profit.date.toLocalDateTime(), 'dd/MM/yyyy hh:mm:ss')}"></td>
+            <a th:href="@{/statistics}" class="btn btn-back">
+                <span class="material-symbols-outlined back">arrow_back_ios</span>
+            </a>
 
-                    <!-- Thêm các nút thao tác tại đây -->
-                </tr>
-                </tbody>
-            </table>
-            <!-- Thêm phần tử phân trang tại đây -->
-            <div class="frame-number">
-                <div th:if="${profits.totalPages > 1}">
-                    <ul class="pagination">
-                        <li th:if="${profits.hasPrevious()}" class="page-item">
-                            <a class="page-link" th:href="@{/manageprofits(page=${profits.number}, size=${size},  sort=${sort}, orderitemId=${orderitemId}, costPrice=${costPrice}, sellPrice=${sellPrice}, profit=${profit}, dateStr=${dateStr}, profitMin=${profitMin}, profitMax=${profitMax}, profitOption=${profitOption})}">
-                                <span class="material-symbols-outlined">navigate_before</span>
-                            </a>
-                        </li>
+            <div class="form-accounts">
+                <p>Tổng số tất cả các doanh thu: <span th:text="${totalAllProfits}"></span></p>
+            </div>
 
-                        <th:block th:each="pageNumber : ${#numbers.sequence(0, profits.totalPages - 1)}">
-                            <li class="page-item" th:classappend="${pageNumber == profits.number ? 'active' : ''}">
-                                <th:block th:if="${pageNumber == profits.number}">
-                                    <span class="page-link" th:text="${pageNumber + 1}"></span>
-                                </th:block>
-                                <th:block th:unless="${pageNumber == profits.number}">
-                                    <a class="page-link" th:inline="text" th:href="@{/manageprofits(page=${pageNumber + 1}, size=${size},  sort=${sort}, orderitemId=${orderitemId}, costPrice=${costPrice}, sellPrice=${sellPrice}, profit=${profit}, dateStr=${dateStr}, profitMin=${profitMin}, profitMax=${profitMax}, profitOption=${profitOption})}" th:text="${pageNumber + 1}"></a>
-                                </th:block>
-                            </li>
-                        </th:block>
+            <form class="form-inline my-2 my-lg-0" method="GET" th:action="@{/manageprofits}" style="margin-left: 15px;">
+                <input class="form-control mr-sm-2" type="text" name="profitId" th:placeholder="${profitId != null ? ('Tìm kiếm theo mã lợi nhuận: ' + profitId) : 'Tìm kiếm theo mã lợi nhuận'}" style="border: 2px solid rgb(182,232,241); border-radius: 10px;">
+                <button class="btn btn-search my-2 my-sm-0" type="submit"><span class="material-symbols-outlined">search</span></button>
+            </form>
 
-                        <li th:if="${profits.hasNext()}" class="page-item">
-                            <a class="page-link" th:href="@{/manageprofits(page=${profits.number + 2}, size=${size},  sort=${sort}, orderitemId=${orderitemId}, costPrice=${costPrice}, sellPrice=${sellPrice}, profit=${profit}, dateStr=${dateStr}, profitMin=${profitMin}, profitMax=${profitMax}, profitOption=${profitOption})}">
-                                <span class="material-symbols-outlined">navigate_next</span>
-                            </a>
-                        </li>
-                    </ul>
+            <form class="form-inline my-2 my-lg-0" method="GET" th:action="@{/manageprofits}" style="margin-left: 15px;">
+                <input class="form-control mr-sm-2" type="text" name="orderitemId" th:placeholder="${orderitemId != null ? ('Tìm kiếm theo mã món hàng: ' + orderitemId) : 'Tìm kiếm theo mã món hàng'}" style="border: 2px solid rgb(182,232,241); border-radius: 10px;">
+                <button class="btn btn-search my-2 my-sm-0" type="submit"><span class="material-symbols-outlined">search</span></button>
+            </form>
+
+            <form class="form-inline my-2 my-lg-0" method="GET" th:action="@{/manageprofits}" style="margin-left: 15px;">
+                <input class="form-control mr-sm-2" type="text" name="costPrice" th:placeholder="${costPrice != null ? ('Tìm kiếm theo giá nhập: ' + costPrice) : 'Tìm kiếm theo giá nhập'}" style="border: 2px solid rgb(182,232,241); border-radius: 10px;">
+                <button class="btn btn-search my-2 my-sm-0" type="submit"><span class="material-symbols-outlined">search</span></button>
+            </form>
+
+            <form class="form-inline my-2 my-lg-0" method="GET" th:action="@{/manageprofits}" style="margin-left: 15px;">
+                <input class="form-control mr-sm-2" type="text" name="sellPrice" th:placeholder="${sellPrice != null ? ('Tìm kiếm theo giá bán: ' + sellPrice) : 'Tìm kiếm theo giá bán'}" style="border: 2px solid rgb(182,232,241); border-radius: 10px;">
+                <button class="btn btn-search my-2 my-sm-0" type="submit"><span class="material-symbols-outlined">search</span></button>
+            </form>
+
+            <form class="form-inline my-2 my-lg-0" method="GET" th:action="@{/manageprofits}" style="margin-left: 15px;">
+                <input class="form-control mr-sm-2" type="text" name="profit" th:placeholder="${profit != null ? ('Tìm kiếm theo giá trị lợi nhuận: ' + profit) : 'Tìm kiếm theo giá trị lợi nhuận'}" style="border: 2px solid rgb(182,232,241); border-radius: 10px;">
+                <button class="btn btn-search my-2 my-sm-0" type="submit"><span class="material-symbols-outlined">search</span></button>
+            </form>
+
+            <form class="form-inline my-2 my-lg-0" method="GET" th:action="@{/manageprofits}" style="margin-left: 15px;">
+                <input class="form-control mr-sm-2" type="date" name="dateStr" th:placeholder="${dateStr != null ? ('Tìm kiếm theo ngày: ' + dateStr) : 'Tìm kiếm theo ngày'}" style="border: 2px solid rgb(182,232,241); border-radius: 10px;">
+                <button class="btn btn-search my-2 my-sm-0" type="submit"><span class="material-symbols-outlined">search</span></button>
+            </form>
+
+            <div class="dropdown mb-3 mt-3"  style="margin-left: 15px;">
+                <button class="btn btn-filter-status dropdown-toggle" type="button" id="profitDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Sắp xếp:
+                    <span th:switch="${profitOption}">
+                        <span th:case="12">Lợi nhuận tăng dần</span>
+                        <span th:case="21">Lợi nhuận giảm dần</span>
+                        <span th:case="*">Không có</span>
+                    </span>
+                </button>
+                <div class="dropdown-menu" aria-labelledby="profitDropdown">
+                    <a class="dropdown-item" th:href="@{/manageprofits(page=1, size=${size},  sort=${sort}, profitId=${profitId}, orderitemId=${orderitemId}, costPrice=${costPrice}, sellPrice=${sellPrice}, profit=${profit}, dateStr=${dateStr}, profitMin=${profitMin}, profitMax=${profitMax}, profitOption=12)}">Lợi nhuận tăng dần</a>
+                    <a class="dropdown-item" th:href="@{/manageprofits(page=1, size=${size},  sort=${sort}, profitId=${profitId}, orderitemId=${orderitemId}, costPrice=${costPrice}, sellPrice=${sellPrice}, profit=${profit}, dateStr=${dateStr}, profitMin=${profitMin}, profitMax=${profitMax}, profitOption=21)}">Lợi nhuận giảm dần</a>
                 </div>
             </div>
 
+            <div class="container main-01" style="background-color: white;" >
+                <table class="table table-striped table-bordered mt-3">
+                    <thead class="thead-title">
+                    <tr style="color: rgb(2,88,155);">
+                        <th scope="col" class="align-middle text-center">Mã lợi nhuận</th>
+                        <th scope="col" class="align-middle text-center">Mã món hàng</th>
+                        <th scope="col" class="align-middle text-center">Giá nhập</th>
+                        <th scope="col" class="align-middle text-center">Giá bán</th>
+                        <th scope="col" class="align-middle text-center">Lợi nhuận</th>
+                        <th scope="col" class="align-middle text-center">Ngày nhập</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="profit : ${profits.content}" th:id="'profit-' + ${profit.id}">
+                        <td class="align-middle text-center" th:text="${profit.id}"></td>
+                        <td class="align-middle text-center" th:text="${profit.orderItem.id}"></td>
+                        <td class="align-middle text-center" th:text="${#numbers.formatInteger(profit.costPrice, 0, 'POINT' )+ ' đ'}" style="color: orangered;"></td>
+                        <td class="align-middle text-center" th:text="${#numbers.formatInteger(profit.sellPrice, 0, 'POINT' )+ ' đ'}" style="color: orangered;"></td>
+                        <td class="align-middle text-center" th:text="${#numbers.formatInteger(profit.profit, 0, 'POINT' )+ ' đ'}" style="color: orangered;"></td>
+                        <td class="align-middle text-center" th:text="${#temporals.format(profit.date.toLocalDateTime(), 'dd/MM/yyyy hh:mm:ss')}"></td>
 
+                        <!-- Thêm các nút thao tác tại đây -->
+                    </tr>
+                    </tbody>
+                </table>
+                <!-- Thêm phần tử phân trang tại đây -->
+                <div class="frame-number">
+                    <div th:if="${profits.totalPages > 1}">
+                        <ul class="pagination">
+                            <li th:if="${profits.hasPrevious()}" class="page-item">
+                                <a class="page-link" th:href="@{/manageprofits(page=${profits.number}, size=${size},  sort=${sort}, orderitemId=${orderitemId}, costPrice=${costPrice}, sellPrice=${sellPrice}, profit=${profit}, dateStr=${dateStr}, profitMin=${profitMin}, profitMax=${profitMax}, profitOption=${profitOption})}">
+                                    <span class="material-symbols-outlined">navigate_before</span>
+                                </a>
+                            </li>
+
+                            <th:block th:each="pageNumber : ${#numbers.sequence(0, profits.totalPages - 1)}">
+                                <li class="page-item" th:classappend="${pageNumber == profits.number ? 'active' : ''}">
+                                    <th:block th:if="${pageNumber == profits.number}">
+                                        <span class="page-link" th:text="${pageNumber + 1}"></span>
+                                    </th:block>
+                                    <th:block th:unless="${pageNumber == profits.number}">
+                                        <a class="page-link" th:inline="text" th:href="@{/manageprofits(page=${pageNumber + 1}, size=${size},  sort=${sort}, orderitemId=${orderitemId}, costPrice=${costPrice}, sellPrice=${sellPrice}, profit=${profit}, dateStr=${dateStr}, profitMin=${profitMin}, profitMax=${profitMax}, profitOption=${profitOption})}" th:text="${pageNumber + 1}"></a>
+                                    </th:block>
+                                </li>
+                            </th:block>
+
+                            <li th:if="${profits.hasNext()}" class="page-item">
+                                <a class="page-link" th:href="@{/manageprofits(page=${profits.number + 2}, size=${size},  sort=${sort}, orderitemId=${orderitemId}, costPrice=${costPrice}, sellPrice=${sellPrice}, profit=${profit}, dateStr=${dateStr}, profitMin=${profitMin}, profitMax=${profitMax}, profitOption=${profitOption})}">
+                                    <span class="material-symbols-outlined">navigate_next</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

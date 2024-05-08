@@ -47,71 +47,79 @@
 </head>
 <body>
 <div th:replace="~{admin/headeradmin :: header}"></div>
-<div class="container">
-
-    <!-- Hiển thị thông báo nếu có -->
-    <div th:if="${param.message}" class="alert"
-         th:classappend="${#strings.containsIgnoreCase(param.message, 'thành công') ? 'alert-success' : 'alert-danger'}">
-        <span th:text="${param.message}"></span>
+<div class="container-expand d-flex" style="margin: 0px; padding: 0px; width: 100%">
+    <div class="col-03" style="width: 17%">
+        <div th:replace="~{admin/sidebar :: sidebar}"></div>
     </div>
 
-    <!-- Form cập nhật thông tin đợt nhập sách -->
-    <div class="container-body" style="background-color: white;">
-        <a th:href="${session.previousUrl}" class="btn btn-out" style="margin: 10px;">
-            <span class="material-symbols-outlined back">arrow_back_ios</span>
-        </a>
-        <div class="frame-body">
-            <h3>CẬP NHẬT ĐỢT NHẬP SÁCH</h3>
-            <form th:action="@{/updatebookimport}" method="post">
-                <!-- Mã nhập -->
-                <div class="form-group">
-                    <label for="importId" style="color: rgb(2,88,155);">Mã nhập:</label>
-                    <input type="text" class="form-control" id="importId" name="importId" th:value="${bookImport.id}" readonly style="border-radius: 10px;" />
+    <div class="col-08" style="width: 83%">
+        <div class="container">
+
+            <!-- Hiển thị thông báo nếu có -->
+            <div th:if="${param.message}" class="alert"
+                 th:classappend="${#strings.containsIgnoreCase(param.message, 'thành công') ? 'alert-success' : 'alert-danger'}">
+                <span th:text="${param.message}"></span>
+            </div>
+
+            <!-- Form cập nhật thông tin đợt nhập sách -->
+            <div class="container-body" style="background-color: white;">
+                <a th:href="${session.previousUrl}" class="btn btn-out" style="margin: 10px;">
+                    <span class="material-symbols-outlined back">arrow_back_ios</span>
+                </a>
+                <div class="frame-body">
+                    <h3>CẬP NHẬT ĐỢT NHẬP SÁCH</h3>
+                    <form th:action="@{/updatebookimport}" method="post">
+                        <!-- Mã nhập -->
+                        <div class="form-group">
+                            <label for="importId" style="color: rgb(2,88,155);">Mã nhập:</label>
+                            <input type="text" class="form-control" id="importId" name="importId" th:value="${bookImport.id}" readonly style="border-radius: 10px;" />
+                        </div>
+                        <!-- Mã sách -->
+                        <div class="form-group">
+                            <label for="bookId" style="color: rgb(2,88,155);">Mã sách:</label>
+                            <input type="text" class="form-control" id="bookId" name="bookId" th:value="${bookImport.book.id}" readonly style="border-radius: 10px;" />
+                        </div>
+                        <!-- Số lượng -->
+                        <div class="form-group">
+                            <label for="quantity" style="color: rgb(2,88,155);">Số lượng:</label>
+                            <input type="number" class="form-control" id="quantity" name="quantity" th:value="${bookImport.quantity}" min="0" required style="border-radius: 10px;" />
+                        </div>
+                        <!-- Số lượng còn lại -->
+                        <div class="form-group">
+                            <label for="remainingQuantity" style="color: rgb(2,88,155);">Số lượng còn lại:</label>
+                            <input type="number" class="form-control" id="remainingQuantity" name="remainingQuantity" th:value="${bookImport.remainingQuantity}" min="0" required style="border-radius: 10px;" />
+                        </div>
+                        <!-- Giá nhập -->
+                        <div class="form-group">
+                            <label for="importPrice" style="color: rgb(2,88,155);">Giá nhập:</label>
+                            <input type="number" class="form-control" id="importPrice" name="importPrice" th:value="${bookImport.importPrice}" min="0" required style="border-radius: 10px;" />
+                        </div>
+                        <!-- Ngày nhập -->
+                        <div class="form-group">
+                            <label for="importDate">Ngày nhập:</label>
+                            <input type="date" class="form-control" id="importDate" name="importDate" th:value="${#dates.format(bookImport.importDate, 'yyyy-MM-dd')}" required style="border-radius: 10px;" />
+                        </div>
+                        <!-- Giờ nhập -->
+                        <div class="form-group">
+                            <label for="importTime">Giờ nhập:</label>
+                            <input type="time" class="form-control" id="importTime" name="importTime" th:value="${#dates.format(bookImport.importDate, 'HH:mm')}" required />
+                        </div>
+                        <!-- Trạng thái -->
+                        <div class="form-group">
+                            <label for="status" style="color: rgb(2,88,155);">Trạng thái:</label>
+                            <select class="form-control" id="status" name="status" th:value="${bookImport.status}" style="border-radius: 10px;" required>
+                                <option value="2" th:selected="${bookImport.status == 2}">Chưa bán</option>
+                                <option value="1" th:selected="${bookImport.status == 1}">Đang bán</option>
+                                <option value="0" th:selected="${bookImport.status == 0}">Ngừng bán</option>
+                                <option value="0" th:selected="${bookImport.status == 3}">Hủy bỏ</option>
+                            </select>
+                        </div>
+                        <div class="text-center mb-4">
+                            <button type="submit" class="btn btn-create">Cập nhật</button>
+                        </div>
+                    </form>
                 </div>
-                <!-- Mã sách -->
-                <div class="form-group">
-                    <label for="bookId" style="color: rgb(2,88,155);">Mã sách:</label>
-                    <input type="text" class="form-control" id="bookId" name="bookId" th:value="${bookImport.book.id}" readonly style="border-radius: 10px;" />
-                </div>
-                <!-- Số lượng -->
-                <div class="form-group">
-                    <label for="quantity" style="color: rgb(2,88,155);">Số lượng:</label>
-                    <input type="number" class="form-control" id="quantity" name="quantity" th:value="${bookImport.quantity}" min="0" required style="border-radius: 10px;" />
-                </div>
-                <!-- Số lượng còn lại -->
-                <div class="form-group">
-                    <label for="remainingQuantity" style="color: rgb(2,88,155);">Số lượng còn lại:</label>
-                    <input type="number" class="form-control" id="remainingQuantity" name="remainingQuantity" th:value="${bookImport.remainingQuantity}" min="0" required style="border-radius: 10px;" />
-                </div>
-                <!-- Giá nhập -->
-                <div class="form-group">
-                    <label for="importPrice" style="color: rgb(2,88,155);">Giá nhập:</label>
-                    <input type="number" class="form-control" id="importPrice" name="importPrice" th:value="${bookImport.importPrice}" min="0" required style="border-radius: 10px;" />
-                </div>
-                <!-- Ngày nhập -->
-                <div class="form-group">
-                    <label for="importDate">Ngày nhập:</label>
-                    <input type="date" class="form-control" id="importDate" name="importDate" th:value="${#dates.format(bookImport.importDate, 'yyyy-MM-dd')}" required style="border-radius: 10px;" />
-                </div>
-                <!-- Giờ nhập -->
-                <div class="form-group">
-                    <label for="importTime">Giờ nhập:</label>
-                    <input type="time" class="form-control" id="importTime" name="importTime" th:value="${#dates.format(bookImport.importDate, 'HH:mm')}" required />
-                </div>
-                <!-- Trạng thái -->
-                <div class="form-group">
-                    <label for="status" style="color: rgb(2,88,155);">Trạng thái:</label>
-                    <select class="form-control" id="status" name="status" th:value="${bookImport.status}" style="border-radius: 10px;" required>
-                        <option value="2" th:selected="${bookImport.status == 2}">Chưa bán</option>
-                        <option value="1" th:selected="${bookImport.status == 1}">Đang bán</option>
-                        <option value="0" th:selected="${bookImport.status == 0}">Ngừng bán</option>
-                        <option value="0" th:selected="${bookImport.status == 3}">Hủy bỏ</option>
-                    </select>
-                </div>
-                <div class="text-center mb-4">
-                    <button type="submit" class="btn btn-create">Cập nhật</button>
-                </div>
-            </form>
+            </div>
         </div>
     </div>
 </div>

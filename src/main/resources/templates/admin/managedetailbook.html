@@ -107,148 +107,155 @@
 </head>
 <body>
 <div th:replace="~{admin/headeradmin :: header}"></div>
-<div class="container-fluid mb-4">
-	<div class="container">
-		<div class="frame-01">
-			<div class="ml-2" style="justify-content: left; margin: 10px;">
-				<a th:href="@{/managebooks}" class="btn btn-out" style="margin-top: 15px;">
-					<span class="material-symbols-outlined back">arrow_back_ios</span>
-				</a>
-			</div>
-			<h3>THÔNG TIN SÁCH</h3>
-			<div class="frame-02">
-				<div class="row no-gutters">
-					<div class="col-md-4">
-						<div class="row">
-							<div class="col-md-4">
-								<img th:src="${book.bookImages[1].path + '?v=' + randomNumber}" alt="Book Image 1" width="90" style="margin-bottom: 10px;"><br>
-								<img th:src="${book.bookImages[2].path + '?v=' + randomNumber}" alt="Book Image 1" width="90" style="margin-bottom: 10px;"><br>
-								<img th:src="${book.bookImages[3].path + '?v=' + randomNumber}" alt="Book Image 1" width="90" style="margin-bottom: 10px;"><br>
-							</div>
-							<div class="col-md-8">
-								<img th:src="${book.bookImages[0].path}" alt="Book Image" class="card-img" style="border-radius: 15px;">
-							</div>
-						</div>
-					</div>
-					<div class="col-md-8">
-						<div class="card-body">
-							<h5 class="card-title" th:text="${book.name}" style="margin-left: 20px;"></h5>
-							<div class="row main" style="margin-right: 250px;">
-								<div class="col" style="margin-left: 20px;" >
+<div class="container-expand d-flex" style="margin: 0px; padding: 0px; width: 100%">
 
-									<div class="row one" style="display: flex; justify-content: center; align-items: center;">
-										<div class="col">
-											<p class="card-text">Tác giả:</p>
-										</div>
-										<div class="col">
-											<span th:each="bookauthor : ${book.bookAuthors}" th:text="${bookauthor.author.name}"></span>
-										</div>
-									</div>
+	<div class="col-03" style="width: 17%">
+		<div th:replace="~{admin/sidebar :: sidebar}"></div>
+	</div>
 
-									<div class="row two"  style="display: flex; justify-content: left; align-items: center;">
-										<div class="col">
-											<p class="card-text" style="display: flex; justify-content: left; align-items: center;">Nhà xuất bản: </p>
-										</div>
-										<div class="col" style="display: flex; justify-content: left; align-items: center;">
-											<span th:text="${book.publisher}"></span>
-										</div>
-									</div>
-
-									<div class="row third" style="display: flex; justify-content: center; align-items: center;">
-										<div class="col">
-											<p class="card-text" style="display: flex; justify-content: left; align-items: center;">Số lượng: </p>
-										</div>
-										<div class="col" style="display: flex; justify-content: left; align-items: center;">
-											<span th:text="${book.quantity}"></span>
-										</div>
-									</div>
-
-									<div class="row four" style="display: flex; justify-content: center; align-items: center;">
-										<div class="col">
-											<p class="card-text" style="display: flex; justify-content: left; align-items: center;">Danh mục:</p>
-										</div>
-										<div class="col" style="display: flex; justify-content: left; align-items: center;">
-											<span th:text="${book.category.name}"></span>
-										</div>
-									</div>
-
-									<p class="card-text" style="font-size: 30px; font-weight: bold;text-align: left; color: orangered;"><span th:text="${#numbers.formatInteger(book.sellPrice, 0, 'POINT')}" ></span> đ</p>
+	<div class="col-08" style="width: 83%">
+		<div class="container">
+			<div class="frame-01">
+				<div class="ml-2" style="justify-content: left; margin: 10px;">
+					<a th:href="@{/managebooks}" class="btn btn-out" style="margin-top: 15px;">
+						<span class="material-symbols-outlined back">arrow_back_ios</span>
+					</a>
+				</div>
+				<h3>THÔNG TIN SÁCH</h3>
+				<div class="frame-02">
+					<div class="row no-gutters">
+						<div class="col-md-4">
+							<div class="row">
+								<div class="col-md-4">
+									<img th:src="${book.bookImages[1].path + '?v=' + randomNumber}" alt="Book Image 1" width="90" style="margin-bottom: 10px;"><br>
+									<img th:src="${book.bookImages[2].path + '?v=' + randomNumber}" alt="Book Image 1" width="90" style="margin-bottom: 10px;"><br>
+									<img th:src="${book.bookImages[3].path + '?v=' + randomNumber}" alt="Book Image 1" width="90" style="margin-bottom: 10px;"><br>
+								</div>
+								<div class="col-md-8">
+									<img th:src="${book.bookImages[0].path}" alt="Book Image" class="card-img" style="border-radius: 15px;">
 								</div>
 							</div>
-							<div class="d-flex flex-grow-2">
-								<form th:action="@{/addtocart}" method="post">
-									<div class="d-flex flex-grow-1">
-										<a th:href="@{/updatebook(bookId=${book.id})}" class="btn btn-edit-info">Sửa thông tin</a>
+						</div>
+						<div class="col-md-8">
+							<div class="card-body">
+								<h5 class="card-title" th:text="${book.name}" style="margin-left: 20px;"></h5>
+								<div class="row main" style="margin-right: 250px;">
+									<div class="col" style="margin-left: 20px;" >
+
+										<div class="row one" style="display: flex; justify-content: center; align-items: center;">
+											<div class="col">
+												<p class="card-text">Tác giả:</p>
+											</div>
+											<div class="col">
+												<span th:each="bookauthor : ${book.bookAuthors}" th:text="${bookauthor.author.name}"></span>
+											</div>
+										</div>
+
+										<div class="row two"  style="display: flex; justify-content: left; align-items: center;">
+											<div class="col">
+												<p class="card-text" style="display: flex; justify-content: left; align-items: center;">Nhà xuất bản: </p>
+											</div>
+											<div class="col" style="display: flex; justify-content: left; align-items: center;">
+												<span th:text="${book.publisher}"></span>
+											</div>
+										</div>
+
+										<div class="row third" style="display: flex; justify-content: center; align-items: center;">
+											<div class="col">
+												<p class="card-text" style="display: flex; justify-content: left; align-items: center;">Số lượng: </p>
+											</div>
+											<div class="col" style="display: flex; justify-content: left; align-items: center;">
+												<span th:text="${book.quantity}"></span>
+											</div>
+										</div>
+
+										<div class="row four" style="display: flex; justify-content: center; align-items: center;">
+											<div class="col">
+												<p class="card-text" style="display: flex; justify-content: left; align-items: center;">Danh mục:</p>
+											</div>
+											<div class="col" style="display: flex; justify-content: left; align-items: center;">
+												<span th:text="${book.category.name}"></span>
+											</div>
+										</div>
+
+										<p class="card-text" style="font-size: 30px; font-weight: bold;text-align: left; color: orangered;"><span th:text="${#numbers.formatInteger(book.sellPrice, 0, 'POINT')}" ></span> đ</p>
 									</div>
-								</form>
+								</div>
+								<div class="d-flex flex-grow-2">
+									<form th:action="@{/addtocart}" method="post">
+										<div class="d-flex flex-grow-1">
+											<a th:href="@{/updatebook(bookId=${book.id})}" class="btn btn-edit-info">Sửa thông tin</a>
+										</div>
+									</form>
+								</div>
+								<th:block th:switch="${book.status}">
+									<div th:case="1" class="alert alert-success"  style="border-radius: 10px; margin-top: 20px;" role="alert">Đang kinh doanh</div>
+									<div th:case="0" class="alert alert-danger" style="border-radius: 10px; margin-top: 20px;" role="alert">Ngừng kinh doanh</div>
+								</th:block>
 							</div>
-							<th:block th:switch="${book.status}">
-								<div th:case="1" class="alert alert-success"  style="border-radius: 10px; margin-top: 20px;" role="alert">Đang kinh doanh</div>
-								<div th:case="0" class="alert alert-danger" style="border-radius: 10px; margin-top: 20px;" role="alert">Ngừng kinh doanh</div>
-							</th:block>
 						</div>
 					</div>
 				</div>
-			</div>
-			<div class="frame-description">
-				<div class="frame-description-01" style="padding: 20px; font-family: Arial">
-					<p class="card-text text-description">Mô tả:</p>
-					<p class="card-text content" th:text="${book.description}" style="text-align: justify;"></p>
-				</div>
-			</div>
-			<div class="frame-description">
-				<div class="frame-description-01" style="padding: 20px; font-family: Arial; margin: 0px;">
-					<div class="col" style="padding: 0px;">
-						<p class="card-text" style="color: rgb(2,88,155); font-size: 20px;">Chi tiết:</p>
-						<pre class="card-text" th:text="${book.detail}" style="font-size: 16px; font-family: Arial;"></pre>
+				<div class="frame-description">
+					<div class="frame-description-01" style="padding: 20px; font-family: Arial">
+						<p class="card-text text-description">Mô tả:</p>
+						<p class="card-text content" th:text="${book.description}" style="text-align: justify;"></p>
 					</div>
 				</div>
+				<div class="frame-description">
+					<div class="frame-description-01" style="padding: 20px; font-family: Arial; margin: 0px;">
+						<div class="col" style="padding: 0px;">
+							<p class="card-text" style="color: rgb(2,88,155); font-size: 20px;">Chi tiết:</p>
+							<pre class="card-text" th:text="${book.detail}" style="font-size: 16px; font-family: Arial;"></pre>
+						</div>
+					</div>
+				</div>
+
+				<!--	Hiển thị các đợt nhập		-->
+				<table class="table table-striped table-bordered mt-3">
+					<thead class="thead-title">
+					<tr style="color: rgb(2,88,155);">
+						<th scope="col" class="align-middle text-center">Mã nhập</th>
+						<th scope="col" class="align-middle text-center">Mã sách</th>
+						<th scope="col" class="align-middle text-center">Tên sách</th>
+						<th scope="col" class="align-middle text-center">Số lượng khi nhập</th>
+						<th scope="col" class="align-middle text-center">Số lượng còn lại</th>
+						<th scope="col" class="align-middle text-center">Giá nhập</th>
+						<th scope="col" class="align-middle text-center">Ngày nhập</th>
+						<th scope="col" class="align-middle text-center">Trạng thái</th>
+						<th scope="col" class="align-middle text-center">Sửa</th>
+					</tr>
+					</thead>
+					<tbody>
+					<tr th:each="bookImport : ${bookImports}">
+						<td class="align-middle text-center" th:text="${bookImport.id}"></td>
+						<td class="align-middle text-center" th:text="${bookImport.book.id}"></td>
+						<td class="align-middle text-center">
+							<span th:if="${#strings.length(bookImport.book.name) > 100}" th:text="${#strings.substring(bookImport.book.name, 0, 100) + '...'}"></span>
+							<span th:if="${#strings.length(bookImport.book.name) <= 100}" th:text="${bookImport.book.name}"></span>
+						</td>
+						<td class="align-middle text-center" th:text="${bookImport.quantity}"></td>
+						<td class="align-middle text-center" th:text="${bookImport.remainingQuantity}"></td>
+						<td class="align-middle text-center" th:text="${#numbers.formatInteger(bookImport.importPrice, 0, 'POINT')} + ' đ'" style="color: orangered; width: 100px;"></td>
+						<td class="align-middle text-center" th:text="${#temporals.format(bookImport.importDate.toLocalDateTime(), 'dd/MM/yyyy HH:mm:ss')}"></td>
+						<td class="align-middle text-center">
+							<span th:switch="${bookImport.status}">
+								<span th:case="0" class="badge badge-danger">Ngừng bán</span>
+								<span th:case="1" class="badge badge-success">Đang bán</span>
+								<span th:case="2" class="badge badge-warning">Chưa bán</span>
+								<span th:case="3" class="badge badge-secondary">Hủy bỏ</span>
+							</span>
+						</td>
+						<td class="align-middle text-center">
+							<a th:href="@{/updatebookimport(bookImportId=${bookImport.id})}" class="btn btn-edit">
+								<span class="material-symbols-outlined">edit</span>
+							</a>
+						</td>
+					</tr>
+					</tbody>
+				</table>
+
 			</div>
-
-			<!--	Hiển thị các đợt nhập		-->
-			<table class="table table-striped table-bordered mt-3">
-				<thead class="thead-title">
-				<tr style="color: rgb(2,88,155);">
-					<th scope="col" class="align-middle text-center">Mã nhập</th>
-					<th scope="col" class="align-middle text-center">Mã sách</th>
-					<th scope="col" class="align-middle text-center">Tên sách</th>
-					<th scope="col" class="align-middle text-center">Số lượng khi nhập</th>
-					<th scope="col" class="align-middle text-center">Số lượng còn lại</th>
-					<th scope="col" class="align-middle text-center">Giá nhập</th>
-					<th scope="col" class="align-middle text-center">Ngày nhập</th>
-					<th scope="col" class="align-middle text-center">Trạng thái</th>
-					<th scope="col" class="align-middle text-center">Sửa</th>
-				</tr>
-				</thead>
-				<tbody>
-				<tr th:each="bookImport : ${bookImports}">
-					<td class="align-middle text-center" th:text="${bookImport.id}"></td>
-					<td class="align-middle text-center" th:text="${bookImport.book.id}"></td>
-					<td class="align-middle text-center">
-						<span th:if="${#strings.length(bookImport.book.name) > 100}" th:text="${#strings.substring(bookImport.book.name, 0, 100) + '...'}"></span>
-						<span th:if="${#strings.length(bookImport.book.name) <= 100}" th:text="${bookImport.book.name}"></span>
-					</td>
-					<td class="align-middle text-center" th:text="${bookImport.quantity}"></td>
-					<td class="align-middle text-center" th:text="${bookImport.remainingQuantity}"></td>
-					<td class="align-middle text-center" th:text="${#numbers.formatInteger(bookImport.importPrice, 0, 'POINT')} + ' đ'" style="color: orangered; width: 100px;"></td>
-					<td class="align-middle text-center" th:text="${#temporals.format(bookImport.importDate.toLocalDateTime(), 'dd/MM/yyyy HH:mm:ss')}"></td>
-					<td class="align-middle text-center">
-						<span th:switch="${bookImport.status}">
-							<span th:case="0" class="badge badge-danger">Ngừng bán</span>
-							<span th:case="1" class="badge badge-success">Đang bán</span>
-							<span th:case="2" class="badge badge-warning">Chưa bán</span>
-							<span th:case="3" class="badge badge-secondary">Hủy bỏ</span>
-						</span>
-					</td>
-					<td class="align-middle text-center">
-						<a th:href="@{/updatebookimport(bookImportId=${bookImport.id})}" class="btn btn-edit">
-							<span class="material-symbols-outlined">edit</span>
-						</a>
-					</td>
-				</tr>
-				</tbody>
-			</table>
-
 		</div>
 	</div>
 </div>

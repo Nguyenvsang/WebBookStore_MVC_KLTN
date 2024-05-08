@@ -47,65 +47,72 @@
 </head>
 <body>
 <div th:replace="~{admin/headeradmin :: header}"></div>
-<div class="container">
-    <!-- Hiển thị thông báo nếu có -->
-    <div th:if="${param.message}" class="alert"
-         th:classappend="${#strings.containsIgnoreCase(param.message, 'thành công') ? 'alert-success' : 'alert-danger'}">
-        <span th:text="${param.message}"></span>
+<div class="container-expand d-flex" style="margin: 0px; padding: 0px; width: 100%">
+    <div class="col-03" style="width: 17%">
+        <div th:replace="~{admin/sidebar :: sidebar}"></div>
     </div>
-    <div class="container-body" style="background-color: white;">
-        <a th:href="@{/managebookimports}" class="btn btn-out" style="margin: 10px;">
-            <span class="material-symbols-outlined back">arrow_back_ios</span>
-        </a>
-        <div class="frame-body">
-            <h3>THÊM ĐỢT NHẬP SÁCH</h3>
-            <form th:action="@{/addbookimport}" method="post">
-                <div class="form-group">
-                    <label for="bookId" style="color: rgb(2,88,155);">Sách:</label>
-                    <select class="form-control" id="bookId" name="bookId" style="border-radius: 10px;">
-                        <option th:each="book : ${allBooks}" th:value="${book.id}" th:text="${book.name}"></option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="quantity" style="color: rgb(2,88,155);">Số lượng:</label>
-                    <input type="number" class="form-control" id="quantity" name="quantity" min="0" required style="border-radius: 10px;" />
-                </div>
-                <div class="form-group">
-                    <label for="remainingQuantity" style="color: rgb(2,88,155);">Số lượng còn lại:</label>
-                    <input type="number" class="form-control" id="remainingQuantity" name="remainingQuantity" min="0" required style="border-radius: 10px;" />
-                </div>
-                <div class="form-group">
-                    <label for="importPrice" style="color: rgb(2,88,155);">Giá nhập:</label>
-                    <input type="number" class="form-control" id="importPrice" name="importPrice" min="0" required style="border-radius: 10px;" />
-                </div>
-                <!-- Ô input cho ngày -->
-                <div class="form-group">
-                    <label for="importDate">Ngày nhập:</label>
-                    <input type="date" class="form-control" id="importDate" name="importDate" required />
-                </div>
 
-                <!-- Ô input cho giờ -->
-                <div class="form-group">
-                    <label for="importTime">Giờ nhập:</label>
-                    <input type="time" class="form-control" id="importTime" name="importTime" required />
-                </div>
+    <div class="col-08" style="width: 83%">
+        <div class="container">
+            <!-- Hiển thị thông báo nếu có -->
+            <div th:if="${param.message}" class="alert"
+                 th:classappend="${#strings.containsIgnoreCase(param.message, 'thành công') ? 'alert-success' : 'alert-danger'}">
+                <span th:text="${param.message}"></span>
+            </div>
+            <div class="container-body" style="background-color: white;">
+                <a th:href="@{/managebookimports}" class="btn btn-out" style="margin: 10px;">
+                    <span class="material-symbols-outlined back">arrow_back_ios</span>
+                </a>
+                <div class="frame-body">
+                    <h3>THÊM ĐỢT NHẬP SÁCH</h3>
+                    <form th:action="@{/addbookimport}" method="post">
+                        <div class="form-group">
+                            <label for="bookId" style="color: rgb(2,88,155);">Sách:</label>
+                            <select class="form-control" id="bookId" name="bookId" style="border-radius: 10px;">
+                                <option th:each="book : ${allBooks}" th:value="${book.id}" th:text="${book.name}"></option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="quantity" style="color: rgb(2,88,155);">Số lượng:</label>
+                            <input type="number" class="form-control" id="quantity" name="quantity" min="0" required style="border-radius: 10px;" />
+                        </div>
+                        <div class="form-group">
+                            <label for="remainingQuantity" style="color: rgb(2,88,155);">Số lượng còn lại:</label>
+                            <input type="number" class="form-control" id="remainingQuantity" name="remainingQuantity" min="0" required style="border-radius: 10px;" />
+                        </div>
+                        <div class="form-group">
+                            <label for="importPrice" style="color: rgb(2,88,155);">Giá nhập:</label>
+                            <input type="number" class="form-control" id="importPrice" name="importPrice" min="0" required style="border-radius: 10px;" />
+                        </div>
+                        <!-- Ô input cho ngày -->
+                        <div class="form-group">
+                            <label for="importDate">Ngày nhập:</label>
+                            <input type="date" class="form-control" id="importDate" name="importDate" required />
+                        </div>
 
-                <div class="form-group">
-                    <label for="status" style="color: rgb(2,88,155);">Trạng thái:</label>
-                    <select class="form-control" id="status" name="status" style="border-radius: 10px;" required>
-                        <option value="" disabled selected>Chọn</option>
-                        <option value="1">Đang bán</option>
-                        <option value="2">Chưa bán</option>
-                    </select>
-                </div>
+                        <!-- Ô input cho giờ -->
+                        <div class="form-group">
+                            <label for="importTime">Giờ nhập:</label>
+                            <input type="time" class="form-control" id="importTime" name="importTime" required />
+                        </div>
 
-                <div class="text-center mb-4">
-                    <button type="submit" class="btn btn-create">Thêm đợt nhập sách</button>
+                        <div class="form-group">
+                            <label for="status" style="color: rgb(2,88,155);">Trạng thái:</label>
+                            <select class="form-control" id="status" name="status" style="border-radius: 10px;" required>
+                                <option value="" disabled selected>Chọn</option>
+                                <option value="1">Đang bán</option>
+                                <option value="2">Chưa bán</option>
+                            </select>
+                        </div>
+
+                        <div class="text-center mb-4">
+                            <button type="submit" class="btn btn-create">Thêm đợt nhập sách</button>
+                        </div>
+                    </form>
                 </div>
-            </form>
+            </div>
         </div>
     </div>
-</div>
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 

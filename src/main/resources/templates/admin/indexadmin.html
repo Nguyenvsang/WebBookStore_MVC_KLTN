@@ -14,37 +14,43 @@
 </head>
 <body>
     <div th:replace="~{admin/headeradmin :: header}"></div>
-    
-    <!-- Hiển thị thông báo nếu có -->
-    <div th:if="${param.message}" class="alert"
-		th:classappend="${#strings.containsIgnoreCase(param.message, 'thành công') ? 'alert-success' : 'alert-danger'}">
-		<span th:text="${param.message}"></span>
-	</div>
-    
-    <!-- Thymeleaf: Sử dụng th:each để lặp qua các item trong carousel -->
-    <div id="carouselExampleControls" class="carousel slide d-flex" data-ride="carousel" data-interval="3000" data-pause="false">
-        <div class="carousel-inner">
-            <div class="carousel-item active justify-content-center align-items-center">
-                <img src="https://res.cloudinary.com/dylwewmt0/image/upload/v1703259110/PHOTO_LIST/Index_Admin/bg-04.png" class="d-block mx-auto" alt="...">
-            </div>
-            <div class="carousel-item justify-content-center align-items-center">
-                <img src="https://res.cloudinary.com/dylwewmt0/image/upload/v1703259109/PHOTO_LIST/Index_Admin/bg-05.png" class="d-block mx-auto" alt="...">
-            </div>
-            <div class="carousel-item justify-content-center align-items-center">
-                <img src="https://res.cloudinary.com/dylwewmt0/image/upload/v1703259109/PHOTO_LIST/Index_Admin/bg-06.png" class="d-block mx-auto" alt="...">
-            </div>
-            <!-- Thêm các mục carousel-item khác tương tự -->
+    <div class="container-expand d-flex" style="margin: 0px; padding: 0px; width: 100%">
+        <div class="col-03" style="width: 17%">
+            <div th:replace="~{admin/sidebar :: sidebar}"></div>
         </div>
-        <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="sr-only">Previous</span>
-        </a>
-        <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="sr-only">Next</span>
-        </a>
+
+        <div class="col-08" style="width: 83%">
+            <!-- Hiển thị thông báo nếu có -->
+<!--            <div th:if="${param.message}" class="alert"-->
+<!--                 th:classappend="${#strings.containsIgnoreCase(param.message, 'thành công') ? 'alert-success' : 'alert-danger'}">-->
+<!--                <span th:text="${param.message}" style=""></span>-->
+<!--            </div>-->
+
+            <!-- Thymeleaf: Sử dụng th:each để lặp qua các item trong carousel -->
+            <div id="carouselExampleControls" class="carousel slide d-flex" data-ride="carousel" data-interval="3000" data-pause="false">
+                <div class="carousel-inner">
+                    <div class="carousel-item active justify-content-center align-items-center">
+                        <img src="https://res.cloudinary.com/dylwewmt0/image/upload/v1703259110/PHOTO_LIST/Index_Admin/bg-04.png" class="d-block mx-auto" alt="...">
+                    </div>
+                    <div class="carousel-item justify-content-center align-items-center">
+                        <img src="https://res.cloudinary.com/dylwewmt0/image/upload/v1703259109/PHOTO_LIST/Index_Admin/bg-05.png" class="d-block mx-auto" alt="...">
+                    </div>
+                    <div class="carousel-item justify-content-center align-items-center">
+                        <img src="https://res.cloudinary.com/dylwewmt0/image/upload/v1703259109/PHOTO_LIST/Index_Admin/bg-06.png" class="d-block mx-auto" alt="...">
+                    </div>
+                    <!-- Thêm các mục carousel-item khác tương tự -->
+                </div>
+                <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
+        </div>
     </div>
-    
     <!--<div th:replace="~{admin/footeradmin :: footer}"></div>-->
     <!-- Thêm các tệp tin JavaScript -->
     <script th:src="@{/js/jquery-3.4.1.slim.min.js}"></script>

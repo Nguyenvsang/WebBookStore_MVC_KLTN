@@ -380,6 +380,18 @@
 			color: rgb(247,80,80);
 		}
 
+		.button-shop-now{
+			height: 50px;
+			width: 150px;
+			border-radius: 50px;
+			border: none;
+			background-color: white;
+			color: rgb(2,88,155);
+			font-style: Palatino;
+			font-weight: bold;
+			font-size: 18px;
+		}
+
 	</style>
 </head>
 <body>
@@ -393,13 +405,15 @@
 		 th:classappend="${message.contains('thành công') ? 'alert-success' : 'alert-danger'}"
 		 th:text="${message}" style="font-weight: bold;justify-content: center; display: flex">
 	</div>
-		<div class="container-img d-flex align-items-center justify-content-center" style="background-color: #5591c5; width: %100; ">
-			<div class="row-10 d-flex align-items-center justify-content-center" style="width: 1200px;">
-				<img src="https://res.cloudinary.com/dylwewmt0/image/upload/v1703185580/PHOTO_LIST/Index/background_01.png"
-					 style="width:100%; display: flex; align-items: center; justify-content: center">
-			</div>
-		</div>	
-		<div class="container-main d-flex align-items-center justify-content-center" style="background-color: #f0f0f0; width: 100%; padding: 0px">
+	<div class="container-img d-flex align-items-center justify-content-center" style="background-color: #5591c5; width: %100; ">
+		<div class="row-10 d-flex align-items-center justify-content-center" style="width: 1200px;">
+			<img src="https://res.cloudinary.com/dylwewmt0/image/upload/v1714989171/PHOTO_LIST/Index/upDate.png"
+				 style="width: 100%; display: flex; align-items: center; justify-content: center; position: relative;">
+			<button class="button-shop-now" style="position: absolute; top: 63%; left: 50%; transform: translate(-50%, -80%);">SHOP NOW</button>
+		</div>
+	</div>
+
+	<div class="container-main d-flex align-items-center justify-content-center" style="background-color: #f0f0f0; width: 100%; padding: 0px">
 			<div class="container-inner d-flex align-items-center justify-content-center" style="width: 1200px; background-color: white;">
 			    
 			   				

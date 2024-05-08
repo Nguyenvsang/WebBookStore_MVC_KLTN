@@ -82,17 +82,14 @@
             background-color: orange;
         }
 
-        .container.main {
+        .container-main {
             border: 2px ;
             border-radius: 5px;
             border-radius: 15px;
             padding: 15px;
-            margin-top: 10px;
-            margin-bottom: 10px;
+            margin: 20px;
         }
-        .container.main {
-            margin-top: 20px;
-            margin-bottom: 20px;
+        .container-main {
             box-shadow: 0 8px 10px rgb(226, 226, 226);
         }
 
@@ -109,27 +106,32 @@
 
 <body>
     <div th:replace="~{admin/headeradmin :: header}"></div>
+    <div class="container-expand d-flex" style="margin: 0px; padding: 0px; width: 100%">
+        <div class="col-03" style="width: 17%">
+            <div th:replace="~{admin/sidebar :: sidebar}"></div>
+        </div>
 
-    <div class="container-fluid mb-4">
-        <div class="container main" style="background-color: white;">
-            <!-- Hiển thị thông báo nếu có -->
-            <div th:if="${param.message}" class="alert"
-                 th:classappend="${#strings.containsIgnoreCase(param.message, 'thành công') ? 'alert-success' : 'alert-danger'}">
-                <span th:text="${param.message}"></span>
+        <div class="col-08" style="width: 83%">
+            <div class="container-main" style="background-color: white;">
+                <!-- Hiển thị thông báo nếu có -->
+                <div th:if="${param.message}" class="alert"
+                     th:classappend="${#strings.containsIgnoreCase(param.message, 'thành công') ? 'alert-success' : 'alert-danger'}">
+                    <span th:text="${param.message}"></span>
+                </div>
+
+                <h3>THỐNG KÊ</h3>
+                <h2>Biểu đồ Doanh thu 6 tháng gần đây</h2>
+
+                <canvas id="revenueChart"></canvas>
+
+                <a th:href="@{/managerevenues}" class="btn btn-success">Chi tiết doanh thu</a>
+
+                <h2>Biểu đồ Lợi nhuận 6 tháng gần đây</h2>
+
+                <canvas id="profitChart"></canvas>
+
+                <a th:href="@{/manageprofits}" class="btn btn-success">Chi tiết lợi nhuận</a>
             </div>
-
-            <h3>THỐNG KÊ</h3>
-            <h2>Biểu đồ Doanh thu 6 tháng gần đây</h2>
-
-            <canvas id="revenueChart"></canvas>
-
-            <a th:href="@{/managerevenues}" class="btn btn-success">Chi tiết doanh thu</a>
-
-            <h2>Biểu đồ Lợi nhuận 6 tháng gần đây</h2>
-
-            <canvas id="profitChart"></canvas>
-
-            <a th:href="@{/manageprofits}" class="btn btn-success">Chi tiết lợi nhuận</a>
         </div>
     </div>
 

@@ -76,13 +76,12 @@
 	        border: 1px solid rgb(242,242,242);
 	    }
 	    
-	    .container.main {
+	    .container-main {
 			border: 2px ;
 	        border-radius: 5px;	  
 	        border-radius: 15px;	
 	        padding: 15px;
-	        margin-top: 10px;
-	        margin-bottom: 10px;
+	        margin: 20px;
 		}
 		
 		.badge.badge-wait{
@@ -90,8 +89,7 @@
 			background-color: orange;
 		}
 		
-		.container.main {
-			margin-top: 20px;
+		.container-main {
 			box-shadow: 0 8px 10px rgb(226, 226, 226);
 		}
 		
@@ -126,128 +124,134 @@
 </head> 
 <body>
 	<div th:replace="~{admin/headeradmin :: header}"></div>
-	<div class="container-fluid mb-4">
-		<div class="container main" style="background-color: white;">
-		    <h3>QUẢN LÝ ĐƠN HÀNG</h3>
-		    
-		    <div class="form-orders"  th:if="${totalAllOrders != null}">
-		    	<p>Tổng số tất cả các đơn hàng: <span th:text="${totalAllOrders}"></span></p>
-		    </div>
-		
-		    <form class="form-inline my-2 my-lg-0" method="GET" th:action="@{/manageorders}">
-		        <input class="form-control mr-sm-2" type="text" name="search" placeholder="Tìm kiếm từ khóa" style="border: 2px solid rgb(182,232,241); border-radius: 10px;">
-		        <button class="btn btn-search my-2 my-sm-0" type="submit"><span class="material-symbols-outlined">search</span></button>
-		    </form>
-		
-		    
-		    <div class="dropdown mb-3 mt-3">
-		        <button class="btn btn-filter-status dropdown-toggle" type="button" id="statusDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-		            Lọc theo trạng thái
-		        </button>
-		        <div class="dropdown-menu" aria-labelledby="statusDropdown">
-		            <a class="dropdown-item" th:href="@{/manageorders}">Tất cả</a>
-		            <a class="dropdown-item" th:href="@{/manageorders(status=0)}">Chờ xác nhận</a>
-		            <a class="dropdown-item" th:href="@{/manageorders(status=1)}">Chờ lấy hàng</a>
-		            <a class="dropdown-item" th:href="@{/manageorders(status=2)}">Đang giao</a>
-		            <a class="dropdown-item" th:href="@{/manageorders(status=3)}">Đã thanh toán</a>
-					<a class="dropdown-item" th:href="@{/manageorders(status=4)}">Đã giao</a>
-		        </div>
-		    </div>
-		
-		    <table class="table table-striped table-bordered mt-3">
-		        <thead class="thead-title">
-		            <tr style="color: rgb(2,88,155);">
-		                <th scope="col" class="align-middle text-center">Mã đơn hàng</th>
-		                <th scope="col" class="align-middle text-center">Ngày đặt</th>
-		                <th scope="col" class="align-middle text-center">Tổng tiền</th>
-		                <th scope="col" class="align-middle text-center">Trạng thái</th>
-						<th scope="col" class="align-middle text-center">Thanh toán</th>
-						<th scope="col" class="align-middle text-center">Tóm tắt</th>
-		                <th scope="col" class="align-middle text-center">Tên</th>
-		                <th scope="col" class="align-middle text-center">Địa chỉ</th>
-		                <th scope="col" class="align-middle text-center">Số điện thoại</th>
-		                <th scope="col" class="align-middle text-center">Email</th>
-		                <th scope="col" class="align-middle text-center">Chi tiết</th>
-		            </tr>
-		        </thead>
-		        <tbody>
-		            <tr th:each="order : ${orders}">
-		                <td class="align-middle text-center" th:text="${order.id}"></td>
-		                <td class="align-middle text-center" th:text="${#temporals.format(order.dateOrder.toLocalDateTime(), 'dd/MM/yyyy')}"></td>
-		                <td class="align-middle text-center" th:text="${#numbers.formatInteger(order.totalPrice, 0, 'POINT' )+ ' đ'}" style="color: orangered;"></td>
-						<td class="align-middle text-center">
-							<span th:switch="${order.status}">
-								<span th:case="0" class="badge badge-success">Chờ xác nhận</span>
-								<span th:case="1" class="badge badge-info">Chờ lấy hàng</span>
-								<span th:case="2" class="badge badge-primary">Đang giao</span>
-								<span th:case="3" class="badge badge-success">Đã giao</span>
-								<span th:case="4" class="badge badge-secondary">Đã hủy đơn</span>
-								<span th:case="5" class="badge badge-warning">Yêu cầu trả hàng</span>
-								<span th:case="6" class="badge badge-warning">Xử lý trả hàng</span>
-								<span th:case="7" class="badge badge-success">Trả hàng thành công</span>
-								<span th:case="8" class="badge badge-danger">Yêu cầu trả hàng bị từ chối</span>
-								<span th:case="9" class="badge badge-danger">Không nhận hàng</span>
-								<span th:case="10" class="badge badge-success">Đã nhận hàng</span>
-								<span th:case="*" >Trạng thái không hợp lệ</span>
-							</span>
-						</td>
-						<td class="align-middle text-center">
-							<span th:switch="${order.paymentStatus.status}">
-								<span th:case="0" class="badge badge-primary">Chưa thanh toán</span>
-								<span th:case="1" class="badge badge-success">Đã thanh toán</span>
-								<span th:case="2" class="badge badge-warning">Xử lý hoàn tiền</span>
-								<span th:case="3" class="badge badge-success">Đã hoàn tiền</span>
-								<span th:case="4" class="badge badge-success">Không cần thanh toán</span>
-								<span th:case="5" class="badge badge-warning">Chờ thanh toán lại</span>
-							</span>
-						</td>
-						<td class="align-middle text-center">
-							<span th:switch="${order.isCompleted}">
-								<span th:case="0" class="badge badge-primary">Chưa hoàn thành</span>
-								<span th:case="1" class="badge badge-success">Đã hoàn thành</span>
-								<span th:case="2" class="badge badge-secondary">Đã hủy</span>
-								<span th:case="3" class="badge badge-success">Đã trả hàng</span>
-							</span>
-						</td>
-		                <td class="align-middle text-center" th:text="${order.name}"></td>
-		                <td class="align-middletext-center" th:text="${order.address}"></td>
-		                <td class="align-middle text-center" th:text="${order.phoneNumber}"></td>
-		                <td class="align-middle text-center" th:text="${order.email}"></td>
-		                <td class="align-middle text-center">
-		                    <a class="btn btn-detail btn-sm" th:href="@{/manageorderitems(orderId=${order.id})}">
-								<span class="material-symbols-outlined">info</span>
+	<div class="container-expand d-flex" style="margin: 0px; padding: 0px; width: 100%">
+		<div class="col-03" style="width: 17%">
+			<div th:replace="~{admin/sidebar :: sidebar}"></div>
+		</div>
+
+		<div class="col-08" style="width: 83%">
+			<div class="container-main" style="background-color: white;">
+				<h3>QUẢN LÝ ĐƠN HÀNG</h3>
+
+				<div class="form-orders"  th:if="${totalAllOrders != null}">
+					<p>Tổng số tất cả các đơn hàng: <span th:text="${totalAllOrders}"></span></p>
+				</div>
+
+				<form class="form-inline my-2 my-lg-0" method="GET" th:action="@{/manageorders}">
+					<input class="form-control mr-sm-2" type="text" name="search" placeholder="Tìm kiếm từ khóa" style="border: 2px solid rgb(182,232,241); border-radius: 10px;">
+					<button class="btn btn-search my-2 my-sm-0" type="submit"><span class="material-symbols-outlined">search</span></button>
+				</form>
+
+
+				<div class="dropdown mb-3 mt-3">
+					<button class="btn btn-filter-status dropdown-toggle" type="button" id="statusDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						Lọc theo trạng thái
+					</button>
+					<div class="dropdown-menu" aria-labelledby="statusDropdown">
+						<a class="dropdown-item" th:href="@{/manageorders}">Tất cả</a>
+						<a class="dropdown-item" th:href="@{/manageorders(status=0)}">Chờ xác nhận</a>
+						<a class="dropdown-item" th:href="@{/manageorders(status=1)}">Chờ lấy hàng</a>
+						<a class="dropdown-item" th:href="@{/manageorders(status=2)}">Đang giao</a>
+						<a class="dropdown-item" th:href="@{/manageorders(status=3)}">Đã thanh toán</a>
+						<a class="dropdown-item" th:href="@{/manageorders(status=4)}">Đã giao</a>
+					</div>
+				</div>
+
+				<table class="table table-striped table-bordered mt-3">
+					<thead class="thead-title">
+						<tr style="color: rgb(2,88,155);">
+							<th scope="col" class="align-middle text-center">Mã đơn hàng</th>
+							<th scope="col" class="align-middle text-center">Ngày đặt</th>
+							<th scope="col" class="align-middle text-center">Tổng tiền</th>
+							<th scope="col" class="align-middle text-center">Trạng thái</th>
+							<th scope="col" class="align-middle text-center">Thanh toán</th>
+							<th scope="col" class="align-middle text-center">Tóm tắt</th>
+							<th scope="col" class="align-middle text-center">Tên</th>
+							<th scope="col" class="align-middle text-center">Địa chỉ</th>
+							<th scope="col" class="align-middle text-center">Số điện thoại</th>
+							<th scope="col" class="align-middle text-center">Email</th>
+							<th scope="col" class="align-middle text-center">Chi tiết</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="order : ${orders}">
+							<td class="align-middle text-center" th:text="${order.id}"></td>
+							<td class="align-middle text-center" th:text="${#temporals.format(order.dateOrder.toLocalDateTime(), 'dd/MM/yyyy')}"></td>
+							<td class="align-middle text-center" th:text="${#numbers.formatInteger(order.totalPrice, 0, 'POINT' )+ ' đ'}" style="color: orangered;"></td>
+							<td class="align-middle text-center">
+								<span th:switch="${order.status}">
+									<span th:case="0" class="badge badge-success">Chờ xác nhận</span>
+									<span th:case="1" class="badge badge-info">Chờ lấy hàng</span>
+									<span th:case="2" class="badge badge-primary">Đang giao</span>
+									<span th:case="3" class="badge badge-success">Đã giao</span>
+									<span th:case="4" class="badge badge-secondary">Đã hủy đơn</span>
+									<span th:case="5" class="badge badge-warning">Yêu cầu trả hàng</span>
+									<span th:case="6" class="badge badge-warning">Xử lý trả hàng</span>
+									<span th:case="7" class="badge badge-success">Trả hàng thành công</span>
+									<span th:case="8" class="badge badge-danger">Yêu cầu trả hàng bị từ chối</span>
+									<span th:case="9" class="badge badge-danger">Không nhận hàng</span>
+									<span th:case="10" class="badge badge-success">Đã nhận hàng</span>
+									<span th:case="*" >Trạng thái không hợp lệ</span>
+								</span>
+							</td>
+							<td class="align-middle text-center">
+								<span th:switch="${order.paymentStatus.status}">
+									<span th:case="0" class="badge badge-primary">Chưa thanh toán</span>
+									<span th:case="1" class="badge badge-success">Đã thanh toán</span>
+									<span th:case="2" class="badge badge-warning">Xử lý hoàn tiền</span>
+									<span th:case="3" class="badge badge-success">Đã hoàn tiền</span>
+									<span th:case="4" class="badge badge-success">Không cần thanh toán</span>
+									<span th:case="5" class="badge badge-warning">Chờ thanh toán lại</span>
+								</span>
+							</td>
+							<td class="align-middle text-center">
+								<span th:switch="${order.isCompleted}">
+									<span th:case="0" class="badge badge-primary">Chưa hoàn thành</span>
+									<span th:case="1" class="badge badge-success">Đã hoàn thành</span>
+									<span th:case="2" class="badge badge-secondary">Đã hủy</span>
+									<span th:case="3" class="badge badge-success">Đã trả hàng</span>
+								</span>
+							</td>
+							<td class="align-middle text-center" th:text="${order.name}"></td>
+							<td class="align-middletext-center" th:text="${order.address}"></td>
+							<td class="align-middle text-center" th:text="${order.phoneNumber}"></td>
+							<td class="align-middle text-center" th:text="${order.email}"></td>
+							<td class="align-middle text-center">
+								<a class="btn btn-detail btn-sm" th:href="@{/manageorderitems(orderId=${order.id})}">
+									<span class="material-symbols-outlined">info</span>
+								</a>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+
+				<div th:if="${totalPages > 1}">
+					<ul class="pagination">
+						<li th:if="${currentPage > 1}" class="page-item">
+							<a class="page-link" th:href="@{/manageorders(page=${currentPage - 1})}">
+								<span class="material-symbols-outlined">navigate_before</span>
 							</a>
-		                </td>
-		            </tr>
-		        </tbody>
-		    </table>
-		
-		    <div th:if="${totalPages > 1}">
-		        <ul class="pagination">
-		            <li th:if="${currentPage > 1}" class="page-item">
-		                <a class="page-link" th:href="@{/manageorders(page=${currentPage - 1})}">
-							<span class="material-symbols-outlined">navigate_before</span>
-						</a>
-		            </li>
-		
-		            <th:block th:each="pageNumber : ${#numbers.sequence(1, totalPages)}">
-		                <li class="page-item" th:classappend="${pageNumber == currentPage ? 'active' : ''}">
-		                    <th:block th:if="${pageNumber == currentPage}">
-		                        <span class="page-link" th:text="${pageNumber}"></span>
-		                    </th:block>
-		                    <th:block th:unless="${pageNumber == currentPage}">
-		                        <a class="page-link" th:href="@{/manageorders(page=${pageNumber})}" th:text="${pageNumber}"></a>
-		                    </th:block>
-		               <!---->
-		                </li>
-		            </th:block>
-		
-		            <li th:if="${currentPage < totalPages}" class="page-item">
-		                <a class="page-link" th:href="@{/manageorders(page=${currentPage + 1})}">
-						<span class="material-symbols-outlined">navigate_next</span></a>
-		            </li>
-		        </ul>
-		    </div>
+						</li>
+
+						<th:block th:each="pageNumber : ${#numbers.sequence(1, totalPages)}">
+							<li class="page-item" th:classappend="${pageNumber == currentPage ? 'active' : ''}">
+								<th:block th:if="${pageNumber == currentPage}">
+									<span class="page-link" th:text="${pageNumber}"></span>
+								</th:block>
+								<th:block th:unless="${pageNumber == currentPage}">
+									<a class="page-link" th:href="@{/manageorders(page=${pageNumber})}" th:text="${pageNumber}"></a>
+								</th:block>
+						   <!---->
+							</li>
+						</th:block>
+
+						<li th:if="${currentPage < totalPages}" class="page-item">
+							<a class="page-link" th:href="@{/manageorders(page=${currentPage + 1})}">
+							<span class="material-symbols-outlined">navigate_next</span></a>
+						</li>
+					</ul>
+				</div>
+			</div>
 		</div>
 	</div>
 	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>

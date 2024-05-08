@@ -31,14 +31,11 @@
 		}
 		
 		
-		.container-body {
+		.container {
 	    	border-radius: 20px;
-	    	margin-left: 250px;
-	    	margin-right: 250px;
-	    	margin-top: 20px;
-	    	margin-bottom: 20px;   		
+	    	margin: 250px
 		}
-		.container-body {
+		.container {
 			box-shadow: 0 8px 10px rgb(226, 226, 226);
 		}
 		
@@ -54,45 +51,52 @@
 </head>
 <body>
 	<div th:replace="~{admin/headeradmin :: header}"></div>
-    <div class="container main">       
-
-        <!-- Hiển thị thông báo nếu có -->
-	    <div th:if="${param.message}" class="alert"
-			th:classappend="${#strings.containsIgnoreCase(param.message, 'thành công') ? 'alert-success' : 'alert-danger'}">
-			<span th:text="${param.message}"></span>
+	<div class="container-expand d-flex" style="margin: 0px; padding: 0px; width: 100%">
+		<div class="col-03" style="width: 17%">
+			<div th:replace="~{admin/sidebar :: sidebar}"></div>
 		</div>
-		
-		<div class="container-body" style="background-color: white;"> 
-			<a th:href="@{/managedetailauthor(authorId=${author.id})}" class="btn btn-out" style="margin: 10px;">
-				<span class="material-symbols-outlined back">arrow_back_ios</span>
-			</a>
-			<h3>CẬP NHẬT TÁC GIẢ</h3>
-			<div class="frame-body">
-				
-		        <form th:action="@{/updateauthor}" method="POST">
-		            <div class="form-group">
-					    <label for="id" style="color: rgb(2,88,155);">Mã:</label>
-					    <input type="text" class="form-control" id="id" name="id" th:value="${author.id}" readonly style="border-radius: 10px;">
+
+		<div class="col-08" style="width: 83%">
+			<div class="container">
+				<!-- Hiển thị thông báo nếu có -->
+				<div th:if="${param.message}" class="alert"
+					th:classappend="${#strings.containsIgnoreCase(param.message, 'thành công') ? 'alert-success' : 'alert-danger'}">
+					<span th:text="${param.message}"></span>
+				</div>
+
+				<div class="container-body" style="background-color: white;">
+					<a th:href="@{/managedetailauthor(authorId=${author.id})}" class="btn btn-out" style="margin: 10px;">
+						<span class="material-symbols-outlined back">arrow_back_ios</span>
+					</a>
+					<h3>CẬP NHẬT TÁC GIẢ</h3>
+					<div class="frame-body">
+
+						<form th:action="@{/updateauthor}" method="POST">
+							<div class="form-group">
+								<label for="id" style="color: rgb(2,88,155);">Mã:</label>
+								<input type="text" class="form-control" id="id" name="id" th:value="${author.id}" readonly style="border-radius: 10px;">
+							</div>
+
+							<div class="form-group">
+								<label for="name" style="color: rgb(2,88,155);">Tên tác giả:</label>
+								<input type="text" class="form-control" id="name" name="name" th:field="${author.name}" required style="border-radius: 10px;">
+							</div>
+
+							<div class="form-group">
+								<label for="bio" style="color: rgb(2,88,155);">Tiểu sử:</label>
+								<textarea class="form-control" id="bio" name="bio" rows="4" required th:field="${author.bio}" style="border-radius: 10px; resize: none;"></textarea>
+							</div>
+
+							<div class="text-center mb-4">
+								<button type="submit" class="btn btn-save">Lưu</button>
+
+							</div>
+						</form>
 					</div>
-					
-					<div class="form-group">
-					    <label for="name" style="color: rgb(2,88,155);">Tên tác giả:</label>
-					    <input type="text" class="form-control" id="name" name="name" th:field="${author.name}" required style="border-radius: 10px;">
-					</div>
-					
-					<div class="form-group">
-					    <label for="bio" style="color: rgb(2,88,155);">Tiểu sử:</label>
-					    <textarea class="form-control" id="bio" name="bio" rows="4" required th:field="${author.bio}" style="border-radius: 10px; resize: none;"></textarea>
-					</div>
-					
-					<div class="text-center mb-4">
-					    <button type="submit" class="btn btn-save">Lưu</button>
-					    
-					</div>
-		        </form>
+				</div>
 			</div>
 		</div>
-    </div>
+	</div>
     <!--<div th:replace="~{admin/footeradmin :: footer}"></div>-->
     <!-- Thêm các tệp tin JavaScript -->
     <script th:src="@{/js/jquery-3.4.1.slim.min.js}"></script>
