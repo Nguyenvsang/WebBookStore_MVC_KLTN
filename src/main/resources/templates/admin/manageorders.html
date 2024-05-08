@@ -75,13 +75,19 @@
 	    td {
 	        border: 1px solid rgb(242,242,242);
 	    }
+
+	    .frame-number {
+			display: flex;
+			justify-content: center;
+			border-radius: 20px;
+		}
 	    
 	    .container-main {
 			border: 2px ;
 	        border-radius: 5px;	  
 	        border-radius: 15px;	
 	        padding: 15px;
-	        margin: 20px;
+	        margin: 0px 40px 40px 40px;
 		}
 		
 		.badge.badge-wait{
@@ -98,7 +104,6 @@
 	        color: rgb(2,88,155);
 			border: #f8f9fa;
 			border-radius: 10px !important;
-			margin: 2px;
 	    }
 	    .page-item.active .page-link {
 			background-color: rgb(182,232,241);;
@@ -119,7 +124,19 @@
 			border-radius: 10px;
 			font-size: larger;
 		}
-		
+		.row-01{
+			padding: 40px;
+			background-color: #f2fbff;
+		}
+		.title-icon{
+			padding: 10px;
+			margin-right: 20px;
+			background-color: white;
+			box-shadow: 0 8px 10px rgb(226, 226, 226);
+			border-radius: 15px;
+			height: 80px;
+			width: 80px;
+		}
 	</style> 
 </head> 
 <body>
@@ -130,9 +147,13 @@
 		</div>
 
 		<div class="col-08" style="width: 83%">
+			<div class="row-01 d-flex align-items-center">
+				<div class="title-icon" >
+					<img src="https://res.cloudinary.com/dylwewmt0/image/upload/v1715193278/PHOTO_LIST/Admin/Title-icon/08.png" alt="Knowledge Young" style="width: 100%; height: 100%">
+				</div>
+				<p style="margin: 0px; color: #3f6ad8">QUẢN LÝ ĐƠN HÀNG</p>
+			</div>
 			<div class="container-main" style="background-color: white;">
-				<h3>QUẢN LÝ ĐƠN HÀNG</h3>
-
 				<div class="form-orders"  th:if="${totalAllOrders != null}">
 					<p>Tổng số tất cả các đơn hàng: <span th:text="${totalAllOrders}"></span></p>
 				</div>
@@ -224,32 +245,33 @@
 						</tr>
 					</tbody>
 				</table>
-
-				<div th:if="${totalPages > 1}">
-					<ul class="pagination">
-						<li th:if="${currentPage > 1}" class="page-item">
-							<a class="page-link" th:href="@{/manageorders(page=${currentPage - 1})}">
-								<span class="material-symbols-outlined">navigate_before</span>
-							</a>
-						</li>
-
-						<th:block th:each="pageNumber : ${#numbers.sequence(1, totalPages)}">
-							<li class="page-item" th:classappend="${pageNumber == currentPage ? 'active' : ''}">
-								<th:block th:if="${pageNumber == currentPage}">
-									<span class="page-link" th:text="${pageNumber}"></span>
-								</th:block>
-								<th:block th:unless="${pageNumber == currentPage}">
-									<a class="page-link" th:href="@{/manageorders(page=${pageNumber})}" th:text="${pageNumber}"></a>
-								</th:block>
-						   <!---->
+				<div class="frame-number">
+					<div th:if="${totalPages > 1}">
+						<ul class="pagination">
+							<li th:if="${currentPage > 1}" class="page-item">
+								<a class="page-link" th:href="@{/manageorders(page=${currentPage - 1})}">
+									<span class="material-symbols-outlined">navigate_before</span>
+								</a>
 							</li>
-						</th:block>
 
-						<li th:if="${currentPage < totalPages}" class="page-item">
-							<a class="page-link" th:href="@{/manageorders(page=${currentPage + 1})}">
-							<span class="material-symbols-outlined">navigate_next</span></a>
-						</li>
-					</ul>
+							<th:block th:each="pageNumber : ${#numbers.sequence(1, totalPages)}">
+								<li class="page-item" th:classappend="${pageNumber == currentPage ? 'active' : ''}">
+									<th:block th:if="${pageNumber == currentPage}">
+										<span class="page-link" th:text="${pageNumber}"></span>
+									</th:block>
+									<th:block th:unless="${pageNumber == currentPage}">
+										<a class="page-link" th:href="@{/manageorders(page=${pageNumber})}" th:text="${pageNumber}"></a>
+									</th:block>
+							   <!---->
+								</li>
+							</th:block>
+
+							<li th:if="${currentPage < totalPages}" class="page-item">
+								<a class="page-link" th:href="@{/manageorders(page=${currentPage + 1})}">
+								<span class="material-symbols-outlined">navigate_next</span></a>
+							</li>
+						</ul>
+					</div>
 				</div>
 			</div>
 		</div>

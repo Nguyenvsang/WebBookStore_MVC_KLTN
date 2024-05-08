@@ -24,6 +24,11 @@
             align-items: center;
             justify-content: center;
         }
+
+        .active {
+            background-color: #d7ebff;
+            color: #3f6ad8;
+        }
     </style>
 </head>
 <body>
@@ -202,6 +207,19 @@
         </ul>
     </div>
 </div>
+<script type="text/javascript">
+    $(function() {
+        var url = window.location.href;
+        $(".sidebar a").each(function() {
+            // Xóa class 'active' khỏi tất cả các thẻ <a>
+            $(this).removeClass("active");
+            // Nếu URL hiện tại trùng khớp với href của thẻ <a>, thêm class 'active'
+            if (url == (this.href)) {
+                $(this).addClass("active");
+            }
+        });
+    });
+</script>
 
 
 

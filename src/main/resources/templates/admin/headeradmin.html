@@ -29,8 +29,8 @@
 						<img src="https://res.cloudinary.com/dylwewmt0/image/upload/v1703188669/PHOTO_LIST/icon/knowledge%20Young.png" alt="Knowledge Young" style="width:80px;" >
 					</a>
 				</div>
-				<div class="col-08 d-flex align-items-center justify-content-center " style="width: 83%">
-<!--					<ul class="navbar-nav d-flex align-items-center justify-content-center ">-->
+				<div class="col-08 d-flex align-items-center justify-content-flex-end" style="width: 83%; padding: 0px; 20px">
+					<ul class="navbar-nav d-flex align-items-center justify-content-flex-start">
 <!--						&lt;!&ndash; Hiển thị "Username" và "Đăng xuất" và "Giỏ hàng" và "Đơn hàng" &ndash;&gt;-->
 <!--						<li class="nav-item active" th:if="${session.admin != null}" style="padding: 0px 15px 0px 15px; font-size: 13px; ">-->
 <!--							<a class="nav-link" th:href="@{/admin}" style="color: #93979b; font-family: Arial, sans-serif; padding: 0%; display: flex; align-items: center; justify-content: center;">-->
@@ -97,14 +97,15 @@
 <!--								Thống kê</a>-->
 <!--						</li>-->
 
-<!--						<li class="nav-item" th:if="${session.admin != null}" style="padding: 0px 15px 0px 15px; font-size: 13px">-->
-<!--							<a class="nav-link" href="#" style="color: #93979b; font-family: Arial, sans-serif; padding: 0%; display: flex; align-items: center; justify-content: center;">-->
-<!--								<span class="material-symbols-outlined">waving_hand</span>-->
-<!--							</a>-->
-<!--							<a class="nav-link" href="#" style="color: #93979b; font-family: Arial, sans-serif; padding: 0%;"> Xin chào-->
-<!--								<span th:text="${session.admin['firstName']}"></span>-->
-<!--							</a>-->
-<!--						</li>-->
+						<li class="nav-item d-flex align-items-center justify-content-flex-start"
+                            th:if="${session.admin != null}"
+                            style="padding: 0px 15px 0px 15px; font-size: 13px">
+							<a class="nav-link" href="#" style="color: #93979b; font-family: Arial, sans-serif; padding: 0%; display: flex; align-items: center; justify-content: center;">
+								<span class="material-symbols-outlined">waving_hand</span>
+                                Xin chào
+                                <span th:text="${session.admin['firstName']}"></span>
+							</a>
+						</li>
 
 <!--						<li class="nav-item" th:if="${session.admin != null}" style="padding: 0px 15px 0px 15px; font-size: 13px">-->
 <!--							<a class="nav-link" th:href="@{/manageaccounts}" style="color: #93979b; font-family: Arial, sans-serif; padding: 0%; display: flex; align-items: center; justify-content: center;">-->
@@ -121,7 +122,7 @@
 <!--							   th:href="@{/logoutadmin}" style="color: #93979b; font-family: Arial, sans-serif; padding: 0%;">-->
 <!--								Đăng xuất</a>-->
 <!--						</li>-->
-<!--					</ul>-->
+					</ul>
 				</div>
         </div>
     </header>

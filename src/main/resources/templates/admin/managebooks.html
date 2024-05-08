@@ -101,9 +101,9 @@
 	        border-radius: 5px;	  
 	        border-radius: 15px;	
 	        padding: 15px;
-	        margin: 20px;
+	        margin: 0px 40px 40px 40px;
 		}
-	.container-main {
+		.container-main {
 			box-shadow: 0 8px 10px rgb(226, 226, 226);
 		}
 		
@@ -144,7 +144,19 @@
 		.btn-filter-status:hover {
 			color: rgb(0, 180, 255)
 		}
-		
+		.row-01{
+			padding: 40px;
+			background-color: #f2fbff;
+		}
+		.title-icon{
+			padding: 10px;
+			margin-right: 20px;
+			background-color: white;
+			box-shadow: 0 8px 10px rgb(226, 226, 226);
+			border-radius: 15px;
+			height: 80px;
+			width: 80px;
+		}
 		
 </style>
 </head>
@@ -156,9 +168,13 @@
 		</div>
 
 		<div class="col-08" style="width: 83%">
+			<div class="row-01 d-flex align-items-center">
+				<div class="title-icon" >
+					<img src="https://res.cloudinary.com/dylwewmt0/image/upload/v1715193279/PHOTO_LIST/Admin/Title-icon/06.png" alt="Knowledge Young" style="width: 100%; height: 100%">
+				</div>
+				<p style="margin: 0px; color: #3f6ad8">QUẢN LÝ SÁCH</p>
+			</div>
 			<div class="container-main" style="background-color: white;">
-				<h3>QUẢN LÝ SÁCH</h3>
-
 				<div class="form-books"  th:if="${totalAllBooks != null}">
 					<p>Tổng số tất cả các đầu sách: <span th:text="${totalAllBooks}"></span></p>
 				</div>
