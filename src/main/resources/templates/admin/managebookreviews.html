@@ -9,7 +9,7 @@
 
     <style>
 
-        body { background-color: #f8f9fa  }
+        body { background-color: #f1f4f6  }
 
         th, td { text-align: center; }
         h3 {
@@ -47,11 +47,11 @@
         }
 
         .thead-title {
-        border-radius: 25px;
-        overflow: hidden;
-        background-color: rgb(182,232,241);
-        color: black;
-        border-radius: 15px
+            border-radius: 25px;
+            overflow: hidden;
+            background-color: rgb(182,232,241);
+            color: black;
+            border-radius: 15px
         }
 
         .thead-title th:first-child {
@@ -83,10 +83,9 @@
             }
 
         .container-main {
-            border-radius: 5px;
             border-radius: 15px;
             padding: 15px;
-            margin: 0px 40px 40px 40px;
+            margin: 40px;
         }
 
         .container-main{
@@ -110,14 +109,8 @@
         }
 
         .form-accounts{
-            color: orangered;
-            margin-bottom: 30px;
-            margin-top: 40px;
-            text-align: center;
-            justify-content: center;
-            display: flex;
-            border-radius: 10px;
-            font-size: larger;
+            color: grey;
+            margin-top: 10px;
         }
 
         .bg-green {
@@ -192,6 +185,9 @@
 			height: 80px;
 			width: 80px;
 		}
+        .title-icon:hover {
+			box-shadow: 0 8px 10px #d7ebff;
+		}
     </style>
 </head>
 <body>
@@ -206,17 +202,18 @@
             <div class="title-icon" >
                 <img src="https://res.cloudinary.com/dylwewmt0/image/upload/v1715193279/PHOTO_LIST/Admin/Title-icon/05.png" alt="Knowledge Young" style="width: 100%; height: 100%">
             </div>
-            <p style="margin: 0px; color: #3f6ad8">QUẢN LÝ ĐÁNH GIÁ</p>
+            <div class="col-title">
+                <p style="margin: 0px; color: #3f6ad8; font-size: 18px; font-weight: bold; font-family: Helvetica;">QUẢN LÝ ĐÁNH GIÁ</p>
+                <div class="form-accounts">
+                    <p style="font-family: Helvetica; margin: 0px">Tổng số tất cả các đánh giá: <span th:text="${totalAllBookReviews}"></span></p>
+                </div>
+            </div>
         </div>
         <div class="container-main" style="background-color: white;">
             <!-- Hiển thị thông báo nếu có -->
             <div th:if="${param.message}" class="alert"
                  th:classappend="${#strings.containsIgnoreCase(param.message, 'thành công') ? 'alert-success' : 'alert-danger'}">
                 <span th:text="${param.message}"></span>
-            </div>
-
-            <div class="form-accounts">
-                <p>Tổng số tất cả các đánh giá: <span th:text="${totalAllBookReviews}"></span></p>
             </div>
 
             <form class="form-inline my-2 my-lg-0" method="GET" th:action="@{/managebookreviews}" style="margin-left: 15px;">

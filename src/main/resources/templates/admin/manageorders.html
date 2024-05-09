@@ -8,7 +8,7 @@
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
 	<style> 
 		
-		body { background-color: #f8f9fa  }
+		body { background-color: #f1f4f6 }
 		
 		th, td { text-align: center; } 
 		h3 {
@@ -83,11 +83,9 @@
 		}
 	    
 	    .container-main {
-			border: 2px ;
-	        border-radius: 5px;	  
-	        border-radius: 15px;	
+	        border-radius: 15px;
 	        padding: 15px;
-	        margin: 0px 40px 40px 40px;
+	        margin: 40px;
 		}
 		
 		.badge.badge-wait{
@@ -115,14 +113,8 @@
 		}
 		
 		.form-orders{
-			color: orangered;
-			margin-bottom: 30px;
-			margin-top: 40px;
-			text-align: center;
-			justify-content: center;
-			display: flex;
-			border-radius: 10px;
-			font-size: larger;
+			color: grey;
+			margin-top: 10px;
 		}
 		.row-01{
 			padding: 40px;
@@ -136,6 +128,9 @@
 			border-radius: 15px;
 			height: 80px;
 			width: 80px;
+		}
+		.title-icon:hover {
+			box-shadow: 0 8px 10px #d7ebff;
 		}
 	</style> 
 </head> 
@@ -151,13 +146,14 @@
 				<div class="title-icon" >
 					<img src="https://res.cloudinary.com/dylwewmt0/image/upload/v1715193278/PHOTO_LIST/Admin/Title-icon/08.png" alt="Knowledge Young" style="width: 100%; height: 100%">
 				</div>
-				<p style="margin: 0px; color: #3f6ad8">QUẢN LÝ ĐƠN HÀNG</p>
+				<div class="col-title">
+					<p style="margin: 0px; color: #3f6ad8; font-size: 18px; font-weight: bold; font-family: Helvetica;">QUẢN LÝ ĐƠN HÀNG</p>
+					<div class="form-orders"  th:if="${totalAllOrders != null}">
+						<p style="font-family: Helvetica; margin: 0px">Tổng số tất cả các đơn hàng: <span th:text="${totalAllOrders}"></span></p>
+					</div>
+				</div>
 			</div>
 			<div class="container-main" style="background-color: white;">
-				<div class="form-orders"  th:if="${totalAllOrders != null}">
-					<p>Tổng số tất cả các đơn hàng: <span th:text="${totalAllOrders}"></span></p>
-				</div>
-
 				<form class="form-inline my-2 my-lg-0" method="GET" th:action="@{/manageorders}">
 					<input class="form-control mr-sm-2" type="text" name="search" placeholder="Tìm kiếm từ khóa" style="border: 2px solid rgb(182,232,241); border-radius: 10px;">
 					<button class="btn btn-search my-2 my-sm-0" type="submit"><span class="material-symbols-outlined">search</span></button>
