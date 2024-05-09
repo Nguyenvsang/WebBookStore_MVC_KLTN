@@ -467,36 +467,50 @@
 												 <span th:text="${book.category.name}"></span>
 											</div>	
 					                    </div>
+
+
+										<!--Giá giảm -->
 										<div class="row-price-favorite d-flex align-items-center" style="justify-content: space-between">
 											<div class="col-price d-flex align-items-center">
-												<p class="card-text"
-												   style="font-size: 30px; font-weight: bold;text-align: left; color: orangered; ">
-													<span th:text="${#numbers.formatInteger(book.sellPrice, 0, 'POINT')}" ></span> đ
-												</p>
+												<div th:if="${book.currentDiscount != null}" class="col-price d-flex align-items-center">
+													<p class="card-text"
+													   style="margin: 0px 20px 0px 0px; font-size: 30px; font-weight: bold; text-align: left; color: orangered; ">
+														<span th:text="${#numbers.formatInteger(book.currentDiscount.discountedPrice, 0, 'POINT')}" ></span> đ
+													</p>
+													<p class="card-text"
+													   style="margin: 0px 10px 0px; font-size: 20px; font-weight: bold;text-align: left; color: grey; text-decoration: line-through; ">
+														<span th:text="${#numbers.formatInteger(book.sellPrice, 0, 'POINT')}" ></span> đ
+													</p>
+												</div>
+												<div th:if="${book.currentDiscount != null}" class="col-price d-flex align-items-center">
+													<p class="card-text"
+													   style="border-radius: 10px; padding: 5px; background-color: #5390f5; font-size: 18px; font-weight: bold; text-align: left; color: white; ">
+														<span th:text="'-' + ${book.currentDiscount.discountPercent} + '%'" ></span>
+													</p>
+												</div>
+											<!--Giá không giảm -->
+												<div th:if="${book.currentDiscount == null}" class="col-price d-flex align-items-center">
+													<p class="card-text"
+													   style="font-size: 30px; font-weight: bold;text-align: left; color: orangered; ">
+														<span th:text="${#numbers.formatInteger(book.sellPrice, 0, 'POINT')}" ></span> đ
+													</p>
+												</div>
 											</div>
-											<div th:if="${book.currentDiscount != null}" class="col-price d-flex align-items-center">
-												<p class="card-text"
-												   style="font-size: 30px; font-weight: bold;text-align: left; color: orangered; ">
-													<span th:text="'-' + ${book.currentDiscount.discountPercent} + '%'" ></span>
-												</p>
+											<div class="col-favorite">
+												<div class="col-favorite d-flex align-items-center">
+													<form id="favoriteForm" class="favorite">
+														<input type="hidden" name="bookId" th:value="${book.id}" />
+														<a type="submit" class=" d-flex align-items-center">
+															<i class="fa fa-heart fa-x d-flex align-items-center" style="margin-right: 5px"></i>
+															<span  th:text="${isFavorite} ? 'Đã yêu thích' : 'Yêu thích'"></span>
+														</a>
+													</form>
+												</div>
 											</div>
-											<div th:if="${book.currentDiscount != null}" class="col-price d-flex align-items-center">
-												<p class="card-text"
-												   style="font-size: 30px; font-weight: bold;text-align: left; color: orangered; ">
-													<span th:text="'Chỉ còn: ' + ${#numbers.formatInteger(book.currentDiscount.discountedPrice, 0, 'POINT')}" ></span> đ
-												</p>
 											</div>
-											<div class="col-favorite d-flex align-items-center">
-												<form id="favoriteForm" class="favorite">
-													<input type="hidden" name="bookId" th:value="${book.id}" />
-													<a type="submit" class=" d-flex align-items-center">
-														<i class="fa fa-heart fa-x d-flex align-items-center" style="margin-right: 5px"></i>
-														<span  th:text="${isFavorite} ? 'Đã yêu thích' : 'Yêu thích'"></span>
-													</a>
-												</form>
-											</div>
+
 										</div>
-									</div>																		
+
 		                        </div>
 
 								<!-- Nếu đã ngừng kinh doanh thì không hiển thị các nút tương tác -->
@@ -570,7 +584,7 @@
 				<div class="row-content d-flex" style="">
 					<div class="col-8" style="font-family: Arial; padding: 0px 20px 0px 0px;">
 						<p class="card-text text-description" style="margin-bottom: 10px; color: #5390f5; font-weight: bold">Giới thiệu sách:</p>
-						<div class="content" style="height: 9em; overflow: hidden;">
+						<div class="description" style="height: 9em; overflow: hidden;">
 							<p class="card-text content" th:text="${book.description}" style="text-align: justify;"></p>
 						</div>
 						<div style="display: flex; justify-content: center; align-items: center;">
@@ -741,9 +755,10 @@
 	<script th:src="@{/js/popper.min.js}"></script>
 	<script th:src="@{/js/bootstrap.min.js}"></script>
 
+
 	<script>
 		window.onload = function() {
-            var content = document.querySelector('.content');
+            var content = document.querySelector('.description');
             var readMoreButton = document.getElementById('readMore');
             var readLessButton = document.getElementById('readLess');
             if (content.scrollHeight > content.clientHeight) {
