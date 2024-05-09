@@ -26,5 +26,6 @@ public interface CartItemService {
 	// Xóa một cartItem
 	void deleteCartItem(CartItem cartItem);
 
-
+	// Kiểm xem cart item có thuộc về người dùng hiện tại không
+	boolean isOwnerOfCartItem(int accountId, int itemId);
 }

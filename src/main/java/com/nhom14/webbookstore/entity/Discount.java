@@ -20,8 +20,8 @@ public class Discount {
     @JoinColumn(name = "book_id")
     private Book book;
 
-    @Column(name = "discount_percent", columnDefinition = "double NOT NULL")
-    private double discountPercent;
+    @Column(name = "discount_percent", columnDefinition = "INT NOT NULL")
+    private int discountPercent;
 
     @Column(name = "discounted_price", columnDefinition = "double")
     private double discountedPrice;

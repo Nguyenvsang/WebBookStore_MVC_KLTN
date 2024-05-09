@@ -16,9 +16,12 @@ import java.util.stream.Collectors;
 import com.nhom14.webbookstore.DTO.PaymentResDTO;
 import com.nhom14.webbookstore.config.VNPAYPaymentConfig;
 import com.nhom14.webbookstore.entity.*;
+import com.nhom14.webbookstore.model.lean_model.DiscountLeanModel;
+import com.nhom14.webbookstore.model.response_model.CartItemResponseModel;
 import com.nhom14.webbookstore.service.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -56,6 +59,8 @@ public class OrderController {
     private ProfitService profitService;
     private BookImportService bookImportService;
     private  AccountAddressService accountAddressService;
+    private DiscountService discountService;
+    private ModelMapper modelMapper;
 
 	@Autowired
 	public OrderController(OrderService orderService,
@@ -63,7 +68,7 @@ public class OrderController {
                            CartService cartService,
                            CartItemService cartItemService,
                            BookService bookService,
-                           PaymentStatusService paymentStatusService, RevenueService revenueService, ProfitService profitService, BookImportService bookImportService, AccountAddressService accountAddressService) {
+                           PaymentStatusService paymentStatusService, RevenueService revenueService, ProfitService profitService, BookImportService bookImportService, AccountAddressService accountAddressService, DiscountService discountService, ModelMapper modelMapper) {
 		super();
 		this.orderService = orderService;
 		this.orderItemService = orderItemService;
@@ -75,6 +80,8 @@ public class OrderController {
         this.profitService = profitService;
         this.bookImportService = bookImportService;
         this.accountAddressService = accountAddressService;
+        this.discountService = discountService;
+        this.modelMapper = modelMapper;
     }
 
     @GetMapping("/shippinginformation")
@@ -112,16 +119,28 @@ public class OrderController {
         // Tính toán tổng số tiền cho các mục đã chọn
         double totalAmount = 0;
         for (CartItem cartItem : selectedCartItems) {
-            totalAmount += cartItem.getQuantity() * cartItem.getBook().getSellPrice();
+            // Kiểm tra xem sản phẩm có giảm giá không
+            Discount discount = discountService.getLatestActiveDiscountByBookId(cartItem.getBook().getId());
+            if (discount != null) {
+                // Nếu có, giá dựa trên giá đã giảm
+                totalAmount += cartItem.getQuantity() * discount.getDiscountedPrice();
+            } else {
+                // Nếu không giá dựa trên giá gốc
+                totalAmount += cartItem.getQuantity() * cartItem.getBook().getSellPrice();
+            }
         }
 
         // Lấy tất cả các địa chỉ để hiển thị trong pop up lựa chọn địa chỉ
         List<AccountAddress> addresses = accountAddressService.getAddressesByAccount(account);
 
+        List<CartItemResponseModel> selectedCartItemResponseModels = selectedCartItems.stream()
+                .map(this::convertToCartItemResponseModel)
+                .toList();
+
         model.addAttribute("account", account);
         model.addAttribute("idSelectedCartItems", idSelectedCartItems);
         model.addAttribute("totalAmount", totalAmount);
-        model.addAttribute("selectedCartItems", selectedCartItems);
+        model.addAttribute("selectedCartItems", selectedCartItemResponseModels);
         model.addAttribute("addresses", addresses);
 
         return "customer/shippinginformation";
@@ -185,7 +204,15 @@ public class OrderController {
         // Tính toán tổng số tiền cho các mục đã chọn
         double totalAmount = 0;
         for (CartItem cartItem : selectedCartItems) {
-            totalAmount += cartItem.getQuantity() * cartItem.getBook().getSellPrice();
+            // Kiểm tra xem sản phẩm có giảm giá không
+            Discount discount = discountService.getLatestActiveDiscountByBookId(cartItem.getBook().getId());
+            if (discount != null) {
+                // Nếu có, giá dựa trên giá đã giảm
+                totalAmount += cartItem.getQuantity() * discount.getDiscountedPrice();
+            } else {
+                // Nếu không giá dựa trên giá gốc
+                totalAmount += cartItem.getQuantity() * cartItem.getBook().getSellPrice();
+            }
         }
 
         // Tạo đối tượng đơn hàng
@@ -219,8 +246,17 @@ public class OrderController {
             OrderItem orderItem = new OrderItem();
             orderItem.setQuantity(cartItem.getQuantity());
             Book book = cartItem.getBook();
+
             double totalPrice = cartItem.getQuantity() * book.getSellPrice();
             orderItem.setSellPrice(book.getSellPrice());// Lưu để dễ tính toán cho doanh thu, lợi nhuận
+            // Kiểm tra xem sản phẩm có giảm giá không
+            Discount discount = discountService.getLatestActiveDiscountByBookId(cartItem.getBook().getId());
+            if (discount != null) {
+                // Nếu có, giá dựa trên giá đã giảm
+                totalPrice = cartItem.getQuantity() * discount.getDiscountedPrice();
+                orderItem.setSellPrice(discount.getDiscountedPrice());// Lưu để dễ tính toán cho doanh thu, lợi nhuận
+            }
+
             orderItem.setTotalPrice(totalPrice);
             orderItem.setBook(book);
             orderItem.setOrder(lastOrder);
@@ -269,7 +305,15 @@ public class OrderController {
 	private double calculateTotalAmount(List<CartItem> cartItems) {
         double totalAmount = 0.0;
         for (CartItem cartItem : cartItems) {
-            totalAmount += cartItem.getQuantity() * cartItem.getBook().getSellPrice();
+            // Kiểm tra xem sản phẩm có giảm giá không
+            Discount discount = discountService.getLatestActiveDiscountByBookId(cartItem.getBook().getId());
+            if (discount != null) {
+                // Nếu có, giá dựa trên giá đã giảm
+                totalAmount += cartItem.getQuantity() * discount.getDiscountedPrice();
+            } else {
+                // Nếu không giá dựa trên giá gốc
+                totalAmount += cartItem.getQuantity() * cartItem.getBook().getSellPrice();
+            }
         }
         return totalAmount;
     }
@@ -616,6 +660,23 @@ public class OrderController {
 
         redirectAttributes.addAttribute("orderId", orderId);
         return "redirect:/vieworderitems";
+    }
+
+    private CartItemResponseModel convertToCartItemResponseModel(CartItem cartItem) {
+        CartItemResponseModel cartItemResponseModel = modelMapper.map(cartItem, CartItemResponseModel.class);
+
+        cartItemResponseModel.getBook().setCurrentDiscount(null);
+        // Lấy đợt giảm giá còn hiệu lực theo sách
+        Discount latestActiveDiscount = discountService.getLatestActiveDiscountByBookId(cartItemResponseModel.getBook().getId());
+
+        if (latestActiveDiscount != null)
+        {
+            // Gán cho Response
+            DiscountLeanModel discountLeanModel = modelMapper.map(latestActiveDiscount, DiscountLeanModel.class);
+            cartItemResponseModel.getBook().setCurrentDiscount(discountLeanModel);
+        }
+
+        return cartItemResponseModel;
     }
 
 }

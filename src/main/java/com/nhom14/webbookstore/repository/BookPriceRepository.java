@@ -11,6 +11,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Repository
 public interface BookPriceRepository extends JpaRepository<BookPrice, Long> {
@@ -21,5 +22,10 @@ public interface BookPriceRepository extends JpaRepository<BookPrice, Long> {
                                     @Param("searchKeyword") String searchKeyword,
                                     Pageable pageable);
 
-    BookPrice findTopByBookAndEffectiveDateLessThanEqualOrderByEffectiveDateDesc(Book book, LocalDateTime now);
+    @Query("SELECT bp FROM BookPrice bp WHERE " +
+            "bp.book = :book and " +
+            "bp.effectiveDate <= :now " +
+            "ORDER BY bp.effectiveDate DESC")
+    List<BookPrice> findByBookAndEffectiveDateLessThanEqualOrderByEffectiveDateDesc(@Param("book") Book book, @Param("now") LocalDateTime now, Pageable pageable);
+
 }

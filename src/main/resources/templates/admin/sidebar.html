@@ -98,8 +98,21 @@
                    onmouseout="this.style.backgroundColor='transparent'; this.style.color='#93979b';"
                    style="color: #93979b; border-radius: 20px; padding: 10px 15px; width: 100%; font-family: Arial, sans-serif; display: flex; align-items: center; justify-content: space-between;">                    <div style="display: flex; align-items: center;">
                         <span class="material-symbols-outlined" style="display: flex;">money</span>
-                        <span style="margin-left: 10px;">Giá bán sách</span>
+                        <span style="margin-left: 10px;">Giá bán</span>
                     </div>
+                    <span class="material-symbols-outlined">expand_more</span>
+                </a>
+            </li>
+
+            <li class="nav-item d-flex " th:if="${session.admin != null}"
+                style="list-style: none;  font-size: 13px;">
+                <a class="nav-link" th:href="@{/managediscounts}"
+                   onmouseover="this.style.backgroundColor='#d7ebff'; this.style.color='#3f6ad8';"
+                   onmouseout="this.style.backgroundColor='transparent'; this.style.color='#93979b';"
+                   style="color: #93979b; border-radius: 20px; padding: 10px 15px; width: 100%; font-family: Arial, sans-serif; display: flex; align-items: center; justify-content: space-between;">                    <div style="display: flex; align-items: center;">
+                    <span class="material-symbols-outlined" style="display: flex;">sell</span>
+                    <span style="margin-left: 10px;">Giảm giá</span>
+                </div>
                     <span class="material-symbols-outlined">expand_more</span>
                 </a>
             </li>

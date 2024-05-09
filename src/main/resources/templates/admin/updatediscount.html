@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Cập nhật thông tin giảm giá</title>
+    <title>Chỉnh sửa đợt giảm giá</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <style>
@@ -66,7 +66,7 @@
                     <span class="material-symbols-outlined back">arrow_back_ios</span>
                 </a>
                 <div class="frame-body">
-                    <h3>CẬP NHẬT THÔNG TIN GIẢM GIÁ</h3>
+                    <h3>CHỈNH SỬA ĐỢT GIẢM GIÁ</h3>
                     <form th:action="@{/updatediscount}" method="post">
                         <!-- Mã giảm giá -->
                         <div class="form-group">
@@ -81,7 +81,7 @@
                         <!-- Tỷ lệ giảm giá -->
                         <div class="form-group">
                             <label for="discountPercent" style="color: rgb(2,88,155);">Tỷ lệ giảm giá (%):</label>
-                            <input type="number" class="form-control" id="discountPercent" name="discountPercent" th:value="${roundDown(discount.discountPercent * 100)}" min="0" max="100" step="1" required style="border-radius: 10px;" />
+                            <input type="number" class="form-control" id="discountPercent" name="discountPercent" th:value="${discount.discountPercent}" min="1" max="100" step="1" required style="border-radius: 10px;" />
                         </div>
                         <!-- Ngày bắt đầu -->
                         <div class="form-group">
@@ -125,11 +125,6 @@
 
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-<script>
-    function roundDown(number) {
-        return Math.floor(number);
-    }
-</script>
 <!--<div th:replace="~{admin/footeradmin :: footer}"></div>-->
 </body>
 

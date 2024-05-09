@@ -637,7 +637,7 @@
 										                <div class="product images-container">
 															<a th:href="@{/detailbook/{id} (id=${book.id})}">
 											                    <!-- Chỉ hiển thị hình ảnh đầu tiên -->
-											                	<img th:src="${book.bookImages[0].path}" alt="Book Image" class="card-img">
+											                	<img th:src="${book.bookImages[0].path + '?v=' + randomNumber}" alt="Book Image" class="card-img">
 															</a>
 										                </div>
 										            </div>
@@ -650,6 +650,15 @@
 															<div class="price-label">
 																<p class="card-text" style="font-size: 16px; text-align: left;"><span th:text="${#numbers.formatInteger(book.sellPrice, 0, 'POINT')}" ></span> đ</p>
 															</div>
+
+															<div th:if="${book.currentDiscount != null}">
+																<p class="card-text" style="font-size: 16px; text-align: left;"><span th:text="'-' + ${book.currentDiscount.discountPercent} +'%'" ></span></p>
+															</div>
+
+															<div th:if="${book.currentDiscount != null}">
+																<p class="card-text" style="font-size: 16px; text-align: left;"><span th:text="${#numbers.formatInteger(book.currentDiscount.discountedPrice, 0, 'POINT')}" ></span> đ</p>
+															</div>
+
 															<!-- Thêm form thêm vào giỏ hàng tại đây -->
 															<form th:action="@{/addtocartfromallbooks}" method="post" style="display: flex; justify-content: center; align-items: center;">
 																<input type="hidden" name="bookId" th:value="${book.id}">

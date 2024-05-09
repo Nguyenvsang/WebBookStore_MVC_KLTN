@@ -1,18 +1,24 @@
 package com.nhom14.webbookstore.controller.customer;
 
 import com.nhom14.webbookstore.entity.*;
+import com.nhom14.webbookstore.model.lean_model.DiscountLeanModel;
+import com.nhom14.webbookstore.model.response_model.BookResponseModel;
 import com.nhom14.webbookstore.service.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.modelmapper.ModelMapper;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
+import java.util.stream.Collectors;
 
 @Controller
 public class BookController {
@@ -21,16 +27,20 @@ public class BookController {
     private BookReviewService bookReviewService;
     private BookReviewLikeService bookReviewLikeService;
     private FavoriteBookService favoriteBookService;
+    private ModelMapper modelMapper;
+    private DiscountService discountService;
 
 	@Autowired
 	public BookController(BookService bookService, CategoryService categoryService,
-                          BookReviewService bookReviewService, BookReviewLikeService bookReviewLikeService, FavoriteBookService favoriteBookService) {
+                          BookReviewService bookReviewService, BookReviewLikeService bookReviewLikeService, FavoriteBookService favoriteBookService, ModelMapper modelMapper, DiscountService discountService) {
 		super();
 		this.bookService = bookService;
 		this.categoryService = categoryService;
         this.bookReviewService = bookReviewService;
         this.bookReviewLikeService = bookReviewLikeService;
         this.favoriteBookService = favoriteBookService;
+        this.modelMapper = modelMapper;
+        this.discountService = discountService;
     }
 	
 	@GetMapping("/viewbooks")
@@ -136,7 +146,16 @@ public class BookController {
 
         totalPages = (int) Math.ceil((double) totalBooks / recordsPerPage);
 
-        model.addAttribute("books", booksOnPage);
+        List<BookResponseModel> bookResponseModels = booksOnPage.stream()
+                .map(this::convertToBookResponseModel)
+                .toList();
+
+        // Sinh giá trị ngẫu nhiên
+        Random random = new Random();
+        int randomNumber = random.nextInt();
+        model.addAttribute("randomNumber", randomNumber);
+
+        model.addAttribute("books", bookResponseModels);
         model.addAttribute("totalBooks", totalBooks);
         model.addAttribute("totalPages", totalPages);
         model.addAttribute("currentPage", currentPage);
@@ -226,8 +245,15 @@ public class BookController {
         }
         model.addAttribute("isFavorite", isFavorite);
 
+        BookResponseModel bookResponseModels = convertToBookResponseModel(book);
+
+        // Sinh giá trị ngẫu nhiên
+        Random random = new Random();
+        int randomNumber = random.nextInt();
+        model.addAttribute("randomNumber", randomNumber);
+
 	    // Đặt thuộc tính vào model để sử dụng trong View
-	    model.addAttribute("book", book);
+	    model.addAttribute("book", bookResponseModels);
 	    model.addAttribute("categories", categories);
         model.addAttribute("bookReviews", bookReviews);
         model.addAttribute("loggedInUserReview", loggedInUserReview);
@@ -243,5 +269,22 @@ public class BookController {
 
 	    return "customer/detailbook";
 	}
+
+    private BookResponseModel convertToBookResponseModel(Book book) {
+        BookResponseModel bookResponseModel = modelMapper.map(book, BookResponseModel.class);
+
+        bookResponseModel.setCurrentDiscount(null);
+        // Lấy đợt giảm giá còn hiệu lực theo sách
+        Discount latestActiveDiscount = discountService.getLatestActiveDiscountByBookId(book.getId());
+
+        if (latestActiveDiscount != null)
+        {
+            // Gán cho Response
+            DiscountLeanModel discountLeanModel = modelMapper.map(latestActiveDiscount, DiscountLeanModel.class);
+            bookResponseModel.setCurrentDiscount(discountLeanModel);
+        }
+
+        return bookResponseModel;
+    }
 
 }

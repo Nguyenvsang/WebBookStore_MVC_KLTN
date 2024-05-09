@@ -444,8 +444,8 @@ CREATE TABLE Discount (
   -- Khai báo thuộc tính book_id kiểu int và là khóa ngoại tham chiếu đến bảng Book
   book_id INT,
   FOREIGN KEY (book_id) REFERENCES Book(id),
-  -- Khai báo thuộc tính discount_percent kiểu double, không được null
-  discount_percent DOUBLE NOT NULL,
+  -- Khai báo thuộc tính discount_percent kiểu int, không được null
+  discount_percent INT NOT NULL,
   -- Khai báo thuộc tính discounted_price kiểu double
   discounted_price DOUBLE,
   -- Khai báo thuộc tính status kiểu int, không được null

@@ -53,6 +53,11 @@ public class CartItemServiceImpl implements CartItemService {
     public void deleteCartItem(CartItem cartItem) {
         cartItemRepository.delete(cartItem);
     }
-	
+
+	@Override
+	public boolean isOwnerOfCartItem(int accountId, int itemId) {
+		CartItem cartItem = cartItemRepository.findById(itemId).orElse(null);
+		return cartItem != null && cartItem.getCart().getAccount().getId() == accountId;
+	}
 	
 }

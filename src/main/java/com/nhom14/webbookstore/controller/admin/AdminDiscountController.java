@@ -1,15 +1,16 @@
 package com.nhom14.webbookstore.controller.admin;
 
-import com.nhom14.webbookstore.entity.Account;
-import com.nhom14.webbookstore.entity.Book;
-import com.nhom14.webbookstore.entity.BookPrice;
-import com.nhom14.webbookstore.entity.Discount;
+import com.nhom14.webbookstore.entity.*;
 import com.nhom14.webbookstore.service.BookPriceService;
 import com.nhom14.webbookstore.service.BookService;
 import com.nhom14.webbookstore.service.DiscountService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,7 +21,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class AdminDiscountController {
@@ -34,6 +37,81 @@ public class AdminDiscountController {
         this.discountService = discountService;
         this.bookService = bookService;
         this.bookPriceService = bookPriceService;
+    }
+
+    @GetMapping("/managediscounts")
+    public String manageDiscounts(
+            @RequestParam(value = "bookId", required = false) Integer bookId, //lọc theo sách
+            @RequestParam(value = "searchKeyword", required = false) String searchKeyword, //từ khóa tìm kiếm
+            // Có thể kiếm theo tên sách
+            @RequestParam(value = "status", required = false) Integer status, // lọc theo trạng thái
+            @RequestParam(value = "sortOption", required = false, defaultValue = "sd21") String sortOption,
+            //asc- tăng dần-12, desc- giảm dần-21
+            //các tùy chọn: sd12 (ngày bắt đầu tăng dần), sd21(ngày bắt đầu giảm dần),
+            // ed12 (ngày kết thúc tăng dần), ed21(ngày kết thúc giảm dần)
+            // dpc12, dpc21 (tỷ lệ giảm giá), dp12, dp21 (giá cuối cùng)
+            @RequestParam(value = "page", required = false, defaultValue = "1") Integer currentPage,
+            @RequestParam(value = "size", required = false, defaultValue = "10") Integer pageSize,
+            Model model,
+            HttpSession session,
+            RedirectAttributes redirectAttributes) {
+        Account admin = (Account) session.getAttribute("admin");
+
+        // Kiểm tra xem admin đã đăng nhập hay chưa
+        if (admin == null) {
+            // Nếu chưa đăng nhập, chuyển hướng về trang đăng nhập
+            return "redirect:/loginadmin";
+        }
+
+        Sort sort = handleSortOption(sortOption);
+
+        Pageable pageable = PageRequest.of(currentPage - 1, pageSize, sort);
+
+        // Gọi phương thức getFilteredDiscounts với các tham số tìm kiếm và lọc
+        Page<Discount> discounts = discountService.getFilteredDiscounts(bookId, searchKeyword, status, pageable);
+        // Tổng số tất cả các discount
+        long totalAllDiscounts = discountService.getAllDiscounts().size();
+
+        model.addAttribute("discounts", discounts);
+        model.addAttribute("totalAllDiscounts", totalAllDiscounts);
+
+        // Thêm các bộ lọc nếu có để dùng cho trang tiếp theo
+        Map<String, Object> params = new HashMap<>();
+        params.put("bookId", bookId);
+        params.put("searchKeyword", searchKeyword);
+        params.put("status", status);
+        params.put("sortOption", sortOption);
+
+        for (Map.Entry<String, Object> entry : params.entrySet()) {
+            if (entry.getValue() != null) {
+                model.addAttribute(entry.getKey(), entry.getValue());
+            }
+        }
+
+        // Lấy danh sách tất cả sách để hiển thị trong dropdown
+        List<Book> allBooks = bookService.getAllBooks();
+
+        model.addAttribute("allBooks", allBooks);
+
+        return "admin/managediscounts";
+    }
+
+    public Sort handleSortOption(String sortOption) {
+        Sort sort = Sort.unsorted();
+        if (sortOption != null) {
+            sort = switch (sortOption) {
+                case "sd12" -> sort.and(Sort.by("startDate").ascending());
+                case "sd21" -> sort.and(Sort.by("startDate").descending());
+                case "ed12" -> sort.and(Sort.by("endDate").ascending());
+                case "ed21" -> sort.and(Sort.by("endDate").descending());
+                case "dpc12" -> sort.and(Sort.by("discountPercent").ascending());
+                case "dpc21" -> sort.and(Sort.by("discountPercent").descending());
+                case "dp12" -> sort.and(Sort.by("discountedPrice").ascending());
+                case "dp21" -> sort.and(Sort.by("discountedPrice").descending());
+                default -> sort;
+            };
+        }
+        return sort;
     }
 
     @GetMapping("/adddiscount")
@@ -57,7 +135,7 @@ public class AdminDiscountController {
 
     @PostMapping("/adddiscount")
     public String addDiscount(@RequestParam("bookId") int bookId,
-                              @RequestParam("discountPercent") double discountPercent,
+                              @RequestParam("discountPercent") int discountPercent,
                               @RequestParam("startDate") String startDate,
                               @RequestParam("startTime") String startTime,
                               @RequestParam("endDate") String endDate,
@@ -72,12 +150,6 @@ public class AdminDiscountController {
         if (admin == null) {
             // Nếu chưa đăng nhập, chuyển hướng về trang đăng nhập
             return "redirect:/loginadmin";
-        }
-
-        // Kiểm tra xem discountPercent có phải là số nguyên không
-        if (discountPercent % 1 != 0) {
-            redirectAttributes.addAttribute("message", "Tỷ lệ giảm giá phải là một số nguyên!");
-            return "redirect:/adddiscount";
         }
 
         // Lấy sách
@@ -116,7 +188,7 @@ public class AdminDiscountController {
             // Tạo đối tượng Discount và gán các giá trị
             Discount discount = new Discount();
             discount.setBook(book);
-            discount.setDiscountPercent(discountPercent / 100); // Chia cho 100 để chuyển từ phần trăm thành số thập phân
+            discount.setDiscountPercent(discountPercent); // Lưu số nguyên 5, 10, 20
             discount.setDiscountedPrice(discountedPrice);
             discount.setStartDate(startTimestamp);
             discount.setEndDate(endTimestamp);
@@ -179,7 +251,7 @@ public class AdminDiscountController {
     @PostMapping("/updatediscount")
     public String updateDiscount(@RequestParam("discountId") Long discountId,
                                  @RequestParam("bookId") int bookId,
-                                 @RequestParam("discountPercent") double discountPercent,
+                                 @RequestParam("discountPercent") int discountPercent,
                                  @RequestParam("startDate") String startDate,
                                  @RequestParam("startTime") String startTime,
                                  @RequestParam("endDate") String endDate,
@@ -194,12 +266,6 @@ public class AdminDiscountController {
         if (admin == null) {
             // Nếu chưa đăng nhập, chuyển hướng về trang đăng nhập
             return "redirect:/loginadmin";
-        }
-
-        // Kiểm tra xem discountPercent có phải là số nguyên không
-        if (discountPercent % 1 != 0) {
-            redirectAttributes.addAttribute("message", "Tỷ lệ giảm giá phải là một số nguyên!");
-            return "redirect:/adddiscount";
         }
 
         // Lấy sách
@@ -239,7 +305,7 @@ public class AdminDiscountController {
             double discountedPrice = book.getSellPrice() * (100 - discountPercent) / 100;
 
             // Cập nhật các giá trị cho đối tượng Discount
-            discount.setDiscountPercent(discountPercent / 100); // Chia cho 100 để chuyển từ phần trăm thành số thập phân
+            discount.setDiscountPercent(discountPercent); // Lưu số nguyên 5, 10, 20
             discount.setDiscountedPrice(discountedPrice);
             discount.setStartDate(startTimestamp);
             discount.setEndDate(endTimestamp);

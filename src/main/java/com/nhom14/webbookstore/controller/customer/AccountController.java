@@ -146,6 +146,11 @@ public class AccountController {
 	public String loginAccountForm(Model model) {
 		// tạo đối tượng account cho form dữ liệu
 		Account account = new Account();
+
+		// Sinh giá trị ngẫu nhiên
+		Random random = new Random();
+		int randomNumber = random.nextInt();
+		model.addAttribute("randomNumber", randomNumber);
 		model.addAttribute("account", account);
 		return "customer/loginaccount";
 	}

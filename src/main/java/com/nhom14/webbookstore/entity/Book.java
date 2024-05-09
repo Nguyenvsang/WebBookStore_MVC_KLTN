@@ -83,6 +83,10 @@ public class Book {
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "book")
 	private List<BookPrice> bookPrices;
 
+	//bi-directional one-to-many association to BookReview
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "book")
+	private List<Discount> discounts;
+
     public Book() {
     }
 

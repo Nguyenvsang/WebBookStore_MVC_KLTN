@@ -6,6 +6,12 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import com.nhom14.webbookstore.entity.*;
+import com.nhom14.webbookstore.model.lean_model.DiscountLeanModel;
+import com.nhom14.webbookstore.model.response_model.BookResponseModel;
+import com.nhom14.webbookstore.model.response_model.CartItemResponseModel;
+import com.nhom14.webbookstore.service.DiscountService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,10 +23,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import jakarta.servlet.http.HttpSession;
-import com.nhom14.webbookstore.entity.Account;
-import com.nhom14.webbookstore.entity.Book;
-import com.nhom14.webbookstore.entity.Cart;
-import com.nhom14.webbookstore.entity.CartItem;
 import com.nhom14.webbookstore.service.BookService;
 import com.nhom14.webbookstore.service.CartItemService;
 import com.nhom14.webbookstore.service.CartService;
@@ -31,14 +33,18 @@ public class CartController {
 	private CartService cartService;
 	private BookService bookService;
 	private CartItemService cartItemService;
+	private ModelMapper modelMapper;
+	private DiscountService discountService;
 
 	@Autowired
-	public CartController(CartService cartService, BookService bookService, CartItemService cartItemService) {
+	public CartController(CartService cartService, BookService bookService, CartItemService cartItemService, ModelMapper modelMapper, DiscountService discountService) {
 		super();
 		this.cartService = cartService;
 		this.bookService = bookService;
 		this.cartItemService = cartItemService;
-	}
+        this.modelMapper = modelMapper;
+        this.discountService = discountService;
+    }
 	
 	@PostMapping("/addtocart")
 	public String addToCart(@RequestParam("bookId") int bookId, 
@@ -147,11 +153,19 @@ public class CartController {
 		double totalAmount = calculateTotalAmount(availableItems);
 		int totalAllAvailableCartItems = availableItems.size();
 
+		List<CartItemResponseModel> availableItemResponseModels = availableItems.stream()
+				.map(this::convertToCartItemResponseModel)
+				.toList();
+
+		List<CartItemResponseModel> unavailableItemResponseModels = unavailableItems.stream()
+				.map(this::convertToCartItemResponseModel)
+				.toList();
+
 		model.addAttribute("cartItems", cartItems);
-		model.addAttribute("availableItems", availableItems);
+		model.addAttribute("availableItems", availableItemResponseModels);
 		model.addAttribute("totalAmount", totalAmount);
 		model.addAttribute("totalAllAvailableCartItems", totalAllAvailableCartItems);
-		model.addAttribute("unavailableItems", unavailableItems);
+		model.addAttribute("unavailableItems", unavailableItemResponseModels);
 		model.addAttribute("unavailableItemIdsString", unavailableItemIdsString);
 
 		return "customer/viewcart";
@@ -180,30 +194,19 @@ public class CartController {
 	@GetMapping("/removefromcart")
 	public ResponseEntity<String> removeFromCart(@RequestParam("itemId") int itemId, HttpSession session) {
 		// Kiểm tra đăng nhập và sở hữu của cart item
-		if (!isLoggedIn(session)) {
+		Account account = (Account) session.getAttribute("account");
+		if (account == null) {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Bạn cần đăng nhập để thực hiện hành động này.");
 		}
 
-		CartItem cartItem = cartItemService.getCartItemById(itemId);
-		if (cartItem == null || !isCartItemOwner(cartItem, session)) {
+		if (!cartItemService.isOwnerOfCartItem(account.getId(), itemId)) {
 			return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Bạn không có quyền thực hiện hành động này.");
 		}
 
 		// Xóa cart item và trả về phản hồi thành công
+		CartItem cartItem = cartItemService.getCartItemById(itemId);
 		cartItemService.deleteCartItem(cartItem);
 		return ResponseEntity.ok("CartItem removed successfully");
-	}
-
-	// Kiểm tra trạng thái đăng nhập
-	private boolean isLoggedIn(HttpSession session) {
-		Account account = (Account) session.getAttribute("account");
-		return account != null;
-	}
-
-	// Kiểm tra xem người dùng có sở hữu cart item không
-	private boolean isCartItemOwner(CartItem cartItem, HttpSession session) {
-		Account account = (Account) session.getAttribute("account");
-		return account != null && cartItem.getCart().getAccount().getId() == account.getId();
 	}
 
 	@PostMapping("/removeallfromcart")
@@ -312,6 +315,23 @@ public class CartController {
 		// Tạo và trả về ResponseEntity
 		String message = "Thêm vào giỏ hàng thành công";
 		return ResponseEntity.ok(message);
+	}
+
+	private CartItemResponseModel convertToCartItemResponseModel(CartItem cartItem) {
+		CartItemResponseModel cartItemResponseModel = modelMapper.map(cartItem, CartItemResponseModel.class);
+
+		cartItemResponseModel.getBook().setCurrentDiscount(null);
+		// Lấy đợt giảm giá còn hiệu lực theo sách
+		Discount latestActiveDiscount = discountService.getLatestActiveDiscountByBookId(cartItemResponseModel.getBook().getId());
+
+		if (latestActiveDiscount != null)
+		{
+			// Gán cho Response
+			DiscountLeanModel discountLeanModel = modelMapper.map(latestActiveDiscount, DiscountLeanModel.class);
+			cartItemResponseModel.getBook().setCurrentDiscount(discountLeanModel);
+		}
+
+		return cartItemResponseModel;
 	}
 
 }

@@ -6,6 +6,7 @@ import com.nhom14.webbookstore.repository.BookPriceRepository;
 import com.nhom14.webbookstore.service.BookPriceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -45,7 +46,11 @@ public class BookPriceServiceImpl implements BookPriceService {
 
     @Override
     public BookPrice getLatestEffectiveBookPriceByBook(Book book) {
-        return bookPriceRepository.findTopByBookAndEffectiveDateLessThanEqualOrderByEffectiveDateDesc(book, LocalDateTime.now());
-        // Không có sẽ trả về null
+        List<BookPrice> prices = bookPriceRepository.findByBookAndEffectiveDateLessThanEqualOrderByEffectiveDateDesc(book, LocalDateTime.now(), PageRequest.of(0, 1));
+        if (!prices.isEmpty()) {
+            return prices.get(0);
+        } else {
+            return null;
+        }
     }
 }

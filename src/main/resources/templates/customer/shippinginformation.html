@@ -170,13 +170,13 @@
 								</tr>
 								</thead>
 								<tbody>
-								<tr th:each="cartItem : ${selectedCartItems}" onmouseover="this.style.backgroundColor='#f2f5f6';" onmouseout="this.style.backgroundColor='transparent';"
-									style="border-top: 1px solid #cecece; background-color: transparent;">
-									<td th:text="${cartItem.book.name}" class="align-middle" style="text-align: center; padding: 10px 0px"></td>
-									<td th:text="${cartItem.quantity}" class="align-middle text-center" style="text-align: center; padding: 10px 0px"></td>
-									<td th:text="${#numbers.formatInteger(cartItem.book.sellPrice, 0, 'POINT')+ ' đ'}" class="align-middle" style="text-align: right; padding: 10px 10px"></td>
-									<td th:text="${#numbers.formatInteger(cartItem.quantity * cartItem.book.sellPrice, 0, 'POINT')+ ' đ'}" class="align-middle" style="text-align: right; padding: 10px 10px"></td>
-								</tr>
+									<tr th:each="cartItem : ${selectedCartItems}" onmouseover="this.style.backgroundColor='#f2f5f6';" onmouseout="this.style.backgroundColor='transparent';"
+										style="border-top: 1px solid #cecece; background-color: transparent;">
+										<td th:text="${cartItem.book.name}" class="align-middle" style="text-align: center; padding: 10px 0px"></td>
+										<td th:text="${cartItem.quantity}" class="align-middle text-center" style="text-align: center; padding: 10px 0px"></td>
+										<td th:text="${cartItem.book.currentDiscount != null ? #numbers.formatInteger(cartItem.book.currentDiscount.discountedPrice, 0, 'POINT')+ ' đ' : #numbers.formatInteger(cartItem.book.sellPrice, 0, 'POINT')+ ' đ'}" class="align-middle" style="text-align: right; padding: 10px 10px"></td>
+										<td th:text="${cartItem.book.currentDiscount != null ? #numbers.formatInteger(cartItem.quantity * cartItem.book.currentDiscount.discountedPrice, 0, 'POINT')+ ' đ' : #numbers.formatInteger(cartItem.quantity * cartItem.book.sellPrice, 0, 'POINT')+ ' đ'}" class="align-middle" style="text-align: right; padding: 10px 10px"></td>
+									</tr>
 								</tbody>
 							</table>
 							<div class="frame" style="background-color: #ffebae;">

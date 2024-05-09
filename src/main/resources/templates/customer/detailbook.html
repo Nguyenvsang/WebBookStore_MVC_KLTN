@@ -432,7 +432,7 @@
 				                    <img data-lightbox="gallery" data-title="Hình ảnh 1" th:src="${book.bookImages[3].path + '?v=' + randomNumber}" class="image" alt="Book Image 1" width="100" style="padding: 10px;"><br>
 				                </div>
 				                <div class="col-image-large" style="width: 375px; padding: 0px">
-				                    <img data-lightbox="gallery" data-title="Hình ảnh 1" th:src="${book.bookImages[0].path}" alt="Book Image" class="card-img" style="border-radius: 15px; width: 295px; margin: 10px 25px 10px 45px">
+				                    <img data-lightbox="gallery" data-title="Hình ảnh 1" th:src="${book.bookImages[0].path + '?v=' + randomNumber}" alt="Book Image" class="card-img" style="border-radius: 15px; width: 295px; margin: 10px 25px 10px 45px">
 				                </div>
 							</div>
 						</div>
@@ -472,6 +472,18 @@
 												<p class="card-text"
 												   style="font-size: 30px; font-weight: bold;text-align: left; color: orangered; ">
 													<span th:text="${#numbers.formatInteger(book.sellPrice, 0, 'POINT')}" ></span> đ
+												</p>
+											</div>
+											<div th:if="${book.currentDiscount != null}" class="col-price d-flex align-items-center">
+												<p class="card-text"
+												   style="font-size: 30px; font-weight: bold;text-align: left; color: orangered; ">
+													<span th:text="'-' + ${book.currentDiscount.discountPercent} + '%'" ></span>
+												</p>
+											</div>
+											<div th:if="${book.currentDiscount != null}" class="col-price d-flex align-items-center">
+												<p class="card-text"
+												   style="font-size: 30px; font-weight: bold;text-align: left; color: orangered; ">
+													<span th:text="'Chỉ còn: ' + ${#numbers.formatInteger(book.currentDiscount.discountedPrice, 0, 'POINT')}" ></span> đ
 												</p>
 											</div>
 											<div class="col-favorite d-flex align-items-center">
