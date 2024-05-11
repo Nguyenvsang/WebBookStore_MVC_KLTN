@@ -43,8 +43,8 @@ public class BookController {
         this.discountService = discountService;
     }
 	
-	@GetMapping("/viewbooks1")
-    public String viewBooks1(@RequestParam(value = "category", required = false) Integer categoryId,
+	@GetMapping("/viewbooks")
+    public String viewBooks(@RequestParam(value = "category", required = false) Integer categoryId,
                             @RequestParam(value = "search", required = false) String searchKeyword,
                             @RequestParam(value = "page", required = false, defaultValue = "1") Integer currentPage,
                             @RequestParam(value = "pricemin", required = false) Double priceMin,
@@ -200,134 +200,6 @@ public class BookController {
 		
 		return books;
 	}
-
-    @GetMapping("/viewbooks")
-    public String viewBooks(
-            @RequestParam(value = "category", required = false) Integer categoryId,
-            @RequestParam(value = "search", required = false) String searchKeyword,
-            @RequestParam(value = "page", required = false, defaultValue = "1") Integer currentPage,
-            @RequestParam(value = "size", required = false, defaultValue = "12") Integer pageSize,
-            @RequestParam(value = "pricemin", required = false) Double priceMin, // Lọc sách theo khoảng giá
-            @RequestParam(value = "pricemax", required = false) Double priceMax, // Lọc sách theo khoảng giá
-            @RequestParam(value = "priceoption", required = false) Integer priceOption,
-            // Sếp sách tăng dần nếu giá trị priceOption là 12, giảm dần nếu giá trị là 21
-            @RequestParam(value = "nameoption", required = false) Integer nameOption,
-            // Xếp sách theo chữ cái đầu tiên của tên sách tăng dần từ A đến Y nếu nameOption là 12 và ngược lại
-            @RequestParam(value = "publisher", required = false) String publisher, // Lọc sách theo tên nhà xuất bản
-            Model model,
-            HttpSession session) {
-        List<Book> books;
-
-        int totalBooks;
-        int recordsPerPage = 12;
-        int start;
-        int end;
-        int totalPages;
-
-        if (categoryId == null) {
-            books = bookService.getActiveBooks();
-            if (books.isEmpty()) {
-                model.addAttribute("message", "Hiện không có sách nào được bán, vui lòng quay lại sau");
-                return "customer/viewbooks";
-            }
-        } else {
-            books = bookService.getActiveBooksByCategory(categoryId);
-            if (books.isEmpty()) {
-                model.addAttribute("message", "Không tìm thấy sách theo danh mục này");
-                return "customer/viewbooks";
-            }
-            // Thêm để hiển thị theo catagory cho các trang phía sau
-            model.addAttribute("categoryId", categoryId);
-        }
-
-        if (searchKeyword != null && !searchKeyword.isEmpty()) {
-            books = bookService.searchBooksByKeyword(books, searchKeyword);
-            if (books.isEmpty()) {
-                model.addAttribute("message", "Không tìm thấy sách nào với từ khóa đã nhập");
-                return "customer/viewbooks";
-            } else { //Thêm để hiển thị theo từ khóa cho các trang phía sau
-                model.addAttribute("search", searchKeyword);
-            }
-        }
-
-        // Lọc sách theo tên nhà sản xuất
-//        if(publisher != null) {
-//            books = filterBooksByPublisher(books, publisher);
-//            if (books.isEmpty()) {
-//                model.addAttribute("message", "Không tìm thấy sách theo nhà xuất bản này");
-//                return "customer/viewbooks";
-//            } else { //Thêm để hiển thị theo NXB cho các trang phía sau
-//                model.addAttribute("publisher", publisher);
-//            }
-//        }
-
-        // Lọc sách theo khoảng giá
-        if (priceMin != null && priceMax != null) {
-            books = bookService.filterBooksByPriceRange(books, priceMin, priceMax);
-            if (books.isEmpty()) {
-                model.addAttribute("message", "Không tìm thấy sách nào trong khoảng giá đã chọn");
-                return "customer/viewbooks";
-            } else { //Thêm để hiển thị theo khoảng giá cho các trang phía sau
-                model.addAttribute("pricemin", priceMin);
-                model.addAttribute("pricemax", priceMax);
-            }
-        }
-
-        // Sếp sách tăng dần nếu giá trị priceOption là 12, giảm dần nếu giá trị là 21
-        if (priceOption != null) {
-            if (priceOption == 12) {
-                books = bookService.sortBooksByPriceAscending(books);
-                //Thêm để hiển thị theo khoảng giá cho các trang phía sau
-                model.addAttribute("priceoption", priceOption);
-            } else if (priceOption == 21) {
-                books = bookService.sortBooksByPriceDescending(books);
-                //Thêm để hiển thị theo khoảng giá cho các trang phía sau
-                model.addAttribute("priceoption", priceOption);
-            }
-        }
-
-        // Xếp sách theo chữ cái đầu tiên của tên sách tăng dần từ A đến Y nếu nameOption là 12 và ngược lại
-        if (nameOption != null) {
-            if (nameOption == 12) {
-                books = bookService.sortBooksByNameAscending(books);
-                //Thêm để hiển thị theo khoảng giá cho các trang phía sau
-                model.addAttribute("nameoption", nameOption);
-            } else if (nameOption == 21) {
-                books = bookService.sortBooksByNameDescending(books);
-                //Thêm để hiển thị theo khoảng giá cho các trang phía sau
-                model.addAttribute("nameoption", nameOption);
-            }
-        }
-
-
-        totalBooks = books.size();
-
-        start = (currentPage - 1) * recordsPerPage;
-        end = Math.min(start + recordsPerPage, totalBooks);
-
-        List<Book> booksOnPage = books.subList(start, end);
-
-        totalPages = (int) Math.ceil((double) totalBooks / recordsPerPage);
-
-        List<BookResponseModel> bookResponseModels = booksOnPage.stream()
-                .map(this::convertToBookResponseModel)
-                .toList();
-
-        // Sinh giá trị ngẫu nhiên
-        Random random = new Random();
-        int randomNumber = random.nextInt();
-        model.addAttribute("randomNumber", randomNumber);
-
-        model.addAttribute("books", bookResponseModels);
-        model.addAttribute("totalBooks", totalBooks);
-        model.addAttribute("totalPages", totalPages);
-        model.addAttribute("currentPage", currentPage);
-        List<Category> categories = categoryService.getActiveCategories();
-        model.addAttribute("categories", categories);
-
-
-        return "customer/viewbooks";
-    }
 
 	@GetMapping("/detailbook/{id}")
 	public String viewDetailBook(@PathVariable Integer id,
