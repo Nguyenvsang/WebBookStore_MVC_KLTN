@@ -36,6 +36,4 @@ public class Category {
         this.name = name;
         this.status = status;
     }
-
-
 }

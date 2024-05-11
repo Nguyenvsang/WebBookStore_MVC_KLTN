@@ -1,11 +1,15 @@
 package com.nhom14.webbookstore.controller.admin;
 
 import com.nhom14.webbookstore.entity.*;
+import com.nhom14.webbookstore.model.lean_model.DiscountLeanModel;
+import com.nhom14.webbookstore.model.response_model.BookResponseModel;
 import com.nhom14.webbookstore.service.BookPriceService;
 import com.nhom14.webbookstore.service.BookService;
+import com.nhom14.webbookstore.service.CategoryService;
 import com.nhom14.webbookstore.service.DiscountService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -30,13 +34,17 @@ public class AdminDiscountController {
     private DiscountService discountService;
     private BookService bookService;
     private BookPriceService bookPriceService;
+    private CategoryService categoryService;
+    private ModelMapper modelMapper;
 
     @Autowired
-    public AdminDiscountController(DiscountService discountService, BookService bookService, BookPriceService bookPriceService) {
+    public AdminDiscountController(DiscountService discountService, BookService bookService, BookPriceService bookPriceService, CategoryService categoryService, ModelMapper modelMapper) {
         super();
         this.discountService = discountService;
         this.bookService = bookService;
         this.bookPriceService = bookPriceService;
+        this.categoryService = categoryService;
+        this.modelMapper = modelMapper;
     }
 
     @GetMapping("/managediscounts")
@@ -88,8 +96,8 @@ public class AdminDiscountController {
             }
         }
 
-        // Lấy danh sách tất cả sách để hiển thị trong dropdown
-        List<Book> allBooks = bookService.getAllBooks();
+        // Lấy danh sách tất cả sách đang kinh doanh để hiển thị trong dropdown
+        List<Book> allBooks = bookService.getActiveBooks();
 
         model.addAttribute("allBooks", allBooks);
 
@@ -125,16 +133,25 @@ public class AdminDiscountController {
             return "redirect:/loginadmin";
         }
 
-        // Lấy danh sách tất cả sách để hiển thị trong dropdown
-        List<Book> allBooks = bookService.getAllBooks();
+        // Lấy danh sách các danh mục còn kinh doanh
+        List<Category> allCategories = categoryService.getActiveCategories();
 
-        model.addAttribute("allBooks", allBooks);
+        // Lấy danh sách các sách còn kinh doanh để hiển thị trong dropdown
+        List<Book> allBooks = bookService.getActiveBooks();
+        // Chuyển theo dạng Book Response
+        List<BookResponseModel> bookResponseModels = allBooks.stream()
+                .map(this::convertToBookResponseModel)
+                .toList();
+
+        model.addAttribute("allBooks", bookResponseModels);
+        model.addAttribute("allCategories", allCategories);
 
         return "admin/adddiscount";
     }
 
     @PostMapping("/adddiscount")
-    public String addDiscount(@RequestParam("bookId") int bookId,
+    public String addDiscount(@RequestParam(value = "bookId", required = false) Integer bookId,
+                              @RequestParam(value = "categoryId", required = false) Integer categoryId,
                               @RequestParam("discountPercent") int discountPercent,
                               @RequestParam("startDate") String startDate,
                               @RequestParam("startTime") String startTime,
@@ -152,16 +169,6 @@ public class AdminDiscountController {
             return "redirect:/loginadmin";
         }
 
-        // Lấy sách
-        Book book = bookService.getBookById(bookId);
-
-        // Kiểm xem sách có bị null không
-        if(book == null){
-            // Thêm thông báo lỗi
-            redirectAttributes.addAttribute("message", "Có lỗi xảy ra vui lòng thử lại sau!");
-            return "redirect:/erroradmin";
-        }
-
         // Gộp ngày và giờ nhập thành một chuỗi, đồng thời thêm giây là 00
         String startDateTimeString = startDate + " " + startTime + ":00";
         String endDateTimeString = endDate + " " + endTime + ":00";
@@ -176,6 +183,45 @@ public class AdminDiscountController {
         // Chuyển đổi LocalDateTime thành Timestamp
         Timestamp startTimestamp = Timestamp.valueOf(startLocalDateTime);
         Timestamp endTimestamp = Timestamp.valueOf(endLocalDateTime);
+
+        // Lấy sách
+        if (bookId != null) {
+            Book book = bookService.getBookById(bookId);
+            String redirectUrl = addDiscountForBook(book, discountPercent, startTimestamp, endTimestamp, status, redirectAttributes);
+            if (redirectUrl != null) {
+                return redirectUrl;
+            }
+        }
+
+        if (categoryId != null) {
+            List<Book> books = bookService.getActiveBooksByCategory(categoryId);
+            for (Book book : books) {
+                String redirectUrl = addDiscountForBook(book, discountPercent, startTimestamp, endTimestamp, status, redirectAttributes);
+                if (redirectUrl != null) {
+                    return redirectUrl;
+                }
+            }
+        }
+
+
+        // sau khi lưu thành công
+        redirectAttributes.addAttribute("message", "Đã thêm thành công!");
+        return "redirect:/adddiscount";
+    }
+
+    private String addDiscountForBook(Book book,
+                                      int discountPercent,
+                                      Timestamp startTimestamp,
+                                      Timestamp endTimestamp,
+                                      int status,
+                                      RedirectAttributes redirectAttributes) {
+        // Kiểm tra xem có đợt giảm giá nào trùng khớp không
+        List<Discount> overlappingDiscounts = discountService.findOverlappingDiscounts(book.getId(), startTimestamp, endTimestamp);
+        if (!overlappingDiscounts.isEmpty()) {
+            // Nếu có, thông báo lỗi
+            redirectAttributes.addAttribute("message", "Có lỗi xảy ra: Đợt giảm giá trùng với đợt giảm giá khác cho sách có mã: " + book.getId() + "!");
+            return "redirect:/erroradmin";
+        }
 
         // Lấy bookPrice mới nhất của cuốn sách và ngày hiệu lực nhỏ hơn ngày hiện tại
         BookPrice bookPrice = bookPriceService.getLatestEffectiveBookPriceByBook(book);
@@ -196,17 +242,15 @@ public class AdminDiscountController {
 
             // Lưu đối tượng Discount vào cơ sở dữ liệu
             discountService.saveDiscount(discount);
-
-            // sau khi lưu thành công
-            redirectAttributes.addAttribute("message", "Đã thêm thành công!");
-            return "redirect:/adddiscount";
         } else {
             // Nếu không khớp, thông báo lỗi
-            redirectAttributes.addAttribute("message", "Có lỗi xảy ra: Giá sách và giá trong BookPrice không khớp!");
+            redirectAttributes.addAttribute("message", "Có lỗi xảy ra: Giá sách và giá trong BookPrice không khớp cho sách có mã: " + book.getId() + "!");
             return "redirect:/erroradmin";
         }
-    }
 
+        // Nếu không có lỗi, trả về null
+        return null;
+    }
 
     @GetMapping("/updatediscount")
     public String showUpdateDiscountForm(
@@ -323,6 +367,23 @@ public class AdminDiscountController {
             redirectAttributes.addAttribute("message", "Có lỗi xảy ra: Giá sách và giá trong BookPrice không khớp!");
             return "redirect:/erroradmin";
         }
+    }
+
+    private BookResponseModel convertToBookResponseModel(Book book) {
+        BookResponseModel bookResponseModel = modelMapper.map(book, BookResponseModel.class);
+
+        bookResponseModel.setCurrentDiscount(null);
+        // Lấy đợt giảm giá còn hiệu lực theo sách
+        Discount latestActiveDiscount = discountService.getLatestActiveDiscountByBookId(book.getId());
+
+        if (latestActiveDiscount != null)
+        {
+            // Gán cho Response
+            DiscountLeanModel discountLeanModel = modelMapper.map(latestActiveDiscount, DiscountLeanModel.class);
+            bookResponseModel.setCurrentDiscount(discountLeanModel);
+        }
+
+        return bookResponseModel;
     }
 
 }

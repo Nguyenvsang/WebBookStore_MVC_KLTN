@@ -4,6 +4,7 @@ import com.nhom14.webbookstore.entity.Discount;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 public interface DiscountService {
@@ -17,4 +18,6 @@ public interface DiscountService {
     List<Discount> getAllDiscounts();
 
     Discount getLatestActiveDiscountByBookId(int bookId);
+
+    List<Discount> findOverlappingDiscounts(Integer bookId, Timestamp startDate, Timestamp endDate);
 }

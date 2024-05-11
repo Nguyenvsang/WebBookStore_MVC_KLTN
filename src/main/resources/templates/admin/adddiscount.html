@@ -67,10 +67,21 @@
                     <h3>THÊM ĐỢT GIẢM GIÁ</h3>
                     <form th:action="@{/adddiscount}" method="post">
                         <div class="form-group">
+                            <label for="categoryId" style="color: rgb(2,88,155);">Danh mục:</label>
+                            <select class="form-control" id="categoryId" name="categoryId" required style="border-radius: 10px;">
+                                <option value="">-- Chọn danh mục --</option>
+                                <option th:each="category : ${allCategories}" th:value="${category.id}" th:text="${category.name}"></option>
+                            </select>
+                        </div>
+                        <div class="form-group">
                             <label for="bookId" style="color: rgb(2,88,155);">Sách:</label>
                             <select class="form-control" id="bookId" name="bookId" required style="border-radius: 10px;">
                                 <option value="">-- Chọn sách --</option>
-                                <option th:each="book : ${allBooks}" th:value="${book.id}" th:text="${book.name}"></option>
+                                <option th:each="book : ${allBooks}" th:value="${book.id}">
+                                    <span th:text="${book.id} + ' - '"></span>
+                                    <span th:if="${book.currentDiscount != null}" th:text="'(Đã giảm) '"></span>
+                                    <span th:text="${book.name}"></span>
+                                </option>
                             </select>
                         </div>
                         <div class="form-group">
@@ -123,6 +134,32 @@
 
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<script>
+    // Khi người dùng thay đổi lựa chọn trong danh sách dropdown sách
+    document.getElementById('bookId').addEventListener('change', function() {
+        // Nếu người dùng chọn một cuốn sách cụ thể
+        if (this.value !== "") {
+            // Vô hiệu hóa danh sách dropdown danh mục
+            document.getElementById('categoryId').disabled = true;
+        } else {
+            // Nếu không, kích hoạt lại danh sách dropdown danh mục
+            document.getElementById('categoryId').disabled = false;
+        }
+    });
+
+    // Tương tự, khi người dùng thay đổi lựa chọn trong danh sách dropdown danh mục
+    document.getElementById('categoryId').addEventListener('change', function() {
+        // Nếu người dùng chọn một danh mục cụ thể
+        if (this.value !== "") {
+            // Vô hiệu hóa danh sách dropdown sách
+            document.getElementById('bookId').disabled = true;
+        } else {
+            // Nếu không, kích hoạt lại danh sách dropdown sách
+            document.getElementById('bookId').disabled = false;
+        }
+    });
+</script>
+
 
 <!--<div th:replace="~{admin/footeradmin :: footer}"></div>-->
 </body>

@@ -9,6 +9,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -50,5 +51,10 @@ public class DiscountServiceImpl implements DiscountService {
         } else {
             return null;
         }
+    }
+
+    @Override
+    public List<Discount> findOverlappingDiscounts(Integer bookId, Timestamp startDate, Timestamp endDate) {
+        return discountRepository.findOverlappingDiscounts(bookId, startDate, endDate);
     }
 }

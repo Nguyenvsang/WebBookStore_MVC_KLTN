@@ -73,7 +73,6 @@ public class BookServiceImpl implements BookService {
 	        if (isAuthorMatched
 	        		|| containsIgnoreCase(Integer.toString(book.getId()), lowercaseKeyword)
 	                || containsIgnoreCase(book.getName(), lowercaseKeyword)
-	                || containsIgnoreCase(book.getDescription(), lowercaseKeyword)
 	                || containsIgnoreCase(book.getDetail(), lowercaseKeyword)
 	                || containsIgnoreCase(book.getPublisher(), lowercaseKeyword)
 	                || containsIgnoreCase(Double.toString(book.getSellPrice()), lowercaseKeyword)

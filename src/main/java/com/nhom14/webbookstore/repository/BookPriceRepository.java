@@ -17,7 +17,7 @@ import java.util.List;
 public interface BookPriceRepository extends JpaRepository<BookPrice, Long> {
     @Query("SELECT bp FROM BookPrice bp WHERE " +
             "(:bookId is null or bp.book.id = :bookId) and " +
-            "(:searchKeyword is null or lower(bp.book.name) like lower(concat('%', :searchKeyword,'%')))")
+            "(:searchKeyword is null or (cast(bp.book.id as string) like lower(concat('%', :searchKeyword,'%')) or lower(bp.book.name) like lower(concat('%', :searchKeyword,'%'))))")
     Page<BookPrice> findWithFilters(@Param("bookId") Integer bookId,
                                     @Param("searchKeyword") String searchKeyword,
                                     Pageable pageable);
