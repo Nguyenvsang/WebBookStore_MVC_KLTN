@@ -115,7 +115,7 @@
 					<span th:text="${param.message}"></span>
 				</div>
 
-				<a th:href="@{/manageorders}" class="btn btn-back">
+				<a th:href="${session.previousUrl}" class="btn btn-back">
 					<span class="material-symbols-outlined back">arrow_back_ios</span>
 				</a>
 
@@ -124,6 +124,13 @@
 				<div th:if="${returnRequestDate != null}" class="frame-main">
 					<h4>Ngày yêu cầu trả hàng</h4>
 					<p th:text="${#temporals.format(returnRequestDate.toLocalDateTime(), 'dd/MM/yyyy HH:mm:ss')}"></p>
+				</div>
+
+				<div th:if="${order.status == 3 || order.status == 10 && daysBetween <= 15}">
+					<div class="alert confirm d-flex align-items-center" role="alert" style="color: #fe6502; font-weight: bold; margin-bottom: 20px">
+						<span class="material-symbols-outlined" style="margin-right: 10px">notification_important</span>
+						<span th:if="${lastReturnDate != null}" th:text="'Ngày cuối cùng có thể trả hàng ' + ${#temporals.format(lastReturnDate.toLocalDateTime(), 'dd/MM/yyyy HH:mm:ss')}"></span>
+					</div>
 				</div>
 
 				<div class="frame-main">

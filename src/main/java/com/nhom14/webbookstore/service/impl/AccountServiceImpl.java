@@ -79,15 +79,11 @@ public class AccountServiceImpl implements AccountService {
 	    			|| containsIgnoreCase(account.getFirstName(), lowercaseKeyword)
 	    			|| containsIgnoreCase(account.getLastName(), lowercaseKeyword)
 	    			|| containsIgnoreCase(account.getUsername(), lowercaseKeyword)
-	    			|| containsIgnoreCase(account.getPassword(), lowercaseKeyword)
 	    			|| containsIgnoreCase(account.getGender(), lowercaseKeyword)
-	    			|| containsIgnoreCase(account.getImg(), lowercaseKeyword)
-	                || containsIgnoreCase(account.getDateOfBirth().toString(), lowercaseKeyword)
 	                || containsIgnoreCase(account.getAddress(), lowercaseKeyword)
 	                || containsIgnoreCase(account.getPhoneNumber(), lowercaseKeyword)
 	                || containsIgnoreCase(account.getEmail(), lowercaseKeyword)
-	                || containsIgnoreCase(Integer.toString(account.getAccountType()), lowercaseKeyword)
-	                || containsIgnoreCase(Integer.toString(account.getStatus()), lowercaseKeyword)) {
+	                || containsIgnoreCase(Integer.toString(account.getAccountType()), lowercaseKeyword)) {
 	            result.add(account);
 	        }
 	    }
@@ -98,7 +94,7 @@ public class AccountServiceImpl implements AccountService {
 	// Kiểm tra xem một chuỗi có chứa một chuỗi con cụ thể hay không,
 	// mà không phân biệt chữ hoa chữ thường trong quá trình so sánh
 	private boolean containsIgnoreCase(String text, String keyword) {
-		return text.toLowerCase().contains(keyword);
+		return text != null && text.toLowerCase().contains(keyword);
 	}
 
 	@Override
@@ -117,6 +113,11 @@ public class AccountServiceImpl implements AccountService {
 	public Account findAccountByEmail(String email) {
 		Optional<Account> account = accountRepository.findByEmail(email);
 	    return account.orElse(null);
+	}
+
+	@Override
+	public List<Account> getAccountsByAccountType(int type) {
+		return accountRepository.findByAccountType(type);
 	}
 
 }

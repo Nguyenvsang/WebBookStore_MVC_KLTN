@@ -175,7 +175,7 @@
 			</div>
 			<div class="container-main" style="background-color: white;">
 				<form class="form-inline my-2 my-lg-0" method="GET" th:action="@{/managebooks}">
-					<input class="form-control mr-sm-2" type="text" name="search" placeholder="Tìm kiếm từ khóa" style="border: 2px solid rgb(182,232,241); border-radius: 10px;">
+					<input class="form-control mr-sm-2" type="text" name="searchKeyword" placeholder="Tìm theo mã hoặc tên sách" style="border: 2px solid rgb(182,232,241); border-radius: 10px;">
 					<button class="btn btn-outline-search my-2 my-sm-0" type="submit"><span class="material-symbols-outlined">search</span></button>
 				</form>
 
@@ -197,8 +197,8 @@
 							<!-- Lọc theo trạng thái thì không kết hợp cho category -->
 							<div class="dropdown-menu" aria-labelledby="statusDropdown">
 								<a class="dropdown-item" th:href="@{/managebooks}">Tất cả</a>
-								<a class="dropdown-item" th:href="@{/managebooks(status=0, priceoption=${priceoption}, search=${search}, pricemin=${pricemin}, pricemax=${pricemax}, page=1)}">Ngừng kinh doanh</a>
-								<a class="dropdown-item" th:href="@{/managebooks(status=1, priceoption=${priceoption}, search=${search}, pricemin=${pricemin}, pricemax=${pricemax}, page=1)}">Đang kinh doanh</a>
+								<a class="dropdown-item" th:href="@{/managebooks(status=0, sortOption=${sortOption}, searchKeyword=${searchKeyword}, priceMin=${priceMin}, priceMax=${priceMax}, page=1)}">Ngừng kinh doanh</a>
+								<a class="dropdown-item" th:href="@{/managebooks(status=1, sortOption=${sortOption}, searchKeyword=${searchKeyword}, priceMin=${priceMin}, priceMax=${priceMax}, page=1)}">Đang kinh doanh</a>
 							</div>
 						</div>
 						<div class="col-02" style="padding-left: 10px;">
@@ -208,7 +208,7 @@
 							<div class="dropdown-menu" aria-labelledby="categoryDropdown">
 								<a class="dropdown-item" th:href="@{/managebooks}">Tất cả</a>
 								<th:block th:each="category : ${categories}">
-									<a class="dropdown-item" th:href="@{/managebooks(category=${category.id})}" th:text="${category.name}"></a>
+									<a class="dropdown-item" th:href="@{/managebooks(categoryId=${category.id})}" th:text="${category.name}"></a>
 								</th:block>
 							</div>
 						</div>
@@ -241,7 +241,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						<th:block th:each="book : ${books}">
+						<th:block th:each="book : ${books.content}">
 							<tr>
 								<td class="align-middle text-center" th:text="${book.id}"></td>
 								<td class="align-middle text-center">
@@ -272,33 +272,37 @@
 						</th:block>
 					</tbody>
 				</table>
+
+				<!--Phần phân trang-->
 				<div class="frame-number">
-					<div th:if="${totalPages > 1}">
+					<div th:if="${books.totalPages > 1}">
 						<ul class="pagination">
-							<li th:if="${currentPage > 1}" class="page-item">
-								<a class="page-link" th:href="@{/managebooks(category=${categoryId}, status=${status}, priceoption=${priceoption}, search=${search}, pricemin=${pricemin}, pricemax=${pricemax}, page=${currentPage - 1})}">
-								<span class="material-symbols-outlined">navigate_before</span></a>
+							<li th:if="${books.hasPrevious()}" class="page-item">
+								<a class="page-link" th:href="@{/managebooks(page=${books.number}, categoryId=${categoryId}, status=${status}, sortOption=${sortOption}, searchKeyword=${searchKeyword}, priceMin=${priceMin}, priceMax=${priceMax})}">
+									<span class="material-symbols-outlined">navigate_before</span>
+								</a>
 							</li>
 
-							<th:block th:each="pageNumber : ${#numbers.sequence(1, totalPages)}">
-								<li class="page-item" th:classappend="${pageNumber == currentPage ? 'active' : ''}">
-									<th:block th:if="${pageNumber == currentPage}">
-										<span class="page-link" th:text="${pageNumber}"></span>
+							<th:block th:each="pageNumber : ${#numbers.sequence(0, books.totalPages - 1)}">
+								<li class="page-item" th:classappend="${pageNumber == books.number ? 'active' : ''}">
+									<th:block th:if="${pageNumber == books.number}">
+										<span class="page-link" th:text="${pageNumber + 1}"></span>
 									</th:block>
-									<th:block th:unless="${pageNumber == currentPage}">
-										<a class="page-link" th:inline="text" th:href="@{/managebooks(category=${categoryId}, status=${status}, priceoption=${priceoption}, search=${search}, pricemin=${pricemin}, pricemax=${pricemax}, page=${pageNumber})}" th:text="${pageNumber}"></a>
+									<th:block th:unless="${pageNumber == books.number}">
+										<a class="page-link" th:href="@{/managebooks(page=${pageNumber + 1}, categoryId=${categoryId}, status=${status}, sortOption=${sortOption}, searchKeyword=${searchKeyword}, priceMin=${priceMin}, priceMax=${priceMax})}" th:text="${pageNumber + 1}"></a>
 									</th:block>
 								</li>
 							</th:block>
 
-							<li th:if="${currentPage < totalPages}" class="page-item">
-								<a class="page-link" th:href="@{/managebooks(category=${categoryId}, status=${status}, priceoption=${priceoption}, search=${search}, pricemin=${pricemin}, pricemax=${pricemax}, page=${currentPage + 1})}">
+							<li th:if="${books.hasNext()}" class="page-item">
+								<a class="page-link" th:href="@{/managebooks(page=${books.number + 2}, categoryId=${categoryId}, status=${status}, sortOption=${sortOption}, searchKeyword=${searchKeyword}, priceMin=${priceMin}, priceMax=${priceMax})}">
 									<span class="material-symbols-outlined">navigate_next</span>
 								</a>
 							</li>
 						</ul>
 					</div>
 				</div>
+
 			</div>
 		</div>
     </div>

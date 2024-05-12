@@ -37,4 +37,6 @@ public interface AccountService {
 
 	// Phương thức để tìm tài khoản theo email
 	Account findAccountByEmail(String email);
+
+	List<Account> getAccountsByAccountType(int type);
 }

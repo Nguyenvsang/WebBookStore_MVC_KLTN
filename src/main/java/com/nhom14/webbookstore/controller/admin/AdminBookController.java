@@ -10,9 +10,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -21,8 +19,15 @@ import java.util.concurrent.Future;
 import javax.imageio.ImageIO;
 
 import com.nhom14.webbookstore.entity.*;
+import com.nhom14.webbookstore.model.lean_model.DiscountLeanModel;
+import com.nhom14.webbookstore.model.response_model.BookResponseModel;
 import com.nhom14.webbookstore.service.*;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -50,11 +55,13 @@ public class AdminBookController {
 	private AuthorService authorService;
 	private BookImageService bookImageService;
 	private BookImportService bookImportService;
+	private DiscountService discountService;
+	private ModelMapper modelMapper;
 	
 	@Autowired
 	public AdminBookController(BookService bookService, CategoryService categoryService,
                                CloudinaryService cloudinaryService, BookAuthorService bookAuthorService,
-                               AuthorService authorService, BookImageService bookImageService, BookImportService bookImportService) {
+                               AuthorService authorService, BookImageService bookImageService, BookImportService bookImportService, DiscountService discountService, ModelMapper modelMapper) {
 		super();
 		this.bookService = bookService;
 		this.categoryService = categoryService;
@@ -63,18 +70,141 @@ public class AdminBookController {
 		this.authorService = authorService;
 		this.bookImageService = bookImageService;
         this.bookImportService = bookImportService;
+        this.discountService = discountService;
+        this.modelMapper = modelMapper;
     }
 	
+//	@GetMapping("/managebooks")
+//	public String manageBooks(@RequestParam(value = "status", required = false) Integer status,
+//			@RequestParam(value = "category", required = false) Integer categoryId,
+//            @RequestParam(value = "search", required = false) String searchKeyword,
+//            @RequestParam(value = "page", required = false, defaultValue = "1") Integer currentPage,
+//            @RequestParam(value = "pricemin", required = false) Double priceMin,
+//            @RequestParam(value = "pricemax", required = false) Double priceMax,
+//            @RequestParam(value = "priceoption", required = false) Integer priceOption,
+//            Model model,
+//            HttpSession session) {
+//		Account admin = (Account) session.getAttribute("admin");
+//
+//	    // Kiểm tra xem admin đã đăng nhập hay chưa
+//	    if (admin == null) {
+//	        // Nếu chưa đăng nhập, chuyển hướng về trang đăng nhập
+//	        return "redirect:/loginadmin";
+//	    }
+//
+//		List<Book> books;
+//        int totalBooks;
+//        // Số sách hiển thị trên mỗi trang
+//        int recordsPerPage = 10;
+//        int start;
+//        int end;
+//        int totalPages;
+//
+//        if (status == null) {
+//            books = bookService.getAllBooks();
+//            if (books.isEmpty()) {
+//                model.addAttribute("message", "Hiện không có sách nào");
+//                return "admin/managebooks";
+//            }
+//        } else {
+//            books = bookService.getBooksByStatus(status);
+//            if (books.isEmpty()) {
+//                model.addAttribute("message", "Không tìm thấy sách theo trạng thái này");
+//                return "admin/managebooks";
+//            }
+//            // Thêm để hiển thị theo status cho các trang phía sau
+//            model.addAttribute("status", status);
+//        }
+//
+//        if (categoryId != null) {
+//            books = bookService.getBooksByCategory(categoryId);
+//            if (books.isEmpty()) {
+//                model.addAttribute("message", "Không tìm thấy sách theo danh mục này");
+//                return "admin/managebooks";
+//            }
+//            // Thêm để hiển thị theo catagory cho các trang phía sau
+//            model.addAttribute("categoryId", categoryId);
+//        }
+//
+//        if (searchKeyword != null && !searchKeyword.isEmpty()) {
+//            books = bookService.searchBooksByKeyword(books, searchKeyword);
+//            if (books.isEmpty()) {
+//                model.addAttribute("message", "Không tìm thấy sách nào với từ khóa đã nhập");
+//                return "admin/managebooks";
+//            } else { //Thêm để hiển thị theo từ khóa cho các trang phía sau
+//            	model.addAttribute("search", searchKeyword);
+//            }
+//        }
+//
+//        // Lọc sách theo khoảng giá
+//        if (priceMin != null && priceMax != null) {
+//            books = bookService.filterBooksByPriceRange(books, priceMin, priceMax);
+//            if (books.isEmpty()) {
+//                model.addAttribute("message", "Không tìm thấy sách nào trong khoảng giá đã chọn");
+//                return "admin/managebooks";
+//            } else { //Thêm để hiển thị theo khoảng giá cho các trang phía sau
+//            	model.addAttribute("pricemin", priceMin);
+//            	model.addAttribute("pricemax", priceMax);
+//            }
+//        }
+//
+//        // Sếp sách tăng dần nếu giá trị priceOption là 12, giảm dần nếu giá trị là 21
+//        if (priceOption != null) {
+//            if (priceOption == 12) {
+//                books = bookService.sortBooksByPriceAscending(books);
+//                //Thêm để hiển thị theo khoảng giá cho các trang phía sau
+//                model.addAttribute("priceoption", priceOption);
+//            } else if (priceOption == 21) {
+//                books = bookService.sortBooksByPriceDescending(books);
+//                //Thêm để hiển thị theo khoảng giá cho các trang phía sau
+//                model.addAttribute("priceoption", priceOption);
+//            }
+//        }
+//
+//        totalBooks = books.size();
+//
+//        // Tính toán vị trí bắt đầu và kết thúc của sách trên trang hiện tại
+//        start = (currentPage - 1) * recordsPerPage;
+//        end = Math.min(start + recordsPerPage, totalBooks);
+//
+//        // Lấy danh sách sách trên trang hiện tại
+//        List<Book> booksOnPage = books.subList(start, end);
+//
+//        // Tính toán số trang
+//        totalPages = (int) Math.ceil((double) totalBooks / recordsPerPage);
+//
+//        // Tổng số tất cả các đầu sách
+//        int totalAllBooks = bookService.getAllBooks().size();
+//
+//        model.addAttribute("books", booksOnPage);
+//        model.addAttribute("totalBooks", totalBooks);
+//        model.addAttribute("totalPages", totalPages);
+//        model.addAttribute("currentPage", currentPage);
+//        List<Category> categories = categoryService.getAllCategories();
+//        model.addAttribute("categories", categories);
+//        model.addAttribute("totalAllBooks", totalAllBooks);
+//
+//        return "admin/managebooks";
+//
+//	}
+
 	@GetMapping("/managebooks")
-	public String manageBooks(@RequestParam(value = "status", required = false) Integer status,
-			@RequestParam(value = "category", required = false) Integer categoryId,
-            @RequestParam(value = "search", required = false) String searchKeyword,
-            @RequestParam(value = "page", required = false, defaultValue = "1") Integer currentPage,
-            @RequestParam(value = "pricemin", required = false) Double priceMin,
-            @RequestParam(value = "pricemax", required = false) Double priceMax,
-            @RequestParam(value = "priceoption", required = false) Integer priceOption,
-            Model model,
-            HttpSession session) {
+	public String manageBooks(
+			@RequestParam(value = "status", required = false) Integer status,
+			@RequestParam(value = "categoryId", required = false) Integer categoryId,
+			@RequestParam(value = "searchKeyword", required = false) String searchKeyword,
+			@RequestParam(value = "priceMin", required = false) Double priceMin, // Lọc sách theo khoảng giá
+			@RequestParam(value = "priceMax", required = false) Double priceMax, // Lọc sách theo khoảng giá
+			@RequestParam(value = "publisher", required = false) String publisher, // Lọc sách theo tên nhà xuất bản
+			@RequestParam(value = "sortOption", required = false) String sortOption,
+			//asc- tăng dần-12, desc- giảm dần-21
+			//các tùy chọn: sp12 (giá bán tăng dần), sp21(giá bán giảm dần),
+			// n12 (tên tăng dần theo bảng chữ cái), n21(tên giảm dần theo bảng chữ cái)
+			@RequestParam(value = "page", required = false, defaultValue = "1") Integer currentPage,
+			@RequestParam(value = "size", required = false, defaultValue = "12") Integer pageSize,
+			Model model,
+			HttpSession session
+	) {
 		Account admin = (Account) session.getAttribute("admin");
 
 	    // Kiểm tra xem admin đã đăng nhập hay chưa
@@ -82,101 +212,52 @@ public class AdminBookController {
 	        // Nếu chưa đăng nhập, chuyển hướng về trang đăng nhập
 	        return "redirect:/loginadmin";
 	    }
-		
-		List<Book> books;
-        int totalBooks;
-        // Số sách hiển thị trên mỗi trang	
-        int recordsPerPage = 10;
-        int start;
-        int end;
-        int totalPages;
-        
-        if (status == null) {
-            books = bookService.getAllBooks();
-            if (books.isEmpty()) {
-                model.addAttribute("message", "Hiện không có sách nào");
-                return "admin/managebooks";
-            }
-        } else {
-            books = bookService.getBooksByStatus(status);
-            if (books.isEmpty()) {
-                model.addAttribute("message", "Không tìm thấy sách theo trạng thái này");
-                return "admin/managebooks";
-            }
-            // Thêm để hiển thị theo status cho các trang phía sau
-            model.addAttribute("status", status);
-        }
-        
-        if (categoryId != null) {
-            books = bookService.getBooksByCategory(categoryId);
-            if (books.isEmpty()) {
-                model.addAttribute("message", "Không tìm thấy sách theo danh mục này");
-                return "admin/managebooks";
-            }
-            // Thêm để hiển thị theo catagory cho các trang phía sau
-            model.addAttribute("categoryId", categoryId);
-        }
-        
-        if (searchKeyword != null && !searchKeyword.isEmpty()) {
-            books = bookService.searchBooksByKeyword(books, searchKeyword);
-            if (books.isEmpty()) {
-                model.addAttribute("message", "Không tìm thấy sách nào với từ khóa đã nhập");
-                return "admin/managebooks";
-            } else { //Thêm để hiển thị theo từ khóa cho các trang phía sau 
-            	model.addAttribute("search", searchKeyword);
-            }
-        }
-        
-        // Lọc sách theo khoảng giá 
-        if (priceMin != null && priceMax != null) {
-            books = bookService.filterBooksByPriceRange(books, priceMin, priceMax);
-            if (books.isEmpty()) {
-                model.addAttribute("message", "Không tìm thấy sách nào trong khoảng giá đã chọn");
-                return "admin/managebooks";
-            } else { //Thêm để hiển thị theo khoảng giá cho các trang phía sau 
-            	model.addAttribute("pricemin", priceMin);
-            	model.addAttribute("pricemax", priceMax);
-            }
-        }
-        
-        // Sếp sách tăng dần nếu giá trị priceOption là 12, giảm dần nếu giá trị là 21 
-        if (priceOption != null) {
-            if (priceOption == 12) {
-                books = bookService.sortBooksByPriceAscending(books);
-                //Thêm để hiển thị theo khoảng giá cho các trang phía sau
-                model.addAttribute("priceoption", priceOption);
-            } else if (priceOption == 21) {
-                books = bookService.sortBooksByPriceDescending(books);
-                //Thêm để hiển thị theo khoảng giá cho các trang phía sau
-                model.addAttribute("priceoption", priceOption);
-            }
-        }
-        
-        totalBooks = books.size();
-        
-        // Tính toán vị trí bắt đầu và kết thúc của sách trên trang hiện tại
-        start = (currentPage - 1) * recordsPerPage;
-        end = Math.min(start + recordsPerPage, totalBooks);
-        
-        // Lấy danh sách sách trên trang hiện tại
-        List<Book> booksOnPage = books.subList(start, end);
-        
-        // Tính toán số trang
-        totalPages = (int) Math.ceil((double) totalBooks / recordsPerPage);
-        
-        // Tổng số tất cả các đầu sách
-        int totalAllBooks = bookService.getAllBooks().size();
-        
-        model.addAttribute("books", booksOnPage);
-        model.addAttribute("totalBooks", totalBooks);
-        model.addAttribute("totalPages", totalPages);
-        model.addAttribute("currentPage", currentPage);
-        List<Category> categories = categoryService.getAllCategories();
-        model.addAttribute("categories", categories);
-        model.addAttribute("totalAllBooks", totalAllBooks);
 
-        return "admin/managebooks";
-        
+		Sort sort = handleSortOption(sortOption);
+
+		Pageable pageable = PageRequest.of(currentPage - 1, pageSize, sort);
+
+		// Gọi phương thức getFilteredBooks với các tham số tìm kiếm và lọc, còn kinh doanh + ngung kinh doanh
+		Page<Book> books = bookService.getFilteredBooks(status, categoryId, searchKeyword, priceMin, priceMax, publisher, pageable);
+
+		Page<BookResponseModel> bookResponseModels = books.map(this::convertToBookResponseModel);
+
+		model.addAttribute("books", bookResponseModels);
+		List<Category> categories = categoryService.getAllCategories();
+		model.addAttribute("categories", categories);
+
+		// Thêm các bộ lọc nếu có để dùng cho trang tiếp theo
+		Map<String, Object> params = new HashMap<>();
+		params.put("status", status);
+		params.put("categoryId", categoryId);
+		params.put("searchKeyword", searchKeyword);
+		params.put("priceMin", priceMin);
+		params.put("priceMax", priceMax);
+		params.put("publisher", publisher);
+		params.put("sortOption", sortOption);
+
+		for (Map.Entry<String, Object> entry : params.entrySet()) {
+			if (entry.getValue() != null) {
+				model.addAttribute(entry.getKey(), entry.getValue());
+			}
+		}
+
+
+		return "admin/managebooks";
+	}
+
+	public Sort handleSortOption(String sortOption) {
+		Sort sort = Sort.unsorted();
+		if (sortOption != null) {
+			sort = switch (sortOption) {
+				case "sp12" -> sort.and(Sort.by("sellPrice").ascending());
+				case "sp21" -> sort.and(Sort.by("sellPrice").descending());
+				case "n12" -> sort.and(Sort.by("name").ascending());
+				case "n21" -> sort.and(Sort.by("name").descending());
+				default -> sort;
+			};
+		}
+		return sort;
 	}
 	
 	@PostMapping("/updatestatusbook")
@@ -552,6 +633,23 @@ public class AdminBookController {
 	        success = false;
 	        return success;
 	    }
+	}
+
+	private BookResponseModel convertToBookResponseModel(Book book) {
+		BookResponseModel bookResponseModel = modelMapper.map(book, BookResponseModel.class);
+
+		bookResponseModel.setCurrentDiscount(null);
+		// Lấy đợt giảm giá còn hiệu lực theo sách
+		Discount latestActiveDiscount = discountService.getLatestActiveDiscountByBookId(book.getId());
+
+		if (latestActiveDiscount != null)
+		{
+			// Gán cho Response
+			DiscountLeanModel discountLeanModel = modelMapper.map(latestActiveDiscount, DiscountLeanModel.class);
+			bookResponseModel.setCurrentDiscount(discountLeanModel);
+		}
+
+		return bookResponseModel;
 	}
 
 }

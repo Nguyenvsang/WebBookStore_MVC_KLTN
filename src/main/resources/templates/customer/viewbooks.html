@@ -430,35 +430,35 @@
 									<h4>DANH MỤC SÁCH <span class="material-symbols-outlined click">drag_click</span></h4>
 									<li class="level-0">
 										<input type="radio" id="category1" onclick="document.getElementById('link1').click();">
-										<a id="link1" th:href="@{/viewbooks(category=1, publisher=${publisher}, nameoption=${nameoption}, priceoption=${priceoption}, search=${search}, pricemin=${pricemin}, pricemax=${pricemax}, page=1)}">Chính Trị - Pháp Luật</a>
+										<a id="link1" th:href="@{/viewbooks(categoryId=1, publisher=${publisher}, sortOption=${sortOption}, searchKeyword=${searchKeyword}, priceMin=${priceMin}, priceMax=${priceMax}, page=1)}">Chính Trị - Pháp Luật</a>
 									</li>
 									<li class="level-0">
 										<input type="radio" id="category2" onclick="document.getElementById('link2').click();">
-										<a id="link2" th:href="@{/viewbooks(category=2, publisher=${publisher}, nameoption=${nameoption}, priceoption=${priceoption}, search=${search}, pricemin=${pricemin}, pricemax=${pricemax}, page=1)}">Giáo Trình</a>
+										<a id="link2" th:href="@{/viewbooks(categoryId=2, publisher=${publisher}, sortOption=${sortOption}, searchKeyword=${searchKeyword}, priceMin=${priceMin}, priceMax=${priceMax}, page=1)}">Giáo Trình</a>
 									</li>
 									<li class="level-0">
 										<input type="radio" id="category3" onclick="document.getElementById('link3').click();">
-										<a id="link3" th:href="@{/viewbooks(category=3, publisher=${publisher}, nameoption=${nameoption}, priceoption=${priceoption}, search=${search}, pricemin=${pricemin}, pricemax=${pricemax}, page=1)}">Khoa Học Công Nghệ - Kinh Tế</a>
+										<a id="link3" th:href="@{/viewbooks(categoryId=3, publisher=${publisher}, sortOption=${sortOption}, searchKeyword=${searchKeyword}, priceMin=${priceMin}, priceMax=${priceMax}, page=1)}">Khoa Học Công Nghệ - Kinh Tế</a>
 									</li>
 									<li class="level-0">
 										<input type="radio" id="category4" onclick="document.getElementById('link4').click();">
-										<a id="link4" th:href="@{/viewbooks(category=4, publisher=${publisher}, nameoption=${nameoption}, priceoption=${priceoption}, search=${search}, pricemin=${pricemin}, pricemax=${pricemax}, page=1)}">Truyện, Tiểu Thuyết</a>
+										<a id="link4" th:href="@{/viewbooks(categoryId=4, publisher=${publisher}, sortOption=${sortOption}, searchKeyword=${searchKeyword}, priceMin=${priceMin}, priceMax=${priceMax}, page=1)}">Truyện, Tiểu Thuyết</a>
 									</li>
 									<li class="level-0">
 										<input type="radio" id="category5" onclick="document.getElementById('link5').click();">
-										<a id="link5" th:href="@{/viewbooks(category=5, publisher=${publisher}, nameoption=${nameoption}, priceoption=${priceoption}, search=${search}, pricemin=${pricemin}, pricemax=${pricemax}, page=1)}">Tâm Lý, Tâm Linh, Tôn Giáo</a>
+										<a id="link5" th:href="@{/viewbooks(categoryId=5, publisher=${publisher}, sortOption=${sortOption}, searchKeyword=${searchKeyword}, priceMin=${priceMin}, priceMax=${priceMax}, page=1)}">Tâm Lý, Tâm Linh, Tôn Giáo</a>
 									</li>	
 									<li class="level-0">
 										<input type="radio" id="category6" onclick="document.getElementById('link6').click();">
-										<a id="link6" th:href="@{/viewbooks(category=6, publisher=${publisher}, nameoption=${nameoption}, priceoption=${priceoption}, search=${search}, pricemin=${pricemin}, pricemax=${pricemax}, page=1)}">Thiếu Nhi</a>
+										<a id="link6" th:href="@{/viewbooks(categoryId=6, publisher=${publisher}, sortOption=${sortOption}, searchKeyword=${searchKeyword}, priceMin=${priceMin}, priceMax=${priceMax}, page=1)}">Thiếu Nhi</a>
 									</li>
 									<li class="level-0">
 										<input type="radio" id="category7" onclick="document.getElementById('link7').click();">
-										<a id="link7" th:href="@{/viewbooks(category=7, publisher=${publisher}, nameoption=${nameoption}, priceoption=${priceoption}, search=${search}, pricemin=${pricemin}, pricemax=${pricemax}, page=1)}">Văn Học Nghệ Thuật</a>
+										<a id="link7" th:href="@{/viewbooks(categoryId=7, publisher=${publisher}, sortOption=${sortOption}, searchKeyword=${searchKeyword}, priceMin=${priceMin}, priceMax=${priceMax}, page=1)}">Văn Học Nghệ Thuật</a>
 									</li>
 									<li class="level-0">
 										<input type="radio" id="category8" onclick="document.getElementById('link8').click();">
-										<a id="link8" th:href="@{/viewbooks(category=8, publisher=${publisher}, nameoption=${nameoption}, priceoption=${priceoption}, search=${search}, pricemin=${pricemin}, pricemax=${pricemax}, page=1)}">Văn Hóa Xã Hội - Lịch Sử</a>
+										<a id="link8" th:href="@{/viewbooks(categoryId=8, publisher=${publisher}, sortOption=${sortOption}, searchKeyword=${searchKeyword}, priceMin=${priceMin}, priceMax=${priceMax}, page=1)}">Văn Hóa Xã Hội - Lịch Sử</a>
 									</li>								
 								</ul>
 							</li>
@@ -469,43 +469,43 @@
 									<h4>THEO NXB<span class="material-symbols-outlined click" style="margin-left: 7px;">drag_click</span></h4>
 									<li class="level-0">
 										<input type="radio" id="publisher1" onclick="document.getElementById('linkNXB1').click();">
-											<a id="linkNXB1" th:href="@{/viewbooks(category=${categoryId}, publisher=1, nameoption=${nameoption}, priceoption=${priceoption}, pricemin=${pricemin}, pricemax=${pricemax}, page=1)}">NXB Kim Đồng</a>
+											<a id="linkNXB1" th:href="@{/viewbooks(categoryId=${categoryId}, publisher='NXB Kim Đồng', sortOption=${sortOption}, priceMin=${priceMin}, priceMax=${priceMax}, page=1)}">NXB Kim Đồng</a>
 									</li>
 									<li class="level-0">
 										<input type="radio" id="publisher2" onclick="document.getElementById('linkNXB2').click();">
-											<a id="linkNXB2" th:href="@{/viewbooks(category=${categoryId}, publisher=2, nameoption=${nameoption}, priceoption=${priceoption}, pricemin=${pricemin}, pricemax=${pricemax}, page=1)}">NXB Lao Động</a>
+											<a id="linkNXB2" th:href="@{/viewbooks(categoryId=${categoryId}, publisher='NXB Lao Động', sortOption=${sortOption}, priceMin=${priceMin}, priceMax=${priceMax}, page=1)}">NXB Lao Động</a>
 									</li>
 									<li class="level-0">
 										<input type="radio" id="publisher3" onclick="document.getElementById('linkNXB3').click();">
-											<a id="linkNXB3" th:href="@{/viewbooks(category=${categoryId}, publisher=3, nameoption=${nameoption}, priceoption=${priceoption}, pricemin=${pricemin}, pricemax=${pricemax}, page=1)}">NXB Thể Giới</a>
+											<a id="linkNXB3" th:href="@{/viewbooks(categoryId=${categoryId}, publisher='NXB Thế Giới', sortOption=${sortOption}, priceMin=${priceMin}, priceMax=${priceMax}, page=1)}">NXB Thể Giới</a>
 									</li>
 									<li class="level-0">
 										<input type="radio" id="publisher4" onclick="document.getElementById('linkNXB4').click();">
-											<a id="linkNXB4" th:href="@{/viewbooks(category=${categoryId}, publisher=4, nameoption=${nameoption}, priceoption=${priceoption}, pricemin=${pricemin}, pricemax=${pricemax}, page=1)}">NXB Trẻ</a>
+											<a id="linkNXB4" th:href="@{/viewbooks(categoryId=${categoryId}, publisher='NXB Trẻ', sortOption=${sortOption}, priceMin=${priceMin}, priceMax=${priceMax}, page=1)}">NXB Trẻ</a>
 									</li>
 									<li class="level-0">
 										<input type="radio" id="publisher5" onclick="document.getElementById('linkNXB5').click();">
-											<a id="linkNXB5" th:href="@{/viewbooks(category=${categoryId}, publisher=5, nameoption=${nameoption}, priceoption=${priceoption}, pricemin=${pricemin}, pricemax=${pricemax}, page=1)}">NXB Thanh Niên</a>
+											<a id="linkNXB5" th:href="@{/viewbooks(categoryId=${categoryId}, publisher='NXB Thanh Niên', sortOption=${sortOption}, priceMin=${priceMin}, priceMax=${priceMax}, page=1)}">NXB Thanh Niên</a>
 									</li>
 									<li class="level-0">
 										<input type="radio" id="publisher6" onclick="document.getElementById('linkNXB6').click();"> 
-											<a id="linkNXB6" th:href="@{/viewbooks(category=${categoryId}, publisher=6, nameoption=${nameoption}, priceoption=${priceoption}, pricemin=${pricemin}, pricemax=${pricemax}, page=1)}">NXB Hồng Đức</a>
+											<a id="linkNXB6" th:href="@{/viewbooks(categoryId=${categoryId}, publisher='NXB Hồng Đức', sortOption=${sortOption}, priceMin=${priceMin}, priceMax=${priceMax}, page=1)}">NXB Hồng Đức</a>
 									</li>	
 									<li class="level-0">
 										<input type="radio" id="publisher7" onclick="document.getElementById('linkNXB7').click();">
-											<a id="linkNXB7" th:href="@{/viewbooks(category=${categoryId}, publisher=7, nameoption=${nameoption}, priceoption=${priceoption}, pricemin=${pricemin}, pricemax=${pricemax}, page=1)}">NXB Chính Trị Quốc Gia</a>
+											<a id="linkNXB7" th:href="@{/viewbooks(categoryId=${categoryId}, publisher='NXB Chính Trị Quốc Gia', sortOption=${sortOption}, priceMin=${priceMin}, priceMax=${priceMax}, page=1)}">NXB Chính Trị Quốc Gia</a>
 									</li>	
 									<li class="level-0">
 										<input type="radio" id="publisher8" onclick="document.getElementById('linkNXB8').click();">
-											<a id="linkNXB8" th:href="@{/viewbooks(category=${categoryId}, publisher=8, nameoption=${nameoption}, priceoption=${priceoption}, pricemin=${pricemin}, pricemax=${pricemax}, page=1)}">NXB Văn Học</a>
+											<a id="linkNXB8" th:href="@{/viewbooks(categoryId=${categoryId}, publisher='NXB Văn Học', sortOption=${sortOption}, priceMin=${priceMin}, priceMax=${priceMax}, page=1)}">NXB Văn Học</a>
 									</li>
 									<li class="level-0">
 										<input type="radio" id="publisher9" onclick="document.getElementById('linkNXB9').click();">
-											<a id="linkNXB9" th:href="@{/viewbooks(category=${categoryId}, publisher=9, nameoption=${nameoption}, priceoption=${priceoption}, pricemin=${pricemin}, pricemax=${pricemax}, page=1)}">NXB Hội Nhà Văn</a>
+											<a id="linkNXB9" th:href="@{/viewbooks(categoryId=${categoryId}, publisher='NXB Hội Nhà Văn', sortOption=${sortOption}, priceMin=${priceMin}, priceMax=${priceMax}, page=1)}">NXB Hội Nhà Văn</a>
 									</li>	
 									<li class="level-0">
 										<input type="radio" id="publisher10" onclick="document.getElementById('linkNXB10').click();">
-											<a id="linkNXB10" th:href="@{/viewbooks(category=${categoryId}, publisher=10, nameoption=${nameoption}, priceoption=${priceoption}, pricemin=${pricemin}, pricemax=${pricemax}, page=1)}">NXB Dân Trí</a>
+											<a id="linkNXB10" th:href="@{/viewbooks(categoryId=${categoryId}, publisher='NXB Dân Trí', sortOption=${sortOption}, priceMin=${priceMin}, priceMax=${priceMax}, page=1)}">NXB Dân Trí</a>
 									</li>							
 								</ul>
 							</li>
@@ -517,27 +517,27 @@
 									<h4>KHOẢNG GIÁ <span class="material-symbols-outlined click">drag_click</span></h4>
 									<li class="level-0">
 										<input type="radio" id="pricerange0" onclick="document.getElementById('linkprice0').click();">
-										<a id="linkprice0" th:href="@{/viewbooks(category=${categoryId}, nameoption=${nameoption}, priceoption=${priceoption}, search=${search}, pricemin=0, pricemax=50000, page=1)}">0 - 50.000</a>
+										<a id="linkprice0" th:href="@{/viewbooks(categoryId=${categoryId}, sortOption=${sortOption}, searchKeyword=${searchKeyword}, priceMin=0, priceMax=50000, page=1)}">0 - 50.000</a>
 									</li>
 									<li class="level-0">
 										<input type="radio" id="pricerange1" onclick="document.getElementById('linkprice1').click();">
-										<a id="linkprice1" th:href="@{/viewbooks(category=${categoryId}, publisher=${publisher}, nameoption=${nameoption}, priceoption=${priceoption}, search=${search}, pricemin=50000, pricemax=100000, page=1)}">50.000 - 100.000</a>
+										<a id="linkprice1" th:href="@{/viewbooks(categoryId=${categoryId}, sortOption=${sortOption}, searchKeyword=${searchKeyword}, priceMin=50000, priceMax=100000, page=1)}">50.000 - 100.000</a>
 									</li>
 									<li class="level-0">
 										<input type="radio" id="pricerange2" onclick="document.getElementById('linkprice2').click();">
-										<a id="linkprice2" th:href="@{/viewbooks(category=${categoryId}, publisher=${publisher}, nameoption=${nameoption}, priceoption=${priceoption}, search=${search}, pricemin=100000, pricemax=200000, page=1)}">100.000 - 200.000</a>
+										<a id="linkprice2" th:href="@{/viewbooks(categoryId=${categoryId}, sortOption=${sortOption}, searchKeyword=${searchKeyword}, priceMin=100000, priceMax=200000, page=1)}">100.000 - 200.000</a>
 									</li>
 									<li class="level-0">
 										<input type="radio" id="pricerange3" onclick="document.getElementById('linkprice3').click();">
-										<a id="linkprice3" th:href="@{/viewbooks(category=${categoryId}, publisher=${publisher}, nameoption=${nameoption}, priceoption=${priceoption}, search=${search}, pricemin=200000, pricemax=300000, page=1)}">200.000 - 300.000</a>
+										<a id="linkprice3" th:href="@{/viewbooks(categoryId=${categoryId}, sortOption=${sortOption}, searchKeyword=${searchKeyword}, priceMin=200000, priceMax=300000, page=1)}">200.000 - 300.000</a>
 									</li>		
 									<li class="level-0">
 										<input type="radio" id="pricerange4" onclick="document.getElementById('linkprice4').click();">
-										<a id="linkprice4" th:href="@{/viewbooks(category=${categoryId}, publisher=${publisher}, nameoption=${nameoption}, priceoption=${priceoption}, search=${search}, pricemin=300000, pricemax=500000, page=1)}">300.000 - 500.000</a>
+										<a id="linkprice4" th:href="@{/viewbooks(categoryId=${categoryId}, sortOption=${sortOption}, searchKeyword=${searchKeyword}, priceMin=300000, priceMax=500000, page=1)}">300.000 - 500.000</a>
 									</li>	
 									<li class="level-0">
 										<input type="radio" id="pricerange5" onclick="document.getElementById('linkprice5').click();">
-										<a id="linkprice5" th:href="@{/viewbooks(category=${categoryId}, publisher=${publisher}, nameoption=${nameoption}, priceoption=${priceoption}, search=${search}, pricemin=500000, pricemax=10000000, page=1)}">500.000 trở lên</a>
+										<a id="linkprice5" th:href="@{/viewbooks(categoryId=${categoryId}, sortOption=${sortOption}, searchKeyword=${searchKeyword}, priceMin=500000, priceMax=1000000000, page=1)}">500.000 trở lên</a>
 									</li>				
 								</ul>
 							</li>
@@ -550,19 +550,19 @@
 									<h4>SẮP XẾP THEO<span class="material-symbols-outlined click" style="margin-left: 7px;">drag_click</span></h4>
 									<li class="level-0">
 										<input type="radio" id="priceoption1" onclick="document.getElementById('linkpriceasc').click();">
-										<a id="linkpriceasc" th:href="@{/viewbooks(category=${categoryId}, publisher=${publisher}, priceoption=12, search=${search}, pricemin=${pricemin}, pricemax=${pricemax}, page=1)}">Giá tăng dần</a>
+										<a id="linkpriceasc" th:href="@{/viewbooks(categoryId=${categoryId}, publisher=${publisher}, sortOption='sp12', searchKeyword=${searchKeyword}, priceMin=${priceMin}, priceMax=${priceMax}, page=1)}">Giá tăng dần</a>
 									</li>
 									<li class="level-0">
 										<input type="radio" id="priceoption2" onclick="document.getElementById('linkpricedes').click();">
-										<a id="linkpricedes" th:href="@{/viewbooks(category=${categoryId}, publisher=${publisher}, priceoption=21, search=${search}, pricemin=${pricemin}, pricemax=${pricemax}, page=1)}">Giá giảm dần</a>
+										<a id="linkpricedes" th:href="@{/viewbooks(categoryId=${categoryId}, publisher=${publisher}, sortOption='sp21', searchKeyword=${searchKeyword}, priceMin=${priceMin}, priceMax=${priceMax}, page=1)}">Giá giảm dần</a>
 									</li>
 									<li class="level-0">
 										<input type="radio" id="nameoption1" onclick="document.getElementById('linkpricea-z').click();"> 
-										<a id="linkpricea-z" th:href="@{/viewbooks(category=${categoryId}, publisher=${publisher}, nameoption=12, search=${search}, pricemin=${pricemin}, pricemax=${pricemax}, page=1)}">Tên tăng dần</a>
+										<a id="linkpricea-z" th:href="@{/viewbooks(categoryId=${categoryId}, publisher=${publisher}, sortOption='n12', searchKeyword=${searchKeyword}, priceMin=${priceMin}, priceMax=${priceMax}, page=1)}">Tên tăng dần</a>
 									</li>
 									<li class="level-0">
 										<input type="radio" id="nameoption2" onclick="document.getElementById('linkpricz-a').click();">
-										<a id="linkpricz-a" th:href="@{/viewbooks(category=${categoryId}, publisher=${publisher}, nameoption=21, search=${search}, pricemin=${pricemin}, pricemax=${pricemax}, page=1)}">Tên giảm dần</a>
+										<a id="linkpricz-a" th:href="@{/viewbooks(categoryId=${categoryId}, publisher=${publisher}, sortOption='n21', searchKeyword=${searchKeyword}, priceMin=${priceMin}, priceMax=${priceMax}, page=1)}">Tên giảm dần</a>
 									</li>
 								</ul>
 								
@@ -576,15 +576,15 @@
 						<!--Ô nhập tìm kiếm và nhấn tìm kiếm-->
 <!--					    <div style="display: flex; justify-content: center;">-->
 <!--							<form class="form-inline my-2 my-lg-0" th:action="@{/viewbooks}" method="GET" style="display: flex;">-->
-<!--								<input class="form-control mr-sm-2" type="text" name="search" placeholder="Tìm kiếm từ khóa" style="width: 88.5%;">-->
-<!--								-->
+<!--								<input class="form-control mr-sm-2" type="text" name="searchKeyword" placeholder="Tìm kiếm từ khóa" style="width: 88.5%;">-->
+
 <!--								<button class="btn btn-outline my-2 my-sm-2" type="submit" style="width: 10%;">-->
 <!--									<span class="material-symbols-outlined search">search</span></button>-->
 <!--							</form>-->
 <!--						</div>-->
 																	
 						<!--Tìm kiếm từ khóa-->
-						<div th:if="${param.search != null && !param.search.isEmpty()}">
+						<div th:if="${param.searchKeyword != null && !param.searchKeyword.isEmpty()}">
 							
 						</div>
 						
@@ -630,7 +630,7 @@
 							    </div>
 							    
 								<div class="row">
-								    <th:block th:each="book : ${books}">
+								    <th:block th:each="book : ${books.content}">
 								        <div class="col-md-3 flex-item">
 											<div class="item-inner">
 												<div class="ma-box-content">								
@@ -697,37 +697,37 @@
 								        </div>
 								    </th:block>
 								</div>
-	
-							    <div class="frame-number">
-								    <div th:if="${totalPages > 1}">
-								        <ul class="pagination">
-											<div class="row">
-									            <li th:if="${currentPage > 1}" class="page-item">
-									                <a class="page-link" th:href="@{/viewbooks(category=${categoryId}, publisher=${publisher}, nameoption=${nameoption}, priceoption=${priceoption}, search=${search}, pricemin=${pricemin}, pricemax=${pricemax}, page=${currentPage - 1})}">
-														<span class="material-symbols-outlined">navigate_before</span>
-													</a>
-									            </li>
-									
-									            <th:block th:each="pageNumber : ${#numbers.sequence(1, totalPages)}">
-									                <li class="page-item" th:classappend="${pageNumber == currentPage ? 'active' : ''}">
-									                    <th:block th:if="${pageNumber == currentPage}">
-									                        <span class="page-link" th:text="${pageNumber}"></span>
-									                    </th:block>
-									                    <th:block th:unless="${pageNumber == currentPage}">
-									                        <a class="page-link" th:href="@{/viewbooks(category=${categoryId}, publisher=${publisher}, nameoption=${nameoption}, priceoption=${priceoption}, search=${search}, pricemin=${pricemin}, pricemax=${pricemax}, page=${pageNumber})}" th:text="${pageNumber}"></a>
-									                    </th:block>
-									               <!---->
-									            </th:block>
-									
-									            <li th:if="${currentPage < totalPages}" class="page-item">
-									                <a class="page-link" th:href="@{/viewbooks(category=${categoryId}, publisher=${publisher}, nameoption=${nameoption}, priceoption=${priceoption}, search=${search}, pricemin=${pricemin}, pricemax=${pricemax}, page=${currentPage + 1})}">
-														<span class="material-symbols-outlined">navigate_next</span>
-													</a>
-									            </li>
-											</div>
-								        </ul>
-								    </div>
+
+								<!--Phần phân trang-->
+								<div class="frame-number">
+									<div th:if="${books.totalPages > 1}">
+										<ul class="pagination">
+											<li th:if="${books.hasPrevious()}" class="page-item">
+												<a class="page-link" th:href="@{/viewbooks(page=${books.number}, sort=${sort}, categoryId=${categoryId}, publisher=${publisher}, sortOption=${sortOption}, searchKeyword=${searchKeyword}, priceMin=${priceMin}, priceMax=${priceMax})}">
+													<span class="material-symbols-outlined">navigate_before</span>
+												</a>
+											</li>
+
+											<th:block th:each="pageNumber : ${#numbers.sequence(0, books.totalPages - 1)}">
+												<li class="page-item" th:classappend="${pageNumber == books.number ? 'active' : ''}">
+													<th:block th:if="${pageNumber == books.number}">
+														<span class="page-link" th:text="${pageNumber + 1}"></span>
+													</th:block>
+													<th:block th:unless="${pageNumber == books.number}">
+														<a class="page-link" th:href="@{/viewbooks(page=${pageNumber + 1}, sort=${sort}, categoryId=${categoryId}, publisher=${publisher}, sortOption=${sortOption}, searchKeyword=${searchKeyword}, priceMin=${priceMin}, priceMax=${priceMax})}" th:text="${pageNumber + 1}"></a>
+													</th:block>
+												</li>
+											</th:block>
+
+											<li th:if="${books.hasNext()}" class="page-item">
+												<a class="page-link" th:href="@{/viewbooks(page=${books.number + 2}, sort=${sort}, categoryId=${categoryId}, publisher=${publisher}, sortOption=${sortOption}, searchKeyword=${searchKeyword}, priceMin=${priceMin}, priceMax=${priceMax})}">
+													<span class="material-symbols-outlined">navigate_next</span>
+												</a>
+											</li>
+										</ul>
+									</div>
 								</div>
+
 							</div>
 						</div>
 					</div>
@@ -794,28 +794,36 @@
 		}
 
 		// Xử lý nút add to cart
-		document.querySelectorAll('form').forEach(function(form) {
-			form.addEventListener('submit', function(event) {
-				event.preventDefault();
+		document.addEventListener('DOMContentLoaded', function() {
+			// Xử lý nút add to cart
+			document.querySelectorAll('form').forEach(function(form) {
+				form.addEventListener('submit', function(event) {
+					event.preventDefault();
 
-				var bookId = this.querySelector('input[name="bookId"]').value;
+					var bookIdInput = this.querySelector('input[name="bookId"]');
+					var bookId = bookIdInput ? bookIdInput.value : null;
 
-				var xhr = new XMLHttpRequest();
-				xhr.open('POST', '/webbookstore/addtocartfromallbooks', true);
-				xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-				xhr.onload = function() {
-					if (xhr.status === 200) {
-						// Hiển thị thông báo thành công
-						showNotification(xhr.responseText);
-					} else {
-						// Hiển thị thông báo lỗi
-						var errorMessage = xhr.responseText || 'Đã có lỗi xảy ra. Vui lòng thử lại sau.';
-						showNotification(errorMessage);
+					if (bookId !== null) {
+						var xhr = new XMLHttpRequest();
+						xhr.open('POST', '/webbookstore/addtocartfromallbooks', true);
+						xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+						xhr.onload = function() {
+							if (xhr.status === 200) {
+								// Hiển thị thông báo thành công
+								showNotification(xhr.responseText);
+							} else {
+								// Hiển thị thông báo lỗi
+								var errorMessage = xhr.responseText || 'Đã có lỗi xảy ra. Vui lòng thử lại sau.';
+								showNotification(errorMessage);
+							}
+						};
+						xhr.send('bookId=' + bookId + '&quantity=1');
 					}
-				};
-				xhr.send('bookId=' + bookId + '&quantity=1');
+				});
 			});
 		});
+
+
 
 	</script>
 	<script th:src="@{/js/popper.min.js}"></script>

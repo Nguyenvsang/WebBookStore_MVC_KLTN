@@ -206,9 +206,42 @@ public class BookServiceImpl implements BookService {
 
 	@Override
 	public Page<Book> getFilteredFavoriteBooks(Integer accountId, Integer categoryId, String searchKeyword, Double priceMin, Double priceMax, String publisher, Pageable pageable) {
-		return bookRepository.findWithFilters(accountId, categoryId, searchKeyword, priceMin, priceMax, publisher, pageable);
+		return bookRepository.findFavoriteBooksWithFilters(accountId, categoryId, searchKeyword, priceMin, priceMax, publisher, pageable);
 		// Không tìm thấy sẽ trả về một đối tượng Page<Book> rỗng
 		// nghĩa là .getTotalElements() = 0
 	}
+
+	@Override
+	public Page<Book> getFilteredActiveBooks(Integer categoryId, String searchKeyword, Double priceMin, Double priceMax, String publisher, Pageable pageable) {
+		// Chuyển để tìm kiếm theo mã sách
+		Integer searchKeywordAsInteger = null;
+		try {
+			searchKeywordAsInteger = Integer.parseInt(searchKeyword);
+		} catch (NumberFormatException e) {
+			// searchKeyword không phải là một số nguyên, không làm gì cả
+		}
+		return bookRepository.findActiveBooksWithFilters(categoryId, searchKeyword, searchKeywordAsInteger, priceMin, priceMax, publisher, pageable);
+		// Không tìm thấy sẽ trả về một đối tượng Page<Book> rỗng
+		// nghĩa là .getTotalElements() = 0
+	}
+
+	@Override
+	public Page<Book> getFilteredBooks(Integer status, Integer categoryId, String searchKeyword, Double priceMin, Double priceMax, String publisher, Pageable pageable) {
+		// Chuyển để tìm kiếm theo mã sách
+		Integer searchKeywordAsInteger = null;
+		try {
+			searchKeywordAsInteger = Integer.parseInt(searchKeyword);
+		} catch (NumberFormatException e) {
+			// searchKeyword không phải là một số nguyên, không làm gì cả
+		}
+		if (searchKeywordAsInteger != null) {
+			return bookRepository.findWithFilters(status, categoryId, null, searchKeywordAsInteger, priceMin, priceMax, publisher, pageable);
+		} else {
+			return bookRepository.findWithFilters(status, categoryId, searchKeyword, null, priceMin, priceMax, publisher, pageable);
+		}
+		// Không tìm thấy sẽ trả về một đối tượng Page<Book> rỗng
+		// nghĩa là .getTotalElements() = 0
+	}
+
 
 }

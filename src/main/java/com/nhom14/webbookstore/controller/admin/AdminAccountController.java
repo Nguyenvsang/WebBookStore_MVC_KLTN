@@ -83,7 +83,8 @@ public class AdminAccountController {
 	}
 	
 	@GetMapping("/manageaccounts")
-	public String manageAccounts(@RequestParam(value = "status", required = false) Integer status,
+	public String manageAccounts(@RequestParam(value = "type", required = false) Integer type,
+			@RequestParam(value = "status", required = false) Integer status,
 			@RequestParam(value = "search", required = false) String searchKeyword,
 			@RequestParam(value = "page", required = false, defaultValue = "1") Integer currentPage,
 			Model model,
@@ -112,6 +113,12 @@ public class AdminAccountController {
         } else {
         	accounts = accountService.getAccountsByStatus(status);
         }
+
+		if (type == null || (type == -1)) {
+			accounts = accountService.getAllAccounts();
+		} else {
+			accounts = accountService.getAccountsByAccountType(type);
+		}
         
         if (searchKeyword != null && !searchKeyword.isEmpty()) {
         	accounts = accountService.searchAccountsByKeyword(accounts, searchKeyword);
@@ -132,7 +139,10 @@ public class AdminAccountController {
         
         // Tổng số tất cả các tài khoản
         int totalAllAccounts = accountService.getAllAccounts().size();
-        
+
+		model.addAttribute("type", type);
+		model.addAttribute("status", status);
+		model.addAttribute("search", searchKeyword);
         model.addAttribute("accounts", accountsOnPage);
         model.addAttribute("totalAccounts", totalAccounts);
         model.addAttribute("totalPages", totalPages);
