@@ -67,13 +67,7 @@
 		tbody tr:last-child td:last-child {
 		    border-bottom-right-radius: 15px;
 		}
-		
-		table {
-        	border-collapse: collapse;
-	    }
-	    td {
-	        border: 1px solid rgb(242,242,242);
-	    }
+
 	    
 	    .frame-number {
 				display: flex;
@@ -83,7 +77,6 @@
 
 	    .container-main {
 	        border-radius: 15px;
-	        padding: 15px;
 	        margin: 40px;
 		}
 
@@ -99,12 +92,12 @@
 			margin: 2px;
 	    }
 	    .page-item.active .page-link {
-			background-color: rgb(182,232,241);;
+			background-color: #e0f3ff;
 			color: rgb(2,88,155);
 		}
 
 	    .page-link:hover {
-			background-color: rgb(182,232,241);	 
+			background-color: #e0f3ff;
 		}
 	    
 	    .form-accounts{
@@ -136,7 +129,13 @@
 		.row-search:hover {
 			box-shadow: 0px 6px 8px rgba(0, 0.3, 0, 0.2);
 		}
-
+		.row-pagination {
+			margin: 0px 40px 40px 40px;
+			padding: 10px;
+			background-color: white;
+			border-radius: 15px;
+			box-shadow: 0px 4px 4px rgba(192, 192, 192, 0.3);
+		}
 	</style> 
 </head> 
 <body>
@@ -170,78 +169,178 @@
 					</form>
 				</div>
 			</div>
+
+			<div class="dropdown mb-3 mt-3"  style="margin-left: 15px;">
+				<button class="btn btn-filter-status dropdown-toggle" type="button" id="statusDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					Lọc theo trạng thái
+				</button>
+				<div class="dropdown-menu" aria-labelledby="statusDropdown">
+					<a class="dropdown-item" th:href="@{/manageaccounts}">Tất cả</a>
+					<a class="dropdown-item" th:href="@{/manageaccounts(status=0)}">Ngừng hoạt động</a>
+					<a class="dropdown-item" th:href="@{/manageaccounts(status=1)}">Đang hoạt động</a>
+				</div>
+			</div>
+
+			<div class="dropdown mb-3 mt-3"  style="margin-left: 15px;">
+				<button class="btn btn-filter-status dropdown-toggle" type="button" id="typeDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					Lọc theo loại tài khoản
+				</button>
+				<div class="dropdown-menu" aria-labelledby="typeDropdown">
+					<a class="dropdown-item" th:href="@{/manageaccounts}">Tất cả</a>
+					<a class="dropdown-item" th:href="@{/manageaccounts(type=0)}">Admin</a>
+					<a class="dropdown-item" th:href="@{/manageaccounts(type=1)}">Khách hàng</a>
+				</div>
+			</div>
+
+
 			<div class="container-main" style="background-color: white;">
-				<div class="dropdown mb-3 mt-3"  style="margin-left: 15px;">
-					<button class="btn btn-filter-status dropdown-toggle" type="button" id="statusDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						Lọc theo trạng thái
-					</button>
-					<div class="dropdown-menu" aria-labelledby="statusDropdown">
-						<a class="dropdown-item" th:href="@{/manageaccounts}">Tất cả</a>
-						<a class="dropdown-item" th:href="@{/manageaccounts(status=0)}">Ngừng hoạt động</a>
-						<a class="dropdown-item" th:href="@{/manageaccounts(status=1)}">Đang hoạt động</a>
+
+				<div class="next-table only-bottom-border">
+					<div class="next-table-inner">
+						<div class="next-table-header d-flex align-items-center"
+							 style="height: 60px; background-color: #d9e1f7; border-top-left-radius: 15px; border-top-right-radius: 15px">
+							<div class="next-table-header-inner">
+								<table>
+									<colgroup style="width: 1020px">
+										<col style="width: 10%;">
+										<col style="width: 10%;">
+										<col style="width: 15%;">
+										<col style="width: 15%;">
+										<col style="width: 15%;">
+										<col style="width: 15%;">
+										<col style="width: 15%;">
+										<col style="width: 5%;">
+									</colgroup>
+									<tbody>
+									<tr>
+										<th rowspan="1" class="next-table-header-node first" style="text-align: center">
+											<div class="next-table-cell-wrapper">Mã tài khoản</div>
+										</th>
+										<th rowspan="1" class="next-table-header-node " style="text-align: center">
+											<div class="next-table-cell-wrapper">Ảnh đại diện</div>
+										</th>
+										<th rowspan="1" class="next-table-header-node " style="text-align: center">
+											<div class="next-table-cell-wrapper">Tên tài khoản</div>
+										</th>
+										<th rowspan="1" class="next-table-header-node " style="text-align: center">
+											<div class="next-table-cell-wrapper">Họ tên</div>
+										</th>
+										<th rowspan="1" class="next-table-header-node " style="text-align: center">
+											<div class="next-table-cell-wrapper">Số điện thoại</div>
+										</th>
+										<th rowspan="1" class="next-table-header-node " style="text-align: center">
+											<div class="next-table-cell-wrapper">Loại tài khoản</div>
+										</th>
+										<th rowspan="1" class="next-table-header-node " style="text-align: center">
+											<div class="next-table-cell-wrapper">Trạng thái</div>
+										</th>
+										<th rowspan="1" class="next-table-header-node last" style="text-align: center">
+											<div class="next-table-cell-wrapper"></div>
+										</th>
+									</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+
+						<div class="next-table-body">
+							<table>
+								<colgroup style="width: 1020px;">
+									<col style="width: 10%;">
+									<col style="width: 10%;">
+									<col style="width: 15%;">
+									<col style="width: 15%;">
+									<col style="width: 15%;">
+									<col style="width: 15%;">
+									<col style="width: 15%;">
+									<col style="width: 5%;">
+								</colgroup>
+								<tbody>
+								<tr th:each="account : ${accounts}" onmouseover="this.style.backgroundColor='#e0f3ff';" onmouseout="this.style.backgroundColor='transparent';">
+
+									<td rowspan="1" class="next-table-header-node first " style="padding: 10px 0px;" th:text="${account.id}"></td>
+
+									<td rowspan="1" class="next-table-header-node" style="padding: 10px 0px; text-align: center;">
+										<img th:src="${account.img}" width="50" height="50" style="border-radius: 50%">
+									</td>
+
+									<td rowspan="1" class="next-table-header-node" style="padding: 10px 0px; text-align: center;" th:text="${account.username}"></td>
+
+									<td rowspan="1" class="next-table-header-node" style="padding: 10px 0px; text-align: center" th:text="${account.firstName + ' ' + account.lastName}"></td>
+
+									<td rowspan="1" class="next-table-header-node" style="padding: 10px 0px; text-align: center;" th:text="${account.phoneNumber}"></td>
+
+									<td rowspan="1" class="next-table-header-node" style="padding: 10px 0px; text-align: center;">
+										<span th:if="${account.accountType == 0}" class="badge badge-admin" style="background-color: rgb(241,56,71); color: white">Admin</span>
+										<span th:if="${account.accountType == 1}" class="badge badge-info">Khách hàng</span>
+										<span th:unless="${account.accountType ==0 || account.accountType == 1}" class="badge badge-secondary">Khác</span>
+									</td>
+
+									<td rowspan="1" class="next-table-header-node" style="padding: 10px 0px; text-align: center;">
+										<span th:if="${account.status == 0}" class="badge badge-danger">Ngừng hoạt động</span>
+										<span th:if="${account.status == 1}" class="badge badge-success">Đang hoạt động</span>
+									</td>
+
+									<td rowspan="1" class="next-table-header-node last" style="padding: 10px 0px; text-align: center" >
+										<a class="btn btn-detail" th:href="@{/managedetailaccount(accountId=${account.id})}" style="width: 50px;">
+											<span class="material-symbols-outlined">navigate_next</span>
+										</a>
+									</td>
+								</tr>
+								</tbody>
+							</table>
+						</div>
 					</div>
 				</div>
 
-				<div class="dropdown mb-3 mt-3"  style="margin-left: 15px;">
-					<button class="btn btn-filter-status dropdown-toggle" type="button" id="typeDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						Lọc theo loại tài khoản
-					</button>
-					<div class="dropdown-menu" aria-labelledby="typeDropdown">
-						<a class="dropdown-item" th:href="@{/manageaccounts}">Tất cả</a>
-						<a class="dropdown-item" th:href="@{/manageaccounts(type=0)}">Admin</a>
-						<a class="dropdown-item" th:href="@{/manageaccounts(type=1)}">Khách hàng</a>
-					</div>
-				</div>
-
-				<div class="container-main-01" style="background-color: white;" >
-					<table class="table table-striped table-bordered mt-3">
-						<thead class="thead-title">
-							<tr style="color: rgb(2,88,155);">
-								<th scope="col" class="align-middle text-center">Mã tài khoản</th>
-								<th scope="col" class="align-middle text-center">Tên</th>
-								<th scope="col" class="align-middle text-center">Họ</th>
-								<th scope="col" class="align-middle text-center">Tên tài khoản</th>
-								<th scope="col" class="align-middle text-center">Giới tính</th>
-								<th scope="col" class="align-middle text-center">Ảnh đại diện</th>
-								<th scope="col" class="align-middle text-center">Số điện thoại</th>
-								<th scope="col" class="align-middle text-center">Email</th>
-								<th scope="col" class="align-middle text-center">Loại tài khoản</th>
-								<th scope="col" class="align-middle text-center">Trạng thái</th>
-								<th scope="col" class="align-middle text-center">Thao tác</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr th:each="account : ${accounts}">
-								<td class="align-middle text-center" th:text="${account.id}"></td>
-								<td class="align-middle text-center" th:text="${account.firstName}"></td>
-								<td class="align-middle text-center" th:text="${account.lastName}"></td>
-								<td class="align-middle text-center" th:text="${account.username}"></td>
-								<td class="align-middle text-center" th:text="${account.gender}"></td>
-								<td class="text-center text-center"><img th:src="${account.img}" width="50"></td>
-								<td class="align-middle text-center" th:text="${account.phoneNumber}"></td>
-								<td class="align-middle text-center" th:text="${account.email}" style="width: 250px"></td>
-								<td class="align-middle text-center">
-									<span th:if="${account.accountType == 0}" class="badge badge-admin" style="background-color: rgb(241,56,71); color: white">Admin</span>
-									<span th:if="${account.accountType == 1}" class="badge badge-info">Khách hàng</span>
-									<span th:unless="${account.accountType ==0 || account.accountType == 1}" class="badge badge-secondary">Khác</span>
-								</td>
-								<td class="align-middle text-center">
-									<span th:if="${account.status == 0}" class="badge badge-danger">Ngừng hoạt động</span>
-									<span th:if="${account.status == 1}" class="badge badge-success">Đang hoạt động</span>
-								</td>
-								<td class="align-middle text-center">
-									<a class="btn btn-detail" th:href="@{/managedetailaccount(accountId=${account.id})}" style="width: 50px;">
-										<span class="material-symbols-outlined">info</span>
-									</a>
-								</td>
-							</tr>
-						</tbody>
-					</table>
-				</div>
-
-				<div class="frame-number" >
+<!--					<table class="table table-striped table-bordered mt-3">-->
+<!--						<thead class="thead-title">-->
+<!--							<tr style="color: rgb(2,88,155);">-->
+<!--								<th scope="col" class="align-middle text-center">Mã tài khoản</th>-->
+<!--								<th scope="col" class="align-middle text-center">Tên</th>-->
+<!--								<th scope="col" class="align-middle text-center">Họ</th>-->
+<!--								<th scope="col" class="align-middle text-center">Tên tài khoản</th>-->
+<!--								<th scope="col" class="align-middle text-center">Giới tính</th>-->
+<!--								<th scope="col" class="align-middle text-center">Ảnh đại diện</th>-->
+<!--								<th scope="col" class="align-middle text-center">Số điện thoại</th>-->
+<!--								<th scope="col" class="align-middle text-center">Email</th>-->
+<!--								<th scope="col" class="align-middle text-center">Loại tài khoản</th>-->
+<!--								<th scope="col" class="align-middle text-center">Trạng thái</th>-->
+<!--								<th scope="col" class="align-middle text-center">Thao tác</th>-->
+<!--							</tr>-->
+<!--						</thead>-->
+<!--						<tbody>-->
+<!--							<tr th:each="account : ${accounts}">-->
+<!--								<td class="align-middle text-center" th:text="${account.id}"></td>-->
+<!--								<td class="align-middle text-center" th:text="${account.firstName}"></td>-->
+<!--								<td class="align-middle text-center" th:text="${account.lastName}"></td>-->
+<!--								<td class="align-middle text-center" th:text="${account.username}"></td>-->
+<!--								<td class="align-middle text-center" th:text="${account.gender}"></td>-->
+<!--								<td class="text-center text-center"><img th:src="${account.img}" width="50"></td>-->
+<!--								<td class="align-middle text-center" th:text="${account.phoneNumber}"></td>-->
+<!--								<td class="align-middle text-center" th:text="${account.email}" style="width: 250px"></td>-->
+<!--								<td class="align-middle text-center">-->
+<!--									<span th:if="${account.accountType == 0}" class="badge badge-admin" style="background-color: rgb(241,56,71); color: white">Admin</span>-->
+<!--									<span th:if="${account.accountType == 1}" class="badge badge-info">Khách hàng</span>-->
+<!--									<span th:unless="${account.accountType ==0 || account.accountType == 1}" class="badge badge-secondary">Khác</span>-->
+<!--								</td>-->
+<!--								<td class="align-middle text-center">-->
+<!--									<span th:if="${account.status == 0}" class="badge badge-danger">Ngừng hoạt động</span>-->
+<!--									<span th:if="${account.status == 1}" class="badge badge-success">Đang hoạt động</span>-->
+<!--								</td>-->
+<!--								<td class="align-middle text-center">-->
+<!--									<a class="btn btn-detail" th:href="@{/managedetailaccount(accountId=${account.id})}" style="width: 50px;">-->
+<!--										<span class="material-symbols-outlined">info</span>-->
+<!--									</a>-->
+<!--								</td>-->
+<!--							</tr>-->
+<!--						</tbody>-->
+<!--					</table>-->
+			</div>
+			<div class="row-pagination d-flex align-items-center justify-content-center">
+				<div class="frame-number d-flex align-items-center">
 					<div th:if="${totalPages > 1}">
-						<ul class="pagination">
+						<ul class="pagination" style="margin: 0px">
 							<li th:if="${currentPage > 1}" class="page-item" >
 								<a class="page-link" th:href="@{/manageaccounts(category=${categoryId}, page=${currentPage - 1}, type=${type}, status=${status}, search=${search})}" >
 								<span class="material-symbols-outlined">navigate_before</span></a>

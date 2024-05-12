@@ -59,30 +59,38 @@
 		}
 		
 		.thead-title {
-			border-radius: 25px;
-			overflow: hidden;
-			background-color: rgb(182,232,241);
-			color: black;
-			border-radius: 15px
-		}
-			
-		.thead-title th:first-child {
-			border-top-left-radius: 15px;
-		}
-			
-		.thead-title th:last-child {
-			border-top-right-radius: 15px;
-		}
+            border-radius: 25px;
+            overflow: hidden;
+            background-color: rgb(182,232,241);
+            color: black;
+            border-radius: 15px
+        }
+
+        .thead-title th:first-child {
+            border-top-left-radius: 15px;
+        }
+
+        .thead-title th:last-child {
+            border-top-right-radius: 15px;
+        }
+
+        tbody tr:last-child td:first-child {
+            border-bottom-left-radius: 15px;
+        }
+
+        tbody tr:last-child td:last-child {
+            border-bottom-right-radius: 15px;
+        }
 		
 		.container-main {
 	        border-radius: 15px;
-	        padding: 15px;
 	        margin: 40px;
 		}
 		
 		.container-main {
 			box-shadow: 0 8px 10px rgb(226, 226, 226);
 		}
+
 		.page-link {
 	        height: 40px;
 	        color: rgb(2,88,155);
@@ -91,12 +99,12 @@
 			margin: 2px;
 	    }
 	    .page-item.active .page-link {
-			background-color: rgb(182,232,241);;
+			background-color: #e0f3ff;
 			color: rgb(2,88,155);
 		}
 
 	    .page-link:hover {
-			background-color: rgb(182,232,241);	 
+			background-color: #e0f3ff;
 		}
 		
 		.form-categories{
@@ -127,6 +135,14 @@
 		.row-search:hover {
 			box-shadow: 0px 6px 8px rgba(0, 0.3, 0, 0.2);
 		}
+
+		.row-pagination {
+            margin: 0px 40px 40px 40px;
+            padding: 10px;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0px 4px 4px rgba(192, 192, 192, 0.3);
+        }
     </style>
 </head>
 <body>
@@ -160,79 +176,150 @@
 					</form>
 				</div>
 			</div>
+
+			<div class="mb-3">
+				<div class="col" style="display: flex; justify-content: right;">
+					<a th:href="@{/addcategory}" class="nav-link add-category" style="font-family: Arial, sans-serif; padding: 0%; display: right; align-items: center; justify-content: right;">
+						<span class="material-symbols-outlined">add_circle</span></a>
+					<a th:href="@{/addcategory}" class="nav-link add-category" style="font-family: Arial, sans-serif; padding: 0%; display: right; align-items: center; justify-content: right;">
+						Thêm danh mục</a>
+				</div>
+			</div>
+
+			<div class="dropdown mb-3 mt-3">
+				<button class="btn btn-filter-status dropdown-toggle" type="button" id="statusDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					Lọc theo trạng thái
+				</button>
+				<div class="dropdown-menu" aria-labelledby="statusDropdown">
+					<a class="dropdown-item" th:href="@{/managecategories}">Tất cả</a>
+					<a class="dropdown-item" th:href="@{/managecategories(status=0)}">Ngừng kinh doanh</a>
+					<a class="dropdown-item" th:href="@{/managecategories(status=1)}">Đang kinh doanh</a>
+				</div>
+			</div>
+
 			<div class="container-main" style="background-color: white;">
-				<div class="mb-3">
-					<div class="col" style="display: flex; justify-content: right;">
-						<a th:href="@{/addcategory}" class="nav-link add-category" style="font-family: Arial, sans-serif; padding: 0%; display: right; align-items: center; justify-content: right;">
-							<span class="material-symbols-outlined">add_circle</span></a>
-							<a th:href="@{/addcategory}" class="nav-link add-category" style="font-family: Arial, sans-serif; padding: 0%; display: right; align-items: center; justify-content: right;">
-								Thêm danh mục</a>
+
+				<div class="next-table only-bottom-border" style="margin-top: 20px">
+					<div class="next-table-inner">
+						<div class="next-table-header d-flex align-items-center"
+							 style="height: 60px; background-color: #d9e1f7; border-top-left-radius: 15px; border-top-right-radius: 15px">
+							<div class="next-table-header-inner">
+								<table>
+									<colgroup style="width: 1020px">
+										<col style="width: 15%;">
+										<col style="width: 40%;">
+										<col style="width: 30%;">
+										<col style="width: 15%;">
+									</colgroup>
+									<tbody>
+									<tr>
+										<th rowspan="1" class="next-table-header-node first" style="padding: 10px 20px;">
+											<div class="next-table-cell-wrapper">Mã danh mục</div>
+										</th>
+										<th rowspan="1" class="next-table-header-node " style="padding: 10px 0px;">
+											<div class="next-table-cell-wrapper">Tên danh mục</div>
+										</th>
+										<th rowspan="1" class="next-table-header-node " style="padding: 10px 20px; text-align: center">
+											<div class="next-table-cell-wrapper">Trạng thái</div>
+										</th>
+										<th rowspan="1" class="next-table-header-node last" style="padding: 10px 20px; text-align: center">
+											<div class="next-table-cell-wrapper"></div>
+										</th>
+									</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+
+						<div class="next-table-body">
+							<table>
+								<colgroup style="width: 1020px;">
+									<col style="width: 15%;">
+									<col style="width: 40%;">
+									<col style="width: 30%;">
+									<col style="width: 15%;">
+								</colgroup>
+								<tbody>
+								<tr th:each="category : ${categories}"  onmouseover="this.style.backgroundColor='#e0f3ff';" onmouseout="this.style.backgroundColor='transparent';">
+
+									<td rowspan="1" class="next-table-header-node first " style="padding: 20px 20px;" th:text="${category.id}"></td>
+
+									<td rowspan="1" class="next-table-header-node" style="padding: 20px 20px; text-align: center" th:text="${category.name}"></td>
+
+									<td rowspan="1" class="next-table-header-node" style="padding: 10px 20px; text-align: center;">
+										<span th:if="${category.status == 0}" class="badge badge-stop" style="background-color: rgb(241,56,71); color: white;">Ngừng kinh doanh</span>
+										<span th:if="${category.status == 1}" class="badge badge-info">Đang kinh doanh</span>
+										<span th:unless="${category.status == 0 || category.status == 1}">Trạng thái không hợp lệ</span>
+									</td>
+
+									<td rowspan="1" class="next-table-header-node last" style="padding: 10px 20px; text-align: center" >
+										<a th:href="@{/updatecategory(categoryId=${category.id})}" class="btn btn-edit">
+											<span class="material-symbols-outlined">edit</span>
+										</a>
+									</td>
+								</tr>
+								</tbody>
+							</table>
+						</div>
 					</div>
 				</div>
 
-				<div class="dropdown mb-3 mt-3">
-					<button class="btn btn-filter-status dropdown-toggle" type="button" id="statusDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						Lọc theo trạng thái
-					</button>
-					<div class="dropdown-menu" aria-labelledby="statusDropdown">
-						<a class="dropdown-item" th:href="@{/managecategories}">Tất cả</a>
-						<a class="dropdown-item" th:href="@{/managecategories(status=0)}">Ngừng kinh doanh</a>
-						<a class="dropdown-item" th:href="@{/managecategories(status=1)}">Đang kinh doanh</a>
-					</div>
-				</div>
-
-				<table class="table table-striped table-bordered mt-3">
-					<thead class="thead-title">
-						<tr style="color: rgb(2,88,155);">
-							<th scope="col" class="align-middle text-center">Mã danh mục</th>
-							<th scope="col" class="align-middle text-center">Tên danh mục</th>
-							<th scope="col" class="align-middle text-center">Trạng thái</th>
-							<th scope="col" class="align-middle text-center">Sửa</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr th:each="category : ${categories}">
-							<td class="align-middle text-center" th:text="${category.id}"></td>
-							<td class="align-middle text-center" th:text="${category.name}"></td>
-							<td>
-								<span th:if="${category.status == 0}" class="badge badge-stop" style="background-color: rgb(241,56,71); color: white;">Ngừng kinh doanh</span>
-								<span th:if="${category.status == 1}" class="badge badge-info">Đang kinh doanh</span>
-								<span th:unless="${category.status == 0 || category.status == 1}">Trạng thái không hợp lệ</span>
-							</td>
-							<td class="align-middle text-center">
-								<a th:href="@{/updatecategory(categoryId=${category.id})}" class="btn btn-edit">
-									<span class="material-symbols-outlined">edit</span>
+<!--				<table class="table table-striped table-bordered mt-3">-->
+<!--					<thead class="thead-title">-->
+<!--						<tr style="color: rgb(2,88,155);">-->
+<!--							<th scope="col" class="align-middle text-center">Mã danh mục</th>-->
+<!--							<th scope="col" class="align-middle text-center">Tên danh mục</th>-->
+<!--							<th scope="col" class="align-middle text-center">Trạng thái</th>-->
+<!--							<th scope="col" class="align-middle text-center">Sửa</th>-->
+<!--						</tr>-->
+<!--					</thead>-->
+<!--					<tbody>-->
+<!--						<tr th:each="category : ${categories}">-->
+<!--							<td class="align-middle text-center" th:text="${category.id}"></td>-->
+<!--							<td class="align-middle text-center" th:text="${category.name}"></td>-->
+<!--							<td>-->
+<!--								<span th:if="${category.status == 0}" class="badge badge-stop" style="background-color: rgb(241,56,71); color: white;">Ngừng kinh doanh</span>-->
+<!--								<span th:if="${category.status == 1}" class="badge badge-info">Đang kinh doanh</span>-->
+<!--								<span th:unless="${category.status == 0 || category.status == 1}">Trạng thái không hợp lệ</span>-->
+<!--							</td>-->
+<!--							<td class="align-middle text-center">-->
+<!--								<a th:href="@{/updatecategory(categoryId=${category.id})}" class="btn btn-edit">-->
+<!--									<span class="material-symbols-outlined">edit</span>-->
+<!--								</a>-->
+<!--							</td>-->
+<!--						</tr>-->
+<!--					</tbody>-->
+<!--				</table>-->
+			</div>
+			<div class="row-pagination d-flex align-items-center justify-content-center">
+				<!-- Thêm phần tử phân trang tại đây -->
+				<div class="frame-number d-flex align-items-center">
+					<div th:if="${totalPages > 1}">
+						<ul class="pagination" style="margin: 0px">
+							<li th:if="${currentPage > 1}" class="page-item">
+								<a class="page-link" th:href="@{/managecategories(page=${currentPage - 1})}">
+									<span class="material-symbols-outlined">navigate_before</span>
 								</a>
-							</td>
-						</tr>
-					</tbody>
-				</table>
+							</li>
 
-				<div th:if="${totalPages > 1}">
-					<ul class="pagination" style="display: flex; align-items: center; justify-content: center;">
-						<li th:if="${currentPage > 1}" class="page-item">
-							<a class="page-link" th:href="@{/managecategories(page=${currentPage - 1})}">
-								<span class="material-symbols-outlined">navigate_before</span>
-							</a>
-						</li>
+							<th:block th:each="pageNumber : ${#numbers.sequence(1, totalPages)}">
+								<li class="page-item" th:classappend="${pageNumber == currentPage ? 'active' : ''}">
+									<th:block th:if="${pageNumber == currentPage}">
+										<span class="page-link" th:text="${pageNumber}"></span>
+									</th:block>
+									<th:block th:unless="${pageNumber == currentPage}">
+										<a class="page-link" th:href="@{/managecategories(page=${pageNumber})}" th:text="${pageNumber}"></a>
+									</th:block>
+									<!---->
+							</th:block>
 
-						<th:block th:each="pageNumber : ${#numbers.sequence(1, totalPages)}">
-							<li class="page-item" th:classappend="${pageNumber == currentPage ? 'active' : ''}">
-								<th:block th:if="${pageNumber == currentPage}">
-									<span class="page-link" th:text="${pageNumber}"></span>
-								</th:block>
-								<th:block th:unless="${pageNumber == currentPage}">
-									<a class="page-link" th:href="@{/managecategories(page=${pageNumber})}" th:text="${pageNumber}"></a>
-								</th:block>
-						   <!---->
-						</th:block>
-
-						<li th:if="${currentPage < totalPages}" class="page-item">
-							<a class="page-link" th:href="@{/managecategories(page=${currentPage + 1})}">
-								<span class="material-symbols-outlined">navigate_next</span>
-							</a>
-						</li>
-					</ul>
+							<li th:if="${currentPage < totalPages}" class="page-item">
+								<a class="page-link" th:href="@{/managecategories(page=${currentPage + 1})}">
+									<span class="material-symbols-outlined">navigate_next</span>
+								</a>
+							</li>
+						</ul>
+					</div>
 				</div>
 			</div>
 		</div>
