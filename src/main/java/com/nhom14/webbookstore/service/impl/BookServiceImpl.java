@@ -213,16 +213,16 @@ public class BookServiceImpl implements BookService {
 
 	@Override
 	public Page<Book> getFilteredActiveBooks(Integer categoryId, String searchKeyword, Double priceMin, Double priceMax, String publisher, Pageable pageable) {
-		// Chuyển để tìm kiếm theo mã sách
-		Integer searchKeywordAsInteger = null;
-		try {
-			searchKeywordAsInteger = Integer.parseInt(searchKeyword);
-		} catch (NumberFormatException e) {
-			// searchKeyword không phải là một số nguyên, không làm gì cả
+		// Nếu searchKeyword không null, tìm kiếm theo tên tác giả
+		if (searchKeyword != null && !searchKeyword.isEmpty()) {
+			Page<Book> books = bookRepository.findByAuthorName(searchKeyword, pageable);
+			if (books.hasContent()) {
+				return books;
+			}
 		}
-		return bookRepository.findActiveBooksWithFilters(categoryId, searchKeyword, searchKeywordAsInteger, priceMin, priceMax, publisher, pageable);
-		// Không tìm thấy sẽ trả về một đối tượng Page<Book> rỗng
-		// nghĩa là .getTotalElements() = 0
+
+		// Nếu searchKeyword null hoặc không tìm thấy sách theo tên tác giả, tìm kiếm theo các bộ lọc khác
+		return bookRepository.findActiveBooksWithFilters(categoryId, searchKeyword, priceMin, priceMax, publisher, pageable);
 	}
 
 	@Override

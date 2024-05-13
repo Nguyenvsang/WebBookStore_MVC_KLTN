@@ -682,7 +682,7 @@
 
 															<div class="col-3" style="padding: 0px; display: flex; justify-content: flex-end;">
 																<!-- Thêm form thêm vào giỏ hàng tại đây -->
-																<form th:action="@{/addtocartfromallbooks}" method="post" style="display: flex; justify-content: flex-end; align-items: flex-start;">
+																<form class="add-to-cart-form" th:action="@{/addtocartfromallbooks}" method="post" style="display: flex; justify-content: flex-end; align-items: flex-start;">
 																	<input type="hidden" name="bookId" th:value="${book.id}">
 																	<input type="hidden" name="quantity" value="1">
 																	<button type="submit" class="btn btn-add-cart btn-block" style="padding: 0px">
@@ -796,7 +796,7 @@
 		// Xử lý nút add to cart
 		document.addEventListener('DOMContentLoaded', function() {
 			// Xử lý nút add to cart
-			document.querySelectorAll('form').forEach(function(form) {
+			document.querySelectorAll('.add-to-cart-form').forEach(function(form) {
 				form.addEventListener('submit', function(event) {
 					event.preventDefault();
 

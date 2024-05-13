@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -42,17 +43,19 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
 											@Param("publisher") String publisher,
 											Pageable pageable);
 
+	@Query("SELECT b FROM Book b JOIN b.bookAuthors ba JOIN ba.author a WHERE " +
+			"LOWER(a.name) LIKE LOWER(CONCAT('%', :authorName, '%'))")
+	Page<Book> findByAuthorName(@Param("authorName") String authorName, Pageable pageable);
+
 	@Query("SELECT b FROM Book b WHERE " +
 			"b.status = 1 and " +
-			"(:searchKeywordAsInteger is null or b.id = :searchKeywordAsInteger) and " +
 			"(:categoryId is null or b.category.id = :categoryId) and " +
-			"(:searchKeyword is null or lower(b.name) like lower(concat('%', :searchKeyword,'%')) or lower(b.publisher) like lower(concat('%', :searchKeyword,'%'))) and " +
+			"(:searchKeyword is null or lower(b.name) like lower(concat('%', :searchKeyword,'%'))) and " +
 			"(:priceMin is null or b.sellPrice >= :priceMin) and " +
 			"(:priceMax is null or b.sellPrice <= :priceMax) and " +
 			"(:publisher is null or lower(b.publisher) like lower(concat('%', :publisher,'%')))")
 	Page<Book> findActiveBooksWithFilters(@Param("categoryId") Integer categoryId,
 							   @Param("searchKeyword") String searchKeyword,
-							   @Param("searchKeywordAsInteger") Integer searchKeywordAsInteger,
 							   @Param("priceMin") Double priceMin,
 							   @Param("priceMax") Double priceMax,
 							   @Param("publisher") String publisher,
