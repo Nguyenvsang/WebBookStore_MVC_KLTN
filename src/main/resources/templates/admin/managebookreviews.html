@@ -195,6 +195,33 @@
             box-shadow: 0px 4px 4px rgba(192, 192, 192, 0.3);
         }
 
+        .btn.btn-filter-status{
+            border: none;
+            height: 70px;
+            width: 220px;
+            margin-right: 30px;
+            box-shadow: 0px 4px 4px rgba(192, 192, 192, 0.3);
+            color: grey;
+        }
+
+        .btn.btn-filter-status:hover, .btn.btn-filter-status:focus{
+            box-shadow: 0px 6px 8px rgba(70, 130, 180, 0.5);
+            color: white;
+            background-color: #3f6ad8;
+        }
+
+        .btn.btn-filter-status:active{
+            background-color: #3f6ad8;
+        }
+
+        .material-symbols-outlined:nth-child(1) {
+            display: inline; /* Hiển thị biểu tượng expand_more */
+        }
+
+        .material-symbols-outlined:nth-child(2) {
+            display: none; /* Ẩn biểu tượng expand_less */
+        }
+
     </style>
 </head>
 <body>
@@ -236,39 +263,49 @@
             <span th:text="${param.message}"></span>
         </div>
 
-        <div class="dropdown mb-3 mt-3"  style="margin-left: 15px;">
-            <button class="btn btn-filter-status dropdown-toggle" type="button" id="statusDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Lọc trạng thái: <span th:text="${isPublished != null ? (isPublished == true ? 'Đã được duyệt' : 'Chưa được duyệt') : (isPurchased != null ? (isPurchased == true ? 'Đã mua sách' : 'Chưa mua sách') : 'Tất cả')}"></span>
-            </button>
-            <div class="dropdown-menu" aria-labelledby="statusDropdown">
-                <a class="dropdown-item" th:href="@{/managebookreviews(isPublished=${isPublished}, page=${bookReviews.number + 1}, size=${size}, sort=${sort}, rating=${rating}, isPurchased=${isPurchased}, keyword=${keyword})}">Tất cả</a>
-                <a class="dropdown-item" th:href="@{/managebookreviews(isPublished=false, page=${bookReviews.number + 1}, size=${size}, sort=${sort}, rating=${rating}, isPurchased=${isPurchased}, keyword=${keyword})}">Chưa được duyệt</a>
-                <a class="dropdown-item" th:href="@{/managebookreviews(isPublished=true, page=${bookReviews.number + 1}, size=${size}, sort=${sort}, rating=${rating}, isPurchased=${isPurchased}, keyword=${keyword})}">Đã được duyệt</a>
-                <a class="dropdown-item" th:href="@{/managebookreviews(isPurchased=false, page=${bookReviews.number + 1}, size=${size}, sort=${sort}, rating=${rating}, isPublished=${isPublished}, keyword=${keyword})}">Chưa mua sách</a>
-                <a class="dropdown-item" th:href="@{/managebookreviews(isPurchased=true, page=${bookReviews.number + 1}, size=${size}, sort=${sort}, rating=${rating}, isPublished=${isPublished}, keyword=${keyword})}">Đã mua sách</a>
+        <div class="row-03 d-flex align-items-center" style="padding: 0px 40px; justify-content: space-between; margin: 40px 0px 0px 0px">
+            <div class="col-dropdown d-flex align-items-center" style="height: 70px;">
+                <div class="dropdown-filter">
+                    <button class="btn btn-filter-status d-flex align-items-center justify-content-center" type="button" id="statusDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Lọc trạng thái
+                        <span class="material-symbols-outlined" style="margin-left: 3px">expand_more</span>
+                        <span class="material-symbols-outlined" style="margin-left: 3px">expand_less</span>
+<!--                        <span th:text="${isPublished != null ? (isPublished == true ? 'Đã được duyệt' : 'Chưa được duyệt') : (isPurchased != null ? (isPurchased == true ? 'Đã mua sách' : 'Chưa mua sách') : 'Tất cả')}" style="margin-left: 3px"></span>-->
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="statusDropdown">
+                        <a class="dropdown-item" th:href="@{/managebookreviews(isPublished=${isPublished}, page=${bookReviews.number + 1}, size=${size}, sort=${sort}, rating=${rating}, isPurchased=${isPurchased}, keyword=${keyword})}">Tất cả</a>
+                        <a class="dropdown-item" th:href="@{/managebookreviews(isPublished=false, page=${bookReviews.number + 1}, size=${size}, sort=${sort}, rating=${rating}, isPurchased=${isPurchased}, keyword=${keyword})}">Chưa được duyệt</a>
+                        <a class="dropdown-item" th:href="@{/managebookreviews(isPublished=true, page=${bookReviews.number + 1}, size=${size}, sort=${sort}, rating=${rating}, isPurchased=${isPurchased}, keyword=${keyword})}">Đã được duyệt</a>
+                        <a class="dropdown-item" th:href="@{/managebookreviews(isPurchased=false, page=${bookReviews.number + 1}, size=${size}, sort=${sort}, rating=${rating}, isPublished=${isPublished}, keyword=${keyword})}">Chưa mua sách</a>
+                        <a class="dropdown-item" th:href="@{/managebookreviews(isPurchased=true, page=${bookReviews.number + 1}, size=${size}, sort=${sort}, rating=${rating}, isPublished=${isPublished}, keyword=${keyword})}">Đã mua sách</a>
+                    </div>
+                </div>
+
+                <div class="dropdown-filter">
+                    <button class="btn btn-filter-status d-flex align-items-center justify-content-center" type="button" id="ratingDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Lọc theo sao
+                        <span class="material-symbols-outlined" style="margin-left: 3px">expand_more</span>
+                        <span class="material-symbols-outlined" style="margin-left: 3px">expand_less</span>
+<!--                        <span th:text="${rating != null ? (rating + ' sao') : 'Tất cả'}" style="margin-left: 3px"></span>-->
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="ratingDropdown">
+                        <a class="dropdown-item" th:href="@{/managebookreviews(rating=${rating}, page=${bookReviews.number + 1}, size=${size}, sort=${sort}, isPurchased=${isPurchased}, isPublished=${isPublished}, keyword=${keyword})}">Tất cả</a>
+                        <a class="dropdown-item" th:href="@{/managebookreviews(rating=1, page=${bookReviews.number + 1}, size=${size}, sort=${sort}, isPurchased=${isPurchased}, isPublished=${isPublished}, keyword=${keyword})}">1 sao</a>
+                        <a class="dropdown-item" th:href="@{/managebookreviews(rating=2, page=${bookReviews.number + 1}, size=${size}, sort=${sort}, isPurchased=${isPurchased}, isPublished=${isPublished}, keyword=${keyword})}">2 sao</a>
+                        <a class="dropdown-item" th:href="@{/managebookreviews(rating=3, page=${bookReviews.number + 1}, size=${size}, sort=${sort}, isPurchased=${isPurchased}, isPublished=${isPublished}, keyword=${keyword})}">3 sao</a>
+                        <a class="dropdown-item" th:href="@{/managebookreviews(rating=4, page=${bookReviews.number + 1}, size=${size}, sort=${sort}, isPurchased=${isPurchased}, isPublished=${isPublished}, keyword=${keyword})}">4 sao</a>
+                        <a class="dropdown-item" th:href="@{/managebookreviews(rating=5, page=${bookReviews.number + 1}, size=${size}, sort=${sort}, isPurchased=${isPurchased}, isPublished=${isPublished}, keyword=${keyword})}">5 sao</a>
+                    </div>
+                </div>
             </div>
-
-            <button id="deleteSelectedReviews" class="btn btn-danger">Xóa các đánh giá đã chọn</button>
-            <!-- Thêm nút "Duyệt các đánh giá đã chọn" -->
-            <button id="approveSelectedReviews" class="btn btn-success">Duyệt các đánh giá đã chọn</button>
-        </div>
-
-        <div class="dropdown mb-3 mt-3"  style="margin-left: 15px;">
-            <button class="btn btn-filter-status dropdown-toggle" type="button" id="ratingDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Lọc theo sao: <span th:text="${rating != null ? (rating + ' sao') : 'Tất cả'}"></span>
-            </button>
-            <div class="dropdown-menu" aria-labelledby="ratingDropdown">
-                <a class="dropdown-item" th:href="@{/managebookreviews(rating=${rating}, page=${bookReviews.number + 1}, size=${size}, sort=${sort}, isPurchased=${isPurchased}, isPublished=${isPublished}, keyword=${keyword})}">Tất cả</a>
-                <a class="dropdown-item" th:href="@{/managebookreviews(rating=1, page=${bookReviews.number + 1}, size=${size}, sort=${sort}, isPurchased=${isPurchased}, isPublished=${isPublished}, keyword=${keyword})}">1 sao</a>
-                <a class="dropdown-item" th:href="@{/managebookreviews(rating=2, page=${bookReviews.number + 1}, size=${size}, sort=${sort}, isPurchased=${isPurchased}, isPublished=${isPublished}, keyword=${keyword})}">2 sao</a>
-                <a class="dropdown-item" th:href="@{/managebookreviews(rating=3, page=${bookReviews.number + 1}, size=${size}, sort=${sort}, isPurchased=${isPurchased}, isPublished=${isPublished}, keyword=${keyword})}">3 sao</a>
-                <a class="dropdown-item" th:href="@{/managebookreviews(rating=4, page=${bookReviews.number + 1}, size=${size}, sort=${sort}, isPurchased=${isPurchased}, isPublished=${isPublished}, keyword=${keyword})}">4 sao</a>
-                <a class="dropdown-item" th:href="@{/managebookreviews(rating=5, page=${bookReviews.number + 1}, size=${size}, sort=${sort}, isPurchased=${isPurchased}, isPublished=${isPublished}, keyword=${keyword})}">5 sao</a>
+            <div class="col-add d-flex align-items-center" style="height: 70px;">
+                <button id="deleteSelectedReviews" class="btn btn-danger">Xóa các đánh giá đã chọn</button>
+                <!-- Thêm nút "Duyệt các đánh giá đã chọn" -->
+                <button id="approveSelectedReviews" class="btn btn-success">Duyệt các đánh giá đã chọn</button>
             </div>
         </div>
 
         <div class="container-main" style="background-color: white;">
-
             <div class="next-table only-bottom-border">
                 <div class="next-table-inner">
                     <div class="next-table-header d-flex align-items-center"
@@ -652,7 +689,32 @@
         xhr.send("reviewId=" + reviewId + "&isPublished=" + newIsPublished);
     }
 
+
+
+    ['statusDropdown', 'ratingDropdown'].forEach(function(id) {
+        var dropdown = document.getElementById(id);
+        var expandMore = dropdown.querySelector('.material-symbols-outlined:nth-child(1)');
+        var expandLess = dropdown.querySelector('.material-symbols-outlined:nth-child(2)');
+
+        dropdown.addEventListener('click', function() {
+            if (expandMore.style.display === 'none') {
+                expandMore.style.display = 'inline';
+                expandLess.style.display = 'none';
+            } else {
+                expandMore.style.display = 'none';
+                expandLess.style.display = 'inline';
+            }
+        });
+
+        dropdown.addEventListener('blur', function() {
+            expandMore.style.display = 'inline';
+            expandLess.style.display = 'none';
+        });
+    });
+
 </script>
+
+
 </body>
 
 </html>

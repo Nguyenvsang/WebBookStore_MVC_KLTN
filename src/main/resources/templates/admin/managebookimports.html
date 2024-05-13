@@ -153,6 +153,32 @@
             border-radius: 15px;
             box-shadow: 0px 4px 4px rgba(192, 192, 192, 0.3);
         }
+        .btn.btn-filter-status{
+            border: none;
+            height: 70px;
+            width: 220px;
+            margin-right: 30px;
+            box-shadow: 0px 4px 4px rgba(192, 192, 192, 0.3);
+            color: grey;
+        }
+
+        .btn.btn-filter-status:hover, .btn.btn-filter-status:focus{
+            box-shadow: 0px 6px 8px rgba(70, 130, 180, 0.5);
+            color: white;
+            background-color: #3f6ad8;
+        }
+
+        .btn.btn-filter-status:active{
+            background-color: #3f6ad8;
+        }
+
+        .material-symbols-outlined:nth-child(1) {
+            display: inline; /* Hiển thị biểu tượng expand_more */
+        }
+
+        .material-symbols-outlined:nth-child(2) {
+            display: none; /* Ẩn biểu tượng expand_less */
+        }
 
     </style>
 </head>
@@ -188,57 +214,68 @@
             </div>
         </div>
 
-        <div class="mb-3">
-            <div class="col" style="display: flex; justify-content: right;">
-                <a th:href="@{/addbookimport}" class="nav-link add-category" style="font-family: Arial, sans-serif; padding: 0%; display: right; align-items: center; justify-content: right;">
-                    <span class="material-symbols-outlined">add_circle</span></a>
-                <a th:href="@{/addbookimport}" class="nav-link add-category" style="font-family: Arial, sans-serif; padding: 0%; display: right; align-items: center; justify-content: right;">
-                    Thêm đợt nhập sách</a>
+        <div class="row-03 d-flex align-items-center" style="padding: 0px 40px; justify-content: space-between; margin: 40px 0px 0px 0px">
+            <div class="col-dropdown d-flex align-items-center" style="height: 70px;">
+                <!--Bộ lọc-->
+                <div class="dropdown-filter">
+                    <button class="btn btn-filter-status d-flex align-items-center justify-content-center" type="button" id="statusDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Lọc theo trạng thái
+                        <span class="material-symbols-outlined" style="margin-left: 3px">expand_more</span>
+                        <span class="material-symbols-outlined" style="margin-left: 3px">expand_less</span>
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="statusDropdown">
+                        <a class="dropdown-item" th:href="@{/managebookimports}">Tất cả</a>
+                        <a class="dropdown-item" th:href="@{/managebookimports(status=1, bookId=${bookId}, sortOption=${sortOption})}">Đang bán</a>
+                        <a class="dropdown-item" th:href="@{/managebookimports(status=2, bookId=${bookId}, sortOption=${sortOption})}">Chưa bán</a>
+                        <a class="dropdown-item" th:href="@{/managebookimports(status=0, bookId=${bookId}, sortOption=${sortOption})}">Ngừng bán</a>
+                        <a class="dropdown-item" th:href="@{/managebookimports(status=3, bookId=${bookId}, sortOption=${sortOption})}">Hủy bỏ</a>
+                    </div>
+                </div>
+
+                <div class="dropdown-filter">
+                    <button class="btn btn-filter-status d-flex align-items-center justify-content-center" type="button" id="bookDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Chọn sách
+                        <span class="material-symbols-outlined" style="margin-left: 3px">expand_more</span>
+                        <span class="material-symbols-outlined" style="margin-left: 3px">expand_less</span>
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="bookDropdown" style="height: auto; max-height: 200px; overflow-x: hidden;">
+                        <!-- Thêm trường nhập tìm kiếm vào đầu dropdown -->
+                        <input id="searchKeyword" class="form-control mr-sm-2" type="text" placeholder="Tìm kiếm từ khóa" style="border: 2px solid rgb(182,232,241); border-radius: 10px;">
+                        <a class="dropdown-item" th:href="@{/managebookimports}">Tất cả</a>
+                        <th:block th:each="book : ${allBooks}">
+                            <a class="dropdown-item" th:href="@{/managebookimports(bookId=${book.id}, status=${status}, sortOption=${sortOption})}" th:text="${book.name}"></a>
+                        </th:block>
+                    </div>
+                </div>
+
+
+                <div class="dropdown-filter">
+                    <button class="btn btn-filter-status d-flex align-items-center justify-content-center" type="button" id="optionDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Kiểu sắp xếp
+                        <span class="material-symbols-outlined" style="margin-left: 3px">expand_more</span>
+                        <span class="material-symbols-outlined" style="margin-left: 3px">expand_less</span>
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="optionDropdown">
+                        <a class="dropdown-item" th:href="@{/managebookimports(sortOption='d12', bookId=${bookId}, status=${status})}">Ngày tăng dần</a>
+                        <a class="dropdown-item" th:href="@{/managebookimports(sortOption='d21', bookId=${bookId}, status=${status})}">Ngày giảm dần</a>
+                        <a class="dropdown-item" th:href="@{/managebookimports(sortOption='q12', bookId=${bookId}, status=${status})}">Số lượng tăng dần</a>
+                        <a class="dropdown-item" th:href="@{/managebookimports(sortOption='q21', bookId=${bookId}, status=${status})}">Số lượng giảm dần</a>
+                        <a class="dropdown-item" th:href="@{/managebookimports(sortOption='p12', bookId=${bookId}, status=${status})}">Giá nhập tăng dần</a>
+                        <a class="dropdown-item" th:href="@{/managebookimports(sortOption='p21', bookId=${bookId}, status=${status})}">Giá nhập giảm dần</a>
+                        <a class="dropdown-item" th:href="@{/managebookimports(sortOption='rq12', bookId=${bookId}, status=${status})}">Số lượng còn lại tăng dần</a>
+                        <a class="dropdown-item" th:href="@{/managebookimports(sortOption='rq21', bookId=${bookId}, status=${status})}">Số lượng còn lại giảm dần</a>
+                    </div>
+                </div>
             </div>
-        </div>
-
-        <!--Bộ lọc-->
-        <div class="dropdown mb-3 mt-3">
-            <button class="btn btn-filter-status dropdown-toggle" type="button" id="statusDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Lọc theo trạng thái
-            </button>
-            <div class="dropdown-menu" aria-labelledby="statusDropdown">
-                <a class="dropdown-item" th:href="@{/managebookimports}">Tất cả</a>
-                <a class="dropdown-item" th:href="@{/managebookimports(status=1, bookId=${bookId}, sortOption=${sortOption})}">Đang bán</a>
-                <a class="dropdown-item" th:href="@{/managebookimports(status=2, bookId=${bookId}, sortOption=${sortOption})}">Chưa bán</a>
-                <a class="dropdown-item" th:href="@{/managebookimports(status=0, bookId=${bookId}, sortOption=${sortOption})}">Ngừng bán</a>
-                <a class="dropdown-item" th:href="@{/managebookimports(status=3, bookId=${bookId}, sortOption=${sortOption})}">Hủy bỏ</a>
-            </div>
-        </div>
-
-        <div class="dropdown mb-3 mt-3">
-            <button class="btn btn-filter-status dropdown-toggle" type="button" id="bookDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Chọn sách
-            </button>
-            <div class="dropdown-menu" aria-labelledby="bookDropdown" style="height: auto; max-height: 200px; overflow-x: hidden;">
-                <!-- Thêm trường nhập tìm kiếm vào đầu dropdown -->
-                <input id="searchKeyword" class="form-control mr-sm-2" type="text" placeholder="Tìm kiếm từ khóa" style="border: 2px solid rgb(182,232,241); border-radius: 10px;">
-                <a class="dropdown-item" th:href="@{/managebookimports}">Tất cả</a>
-                <th:block th:each="book : ${allBooks}">
-                    <a class="dropdown-item" th:href="@{/managebookimports(bookId=${book.id}, status=${status}, sortOption=${sortOption})}" th:text="${book.name}"></a>
-                </th:block>
-            </div>
-        </div>
-
-
-        <div class="dropdown mb-3 mt-3">
-            <button class="btn btn-filter-status dropdown-toggle" type="button" id="optionDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Kiểu sắp xếp
-            </button>
-            <div class="dropdown-menu" aria-labelledby="optionDropdown">
-                <a class="dropdown-item" th:href="@{/managebookimports(sortOption='d12', bookId=${bookId}, status=${status})}">Ngày tăng dần</a>
-                <a class="dropdown-item" th:href="@{/managebookimports(sortOption='d21', bookId=${bookId}, status=${status})}">Ngày giảm dần</a>
-                <a class="dropdown-item" th:href="@{/managebookimports(sortOption='q12', bookId=${bookId}, status=${status})}">Số lượng tăng dần</a>
-                <a class="dropdown-item" th:href="@{/managebookimports(sortOption='q21', bookId=${bookId}, status=${status})}">Số lượng giảm dần</a>
-                <a class="dropdown-item" th:href="@{/managebookimports(sortOption='p12', bookId=${bookId}, status=${status})}">Giá nhập tăng dần</a>
-                <a class="dropdown-item" th:href="@{/managebookimports(sortOption='p21', bookId=${bookId}, status=${status})}">Giá nhập giảm dần</a>
-                <a class="dropdown-item" th:href="@{/managebookimports(sortOption='rq12', bookId=${bookId}, status=${status})}">Số lượng còn lại tăng dần</a>
-                <a class="dropdown-item" th:href="@{/managebookimports(sortOption='rq21', bookId=${bookId}, status=${status})}">Số lượng còn lại giảm dần</a>
+            <div class="col-add d-flex align-items-center" style="height: 70px;">
+                <div class="row-add">
+                    <div class="col" style="display: flex; justify-content: right;">
+                        <a th:href="@{/addbookimport}" class="nav-link add-category" style="font-family: Arial, sans-serif; padding: 0%; display: right; align-items: center; justify-content: right;">
+                            <span class="material-symbols-outlined">add_circle</span></a>
+                        <a th:href="@{/addbookimport}" class="nav-link add-category" style="font-family: Arial, sans-serif; padding: 0%; display: right; align-items: center; justify-content: right;">
+                            Thêm đợt nhập sách</a>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -444,6 +481,29 @@
         });
       });
     });
+</script>
+<script>
+    ['statusDropdown', 'bookDropdown', 'optionDropdown'].forEach(function(id) {
+        var dropdown = document.getElementById(id);
+        var expandMore = dropdown.querySelector('.material-symbols-outlined:nth-child(1)');
+        var expandLess = dropdown.querySelector('.material-symbols-outlined:nth-child(2)');
+
+        dropdown.addEventListener('click', function() {
+            if (expandMore.style.display === 'none') {
+                expandMore.style.display = 'inline';
+                expandLess.style.display = 'none';
+            } else {
+                expandMore.style.display = 'none';
+                expandLess.style.display = 'inline';
+            }
+        });
+
+        dropdown.addEventListener('blur', function() {
+            expandMore.style.display = 'inline';
+            expandLess.style.display = 'none';
+        });
+    });
+
 </script>
 <!--<div th:replace="~{admin/footeradmin :: footer}"></div>-->
 </body>

@@ -141,6 +141,33 @@
             box-shadow: 0px 4px 4px rgba(192, 192, 192, 0.3);
         }
 
+		.btn.btn-filter-status{
+            border: none;
+            height: 70px;
+            width: 220px;
+            margin-right: 30px;
+            box-shadow: 0px 4px 4px rgba(192, 192, 192, 0.3);
+            color: grey;
+        }
+
+        .btn.btn-filter-status:hover, .btn.btn-filter-status:focus{
+            box-shadow: 0px 6px 8px rgba(70, 130, 180, 0.5);
+            color: white;
+            background-color: #3f6ad8;
+        }
+
+        .btn.btn-filter-status:active{
+            background-color: #3f6ad8;
+        }
+
+        .material-symbols-outlined:nth-child(1) {
+            display: inline; /* Hiển thị biểu tượng expand_more */
+        }
+
+        .material-symbols-outlined:nth-child(2) {
+            display: none; /* Ẩn biểu tượng expand_less */
+        }
+
 	</style> 
 </head> 
 <body>
@@ -174,23 +201,27 @@
 					</form>
 				</div>
 			</div>
-
-			<div class="dropdown mb-3 mt-3">
-				<button class="btn btn-filter-status dropdown-toggle" type="button" id="statusDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-					Lọc theo trạng thái
-				</button>
-				<div class="dropdown-menu" aria-labelledby="statusDropdown">
-					<a class="dropdown-item" th:href="@{/manageorders}">Tất cả</a>
-					<a class="dropdown-item" th:href="@{/manageorders(status=0)}">Chờ xác nhận</a>
-					<a class="dropdown-item" th:href="@{/manageorders(status=1)}">Chờ lấy hàng</a>
-					<a class="dropdown-item" th:href="@{/manageorders(status=2)}">Đang giao</a>
-					<a class="dropdown-item" th:href="@{/manageorders(status=3)}">Đã thanh toán</a>
-					<a class="dropdown-item" th:href="@{/manageorders(status=4)}">Đã giao</a>
+			<div class="row-03 d-flex align-items-center" style="padding: 0px 40px; justify-content: space-between; margin: 40px 0px 0px 0px">
+				<div class="col-dropdown d-flex align-items-center" style="height: 70px;">
+					<div class="dropdown-filter">
+						<button class="btn btn-filter-status d-flex align-items-center justify-content-center" type="button" id="statusDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							Lọc theo trạng thái
+							<span class="material-symbols-outlined" style="margin-left: 3px">expand_more</span>
+							<span class="material-symbols-outlined" style="margin-left: 3px">expand_less</span>
+						</button>
+						<div class="dropdown-menu" aria-labelledby="statusDropdown">
+							<a class="dropdown-item" th:href="@{/manageorders}">Tất cả</a>
+							<a class="dropdown-item" th:href="@{/manageorders(status=0)}">Chờ xác nhận</a>
+							<a class="dropdown-item" th:href="@{/manageorders(status=1)}">Chờ lấy hàng</a>
+							<a class="dropdown-item" th:href="@{/manageorders(status=2)}">Đang giao</a>
+							<a class="dropdown-item" th:href="@{/manageorders(status=3)}">Đã thanh toán</a>
+							<a class="dropdown-item" th:href="@{/manageorders(status=4)}">Đã giao</a>
+						</div>
+					</div>
 				</div>
 			</div>
 
 			<div class="container-main" style="background-color: white;">
-
 				<div class="next-table only-bottom-border" style="margin-top: 20px">
 					<div class="next-table-inner">
 						<div class="next-table-header d-flex align-items-center"
@@ -411,6 +442,29 @@
 			</div>
 		</div>
 	</div>
+	<script>
+		['statusDropdown'].forEach(function(id) {
+            var dropdown = document.getElementById(id);
+            var expandMore = dropdown.querySelector('.material-symbols-outlined:nth-child(1)');
+            var expandLess = dropdown.querySelector('.material-symbols-outlined:nth-child(2)');
+
+            dropdown.addEventListener('click', function() {
+                if (expandMore.style.display === 'none') {
+                    expandMore.style.display = 'inline';
+                    expandLess.style.display = 'none';
+                } else {
+                    expandMore.style.display = 'none';
+                    expandLess.style.display = 'inline';
+                }
+            });
+
+            dropdown.addEventListener('blur', function() {
+                expandMore.style.display = 'inline';
+                expandLess.style.display = 'none';
+            });
+        });
+
+	</script>
 	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 	<!--<div th:replace="~{admin/footeradmin :: footer}"></div>-->

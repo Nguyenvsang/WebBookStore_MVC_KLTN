@@ -143,6 +143,34 @@
             border-radius: 15px;
             box-shadow: 0px 4px 4px rgba(192, 192, 192, 0.3);
         }
+
+		.btn.btn-filter-status{
+            border: none;
+            height: 70px;
+            width: 220px;
+            margin-right: 30px;
+            box-shadow: 0px 4px 4px rgba(192, 192, 192, 0.3);
+            color: grey;
+        }
+
+        .btn.btn-filter-status:hover, .btn.btn-filter-status:focus{
+            box-shadow: 0px 6px 8px rgba(70, 130, 180, 0.5);
+            color: white;
+            background-color: #3f6ad8;
+        }
+
+        .btn.btn-filter-status:active{
+            background-color: #3f6ad8;
+        }
+
+        .material-symbols-outlined:nth-child(1) {
+            display: inline; /* Hiển thị biểu tượng expand_more */
+        }
+
+        .material-symbols-outlined:nth-child(2) {
+            display: none; /* Ẩn biểu tượng expand_less */
+        }
+
     </style>
 </head>
 <body>
@@ -176,27 +204,32 @@
 					</form>
 				</div>
 			</div>
-
-			<div class="mb-3">
-				<div class="col" style="display: flex; justify-content: right;">
-					<a th:href="@{/addcategory}" class="nav-link add-category" style="font-family: Arial, sans-serif; padding: 0%; display: right; align-items: center; justify-content: right;">
-						<span class="material-symbols-outlined">add_circle</span></a>
-					<a th:href="@{/addcategory}" class="nav-link add-category" style="font-family: Arial, sans-serif; padding: 0%; display: right; align-items: center; justify-content: right;">
-						Thêm danh mục</a>
+			<div class="row-03 d-flex align-items-center" style="padding: 0px 40px; justify-content: space-between; margin: 40px 0px 0px 0px">
+				<div class="col-dropdown d-flex align-items-center" style="height: 70px;">
+					<div class="dropdown-filter">
+						<button class="btn btn-filter-status d-flex align-items-center justify-content-center" type="button" id="statusDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							Lọc theo trạng thái
+							<span class="material-symbols-outlined" style="margin-left: 3px">expand_more</span>
+							<span class="material-symbols-outlined" style="margin-left: 3px">expand_less</span>
+						</button>
+						<div class="dropdown-menu" aria-labelledby="statusDropdown">
+							<a class="dropdown-item" th:href="@{/managecategories}">Tất cả</a>
+							<a class="dropdown-item" th:href="@{/managecategories(status=0)}">Ngừng kinh doanh</a>
+							<a class="dropdown-item" th:href="@{/managecategories(status=1)}">Đang kinh doanh</a>
+						</div>
+					</div>
+				</div>
+				<div class="col-add d-flex align-items-center" style="height: 70px;">
+					<div class="col-add">
+						<div class="col" style="display: flex; justify-content: right;">
+							<a th:href="@{/addcategory}" class="nav-link add-category" style="font-family: Arial, sans-serif; padding: 0%; display: right; align-items: center; justify-content: right;">
+								<span class="material-symbols-outlined">add_circle</span></a>
+							<a th:href="@{/addcategory}" class="nav-link add-category" style="font-family: Arial, sans-serif; padding: 0%; display: right; align-items: center; justify-content: right;">
+								Thêm danh mục</a>
+						</div>
+					</div>
 				</div>
 			</div>
-
-			<div class="dropdown mb-3 mt-3">
-				<button class="btn btn-filter-status dropdown-toggle" type="button" id="statusDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-					Lọc theo trạng thái
-				</button>
-				<div class="dropdown-menu" aria-labelledby="statusDropdown">
-					<a class="dropdown-item" th:href="@{/managecategories}">Tất cả</a>
-					<a class="dropdown-item" th:href="@{/managecategories(status=0)}">Ngừng kinh doanh</a>
-					<a class="dropdown-item" th:href="@{/managecategories(status=1)}">Đang kinh doanh</a>
-				</div>
-			</div>
-
 			<div class="container-main" style="background-color: white;">
 
 				<div class="next-table only-bottom-border" style="margin-top: 20px">
@@ -324,7 +357,29 @@
 			</div>
 		</div>
     </div>
+	<script>
+		['statusDropdown'].forEach(function(id) {
+            var dropdown = document.getElementById(id);
+            var expandMore = dropdown.querySelector('.material-symbols-outlined:nth-child(1)');
+            var expandLess = dropdown.querySelector('.material-symbols-outlined:nth-child(2)');
 
+            dropdown.addEventListener('click', function() {
+                if (expandMore.style.display === 'none') {
+                    expandMore.style.display = 'inline';
+                    expandLess.style.display = 'none';
+                } else {
+                    expandMore.style.display = 'none';
+                    expandLess.style.display = 'inline';
+                }
+            });
+
+            dropdown.addEventListener('blur', function() {
+                expandMore.style.display = 'inline';
+                expandLess.style.display = 'none';
+            });
+        });
+
+	</script>
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 	<!--<div th:replace="~{admin/footeradmin :: footer}"></div>-->
