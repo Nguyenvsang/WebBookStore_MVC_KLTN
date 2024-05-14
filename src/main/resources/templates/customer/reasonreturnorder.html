@@ -52,11 +52,13 @@
 			color: white;
 			width: 200px;
 			box-shadow: 0px 4px 6px rgba(0, 0.4, 0, 0.2);
+			font-weight: bold;
         }
         .btn-order:hover {
             background-color: #211f7f;
 			color: white;
 			box-shadow: 0px 6px 8px rgba(0, 0.4, 0, 0.2);
+			font-weight: bold;
         }
 
         .frame {
@@ -265,6 +267,34 @@
 			overflow-y: auto;   /* Thêm thanh cuộn dọc nếu nội dung vượt quá chiều cao tối đa */
 		}
 
+        .btn-address.change-address-btn {
+            height: 50px;
+			background-color: white;
+			border-radius: 50px;
+			color: #36aa00;
+			font-weight: bold;
+			width: 200px;
+			box-shadow: 0px 0px 10px rgba(192, 192, 192, 0.5);
+		}
+
+		.btn-address.change-address-btn:hover {
+		    height: 50px;
+			background-color: #228b22;
+			color: white;
+			font-weight: bold;
+			box-shadow: 0px 0px 10px rgba(144, 238, 144, 0.5);
+		}
+
+        .row-home{
+            box-shadow: 0px 0px 10px rgba(192, 192, 192, 0.5);
+            width: 50px;
+            height: 50px;
+        }
+        .row-home:hover {
+            box-shadow: 0px 0px 10px rgba(144, 238, 144, 0.5);
+            width: 50px;
+            height: 50px;
+        }
     </style>
 
 
@@ -287,8 +317,8 @@
                 <h6 style="color: #211f7f; align-items: center;  margin: 0px 5px 0px 0px; font-family: Verdana; font-weight: bold">Lý do trả hàng</h6>
             </div>
             <div class="col-order d-flex" style="justify-content: flex-end; font-size: 20px; border-bottom: 1px solid #cecece; padding: 10px">
-                <p style="margin: 0px 5px 0px 0px; color: #f17746">MÃ ĐƠN HÀNG:</p>
-                <span class="align-middle text-center" style="color: #f17746">[[${order.id}]]</span>
+                <p style="margin: 0px 5px 0px 0px; color: #f17746; font-weight: bold">MÃ ĐƠN HÀNG:</p>
+                <span class="align-middle text-center" style="color: #f17746; font-weight: bold">[[${order.id}]]</span>
             </div>
             <form th:action="@{/returnorder(orderId=${order.id})}" method="post" enctype="multipart/form-data" style="margin-top: 10px">
                 <div class="row d-flex align-items-center justify-content-center" style="width: 870px; margin-left: 0px">
@@ -335,8 +365,8 @@
                 <div class="row d-flex justify-content-center" style="width: 100%; padding: 20px; 0px; 0px; margin-left: 0px">
                     <div class="col-01" style="justify-content: center; width: 25%">
                         <input type="file" class="form-control-file" id="images" name="images" accept="image/*" onchange="checkFileSizeImg(event)" style="display:none;" multiple required>
-                        <label for="images" style="display: flex; align-items: center; justify-content: center; border-radius: 50px; border: 1px solid #cecece; width: 200px; height: 50px">
-                            <span class="material-symbols-outlined d-flex align-items-center justify-content-center" style="color: grey; height: 26px; weight: 30px">shift</span>
+                        <label for="images" style="color: grey; font-weight: bold; display: flex; align-items: center; justify-content: center; border-radius: 50px; border: 1px solid #cecece; width: 200px; height: 50px">
+                            <span class="material-symbols-outlined d-flex align-items-center justify-content-center" style="color: grey; height: 26px; weight: 30px; margin-right: 2px">shift</span>
                             Chọn ảnh
                         </label>
                         <div class="image-preview" id="imagePreview" style="display: flex; justify-content: center; align-items: center;">
@@ -374,44 +404,55 @@
 
 
                 <h6 class="text" style="margin: 20px 0px;">Thông tin người trả hàng</h6>
-                <div class="form-group row d-flex align-items-center" style="border-radius: 50px; border: 1px solid #cecece;">
-                    <span class="material-symbols-outlined" style="color: grey; margin: 5px">person_2</span>
-                    <div class="col-info">
-                        <input type="text" id="name" name="name" th:value="${order.name}" required class="form-control"
-                               style="border-radius: 50px; padding: 6px 0px; border: none;">
+                <div class="row-info d-flex align-items-center justify-content-center">
+                    <div class="col-08" style="width: 70%">
+                        <div class="form-group d-flex align-items-center" style="border-radius: 50px; border: 1px solid #cecece;">
+                            <span class="material-symbols-outlined" style="color: grey; margin: 5px">person_2</span>
+                            <div class="col-info">
+                                <input type="text" id="name" name="name" th:value="${order.name}" required class="form-control"
+                                       style="border-top-right-radius: 50px; border-bottom-right-radius: 50px; padding: 0px 10px 0px 0px; border: none;">
+                            </div>
+                        </div>
+
+                        <div class="form-group  d-flex align-items-center" style="border-radius: 50px; border: 1px solid #cecece;">
+                            <span class="material-symbols-outlined" style="color: grey; margin: 5px">location_on</span>
+                            <div class="col-info">
+                                <input type="text" id="address" name="address" th:value="${order.address}" required class="form-control"
+                                       style="border-top-right-radius: 50px; border-bottom-right-radius: 50px; padding: 0px 10px 0px 0px; border: none;">
+                            </div>
+                        </div>
+                        <div class="form-group  d-flex align-items-center" style="border-radius: 50px; border: 1px solid #cecece;">
+                            <span class="material-symbols-outlined" style="color: grey; margin: 5px">call</span>
+                            <div class="col-info">
+                                <input type="text" id="phoneNumber" name="phoneNumber" th:value="${order.phoneNumber}" required class="form-control"
+                                       style="border-top-right-radius: 50px; border-bottom-right-radius: 50px; padding: 0px 10px 0px 0px; border: none;">
+                            </div>
+                        </div>
+                        <div class="form-group  d-flex align-items-center" style="border-radius: 50px; border: 1px solid #cecece; margin-bottom: 20px">
+                            <span class="material-symbols-outlined" style="color: grey; margin: 5px">mail</span>
+                            <div class="col-info">
+                                <input type="email" id="email" name="email" th:value="${order.email}" required class="form-control"
+                                       style="border-top-right-radius: 50px; border-bottom-right-radius: 50px; padding: 0px 10px 0px 0px; border: none;">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-04 d-flex align-items-center justify-content-center" style="flex-direction: column; width: 30%">
+                        <div class="row-home d-flex align-items-center justify-content-center" style="border-radius: 50%">
+                            <span class="material-symbols-outlined" style="color: #36aa00; margin: 0px;">roofing</span>
+                        </div>
+
+                        <!-- Button trigger modal -->
+                        <button type="button" style="margin-top: 20px" class="btn btn-address change-address-btn" data-toggle="modal" data-target="#changeAddressModal">
+                            Chọn địa chỉ có sẵn
+                        </button>
+                        <!-- Button trigger modal -->
+                        <button type="button" style="margin-top: 20px" class="btn btn-address change-address-btn" data-target="#oldAddress">
+                            Giữ nguyên địa chỉ cũ
+                        </button>
                     </div>
                 </div>
 
-                <div class="form-group row d-flex align-items-center" style="border-radius: 50px; border: 1px solid #cecece;">
-                    <span class="material-symbols-outlined" style="color: grey; margin: 5px">location_on</span>
-                    <div class="col-info">
-                        <input type="text" id="address" name="address" th:value="${order.address}" required class="form-control"
-                               style="border-radius: 50px; padding: 6px 0px; border: none;">
-                    </div>
-                </div>
-                <div class="form-group row d-flex align-items-center" style="border-radius: 50px; border: 1px solid #cecece;">
-                    <span class="material-symbols-outlined" style="color: grey; margin: 5px">call</span>
-                    <div class="col-info">
-                        <input type="text" id="phoneNumber" name="phoneNumber" th:value="${order.phoneNumber}" required class="form-control"
-                               style="border-radius: 50px; padding: 6px 0px; border: none;">
-                    </div>
-                </div>
-                <div class="form-group row d-flex align-items-center" style="border-radius: 50px; border: 1px solid #cecece; margin-bottom: 20px">
-                    <span class="material-symbols-outlined" style="color: grey; margin: 5px">mail</span>
-                    <div class="col-info">
-                        <input type="email" id="email" name="email" th:value="${order.email}" required class="form-control"
-                               style="border-radius: 50px; padding: 6px 0px; border: none;">
-                    </div>
-                </div>
-                <!-- Button trigger modal -->
-                <button type="button" class="btn btn-warning change-address-btn" data-toggle="modal" data-target="#changeAddressModal">
-                    Chọn địa chỉ có sẵn
-                </button>
 
-                <!-- Button trigger modal -->
-                <button type="button" class="btn btn-warning change-address-btn" data-target="#oldAddress">
-                    Giữ nguyên địa chỉ cũ
-                </button>
 
                 <div class="text-center">
                     <button type="submit" class="btn btn-order">Xác nhận trả hàng</button>
@@ -422,11 +463,14 @@
 </div>
 
 <!-- Modal hiển thị pop up để chọn địa chỉ có sẵn -->
-<div class="modal fade my-custom-modal" id="changeAddressModal" tabindex="-1" role="dialog" aria-labelledby="changeAddressModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+<div class="modal fade my-custom-modal" id="changeAddressModal" tabindex="-1" role="dialog" aria-labelledby="changeAddressModalLabel" aria-hidden="true" style="margin: 0px">
+    <div class="modal-dialog" role="document" style="margin: 0px; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); border-radius: 15px">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="changeAddressModalLabel">Chọn địa chỉ</h5>
+                <div class="row-title d-flex">
+                    <span class="material-symbols-outlined" style="color: #211f7f; margin: 0px; padding-right: 5px">distance</span>
+                    <h6 class="modal-title" id="changeAddressModalLabel" style="color: #211f7f;">Chọn địa chỉ</h6>
+                </div>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">×</span>
                 </button>
@@ -463,9 +507,9 @@
             </div>
             <div class="modal-footer">
                 <!-- Thêm nút "Thêm địa chỉ" -->
-                <a th:href="@{/addaddress}" class="btn btn-success">Thêm địa chỉ</a>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
-                <button type="button" class="btn btn-primary" id="changeAddressConfirm">Chọn</button>
+                <a th:href="@{/addaddress}" class="btn btn-success" style="border-radius: 15px">Thêm địa chỉ</a>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" style="border-radius: 15px">Đóng</button>
+                <button type="button" class="btn btn-primary" id="changeAddressConfirm" style="border-radius: 15px">Chọn</button>
             </div>
         </div>
     </div>

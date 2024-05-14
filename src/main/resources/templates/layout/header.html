@@ -69,7 +69,7 @@
 
 <!-- Header trong Thymeleaf phải thêm <header><> trong file header.html -->
 
-		<header class="navbar navbar-expand" style="padding: 0%; position: sticky; top: 0; z-index: 9999;">
+		<header class="navbar navbar-expand" style="padding: 0%; position: sticky; top: 0; z-index: 999;">
 		<div class="header" style="width: 100%; background-color: #d7ebff;">
 			<div class="container d-flex align-items-center" style="max-width: 1200px; padding: 0px">
 				<div class="col-3" style="padding: 0px">
@@ -256,7 +256,7 @@
 									</li>
 
 									<li class="nav-item dropdown d-flex align-items-center justify-content-flex-end" th:if="${session.account != null}">
-										<a class="nav-link dropdown-toggle d-flex align-items-center justify-content-center" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+										<a class="nav-link d-flex align-items-center justify-content-center" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
 										   style="color: rgb(0, 0, 160);">
 											<div class="circle" style="width: 40px;
 																		height: 40px;
@@ -271,6 +271,7 @@
 												<img th:src="${#strings.isEmpty(session.account.img) ? 'https://res.cloudinary.com/dosdzo1lg/image/upload/v1709875316/WebBookStoreKLTN/img_account/account_default.jpg' : session.account.img + '?v=' + randomNumber}" style="width: 30px; height: 30px; border-radius: 50%;">
 											</div>
 											<span th:text="${#strings.isEmpty(session.account) ? 'Guest' : session.account['firstName'] + ' ' + session.account['lastName']}" style="color:rgb(0, 0, 160); font-family: Arial, sans-serif; font-size: 16px"></span>
+											<span class="material-symbols-outlined expand_more" id="expand_more_03">expand_more</span>
 										</a>
 										<div class="dropdown-menu" aria-labelledby="navbarDropdown" style="weight: 0px; height: 200px; border-radius: 10px;">
 											<a class="dropdown-item d-flex align-items-center justify-content-center" th:href="@{/viewaccount}"

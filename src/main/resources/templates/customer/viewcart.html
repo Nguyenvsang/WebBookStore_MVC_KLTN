@@ -372,17 +372,24 @@
 											</a>
 										</td>
 
-										<td rowspan="1" class="next-table-header-node" style="padding: 20px 20px; display: flex; flex-direction: column; justify-content: space-between; height: 190px">
-											<div class="row-book" style="height: 160px; text-decoration: none">
+										<td rowspan="1" class="next-table-header-node" style="padding: 20px 20px; display: flex; flex-direction: column; height: 190px">
+											<div class="row-book" style="text-decoration: none">
 												<a href="#" class="title-book" th:href="@{/detailbook/{id} (id=${cartItem.book.id})}">
 													<span th:if="${#strings.length(cartItem.book.name) > 100}" th:text="${#strings.substring(cartItem.book.name, 0, 100) + '...'}"></span>
 													<span th:if="${#strings.length(cartItem.book.name) <= 100}" th:text="${cartItem.book.name}"></span>
 												</a>
 											</div>
-											<div class="row-price-book" style="height: 30px; font-weight: bold;">
-												<span th:text="${#numbers.formatInteger(cartItem.book.sellPrice, 0, 'POINT')+ ' đ'}"></span>
-												<span th:if="${cartItem.book.currentDiscount != null}" th:text="'-' + ${cartItem.book.currentDiscount.discountPercent} +'%'" ></span>
-												<span th:if="${cartItem.book.currentDiscount != null}" th:text="${#numbers.formatInteger(cartItem.book.currentDiscount.discountedPrice, 0, 'POINT')+ ' đ'}"></span>
+											<div class="row-price-book" style="margin-top: 20px; font-weight: bold;">
+												<div class="price-discount">
+													<span th:if="${cartItem.book.currentDiscount != null}" th:text="${#numbers.formatInteger(cartItem.book.currentDiscount.discountedPrice, 0, 'POINT')+ ' đ'}"></span>
+													<span th:if="${cartItem.book.currentDiscount != null}" th:text="'-' + ${cartItem.book.currentDiscount.discountPercent} +'%'"
+														  style="margin-left: 5px; border-radius: 10px; padding: 5px; background-color: #5390f5; font-size: 15px; font-weight: bold; text-align: left; color: white; ">
+													</span>
+												</div>
+												<span th:if="${cartItem.book.currentDiscount != null}" th:text="${#numbers.formatInteger(cartItem.book.sellPrice, 0, 'POINT')+ ' đ'}"
+													  style="margin: 0px; font-size: 15px; font-weight: bold;text-align: left; color: grey; text-decoration: line-through; ">
+												</span>
+												<span th:if="${cartItem.book.currentDiscount == null}" th:text="${#numbers.formatInteger(cartItem.book.sellPrice, 0, 'POINT')+ ' đ'}"></span>
 											</div>
 										</td>
 
@@ -564,7 +571,7 @@
 								<td rowspan="1" class="next-table-header-node" style="padding: 20px 20px;">
 									<button type="submit" id="deleteSelected" class="d-flex align-items-center"  onmouseover="this.style.color='rgb(2,88,155)';"
 											onmouseout="this.style.color='grey';" style="padding: 0; border: none; background: none; font-weight: bold; color: grey">
-										<span class="material-symbols-outlined d-flex align-items-center" style="margin: 0px 20px 0px 5px;">delete</span>
+										<span class="material-symbols-outlined d-flex align-items-center" style="margin: 0px 5px 0px 5px;">delete</span>
 										Xóa
 									</button>
 								</td>

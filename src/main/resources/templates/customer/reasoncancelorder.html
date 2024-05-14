@@ -257,8 +257,8 @@
                 <h6 style="color: #211f7f; align-items: center;  margin: 0px 5px 0px 0px; font-family: Verdana; font-weight: bold">Lý do hủy đơn hàng</h6>
             </div>
             <div class="col-order d-flex" style="justify-content: flex-end; font-size: 20px; padding: 0px 20px">
-                <p style="margin: 0px 5px 0px 0px; color: #f17746">MÃ ĐƠN HÀNG:</p>
-                <span class="align-middle text-center" style="color: #f17746">[[${orderId}]]</span>
+                <p style="margin: 0px 5px 0px 0px; color: #f17746; font-weight: bold">MÃ ĐƠN HÀNG:</p>
+                <span class="align-middle text-center" style="color: #f17746; font-weight: bold">[[${orderId}]]</span>
             </div>
             <form th:action="@{/cancelorder(orderId=${orderId})}" method="post" style="margin-top: 10px">
                 <div class="form-check">

@@ -120,6 +120,25 @@
         .title-icon:hover {
 			box-shadow: 0 8px 10px #d7ebff;
 		}
+
+        .btn-detail {
+            background-color: white;
+            border-radius: 15px;
+            height: 70px;
+            width: 200px;
+            color: #62bf5e;
+            box-shadow: 0px 0px 10px rgba(192, 192, 192, 0.5);
+            font-weight: bold;
+            margin: 20px;
+        }
+
+        .btn-detail:hover {
+            box-shadow: 0px 0px 10px rgba(144, 238, 144, 0.5);
+            background-color: #62bf5e;
+            color: white;
+            font-weight: bold;
+            margin: 20px;
+        }
     </style>
 </head>
 
@@ -148,17 +167,23 @@
                      th:classappend="${#strings.containsIgnoreCase(param.message, 'thành công') ? 'alert-success' : 'alert-danger'}">
                     <span th:text="${param.message}"></span>
                 </div>
+
                 <h2>Biểu đồ Doanh thu 6 tháng gần đây</h2>
 
                 <canvas id="revenueChart"></canvas>
 
-                <a th:href="@{/managerevenues}" class="btn btn-success">Chi tiết doanh thu</a>
+                <div class="detail d-flex align-items-center justify-content-center">
+                    <a th:href="@{/managerevenues}" class="btn btn-detail d-flex align-items-center justify-content-center">Chi tiết doanh thu</a>
+                </div>
 
                 <h2>Biểu đồ Lợi nhuận 6 tháng gần đây</h2>
 
                 <canvas id="profitChart"></canvas>
 
-                <a th:href="@{/manageprofits}" class="btn btn-success">Chi tiết lợi nhuận</a>
+                <div class="detail d-flex align-items-center justify-content-center">
+                    <a th:href="@{/manageprofits}" class="btn btn-detail d-flex align-items-center justify-content-center">Chi tiết lợi nhuận</a>
+                </div>
+
             </div>
         </div>
     </div>

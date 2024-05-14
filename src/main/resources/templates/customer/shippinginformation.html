@@ -115,13 +115,33 @@
 			width: 323px;
 		}
 
-		.my-custom-modal .modal-dialog {
+		.my-custom-modal {
             margin-top: 150px;
         }
+
+		.modal-dialog{
+			margin: 0px
+		}
 
 		.my-custom-modal .modal-body {
 			max-height: 400px;  /* Đặt chiều cao tối đa cho phần body của modal */
 			overflow-y: auto;   /* Thêm thanh cuộn dọc nếu nội dung vượt quá chiều cao tối đa */
+		}
+
+		.btn-address.change-address-btn {
+			margin-top: 20px;
+			background-color: #36aa00;
+			border-radius: 50px;
+			color: white;
+			width: 200px;
+			box-shadow: 0px 4px 6px rgba(0, 0.4, 0, 0.2);
+		}
+
+		.btn-address.change-address-btn:hover {
+			margin-top: 20px;
+			background-color: #228b22;
+			color: white;
+			box-shadow: 0px 6px 8px rgba(0, 0.4, 0, 0.2);
 		}
 
 	</style>
@@ -186,13 +206,13 @@
 							</div>
 						</div>
 						<!-- Nếu addresses không rỗng, hiển thị các input -->
-						<div class="col-02" style="width: 35%; padding-left: 20px; padding-bottom: 15px">
+						<div class="col-02 d-flex align-items-center justify-content-center" style="flex-direction: column; width: 35%; padding-left: 20px; padding-bottom: 15px">
 							<h6 class="text-left" style="padding: 20px 0px 10px 0px; margin: 0px">Địa chỉ nhận hàng</h6>
 							<div class="form-group row d-flex align-items-center" style="border-radius: 50px; border: 1px solid #cecece;">
 								<span class="material-symbols-outlined" style="color: grey; margin: 5px">person_2</span>
 								<div class="col-info">
 									<input type="text" id="name" name="name" th:value="${addresses[0].recipientName}" required class="form-control"
-										   style="border-radius: 50px; padding: 6px 0px; border: none;">
+										   style="border-top-right-radius: 50px; border-bottom-right-radius: 50px; padding: 0px 10px 0px 0px; border: none;">
 								</div>
 							</div>
 
@@ -200,25 +220,25 @@
 								<span class="material-symbols-outlined" style="color: grey; margin: 5px">location_on</span>
 								<div class="col-info">
 									<input type="text" id="address" name="address" th:value="${account.address}" required class="form-control"
-										   style="border-radius: 50px; padding: 6px 0px; border: none;">
+										   style="border-top-right-radius: 50px; border-bottom-right-radius: 50px; padding: 0px 10px 0px 0px; border: none;">
 								</div>
 							</div>
 							<div class="form-group row d-flex align-items-center" style="border-radius: 50px; border: 1px solid #cecece;">
 								<span class="material-symbols-outlined" style="color: grey; margin: 5px">call</span>
 								<div class="col-info">
 									<input type="text" id="phoneNumber" name="phoneNumber" th:value="${addresses[0].phoneNumber}" required class="form-control"
-										   style="border-radius: 50px; padding: 6px 0px; border: none;">
+										   style="border-top-right-radius: 50px; border-bottom-right-radius: 50px; padding: 0px 10px 0px 0px; border: none;">
 								</div>
 							</div>
 							<div class="form-group row d-flex align-items-center" style="border-radius: 50px; border: 1px solid #cecece;">
 								<span class="material-symbols-outlined" style="color: grey; margin: 5px">mail</span>
 								<div class="col-info">
 									<input type="email" id="email" name="email" th:value="${account.email}" required class="form-control"
-										   style="border-radius: 50px; padding: 6px 0px; border: none;">
+										   style="border-top-right-radius: 50px; border-bottom-right-radius: 50px; padding: 0px 10px 0px 0px; border: none;">
 								</div>
 							</div>
 							<!-- Button trigger modal -->
-							<button type="button" class="btn btn-warning change-address-btn" data-toggle="modal" data-target="#changeAddressModal" th:attr="data-id=${addresses[0].id}">
+							<button type="button" class="btn btn-address change-address-btn" data-toggle="modal" data-target="#changeAddressModal" th:attr="data-id=${addresses[0].id}">
 								Chọn địa chỉ có sẵn
 							</button>
 
@@ -258,11 +278,14 @@
     </div>
 
 	<!-- Modal hiển thị pop up để chọn địa chỉ khác -->
-	<div  th:if="${addresses != null && addresses.size() > 0}"  class="modal fade my-custom-modal" id="changeAddressModal" tabindex="-1" role="dialog" aria-labelledby="changeAddressModalLabel" aria-hidden="true">
-		<div class="modal-dialog" role="document">
+	<div  th:if="${addresses != null && addresses.size() > 0}"  class="modal fade my-custom-modal" id="changeAddressModal" tabindex="-1" role="dialog" aria-labelledby="changeAddressModalLabel" aria-hidden="true" style="z-index: 9999; margin: 0px">
+		<div class="modal-dialog" style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); border-radius: 15px" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title" id="changeAddressModalLabel">Chọn địa chỉ</h5>
+					<div class="row-title d-flex">
+						<span class="material-symbols-outlined" style="color: #211f7f; margin: 0px; padding-right: 5px">distance</span>
+						<h6 class="modal-title" id="changeAddressModalLabel" style="color: #211f7f;">Chọn địa chỉ</h6>
+					</div>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">×</span>
 					</button>
@@ -299,9 +322,9 @@
 				</div>
 				<div class="modal-footer">
 					<!-- Thêm nút "Thêm địa chỉ" -->
-					<a th:href="@{/addaddress}" class="btn btn-success">Thêm địa chỉ</a>
-					<button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
-					<button type="button" class="btn btn-primary" id="changeAddressConfirm">Chọn</button>
+					<a th:href="@{/addaddress}" class="btn btn-success" style="border-radius: 15px">Thêm địa chỉ</a>
+					<button type="button" class="btn btn-secondary" style="border-radius: 15px" data-dismiss="modal">Đóng</button>
+					<button type="button" class="btn btn-primary" style="border-radius: 15px" id="changeAddressConfirm">Chọn</button>
 				</div>
 			</div>
 		</div>

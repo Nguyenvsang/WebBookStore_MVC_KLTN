@@ -90,12 +90,12 @@
             margin: 2px;
         }
         .page-item.active .page-link {
-            background-color: rgb(182,232,241);;
+            background-color: #e0f3ff;
             color: rgb(2,88,155);
         }
 
         .page-link:hover {
-            background-color: rgb(182,232,241);
+            background-color: #e0f3ff;
         }
 
 		.alert-success {
@@ -144,7 +144,7 @@
 									</colgroup>
 									<tbody>
 									<tr>
-										<th rowspan="1" class="next-table-header-node first" style="padding: 10px 20px;">
+										<th rowspan="1" class="next-table-header-node first" style="padding: 10px 20px; text-align: center">
 											<div class="next-table-cell-wrapper">Đơn hàng số</div>
 										</th>
 										<th rowspan="1" class="next-table-header-node " style="padding: 10px 20px; text-align: center;">
@@ -184,7 +184,7 @@
 								</colgroup>
 								<tbody>
 								<tr th:each="order : ${orders.content}" style="border-top: 1px solid #cecece; height: 150px" onmouseover="this.style.backgroundColor='#f2f5f6';" onmouseout="this.style.backgroundColor='transparent';">
-									<td rowspan="1" class="next-table-header-node first" th:text="${order.id}" style="padding: 10px 20px;"></td>
+									<td rowspan="1" class="next-table-header-node first" th:text="${order.id}" style="padding: 10px 20px; text-align: center"></td>
 									<td rowspan="1" class="next-table-header-node " th:text="${#temporals.format(order.dateOrder.toLocalDateTime(), 'dd/MM/yyyy')}" style="padding: 10px 20px; text-align: center"></td>
 									<td rowspan="1" class="next-table-header-node " style="padding: 10px 20px; text-align: center;">
 										<img th:src="${order.orderitems[0].book.bookImages[0].path}" width="70px" style="display: block; margin: auto;">

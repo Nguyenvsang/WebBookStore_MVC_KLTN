@@ -105,6 +105,14 @@
             margin-top: 10px;
         }
 
+        .btn-delete.deleteReviewButton {
+            border-radius: 10px;
+            color: rgb(2,88,155);
+        }
+        .btn-delete.deleteReviewButton:hover {
+            color:rgb(182,232,241); /* Thay đổi màu văn bản khi trỏ chuột vào nút */
+        }
+
         .bg-green {
             background-color: rgb(98,191,94);
             color: white;
@@ -222,6 +230,44 @@
             display: none; /* Ẩn biểu tượng expand_less */
         }
 
+        .btn-review-delete {
+            border: none;
+            height: 70px;
+            width: 220px;
+            margin-right: 30px;
+            box-shadow: 0px 4px 4px rgba(192, 192, 192, 0.3);
+            color: #f75050;
+            background-color: white;
+            border-radius: 15px;
+            font-weight: bold
+        }
+
+        .btn-review-delete:hover {
+            box-shadow: 0px 6px 8px rgba(255, 0, 0, 0.3);
+            background-color:#f75050;
+            color: white;
+            font-weight: bold;
+        }
+
+        .btn-review-approve {
+            border: none;
+            height: 70px;
+            width: 220px;
+            margin-right: 30px;
+            box-shadow: 0px 4px 4px rgba(192, 192, 192, 0.3);
+            color: #62bf5e;
+            background-color: white;
+            border-radius: 15px;
+            font-weight: bold
+        }
+
+        .btn-review-approve:hover {
+            box-shadow: 0px 6px 8px rgba(0, 128, 0, 0.3);
+            background-color: #62bf5e;
+            color: white;
+            font-weight: bold;
+        }
+
     </style>
 </head>
 <body>
@@ -299,9 +345,9 @@
                 </div>
             </div>
             <div class="col-add d-flex align-items-center" style="height: 70px;">
-                <button id="deleteSelectedReviews" class="btn btn-danger">Xóa các đánh giá đã chọn</button>
+                <button id="deleteSelectedReviews" class="btn btn-review-delete">Xóa đánh giá đã chọn</button>
                 <!-- Thêm nút "Duyệt các đánh giá đã chọn" -->
-                <button id="approveSelectedReviews" class="btn btn-success">Duyệt các đánh giá đã chọn</button>
+                <button id="approveSelectedReviews" class="btn btn-review-approve">Duyệt đánh giá đã chọn</button>
             </div>
         </div>
 
@@ -380,7 +426,7 @@
                             <tr th:each="review : ${bookReviews.content}" th:id="'review-' + ${review.id}" onmouseover="this.style.backgroundColor='#e0f3ff';" onmouseout="this.style.backgroundColor='transparent';">
 
                                 <td rowspan="1" class="next-table-header-node first " style="padding: 10px 0px;">
-                                    <input type="checkbox" class="review-checkbox" th:value="${review.id}">
+                                    <input style="width: 20px; height: 20px" type="checkbox" class="review-checkbox" th:value="${review.id}">
                                 </td>
 
                                 <td rowspan="1" class="next-table-header-node" style="padding: 10px 0px; text-align: center" th:text="${review.id}"></td>
@@ -412,7 +458,9 @@
                                 </td>
 
                                 <td rowspan="1" class="next-table-header-node last" style="padding: 10px 0px; text-align: center" >
-                                    <button class="btn btn-danger deleteReviewButton" th:attr="data-review-id=${review.id}">Xóa</button>
+                                    <a class="btn btn-delete deleteReviewButton" th:attr="data-review-id=${review.id}">
+                                        <span class="material-symbols-outlined">delete</span>
+                                    </a>
                                 </td>
                             </tr>
                             </tbody>

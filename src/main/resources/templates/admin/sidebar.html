@@ -14,6 +14,27 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
+    <script>
+        var dropdown = document.querySelector('.nav-link');
+        var expandMore = dropdown.querySelector('.expand_more');
+        var expandLess = dropdown.querySelector('.expand_less');
+
+        dropdown.addEventListener('click', function() {
+            if (expandMore.style.display === 'none') {
+                expandMore.style.display = 'inline';
+                expandLess.style.display = 'none';
+            } else {
+                expandMore.style.display = 'none';
+                expandLess.style.display = 'inline';
+            }
+        });
+
+        dropdown.addEventListener('blur', function() {
+            expandMore.style.display = 'inline';
+            expandLess.style.display = 'none';
+        });
+    </script>
+
     <style>
         .custom-bg-green {
             background-color: lightgreen;
@@ -33,7 +54,6 @@
             background-color: #e0f3ff;
             color: #3f6ad8;
         }
-
     </style>
 </head>
 <body>
@@ -54,7 +74,7 @@
 
             <li class="nav-item" th:if="${session.admin != null}"
                 style="list-style: none;  font-size: 13px;">
-                <a class="nav-link" th:href="@{/manageauthors}"
+                <a class="nav-link author" th:href="@{/manageauthors}"
                    onmouseover="this.style.backgroundColor='#e0f3ff'; this.style.color='#3f6ad8';"
                    onmouseout="this.style.backgroundColor='transparent'; this.style.color='#93979b';"
                    style="color: #93979b; border-radius: 20px; padding: 10px 15px; width: 100%; font-family: Arial, sans-serif; display: flex; align-items: center; justify-content: space-between;">
@@ -62,21 +82,23 @@
                         <span class="material-symbols-outlined" style="display: flex;">stylus</span>
                         <span style="margin-left: 10px;">Tác giả</span>
                     </div>
-                    <span class="material-symbols-outlined expand_more">expand_more</span>
+                    <div class="col-expand">
+                        <span class="material-symbols-outlined expand_more">expand_more</span>
+                    </div>
                 </a>
 <!--                <ul class="hide-ul">-->
 <!--                    <li class="nav-item title" style="list-style: none;">-->
-<!--                        <a th:href="@{/addauthor}" class="nav-link add-category" style="font-family: Arial, sans-serif; padding: 0%; display: flex; align-items: center; justify-content: right;">-->
+<!--                        <a th:href="@{/addauthor}" class="add-category" style="font-family: Arial, sans-serif; padding: 0%; display: flex; align-items: center; justify-content: right;">-->
 <!--                            Thêm tác giả-->
 <!--                        </a>-->
 <!--                    </li>-->
 <!--                    <li class="nav-item title" style="list-style: none;">-->
-<!--                        <a th:href="@{/addauthor}" class="nav-link add-category" style="font-family: Arial, sans-serif; padding: 0%; display: flex; align-items: center; justify-content: right;">-->
+<!--                        <a th:href="@{/addauthor}" class="add-category" style="font-family: Arial, sans-serif; padding: 0%; display: flex; align-items: center; justify-content: right;">-->
 <!--                            Thêm tác giả-->
 <!--                        </a>-->
 <!--                    </li>-->
 <!--                    <li class="nav-item title" style="list-style: none;">-->
-<!--                        <a th:href="@{/addauthor}" class="nav-link add-category" style="font-family: Arial, sans-serif; padding: 0%; display: flex; align-items: center; justify-content: right;">-->
+<!--                        <a th:href="@{/addauthor}" class="add-category" style="font-family: Arial, sans-serif; padding: 0%; display: flex; align-items: center; justify-content: right;">-->
 <!--                            Thêm tác giả-->
 <!--                        </a>-->
 <!--                    </li>-->
@@ -88,11 +110,14 @@
                 <a class="nav-link" th:href="@{/managebookimports}"
                    onmouseover="this.style.backgroundColor='#e0f3ff'; this.style.color='#3f6ad8';"
                    onmouseout="this.style.backgroundColor='transparent'; this.style.color='#93979b';"
-                   style="color: #93979b; border-radius: 20px; padding: 10px 15px; width: 100%; font-family: Arial, sans-serif; display: flex; align-items: center; justify-content: space-between;">                    <div style="display: flex; align-items: center;">
+                   style="color: #93979b; border-radius: 20px; padding: 10px 15px; width: 100%; font-family: Arial, sans-serif; display: flex; align-items: center; justify-content: space-between;">
+                    <div style="display: flex; align-items: center;">
                         <span class="material-symbols-outlined" style="display: flex;">Archive</span>
                         <span style="margin-left: 10px;">Nhập Sách</span>
                     </div>
-                    <span class="material-symbols-outlined expand_more">expand_more</span>
+                    <div class="col-expand">
+                        <span class="material-symbols-outlined expand_more">expand_more</span>
+                    </div>
                 </a>
             </li>
 
@@ -101,11 +126,14 @@
                 <a class="nav-link" th:href="@{/managebookprices}"
                    onmouseover="this.style.backgroundColor='#e0f3ff'; this.style.color='#3f6ad8';"
                    onmouseout="this.style.backgroundColor='transparent'; this.style.color='#93979b';"
-                   style="color: #93979b; border-radius: 20px; padding: 10px 15px; width: 100%; font-family: Arial, sans-serif; display: flex; align-items: center; justify-content: space-between;">                    <div style="display: flex; align-items: center;">
+                   style="color: #93979b; border-radius: 20px; padding: 10px 15px; width: 100%; font-family: Arial, sans-serif; display: flex; align-items: center; justify-content: space-between;">
+                    <div style="display: flex; align-items: center;">
                         <span class="material-symbols-outlined" style="display: flex;">attach_money</span>
                         <span style="margin-left: 10px;">Giá bán</span>
                     </div>
-                    <span class="material-symbols-outlined expand_more">expand_more</span>
+                    <div class="col-expand">
+                        <span class="material-symbols-outlined expand_more">expand_more</span>
+                    </div>
                 </a>
             </li>
 
@@ -114,11 +142,14 @@
                 <a class="nav-link" th:href="@{/managediscounts}"
                    onmouseover="this.style.backgroundColor='#e0f3ff'; this.style.color='#3f6ad8';"
                    onmouseout="this.style.backgroundColor='transparent'; this.style.color='#93979b';"
-                   style="color: #93979b; border-radius: 20px; padding: 10px 15px; width: 100%; font-family: Arial, sans-serif; display: flex; align-items: center; justify-content: space-between;">                    <div style="display: flex; align-items: center;">
-                    <span class="material-symbols-outlined" style="display: flex;">sell</span>
-                    <span style="margin-left: 10px;">Giảm giá</span>
-                </div>
-                    <span class="material-symbols-outlined expand_more">expand_more</span>
+                   style="color: #93979b; border-radius: 20px; padding: 10px 15px; width: 100%; font-family: Arial, sans-serif; display: flex; align-items: center; justify-content: space-between;">
+                    <div style="display: flex; align-items: center;">
+                        <span class="material-symbols-outlined" style="display: flex;">sell</span>
+                        <span style="margin-left: 10px;">Giảm giá</span>
+                    </div>
+                    <div class="col-expand">
+                        <span class="material-symbols-outlined expand_more">expand_more</span>
+                    </div>
                 </a>
             </li>
 
@@ -127,11 +158,14 @@
                 <a class="nav-link" th:href="@{/managebooks}"
                    onmouseover="this.style.backgroundColor='#e0f3ff'; this.style.color='#3f6ad8';"
                    onmouseout="this.style.backgroundColor='transparent'; this.style.color='#93979b';"
-                   style="color: #93979b; border-radius: 20px; padding: 10px 15px; width: 100%; font-family: Arial, sans-serif; display: flex; align-items: center; justify-content: space-between;">                    <div style="display: flex; align-items: center;">
+                   style="color: #93979b; border-radius: 20px; padding: 10px 15px; width: 100%; font-family: Arial, sans-serif; display: flex; align-items: center; justify-content: space-between;">
+                    <div style="display: flex; align-items: center;">
                         <span class="material-symbols-outlined" style="display: flex;">library_books</span>
                         <span style="margin-left: 10px;">Sản phẩm</span>
                     </div>
-                    <span class="material-symbols-outlined expand_more">expand_more</span>
+                    <div class="col-expand">
+                        <span class="material-symbols-outlined expand_more">expand_more</span>
+                    </div>
                 </a>
             </li>
 
@@ -140,11 +174,14 @@
                 <a class="nav-link" th:href="@{/managecategories}"
                    onmouseover="this.style.backgroundColor='#e0f3ff'; this.style.color='#3f6ad8';"
                    onmouseout="this.style.backgroundColor='transparent'; this.style.color='#93979b';"
-                   style="color: #93979b; border-radius: 20px; padding: 10px 15px; width: 100%; font-family: Arial, sans-serif; display: flex; align-items: center; justify-content: space-between;">                    <div style="display: flex; align-items: center;">
+                   style="color: #93979b; border-radius: 20px; padding: 10px 15px; width: 100%; font-family: Arial, sans-serif; display: flex; align-items: center; justify-content: space-between;">
+                    <div style="display: flex; align-items: center;">
                         <span class="material-symbols-outlined" style="display: flex;">stacks</span>
                         <span style="margin-left: 10px;">Danh mục</span>
                     </div>
-                    <span class="material-symbols-outlined expand_more">expand_more</span>
+                    <div class="col-expand">
+                        <span class="material-symbols-outlined expand_more">expand_more</span>
+                    </div>
                 </a>
             </li>
 
@@ -153,11 +190,14 @@
                 <a class="nav-link" th:href="@{/manageorders}"
                    onmouseover="this.style.backgroundColor='#e0f3ff'; this.style.color='#3f6ad8';"
                    onmouseout="this.style.backgroundColor='transparent'; this.style.color='#93979b';"
-                   style="color: #93979b; border-radius: 20px; padding: 10px 15px; width: 100%; font-family: Arial, sans-serif; display: flex; align-items: center; justify-content: space-between;">                    <div style="display: flex; align-items: center;">
+                   style="color: #93979b; border-radius: 20px; padding: 10px 15px; width: 100%; font-family: Arial, sans-serif; display: flex; align-items: center; justify-content: space-between;">
+                    <div style="display: flex; align-items: center;">
                         <span class="material-symbols-outlined" style="display: flex;">inventory</span>
                         <span style="margin-left: 10px;">Đơn hàng</span>
                     </div>
-                    <span class="material-symbols-outlined expand_more">expand_more</span>
+                    <div class="col-expand">
+                        <span class="material-symbols-outlined expand_more">expand_more</span>
+                    </div>
                 </a>
             </li>
 
@@ -166,11 +206,14 @@
                 <a class="nav-link" th:href="@{/managebookreviews}"
                    onmouseover="this.style.backgroundColor='#e0f3ff'; this.style.color='#3f6ad8';"
                    onmouseout="this.style.backgroundColor='transparent'; this.style.color='#93979b';"
-                   style="color: #93979b; border-radius: 20px; padding: 10px 15px; width: 100%; font-family: Arial, sans-serif; display: flex; align-items: center; justify-content: space-between;">                    <div style="display: flex; align-items: center;">
+                   style="color: #93979b; border-radius: 20px; padding: 10px 15px; width: 100%; font-family: Arial, sans-serif; display: flex; align-items: center; justify-content: space-between;">
+                    <div style="display: flex; align-items: center;">
                         <span class="material-symbols-outlined" style="display: flex;">star</span>
                         <span style="margin-left: 10px;">Đánh giá</span>
                     </div>
-                    <span class="material-symbols-outlined expand_more">expand_more</span>
+                    <div class="col-expand">
+                        <span class="material-symbols-outlined expand_more">expand_more</span>
+                    </div>
                 </a>
             </li>
 
@@ -179,11 +222,14 @@
                 <a class="nav-link" th:href="@{/statistics}"
                    onmouseover="this.style.backgroundColor='#e0f3ff'; this.style.color='#3f6ad8';"
                    onmouseout="this.style.backgroundColor='transparent'; this.style.color='#93979b';"
-                   style="color: #93979b; border-radius: 20px; padding: 10px 15px; width: 100%; font-family: Arial, sans-serif; display: flex; align-items: center; justify-content: space-between;">                    <div style="display: flex; align-items: center;">
+                   style="color: #93979b; border-radius: 20px; padding: 10px 15px; width: 100%; font-family: Arial, sans-serif; display: flex; align-items: center; justify-content: space-between;">
+                    <div style="display: flex; align-items: center;">
                         <span class="material-symbols-outlined" style="display: flex;">bar_chart</span>
                         <span style="margin-left: 10px;">Thống kê</span>
                     </div>
-                    <span class="material-symbols-outlined expand_more">expand_more</span>
+                    <div class="col-expand">
+                        <span class="material-symbols-outlined expand_more">expand_more</span>
+                    </div>
                 </a>
             </li>
 
@@ -203,11 +249,14 @@
                 <a class="nav-link" th:href="@{/manageaccounts}"
                    onmouseover="this.style.backgroundColor='#e0f3ff'; this.style.color='#3f6ad8';"
                    onmouseout="this.style.backgroundColor='transparent'; this.style.color='#93979b';"
-                   style="color: #93979b; border-radius: 20px; padding: 10px 15px; width: 100%; font-family: Arial, sans-serif; display: flex; align-items: center; justify-content: space-between;">                    <div style="display: flex; align-items: center;">
+                   style="color: #93979b; border-radius: 20px; padding: 10px 15px; width: 100%; font-family: Arial, sans-serif; display: flex; align-items: center; justify-content: space-between;">
+                    <div style="display: flex; align-items: center;">
                         <span class="material-symbols-outlined" style="display: flex;">manage_accounts</span>
                         <span style="margin-left: 10px;">Tài khoản</span>
                     </div>
-                    <span class="material-symbols-outlined expand_more">expand_more</span>
+                    <div class="col-expand">
+                        <span class="material-symbols-outlined expand_more">expand_more</span>
+                    </div>
                 </a>
             </li>
 
@@ -216,7 +265,8 @@
                 <a class="nav-link" th:href="@{/logoutadmin}"
                    onmouseover="this.style.backgroundColor='#e0f3ff'; this.style.color='#3f6ad8';"
                    onmouseout="this.style.backgroundColor='transparent'; this.style.color='#93979b';"
-                   style="color: #93979b; border-radius: 20px; padding: 10px 15px; width: 100%; font-family: Arial, sans-serif; display: flex; align-items: center; justify-content: space-between;">                    <div style="display: flex; align-items: center;">
+                   style="color: #93979b; border-radius: 20px; padding: 10px 15px; width: 100%; font-family: Arial, sans-serif; display: flex; align-items: center; justify-content: space-between;">
+                    <div style="display: flex; align-items: center;">
                         <span class="material-symbols-outlined" style="display: flex;">logout</span>
                         <span style="margin-left: 10px;">Đăng xuất</span>
                     </div>
@@ -227,20 +277,16 @@
 </div>
 
 <script>
-    window.onload = function() {
-        var lis = document.querySelectorAll("li.nav-item");
-        for(var i=0; i<lis.length; i++) {
-            lis[i].addEventListener("click", function() {
-                var current = document.getElementsByClassName("active");
-                if (current.length > 0) {
-                    current[0].className = current[0].className.replace(" active", "");
-                }
-                this.className += " active";
-            });
+    document.querySelector('.nav-link.author').addEventListener('click', function(event) {
+        event.preventDefault();
+        var ulElement = document.querySelector('.hide-ul');
+        if (ulElement.style.display === 'none') {
+            ulElement.style.display = 'block';
+        } else {
+            ulElement.style.display = 'none';
         }
-    }
+    });
 </script>
-
 
 </body>
 </html>
