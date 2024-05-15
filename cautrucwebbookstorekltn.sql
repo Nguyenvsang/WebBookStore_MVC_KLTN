@@ -456,6 +456,35 @@ CREATE TABLE Discount (
   end_date DATETIME(6) NOT NULL
 );
 
+-- Tạo bảng Voucher
+CREATE TABLE Voucher (
+  -- Khai báo thuộc tính id kiểu BIGINT, không được null, tăng tự động và là khóa chính
+  id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  -- Khai báo thuộc tính code kiểu char(255), không được null, duy nhất 
+  code char(255) NOT NULL UNIQUE,
+  -- Khai báo thuộc tính category_id kiểu int và là khóa ngoại tham chiếu đến bảng Category
+  category_id INT,
+  FOREIGN KEY (category_id) REFERENCES Category(id),
+  -- Khai báo thuộc tính quantity kiểu INT, không được null
+  quantity INT NOT NULL,
+  -- Khai báo thuộc tính remaining_quantity kiểu INT, không được null
+  remaining_quantity INT NOT NULL,
+  -- Khai báo thuộc tính discount_percent kiểu int
+  discount_percent INT,
+  -- Khai báo thuộc tính amount_discount kiểu double
+  amount_discount DOUBLE,
+  -- Khai báo thuộc tính minimum_order_value kiểu double, không được null 
+  minimum_order_value DOUBLE NOT NULL,
+  -- Khai báo thuộc tính voucher_scope kiểu int, không được null
+  voucher_scope INT NOT NULL,
+  -- Khai báo thuộc tính status kiểu int, không được null
+  status INT NOT NULL,
+  -- Khai báo thuộc tính start_date kiểu DATETIME(6), không được null
+  start_date DATETIME(6) NOT NULL,
+  -- Khai báo thuộc tính end_date kiểu DATETIME(6), không được null
+  end_date DATETIME(6) NOT NULL
+);
+
   
 -- Thêm dữ liệu vào bảng Category
 INSERT INTO Category (name, status) VALUES ("CHÍNH TRỊ - PHÁP LUẬT", 1);

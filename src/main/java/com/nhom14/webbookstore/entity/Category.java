@@ -29,6 +29,10 @@ public class Category {
     @OneToMany(mappedBy = "category")
     private List<Book> books;
 
+    //bi-directional one-to-many association with Voucher (de quen)
+    @OneToMany(mappedBy = "category")
+    private List<Voucher> vouchers;
+
     public Category() {
     }
 

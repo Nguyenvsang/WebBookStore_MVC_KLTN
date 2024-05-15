@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Quản lý đợt giảm giá</title>
+    <title>Quản lý voucher</title>
     <!-- Phải thêm popper để không bị lỗi dropdown-menu -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
@@ -223,16 +223,16 @@
                     <img src="https://res.cloudinary.com/dylwewmt0/image/upload/v1715237152/PHOTO_LIST/Admin/Title-icon/10.png" alt="Knowledge Young" style="width: 100%; height: 100%">
                 </div>
                 <div class="col-title">
-                    <p style="margin: 0px; color: #3f6ad8; font-size: 18px; font-weight: bold; font-family: Helvetica;">QUẢN LÝ ĐỢT GIẢM GIÁ</p>
+                    <p style="margin: 0px; color: #3f6ad8; font-size: 18px; font-weight: bold; font-family: Helvetica;">QUẢN LÝ VOUCHER</p>
                     <div class="form-discounts">
-                        <p style="margin: 0px">Tổng số tất cả các đợt giảm giá:</p>
+                        <p style="margin: 0px">Tổng số tất cả các voucher:</p>
                     </div>
                 </div>
             </div>
             <div class="col-08 d-flex align-items-center justify-content-center" style="width: 70%">
-                <form class="form-inline" method="GET" th:action="@{/managediscounts}">
+                <form class="form-inline" method="GET" th:action="@{/managevouchers}">
                     <div class="row-search" style="background-color: white; border: none; border-radius: 50px; ">
-                        <input style="border: none; width: 730px; padding: 0px 0px 0px 15px; border-top-left-radius: 50px; border-bottom-left-radius: 50px" class="form-control" type="text" name="searchKeyword" placeholder="Tìm kiếm từ khóa">
+                        <input style="border: none; width: 730px; padding: 0px 0px 0px 15px; border-top-left-radius: 50px; border-bottom-left-radius: 50px" class="form-control" type="text" name="searchKeyword" placeholder="Tìm kiếm id, code,...">
                         <button style="border-top-right-radius: 50px; border-bottom-right-radius: 50px" class="btn btn-search" type="submit">
                             <span class="material-symbols-outlined" style="color: #dbdbdb">search</span>
                         </button>
@@ -250,26 +250,39 @@
                         <span class="material-symbols-outlined" style="margin-left: 3px">expand_less</span>
                     </button>
                     <div class="dropdown-menu" aria-labelledby="statusDropdown">
-                        <a class="dropdown-item" th:href="@{/managediscounts}">Tất cả</a>
-                        <a class="dropdown-item" th:href="@{/managediscounts(status=1, bookId=${bookId}, sortOption=${sortOption})}">Áp dụng</a>
-                        <a class="dropdown-item" th:href="@{/managediscounts(status=2, bookId=${bookId}, sortOption=${sortOption})}">Chưa áp dụng</a>
-                        <a class="dropdown-item" th:href="@{/managediscounts(status=0, bookId=${bookId}, sortOption=${sortOption})}">Ngưng áp dụng</a>
-                        <a class="dropdown-item" th:href="@{/managediscounts(status=3, bookId=${bookId}, sortOption=${sortOption})}">Hủy bỏ</a>
+                        <a class="dropdown-item" th:href="@{/managevouchers}">Tất cả</a>
+                        <a class="dropdown-item" th:href="@{/managevouchers(status=1, categoryId=${categoryId}, voucherScope=${voucherScope}, sortOption=${sortOption})}">Áp dụng</a>
+                        <a class="dropdown-item" th:href="@{/managevouchers(status=2, categoryId=${categoryId}, voucherScope=${voucherScope}, sortOption=${sortOption})}">Chưa áp dụng</a>
+                        <a class="dropdown-item" th:href="@{/managevouchers(status=0, categoryId=${categoryId}, voucherScope=${voucherScope}, sortOption=${sortOption})}">Ngưng áp dụng</a>
+                        <a class="dropdown-item" th:href="@{/managevouchers(status=3, categoryId=${categoryId}, voucherScope=${voucherScope}, sortOption=${sortOption})}">Hủy bỏ</a>
                     </div>
                 </div>
 
                 <div class="dropdown-filter">
-                    <button class="btn btn-filter-status d-flex align-items-center justify-content-center" type="button" id="bookDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Chọn sách
+                    <button class="btn btn-filter-status d-flex align-items-center justify-content-center" type="button" id="scopeDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Lọc theo phạm vi áp dụng
+                        <span class="material-symbols-outlined" style="margin-left: 3px">expand_more</span>
+                        <span class="material-symbols-outlined" style="margin-left: 3px">expand_less</span>
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="scopeDropdown">
+                        <a class="dropdown-item" th:href="@{/managevouchers}">Tất cả</a>
+                        <a class="dropdown-item" th:href="@{/managevouchers(status=${status}, categoryId=${categoryId}, voucherScope=0, sortOption=${sortOption})}">Cho mọi sách</a>
+                        <a class="dropdown-item" th:href="@{/managevouchers(status=${status}, categoryId=${categoryId}, voucherScope=1, sortOption=${sortOption})}">Cho danh mục cụ thể</a>
+                    </div>
+                </div>
+
+                <div class="dropdown-filter">
+                    <button class="btn btn-filter-status d-flex align-items-center justify-content-center" type="button" id="categoryDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Lọc theo danh mục
                         <span class="material-symbols-outlined" style="margin-left: 3px">expand_more</span>
                         <span class="material-symbols-outlined" style="margin-left: 3px">expand_less</span>
                     </button>
                     <div class="dropdown-menu" aria-labelledby="bookDropdown" style="height: auto; max-height: 200px; overflow-x: hidden;">
                         <!-- Thêm trường nhập tìm kiếm vào đầu dropdown -->
                         <input id="searchKeyword" class="form-control mr-sm-2" type="text" placeholder="Tìm kiếm từ khóa" style="border: 2px solid rgb(182,232,241); border-radius: 10px;">
-                        <a class="dropdown-item" th:href="@{/managediscounts}">Tất cả</a>
-                        <th:block th:each="book : ${allBooks}">
-                            <a class="dropdown-item" th:href="@{/managediscounts(bookId=${book.id}, status=${status}, sortOption=${sortOption})}" th:text="${book.name}"></a>
+                        <a class="dropdown-item" th:href="@{/managevouchers}">Tất cả</a>
+                        <th:block th:each="category : ${allCategories}">
+                            <a class="dropdown-item" th:href="@{/managevouchers(status=${status}, categoryId=${category.id}, voucherScope=${voucherScope}, sortOption=${sortOption})}" th:text="${category.name}"></a>
                         </th:block>
                     </div>
                 </div>
@@ -282,24 +295,28 @@
                         <span class="material-symbols-outlined" style="margin-left: 3px">expand_less</span>
                     </button>
                     <div class="dropdown-menu" aria-labelledby="optionDropdown">
-                        <a class="dropdown-item" th:href="@{/managediscounts(sortOption='sd12', bookId=${bookId}, status=${status})}">Ngày bắt đầu - tăng dần</a>
-                        <a class="dropdown-item" th:href="@{/managediscounts(sortOption='sd21', bookId=${bookId}, status=${status})}">Ngày bắt đầu - giảm dần</a>
-                        <a class="dropdown-item" th:href="@{/managediscounts(sortOption='ed12', bookId=${bookId}, status=${status})}">Ngày kết thúc - tăng dần</a>
-                        <a class="dropdown-item" th:href="@{/managediscounts(sortOption='ed21', bookId=${bookId}, status=${status})}">Ngày kết thúc - giảm dần</a>
-                        <a class="dropdown-item" th:href="@{/managediscounts(sortOption='dpc12', bookId=${bookId}, status=${status})}">Tỷ lệ giảm giá - tăng dần</a>
-                        <a class="dropdown-item" th:href="@{/managediscounts(sortOption='dpc21', bookId=${bookId}, status=${status})}">Tỷ lệ giảm giá - giảm dần</a>
-                        <a class="dropdown-item" th:href="@{/managediscounts(sortOption='dp12', bookId=${bookId}, status=${status})}">Giá cuối cùng - tăng dần</a>
-                        <a class="dropdown-item" th:href="@{/managediscounts(sortOption='dp21', bookId=${bookId}, status=${status})}">Giá cuối cùng - giảm dần</a>
+                        <a class="dropdown-item" th:href="@{/managevouchers(sortOption='sd12', categoryId=${categoryId}, voucherScope=${voucherScope}, status=${status})}">Ngày bắt đầu - tăng dần</a>
+                        <a class="dropdown-item" th:href="@{/managevouchers(sortOption='sd21', categoryId=${categoryId}, voucherScope=${voucherScope}, status=${status})}">Ngày bắt đầu - giảm dần</a>
+                        <a class="dropdown-item" th:href="@{/managevouchers(sortOption='ed12', categoryId=${categoryId}, voucherScope=${voucherScope}, status=${status})}">Ngày kết thúc - tăng dần</a>
+                        <a class="dropdown-item" th:href="@{/managevouchers(sortOption='ed21', categoryId=${categoryId}, voucherScope=${voucherScope}, status=${status})}">Ngày kết thúc - giảm dần</a>
+                        <a class="dropdown-item" th:href="@{/managevouchers(sortOption='dpc12', categoryId=${categoryId}, voucherScope=${voucherScope}, status=${status})}">Tỷ lệ giảm giá - tăng dần</a>
+                        <a class="dropdown-item" th:href="@{/managevouchers(sortOption='dpc21', categoryId=${categoryId}, voucherScope=${voucherScope}, status=${status})}">Tỷ lệ giảm giá - giảm dần</a>
+                        <a class="dropdown-item" th:href="@{/managevouchers(sortOption='q12', categoryId=${categoryId}, voucherScope=${voucherScope}, status=${status})}">Số lượng - tăng dần</a>
+                        <a class="dropdown-item" th:href="@{/managevouchers(sortOption='q21', categoryId=${categoryId}, voucherScope=${voucherScope}, status=${status})}">Số lượng - giảm dần</a>
+                        <a class="dropdown-item" th:href="@{/managevouchers(sortOption='rq12', categoryId=${categoryId}, voucherScope=${voucherScope}, status=${status})}">Số lượng còn lại - tăng dần</a>
+                        <a class="dropdown-item" th:href="@{/managevouchers(sortOption='rq21', categoryId=${categoryId}, voucherScope=${voucherScope}, status=${status})}">Số lượng còn lại - giảm dần</a>
+                        <a class="dropdown-item" th:href="@{/managevouchers(sortOption='mov12', categoryId=${categoryId}, voucherScope=${voucherScope}, status=${status})}">Giá trị đơn hàng tối thiểu - tăng dần</a>
+                        <a class="dropdown-item" th:href="@{/managevouchers(sortOption='mov21', categoryId=${categoryId}, voucherScope=${voucherScope}, status=${status})}">Giá trị đơn hàng tối thiểu - giảm dần</a>
                     </div>
                 </div>
             </div>
             <div class="col-add d-flex align-items-center" style="height: 70px;">
                 <div class="row-add">
                     <div class="row-add" style="display: flex;">
-                        <a th:href="@{/adddiscount}" class="nav-link add-category"
+                        <a th:href="@{/addvoucher}" class="nav-link add-category"
                            style="font-family: Arial, sans-serif; padding: 0%; display: flex; align-items: center; justify-content: center;">
                             <span class="material-symbols-outlined">add</span>
-                            Thêm đợt giảm giá
+                            Thêm voucher
                         </a>
                     </div>
                 </div>
@@ -307,8 +324,8 @@
         </div>
 
         <div class="container-main" style="background-color: white;">
-            <div class="form-categories"  th:if="${totalAllDiscounts != null}">
-                <p>Tổng số tất cả các đợt giảm giá: <span th:text="${totalAllDiscounts}"></span></p>
+            <div class="form-categories"  th:if="${totalAllVouchers != null}">
+                <p>Tổng số tất cả các voucher: <span th:text="${totalAllVouchers}"></span></p>
             </div>
 
             <div class="next-table only-bottom-border">
@@ -318,32 +335,48 @@
                         <div class="next-table-header-inner">
                             <table>
                                 <colgroup style="width: 1020px">
-                                    <col style="width: 10%;">
-                                    <col style="width: 7%;">
-                                    <col style="width: 25%;">
-                                    <col style="width: 10%;">
-                                    <col style="width: 13%;">
-                                    <col style="width: 10%;">
-                                    <col style="width: 10%;">
-                                    <col style="width: 10%;">
-                                    <col style="width: 5%;">
+                                    <col style="width: 7.5%;">
+                                    <col style="width: 12%;">
+                                    <col style="width: 7.5%;">
+                                    <col style="width: 7.5%;">
+                                    <col style="width: 7.5%;">
+                                    <col style="width: 7.5%;">
+                                    <col style="width: 7.5%;">
+                                    <col style="width: 7.5%;">
+                                    <col style="width: 7.5%;">
+                                    <col style="width: 7.5%;">
+                                    <col style="width: 7.5%;">
+                                    <col style="width: 7.5%;">
+                                    <col style="width: 5.5%;">
                                 </colgroup>
                                 <tbody>
                                 <tr>
                                     <th rowspan="1" class="next-table-header-node first" style="text-align: center">
-                                        <div class="next-table-cell-wrapper">Mã giảm giá</div>
+                                        <div class="next-table-cell-wrapper">Id</div>
                                     </th>
                                     <th rowspan="1" class="next-table-header-node " style="text-align: center">
-                                        <div class="next-table-cell-wrapper">Mã sách</div>
+                                        <div class="next-table-cell-wrapper">Mã code</div>
                                     </th>
                                     <th rowspan="1" class="next-table-header-node " style="text-align: center">
-                                        <div class="next-table-cell-wrapper">Tên sách</div>
+                                        <div class="next-table-cell-wrapper">Danh mục</div>
+                                    </th>
+                                    <th rowspan="1" class="next-table-header-node " style="text-align: center">
+                                        <div class="next-table-cell-wrapper">Số lượng</div>
+                                    </th>
+                                    <th rowspan="1" class="next-table-header-node " style="text-align: center">
+                                        <div class="next-table-cell-wrapper">Số lượng còn lại</div>
                                     </th>
                                     <th rowspan="1" class="next-table-header-node " style="text-align: center">
                                         <div class="next-table-cell-wrapper">Giảm giá (%)</div>
                                     </th>
                                     <th rowspan="1" class="next-table-header-node " style="text-align: center">
                                         <div class="next-table-cell-wrapper">Giá giảm</div>
+                                    </th>
+                                    <th rowspan="1" class="next-table-header-node " style="text-align: center">
+                                        <div class="next-table-cell-wrapper">Giá trị đơn hàng tối thiểu</div>
+                                    </th>
+                                    <th rowspan="1" class="next-table-header-node " style="text-align: center">
+                                        <div class="next-table-cell-wrapper">Phạm vi áp dụng</div>
                                     </th>
                                     <th rowspan="1" class="next-table-header-node " style="text-align: center">
                                         <div class="next-table-cell-wrapper">Ngày bắt đầu</div>
@@ -366,38 +399,61 @@
                     <div class="next-table-body">
                         <table>
                             <colgroup style="width: 1020px;">
-                                <col style="width: 10%;">
-                                <col style="width: 7%;">
-                                <col style="width: 25%;">
-                                <col style="width: 10%;">
-                                <col style="width: 13%;">
-                                <col style="width: 10%;">
-                                <col style="width: 10%;">
-                                <col style="width: 10%;">
-                                <col style="width: 5%;">
+                                <col style="width: 7.5%;">
+                                <col style="width: 12%;">
+                                <col style="width: 7.5%;">
+                                <col style="width: 7.5%;">
+                                <col style="width: 7.5%;">
+                                <col style="width: 7.5%;">
+                                <col style="width: 7.5%;">
+                                <col style="width: 7.5%;">
+                                <col style="width: 7.5%;">
+                                <col style="width: 7.5%;">
+                                <col style="width: 7.5%;">
+                                <col style="width: 7.5%;">
+                                <col style="width: 5.5%;">
                             </colgroup>
                             <tbody>
-                            <tr th:each="discount : ${discounts}" onmouseover="this.style.backgroundColor='#e0f3ff';" onmouseout="this.style.backgroundColor='transparent';">
+                            <tr th:each="voucher : ${vouchers}" onmouseover="this.style.backgroundColor='#e0f3ff';" onmouseout="this.style.backgroundColor='transparent';">
 
-                                <td rowspan="1" class="next-table-header-node first " style="padding: 10px 0px;" th:text="${discount.id}"></td>
+                                <td rowspan="1" class="next-table-header-node first " style="padding: 10px 0px;" th:text="${voucher.id}"></td>
 
-                                <td rowspan="1" class="next-table-header-node" style="padding: 10px 0px; text-align: center" th:text="${discount.book.id}"></td>
+                                <td rowspan="1" class="next-table-header-node" style="padding: 10px 0px; text-align: center" th:text="${voucher.code}"></td>
 
                                 <td rowspan="1" class="next-table-header-node" style="padding: 10px 0px; text-align: center;">
-                                    <span th:if="${#strings.length(discount.book.name) > 100}" th:text="${#strings.substring(discount.book.name, 0, 100) + '...'}"></span>
-                                    <span th:if="${#strings.length(discount.book.name) <= 100}" th:text="${discount.book.name}"></span>
+                                    <span th:if="${voucher.category != null}" th:text="${voucher.category.name}"></span>
+                                    <span th:if="${voucher.amountDiscount == null}" th:text="''"></span>
                                 </td>
 
-                                <td rowspan="1" class="next-table-header-node" style="padding: 10px 0px; text-align: center;" th:text="${discount.discountPercent}"></td>
+                                <td rowspan="1" class="next-table-header-node" style="padding: 10px 0px; text-align: center;" th:text="${voucher.quantity}"></td>
 
-                                <td rowspan="1" class="next-table-header-node" style="color: orangered; padding: 10px 0px; text-align: center;" th:text="${#numbers.formatInteger(discount.discountedPrice, 0, 'POINT')} + ' đ'"></td>
-
-                                <td rowspan="1" class="next-table-header-node" style="padding: 10px 0px; text-align: center;" th:text="${#temporals.format(discount.startDate.toLocalDateTime(), 'dd/MM/yyyy HH:mm:ss')}"></td>
-
-                                <td rowspan="1" class="next-table-header-node" style="padding: 10px 0px; text-align: center;" th:text="${#temporals.format(discount.endDate.toLocalDateTime(), 'dd/MM/yyyy HH:mm:ss')}"></td>
+                                <td rowspan="1" class="next-table-header-node" style="padding: 10px 0px; text-align: center;" th:text="${voucher.remainingQuantity}"></td>
 
                                 <td rowspan="1" class="next-table-header-node" style="padding: 10px 0px; text-align: center;">
-                                    <span th:switch="${discount.status}">
+                                    <span th:if="${voucher.discountPercent != -1}" th:text="${voucher.discountPercent}"></span>
+                                    <span th:if="${voucher.discountPercent == -1}" th:text="''"></span>
+                                </td>
+
+                                <td rowspan="1" class="next-table-header-node" style="padding: 10px 0px; text-align: center;">
+                                    <span th:if="${voucher.amountDiscount != -1}" th:text="${#numbers.formatInteger(voucher.amountDiscount, 0, 'POINT')} + ' đ'"></span>
+                                    <span th:if="${voucher.amountDiscount == -1}" th:text="''"></span>
+                                </td>
+
+                                <td rowspan="1" class="next-table-header-node" style="color: orangered; padding: 10px 0px; text-align: center;" th:text="${#numbers.formatInteger(voucher.minimumOrderValue, 0, 'POINT')} + ' đ'"></td>
+
+                                <td rowspan="1" class="next-table-header-node" style="padding: 10px 0px; text-align: center;">
+                                    <span th:switch="${voucher.voucherScope}">
+                                        <span th:case="0" class="badge badge-danger">Mọi sách</span>
+                                        <span th:case="1" class="badge badge-success">Danh mục cụ thể</span>
+                                    </span>
+                                </td>
+
+                                <td rowspan="1" class="next-table-header-node" style="padding: 10px 0px; text-align: center;" th:text="${#temporals.format(voucher.startDate.toLocalDateTime(), 'dd/MM/yyyy HH:mm:ss')}"></td>
+
+                                <td rowspan="1" class="next-table-header-node" style="padding: 10px 0px; text-align: center;" th:text="${#temporals.format(voucher.endDate.toLocalDateTime(), 'dd/MM/yyyy HH:mm:ss')}"></td>
+
+                                <td rowspan="1" class="next-table-header-node" style="padding: 10px 0px; text-align: center;">
+                                    <span th:switch="${voucher.status}">
                                         <span th:case="0" class="badge badge-danger">Ngưng áp dụng</span>
                                         <span th:case="1" class="badge badge-success">Áp dụng</span>
                                         <span th:case="2" class="badge badge-warning">Chưa áp dụng</span>
@@ -406,7 +462,7 @@
                                 </td>
 
                                 <td rowspan="1" class="next-table-header-node last" style="padding: 10px 0px; text-align: center" >
-                                    <a th:href="@{/updatediscount(discountId=${discount.id})}" class="btn btn-edit">
+                                    <a th:href="@{/updatevoucher(voucherId=${voucher.id})}" class="btn btn-edit">
                                         <span class="material-symbols-outlined">edit</span>
                                     </a>
                                 </td>
@@ -416,74 +472,31 @@
                     </div>
                 </div>
             </div>
-
-<!--            <table class="table table-striped table-bordered mt-3">-->
-<!--                <thead class="thead-title">-->
-<!--                <tr style="color: rgb(2,88,155);">-->
-<!--                    <th scope="col" class="align-middle text-center">Mã giảm giá</th>-->
-<!--                    <th scope="col" class="align-middle text-center">Mã sách</th>-->
-<!--                    <th scope="col" class="align-middle text-center">Tên sách</th>-->
-<!--                    <th scope="col" class="align-middle text-center">Tỷ lệ giảm giá (%)</th>-->
-<!--                    <th scope="col" class="align-middle text-center">Giá cuối cùng</th>-->
-<!--                    <th scope="col" class="align-middle text-center">Ngày bắt đầu</th>-->
-<!--                    <th scope="col" class="align-middle text-center">Ngày kết thúc</th>-->
-<!--                    <th scope="col" class="align-middle text-center">Trạng thái</th>-->
-<!--                    <th scope="col" class="align-middle text-center">Sửa</th>-->
-<!--                </tr>-->
-<!--                </thead>-->
-<!--                <tbody>-->
-<!--                <tr th:each="discount : ${discounts}">-->
-<!--                    <td class="align-middle text-center" th:text="${discount.id}"></td>-->
-<!--                    <td class="align-middle text-center" th:text="${discount.book.id}"></td>-->
-<!--                    <td class="align-middle text-center">-->
-<!--                        <span th:if="${#strings.length(discount.book.name) > 100}" th:text="${#strings.substring(discount.book.name, 0, 100) + '...'}"></span>-->
-<!--                        <span th:if="${#strings.length(discount.book.name) <= 100}" th:text="${discount.book.name}"></span>-->
-<!--                    </td>-->
-<!--                    <td class="align-middle text-center" th:text="${discount.discountPercent}"></td>-->
-<!--                    <td class="align-middle text-center" th:text="${#numbers.formatInteger(discount.discountedPrice, 0, 'POINT')} + ' đ'" style="color: orangered; width: 100px;"></td>-->
-<!--                    <td class="align-middle text-center" th:text="${#temporals.format(discount.startDate.toLocalDateTime(), 'dd/MM/yyyy HH:mm:ss')}"></td>-->
-<!--                    <td class="align-middle text-center" th:text="${#temporals.format(discount.endDate.toLocalDateTime(), 'dd/MM/yyyy HH:mm:ss')}"></td>-->
-<!--                    <td class="align-middle text-center">-->
-<!--                            <span th:switch="${discount.status}">-->
-<!--                                <span th:case="0" class="badge badge-danger">Ngưng áp dụng</span>-->
-<!--                                <span th:case="1" class="badge badge-success">Áp dụng</span>-->
-<!--                                <span th:case="2" class="badge badge-warning">Chưa áp dụng</span>-->
-<!--                                <span th:case="3" class="badge badge-secondary">Hủy bỏ</span>-->
-<!--                            </span>-->
-<!--                    </td>-->
-<!--                    <td class="align-middle text-center">-->
-<!--                        <a th:href="@{/updatediscount(discountId=${discount.id})}" class="btn btn-edit">-->
-<!--                            <span class="material-symbols-outlined">edit</span>-->
-<!--                        </a>-->
-<!--                    </td>-->
-<!--                </tr>-->
-<!--                </tbody>-->
-<!--            </table>-->
         </div>
         <div class="row-pagination d-flex align-items-center justify-content-center">
             <!-- Thêm phần tử phân trang tại đây -->
             <div class="frame-number d-flex align-items-center">
-                <div th:if="${discounts.totalPages > 1}">
+                <div th:if="${vouchers.totalPages > 1}">
                     <ul class="pagination" style="margin: 0px">
-                        <li th:if="${discounts.hasPrevious()}" class="page-item">
-                            <a class="page-link" th:href="@{/managediscounts(page=${discounts.number}, size=${size}, sortOption=${sortOption}, bookId=${bookId}, searchKeyword=${searchKeyword}, status=${status})}">
+                        <li th:if="${vouchers.hasPrevious()}" class="page-item">
+                            <a class="page-link" th:href="@{/managevouchers(page=${vouchers.number}, size=${size}, sortOption=${sortOption}, categoryId=${categoryId}, searchKeyword=${searchKeyword}, status=${status}, scope=${scope})}">
                                 <span class="material-symbols-outlined">navigate_before</span>
                             </a>
                         </li>
 
-                        <th:block th:each="pageNumber : ${#numbers.sequence(0, discounts.totalPages - 1)}">
-                            <li class="page-item" th:classappend="${pageNumber == discounts.number ? 'active' : ''}">
-                                <th:block th:if="${pageNumber == discounts.number}">
+                        <th:block th:each="pageNumber : ${#numbers.sequence(0, vouchers.totalPages - 1)}">
+                            <li class="page-item" th:classappend="${pageNumber == vouchers.number ? 'active' : ''}">
+                                <th:block th:if="${pageNumber == vouchers.number}">
                                     <span class="page-link" th:text="${pageNumber + 1}"></span>
                                 </th:block>
-                                <th:block th:unless="${pageNumber == discounts.number}">
-                                    <a class="page-link" th:href="@{/managediscounts(page=${pageNumber + 1}, size=${size}, sortOption=${sortOption}, bookId=${bookId}, searchKeyword=${searchKeyword}, status=${status})}" th:text="${pageNumber + 1}"></a>
+                                <th:block th:unless="${pageNumber == vouchers.number}">
+                                    <a class="page-link" th:href="@{/managevouchers(page=${pageNumber + 1}, size=${size}, sortOption=${sortOption}, categoryId=${categoryId}, searchKeyword=${searchKeyword}, status=${status}, scope=${scope})}" th:text="${pageNumber + 1}"></a>
                                 </th:block>
                             </li>
                         </th:block>
 
-                        <li th:if="${discounts.hasNext()}" class="page-item">
-                            <a class="page-link" th:href="@{/managediscounts(page=${discounts.number + 2}, size=${size}, sortOption=${sortOption}, bookId=${bookId}, searchKeyword=${searchKeyword}, status=${status})}">
+                        <li th:if="${vouchers.hasNext()}" class="page-item">
+                            <a class="page-link" th:href="@{/managevouchers(page=${vouchers.number + 2}, size=${size}, sortOption=${sortOption}, categoryId=${categoryId}, searchKeyword=${searchKeyword}, status=${status}, scope=${scope})}">
                                 <span class="material-symbols-outlined">navigate_next</span>
                             </a>
                         </li>
@@ -495,7 +508,7 @@
 </div>
 
 <script>
-    ['statusDropdown', 'bookDropdown', 'optionDropdown'].forEach(function(id) {
+    ['statusDropdown', 'categoryDropdown', 'optionDropdown', 'scopeDropdown'].forEach(function(id) {
         var dropdown = document.getElementById(id);
         var expandMore = dropdown.querySelector('.material-symbols-outlined:nth-child(1)');
         var expandLess = dropdown.querySelector('.material-symbols-outlined:nth-child(2)');

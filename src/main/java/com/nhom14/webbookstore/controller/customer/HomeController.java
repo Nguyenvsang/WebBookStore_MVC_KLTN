@@ -8,7 +8,7 @@ public class HomeController {
 
 	@GetMapping("/")
 	public String showHome() {
-		return "redirect:/viewbooks";
+		return "redirect:/home";
 	}
 	
 	@GetMapping("/aboutus")

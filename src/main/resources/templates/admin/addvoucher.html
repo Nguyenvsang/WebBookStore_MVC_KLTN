@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Thêm voucher</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <style>
+        body { background-color: #f8f9fa  }
+        th, td { text-align: center; }
+        h3 {
+            text-align: center;
+            margin-top: 0px;
+            margin-bottom: 20px;
+            color: rgb(2,88,155);
+        }
+        .container-body {
+            border-radius: 20px;
+            margin-left: 250px;
+            margin-right: 250px;
+            margin-top: 10px;
+            margin-bottom: 30px;
+        }
+        .frame-body {
+            margin: 10px;
+        }
+        .btn-create {
+            background-color: rgb(2,88,155);
+            border-radius: 10px;
+            color: white;
+            margin-bottom: 20px;
+        }
+        .btn-create:hover {
+            color: rgb(182,232,241)
+        }
+        .material-symbols-outlined.back {
+            color: rgb(2,88,155);
+        }
+        .material-symbols-outlined.back:hover {
+            color: rgb(182,232,241);
+        }
+        .container-body {
+            margin-top: 50px;
+            box-shadow: 0 8px 10px rgb(226, 226, 226);
+        }
+    </style>
+</head>
+<body>
+    <div th:replace="~{admin/headeradmin :: header}"></div>
+    <div class="container-expand d-flex" style="margin: 0px; padding: 0px; width: 100%">
+        <div class="col-03" style="width: 17%">
+            <div th:replace="~{admin/sidebar :: sidebar}"></div>
+        </div>
+
+        <div class="col-08" style="width: 83%">
+            <div class="container">
+                <!-- Hiển thị thông báo nếu có -->
+                <div th:if="${param.message}" class="alert"
+                     th:classappend="${#strings.containsIgnoreCase(param.message, 'thành công') ? 'alert-success' : 'alert-danger'}">
+                    <span th:text="${param.message}"></span>
+                </div>
+                <div class="container-body" style="background-color: white;">
+                    <a th:href="@{/managevouchers}" class="btn btn-out" style="margin: 10px;">
+                        <span class="material-symbols-outlined back">arrow_back_ios</span>
+                    </a>
+                    <div class="frame-body">
+                        <h3>THÊM VOUCHER</h3>
+                        <form th:action="@{/addvoucher}" method="post">
+
+                            <div class="form-group">
+                                <label for="applyToAllBooks" style="color: rgb(2,88,155);">Áp dụng cho:</label><br>
+                                <input type="radio" id="applyToAllBooks" name="applyTo" value="allBooks" checked>
+                                <label for="applyToAllBooks">Tất cả sách</label><br>
+                                <input type="radio" id="applyToCategory" name="applyTo" value="category">
+                                <label for="applyToCategory">Danh mục cụ thể</label><br>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="categoryId" style="color: rgb(2,88,155);">Danh mục:</label>
+                                <select class="form-control" id="categoryId" name="categoryId" required style="border-radius: 10px;">
+                                    <option value="">-- Chọn danh mục --</option>
+                                    <option th:each="category : ${allCategories}" th:value="${category.id}" th:text="${category.name}"></option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="code" style="color: rgb(2,88,155);">Mã code:</label>
+                                <input type="text" class="form-control" id="code" name="code" required style="border-radius: 10px;" />
+                            </div>
+                            <div class="form-group">
+                                <label for="quantity" style="color: rgb(2,88,155);">Số lượng:</label>
+                                <input type="number" class="form-control" id="quantity" name="quantity" min="1" step="1" required style="border-radius: 10px;" />
+                            </div>
+                            <div class="form-group">
+                                <label for="discountPercent" style="color: rgb(2,88,155);">Tỷ lệ % giảm giá:</label>
+                                <input type="number" class="form-control" id="discountPercent" name="discountPercent" min="1" max="100" step="1" placeholder="ví dụ: 10, 15, 20" style="border-radius: 10px;" />
+                            </div>
+                            <div class="form-group">
+                                <label for="amountDiscount" style="color: rgb(2,88,155);">Hoặc nhập số tiền giảm giá:</label>
+                                <input type="number" class="form-control" id="amountDiscount" name="amountDiscount" min="1000" step="0.01" placeholder="ví dụ: 10000, 20000, 30000" style="border-radius: 10px;" />
+                            </div>
+                            <div class="form-group">
+                                <label for="minimumOrderValue" style="color: rgb(2,88,155);">Giá trị đơn hàng tối thiểu:</label>
+                                <input type="number" class="form-control" id="minimumOrderValue" name="minimumOrderValue" min="1000" step="0.01" required style="border-radius: 10px;" />
+                            </div>
+
+                            <div class="form-group">
+                                <label for="status" style="color: rgb(2,88,155);">Trạng thái:</label>
+                                <select class="form-control" id="status" name="status" style="border-radius: 10px;" required>
+                                    <option value="">-- Chọn --</option>
+                                    <option value="1">Áp dụng</option>
+                                    <option value="2">Chưa áp dụng</option>
+                                </select>
+                            </div>
+
+                            <!-- Ô input cho ngày bắt đầu -->
+                            <div class="form-group">
+                                <label for="startDate">Ngày bắt đầu:</label>
+                                <input type="date" class="form-control" id="startDate" name="startDate" required />
+                            </div>
+
+                            <!-- Ô input cho giờ bắt đầu -->
+                            <div class="form-group">
+                                <label for="startTime">Giờ bắt đầu:</label>
+                                <input type="time" class="form-control" id="startTime" name="startTime" required />
+                            </div>
+
+                            <!-- Ô input cho ngày kết thúc -->
+                            <div class="form-group">
+                                <label for="endDate">Ngày kết thúc:</label>
+                                <input type="date" class="form-control" id="endDate" name="endDate" required />
+                            </div>
+
+                            <!-- Ô input cho giờ kết thúc -->
+                            <div class="form-group">
+                                <label for="endTime">Giờ kết thúc:</label>
+                                <input type="time" class="form-control" id="endTime" name="endTime" required />
+                            </div>
+
+                            <div class="text-center mb-4">
+                                <button type="submit" class="btn btn-create">Lưu</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <script>
+        // Lắng nghe sự kiện thay đổi trên radio button
+        document.querySelectorAll('input[type=radio][name=applyTo]').forEach(function(radio) {
+            radio.addEventListener('change', function() {
+                if (this.value === 'allBooks') {
+                    document.getElementById('categoryId').disabled = true;
+                } else if (this.value === 'category') {
+                    document.getElementById('categoryId').disabled = false;
+                }
+            });
+        });
+
+        // Kiểm tra trạng thái ban đầu của radio button khi trang được tải
+        window.onload = function() {
+            if (document.getElementById('applyToAllBooks').checked) {
+                document.getElementById('categoryId').disabled = true;
+            } else if (document.getElementById('applyToCategory').checked) {
+                document.getElementById('categoryId').disabled = false;
+            }
+        };
+
+        // Lắng nghe sự kiện nhập vào trên discountPercent và amountDiscount
+        document.getElementById('discountPercent').addEventListener('input', function() {
+            if (this.value !== '') {
+                document.getElementById('amountDiscount').disabled = true;
+            } else {
+                document.getElementById('amountDiscount').disabled = false;
+            }
+        });
+
+        document.getElementById('amountDiscount').addEventListener('input', function() {
+            if (this.value !== '') {
+                document.getElementById('discountPercent').disabled = true;
+            } else {
+                document.getElementById('discountPercent').disabled = false;
+            }
+        });
+    </script>
+
+
+</body>
+
+</html>
