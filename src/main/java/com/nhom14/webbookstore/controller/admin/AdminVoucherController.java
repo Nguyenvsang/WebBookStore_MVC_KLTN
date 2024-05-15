@@ -119,6 +119,46 @@ public class AdminVoucherController {
         return sort;
     }
 
+    @GetMapping("/managedetailvoucher")
+    public String manegeDetailVoucher(
+            @RequestParam("voucherId") Long voucherId,
+            RedirectAttributes redirectAttributes,
+            HttpServletRequest request, //Dùng cho nút Quay lại
+            Model model,
+            HttpSession session) {
+        Account admin = (Account) session.getAttribute("admin");
+
+        // Kiểm tra xem người dùng đã đăng nhập hay chưa
+        if (admin == null) {
+            // Nếu chưa đăng nhập, chuyển hướng về trang đăng nhập
+            return "redirect:/loginadmin";
+        }
+
+        // Lấy Voucher từ id
+        Voucher voucher = voucherService.getVoucherById(voucherId);
+
+        if (voucher == null) {
+            // Thêm thông báo lỗi
+            redirectAttributes.addAttribute("message", "Có lỗi xảy ra vui lòng thử lại sau!");
+            return "redirect:/erroradmin";
+        }
+
+        // Đặt thuộc tính vào model để sử dụng trong view
+        model.addAttribute("voucher", voucher);
+
+        // Lưu URL trang trước đó vào session
+        String referer = request.getHeader("Referer");
+        String currentUrl = request.getRequestURL().toString();
+
+        // Kiểm tra xem referer có khác với URL hiện tại hay không (tránh trường hợp 1 trang lặp lại)
+        // và có chứa cụm "/managevouchers" (tránh trường hợp vượt quá kiểm soát)
+        if (referer != null && !referer.equals(currentUrl) && (referer.contains("/managevouchers"))) {
+            session.setAttribute("previousUrl", referer);
+        }
+
+        return "admin/managedetailvoucher";
+    }
+
     @GetMapping("/addvoucher")
     public String showAddVoucherForm(Model model, HttpSession session) {
         Account admin = (Account) session.getAttribute("admin");
@@ -258,16 +298,6 @@ public class AdminVoucherController {
 
         // Đặt thuộc tính vào model để sử dụng trong view
         model.addAttribute("voucher", voucher);
-
-        // Lưu URL trang trước đó vào session
-        String referer = request.getHeader("Referer");
-        String currentUrl = request.getRequestURL().toString();
-
-        // Kiểm tra xem referer có khác với URL hiện tại hay không (tránh trường hợp 1 trang lặp lại)
-        // và có chứa cụm "/managevouchers" (tránh trường hợp vượt quá kiểm soát)
-        if (referer != null && !referer.equals(currentUrl) && (referer.contains("/managediscounts"))) {
-            session.setAttribute("previousUrl", referer);
-        }
 
         return "admin/updatevoucher";
     }

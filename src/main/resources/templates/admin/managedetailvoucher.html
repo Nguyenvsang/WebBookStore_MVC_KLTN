@@ -60,7 +60,7 @@
                     <span th:text="${param.message}"></span>
                 </div>
                 <div class="container-body" style="background-color: white;">
-                    <a th:href="@{/managevouchers}" class="btn btn-out" style="margin: 10px;">
+                    <a th:href="${session.previousUrl}" class="btn btn-out" style="margin: 10px;">
                         <span class="material-symbols-outlined back">arrow_back_ios</span>
                     </a>
                     <div class="frame-body">
@@ -72,6 +72,15 @@
                                 <output class="form-control" id="voucherId" name="voucherId" th:text="${voucher.id}" style="border-radius: 10px;"></output>
                             </div>
 
+                            <!-- Phạm vi áp dụng -->
+                            <div class="form-group">
+                                <label for="scope" style="color: rgb(2,88,155);">Phạm vi áp dụng:</label>
+                                <output class="form-control" id="scope" name="scope" style="border-radius: 10px;">
+                                    <span th:if="${voucher.status} == 0">Mọi sách</span>
+                                    <span th:if="${voucher.status} == 1">Danh mục cụ thể</span>
+                                </output>
+                            </div>
+
                             <div class="form-group" th:if="${voucher.category != null}">
                                 <label for="categoryId" style="color: rgb(2,88,155);">Danh mục:</label>
                                 <output class="form-control" id="categoryId" name="categoryId" th:text="${voucher.category.name}" style="border-radius: 10px;"></output>
@@ -79,66 +88,55 @@
 
                             <div class="form-group">
                                 <label for="code" style="color: rgb(2,88,155);">Mã code:</label>
-                                <input type="text" class="form-control" id="code" name="code" th:value="${voucher.code}" required style="border-radius: 10px;" />
+                                <output class="form-control" id="code" name="code" th:text="${voucher.code}" style="border-radius: 10px;"></output>
                             </div>
                             <div class="form-group">
                                 <label for="quantity" style="color: rgb(2,88,155);">Số lượng:</label>
-                                <input type="number" class="form-control" id="quantity" name="quantity" th:value="${voucher.quantity}" min="1" step="1" required style="border-radius: 10px;" />
+                                <output class="form-control" id="quantity" name="quantity" th:text="${voucher.quantity}" style="border-radius: 10px;"></output>
                             </div>
                             <div class="form-group">
                                 <label for="remainingQuantity" style="color: rgb(2,88,155);">Số lượng còn lại:</label>
-                                <input type="number" class="form-control" id="remainingQuantity" name="remainingQuantity" th:value="${voucher.remainingQuantity}" min="0" step="1" required style="border-radius: 10px;" />
+                                <output class="form-control" id="remainingQuantity" name="remainingQuantity" th:text="${voucher.remainingQuantity}" style="border-radius: 10px;"></output>
                             </div>
 
                             <div class="form-group" th:if="${voucher.discountPercent != -1}">
                                 <label for="discountPercent" style="color: rgb(2,88,155);">Tỷ lệ % giảm giá:</label>
-                                <input type="number" class="form-control" id="discountPercent" name="discountPercent" th:value="${voucher.discountPercent}" min="1" max="100" step="1" placeholder="ví dụ: 10, 15, 20" style="border-radius: 10px;" />
+                                <output class="form-control" id="discountPercent" name="discountPercent" th:text="${voucher.discountPercent}" style="border-radius: 10px;"></output>
                             </div>
 
                             <div class="form-group" th:if="${voucher.amountDiscount != -1}">
                                 <label for="amountDiscount" style="color: rgb(2,88,155);">Số tiền giảm giá:</label>
-                                <input type="number" class="form-control" id="amountDiscount" name="amountDiscount" th:value="${voucher.amountDiscount}" min="1000" step="0.01" placeholder="ví dụ: 10000, 20000, 30000" style="border-radius: 10px;" />
+                                <output class="form-control" id="amountDiscount" name="amountDiscount" th:text="${voucher.amountDiscount}" style="border-radius: 10px;"></output>
                             </div>
 
                             <div class="form-group">
                                 <label for="minimumOrderValue" style="color: rgb(2,88,155);">Giá trị đơn hàng tối thiểu:</label>
-                                <input type="number" class="form-control" id="minimumOrderValue" name="minimumOrderValue" th:value="${voucher.minimumOrderValue}" min="1000" step="0.01" required style="border-radius: 10px;" />
+                                <output class="form-control" id="minimumOrderValue" name="minimumOrderValue" th:text="${voucher.minimumOrderValue}" style="border-radius: 10px;"></output>
                             </div>
 
                             <!-- Trạng thái -->
                             <div class="form-group">
                                 <label for="status" style="color: rgb(2,88,155);">Trạng thái:</label>
-                                <select class="form-control" id="status" name="status" th:value="${voucher.status}" style="border-radius: 10px;" required>
-                                    <option value="2" th:selected="${voucher.status == 2}">Chưa áp dụng</option>
-                                    <option value="1" th:selected="${voucher.status == 1}">Đang áp dụng</option>
-                                    <option value="0" th:selected="${voucher.status == 0}">Ngừng áp dụng</option>
-                                    <option value="3" th:selected="${voucher.status == 3}">Hủy bỏ</option>
-                                </select>
+                                <output class="form-control" id="status" name="status" style="border-radius: 10px;">
+                                    <span th:if="${voucher.status} == 2">Chưa áp dụng</span>
+                                    <span th:if="${voucher.status} == 1">Đang áp dụng</span>
+                                    <span th:if="${voucher.status} == 0">Ngừng áp dụng</span>
+                                    <span th:if="${voucher.status} == 3">Hủy bỏ</span>
+                                </output>
                             </div>
 
                             <!-- Ngày bắt đầu -->
                             <div class="form-group">
                                 <label for="startDate">Ngày bắt đầu:</label>
-                                <input type="date" class="form-control" id="startDate" name="startDate" th:value="${#dates.format(voucher.startDate, 'yyyy-MM-dd')}" required style="border-radius: 10px;" />
-                            </div>
-                            <!-- Giờ bắt đầu -->
-                            <div class="form-group">
-                                <label for="startTime">Giờ bắt đầu:</label>
-                                <input type="time" class="form-control" id="startTime" name="startTime" th:value="${#dates.format(voucher.startDate, 'HH:mm')}" required />
+                                <output class="form-control" id="startDate" name="startDate" th:text="${#temporals.format(voucher.startDate.toLocalDateTime(), 'dd/MM/yyyy HH:mm:ss')}"> style="border-radius: 10px;"></output>
                             </div>
                             <!-- Ngày kết thúc -->
                             <div class="form-group">
                                 <label for="endDate">Ngày kết thúc:</label>
-                                <input type="date" class="form-control" id="endDate" name="endDate" th:value="${#dates.format(voucher.endDate, 'yyyy-MM-dd')}" required style="border-radius: 10px;" />
+                                <output class="form-control" id="endDate" name="endDate" th:text="${#temporals.format(voucher.endDate.toLocalDateTime(), 'dd/MM/yyyy HH:mm:ss')}"> style="border-radius: 10px;"></output>
                             </div>
-                            <!-- Giờ kết thúc -->
-                            <div class="form-group">
-                                <label for="endTime">Giờ kết thúc:</label>
-                                <input type="time" class="form-control" id="endTime" name="endTime" th:value="${#dates.format(voucher.endDate, 'HH:mm')}" required />
-                            </div>
-
                             <div class="text-center mb-4">
-                                <button type="submit" class="btn btn-create">Cập nhật</button>
+                                <a th:href="@{/updatevoucher(voucherId=${voucher.id})}" class="btn btn-create">Chỉnh sửa</a>
                             </div>
                         </div>
                     </div>

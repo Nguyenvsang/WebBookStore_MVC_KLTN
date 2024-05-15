@@ -60,7 +60,7 @@
                     <span th:text="${param.message}"></span>
                 </div>
                 <div class="container-body" style="background-color: white;">
-                    <a th:href="@{/managevouchers}" class="btn btn-out" style="margin: 10px;">
+                    <a th:href="@{/managedetailvoucher(voucherId=${voucher.id})}" class="btn btn-out" style="margin: 10px;">
                         <span class="material-symbols-outlined back">arrow_back_ios</span>
                     </a>
                     <div class="frame-body">

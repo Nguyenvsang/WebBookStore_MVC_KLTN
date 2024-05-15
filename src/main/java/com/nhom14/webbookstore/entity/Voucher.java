@@ -36,7 +36,8 @@ public class Voucher {
     private double amountDiscount;
 
     @Column(name = "minimum_order_value", columnDefinition = "DOUBLE NOT NULL")
-    private double minimumOrderValue;
+    private double minimumOrderValue; //Nếu scope=0 thì sẽ tính giá trị tổng đơn hàng
+    // Nếu scope=1 thì sẽ tính theo giá trị của tổng các món hàng thuộc danh mục có trong đơn hàng
 
     @Column(name = "voucher_scope", columnDefinition = "INT NOT NULL")
     private int voucherScope; //0: Áp dụng cho tất cả sách, 1: Cho 1 danh mục duy nhất
