@@ -78,7 +78,7 @@
             color: rgb(182,232,241);
         }
 
-        .frame.main {
+        .frame-main {
             margin-bottom: 10px;
             margin-right: 10px;
         }
@@ -145,14 +145,20 @@
             margin-top: 10px;
         }
 
-        .container.main {
-            border: 2px ;
-            border-radius: 5px;
-            border-radius: 15px;
-            padding: 15px;
-            margin-top: 10px;
-            margin-bottom: 10px;
-        }
+            .container-body {
+                width: 100%;
+                border-radius: 15px;
+                padding: 15px;
+                margin: 40px auto;
+                box-shadow: 0 8px 10px rgb(226, 226, 226);
+                background-color: white;
+
+            }
+
+            .container-main {
+                width: 1200px;
+                padding: 0px;
+            }
 
         .carousel-inner {
           border-radius: 20px;
@@ -267,10 +273,7 @@
         .hidden-content {
             display: none;
         }
-        .container.main {
-            box-shadow: 0 8px 10px rgb(226, 226, 226);
 
-        }
 
         .material-symbols-outlined.search{
             color: rgb(2,88,155);
@@ -307,7 +310,6 @@
           display: none;
           position: fixed;
           z-index: 2;
-
           left: 0;
           top: 0;
           width: 100%;
@@ -372,20 +374,18 @@
      th:classappend="${message.contains('thành công') ? 'alert-success' : 'alert-danger'}"
      th:text="${message}" style="font-weight: bold;justify-content: center; display: flex">
 </div>
-<div class="main-container col2-left-layout no-margin-top">
-
-    <div class="container main" style="background-color: white;">
+<div class="container">
+    <div class="container-body">
         <div class="container-inner">
-            <div class="d-flex justify-content-center" style="margin-bottom: 10px; margin-right: 10px;">
-
-                <div class="col-left sidebar col-lg-3 col-md-3 col-sm-12 col-xs-12" style="border-right: 1px solid #cecece; width: 280px;" >
-                    <div class="row row-content" >
+            <div class="row-body d-flex" >
+                <div class="col-filter" style="width: 20%; border-right: 1px solid #cecece; padding: 0px 10px 0px 0px" >
+                    <div class="row-content" >
                         <a class="nav-link" th:href="@{/viewfavoritebooks}" style="margin-left: 10px; font-size: 14px;">TẤT CẢ SÁCH ĐÃ YÊU THÍCH</a>
-                        <li class="dropdown open" style="border-bottom: 1px solid #cecece;  border-top: 1px solid #cecece; margin-top: 15px; width: 280px;">
+                        <li class="dropdown open" style="margin-top: 15px;">
                             <div style="padding: 8px;"></div>
 
                             <span style="color: rgb(2,88,155);"></span>
-                            <ul class="no-bullets nav-left" style="padding: 0px 0px 0px 20px;">
+                            <ul class="no-bullets nav-left" style="padding: 0px">
                                 <h4>DANH MỤC SÁCH <span class="material-symbols-outlined click">drag_click</span></h4>
                                 <li class="level-0">
                                     <input type="radio" id="category1" onclick="document.getElementById('link1').click();">
@@ -421,10 +421,10 @@
                                 </li>
                             </ul>
                         </li>
-                        <li class="dropdown open" style="border-bottom: 1px solid #cecece; margin-top: 15px; width: 280px;">
+                        <li class="dropdown open" style="border-bottom: 1px solid #cecece; margin-top: 15px;">
 
                             <span style="color: rgb(2,88,155);"></span>
-                            <ul class="no-bullets nav-left" style="padding: 0px 0px 0px 20px;">
+                            <ul class="no-bullets nav-left"  style="padding: 0px">
                                 <h4>THEO NXB<span class="material-symbols-outlined click" style="margin-left: 7px;">drag_click</span></h4>
                                 <li class="level-0">
                                     <input type="radio" id="publisher1" onclick="document.getElementById('linkNXB1').click();">
@@ -468,11 +468,11 @@
                                 </li>
                             </ul>
                         </li>
-                        <li class="dropdown open" style="border-bottom: 1px solid #cecece; width: 280px;">
+                        <li class="dropdown open" style="border-bottom: 1px solid #cecece;">
                             <div style="padding: 8px;"></div>
 
                             <span style="color: rgb(2,88,155);"></span>
-                            <ul class="no-bullets nav-left" style="padding: 0px 0px 0px 20px;">
+                            <ul class="no-bullets nav-left"  style="padding: 0px">
                                 <h4>KHOẢNG GIÁ <span class="material-symbols-outlined click">drag_click</span></h4>
                                 <li class="level-0">
                                     <input type="radio" id="pricerange0" onclick="document.getElementById('linkprice0').click();">
@@ -500,11 +500,11 @@
                                 </li>
                             </ul>
                         </li>
-                        <li class="dropdown open" style="border-bottom: 1px solid #cecece; width: 280px;">
+                        <li class="dropdown open" style="border-bottom: 1px solid #cecece;">
                             <div style="padding: 8px;"></div>
 
                             <span style="color: rgb(2,88,155);"></span>
-                            <ul class="no-bullets nav-left" style="padding: 0px 0px 0px 20px;">
+                            <ul class="no-bullets nav-left"  style="padding: 0px">
                                 <!-- Nếu đã có priceoption thì phải bỏ nameoption và ngược lại -->
                                 <h4>SẮP XẾP THEO<span class="material-symbols-outlined click" style="margin-left: 7px;">drag_click</span></h4>
                                 <li class="level-0">
@@ -524,47 +524,50 @@
                                     <a id="linkpricz-a" th:href="@{/viewfavoritebooks(category=${categoryId}, publisher=${publisher}, nameoption=21, search=${search}, pricemin=${pricemin}, pricemax=${pricemax}, page=1)}">Tên giảm dần</a>
                                 </li>
                             </ul>
-
                         </li>
 
                     </div>
                 </div>
 
-                <div class="col-main col-lg-9 col-md-9 col-sm-12 col-xs-12 col-fhs-main-body" style="margin-left: 25px;">
+                <div class="col-book" style="width: 80%; padding-left: 10px" >
                     <!--Tìm kiếm từ khóa-->
                     <div th:if="${param.search != null && !param.search.isEmpty()}"></div>
 
-                    <div class="category-products row">
-                        <div class="frame main">
-                            <div class="dropdown mb-3 mt-3"></div>
-
-                            <div class="row">
-                                <th:block th:each="book : ${favoriteBooks.content}">
-                                    <div class="col-md-3 flex-item">
-                                        <div class="item-inner">
-                                            <div class="ma-box-content">
-                                                <div class="products clear" style="display: flex; justify-content: center; align-items: center;">
-                                                    <div class="product images-container">
-                                                        <a th:href="@{/detailbook/{id} (id=${book.id})}">
-                                                            <!-- Chỉ hiển thị hình ảnh đầu tiên -->
-                                                            <img th:src="${book.bookImages[0].path}" alt="Book Image" class="card-img">
-                                                        </a>
+                    <div class="category-products" style="width: 100%">
+                        <div class="frame-main" style="margin: 0px">
+                            <div class="dropdown mb-3 mt-3">
+                                <div class="row-book flex-item">
+                                    <th:block th:each="book : ${favoriteBooks.content}">
+                                        <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 flex-item">
+                                            <div class="item-inner">
+                                                <div class="ma-box-content">
+                                                    <div class="products clear" style="display: flex; justify-content: center; align-items: center;">
+                                                        <div class="product images-container">
+                                                            <a th:href="@{/detailbook/{id} (id=${book.id})}">
+                                                                <!-- Chỉ hiển thị hình ảnh đầu tiên -->
+                                                                <img th:src="${book.bookImages[0].path}" alt="Book Image" class="card-img">
+                                                            </a>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div>
-                                                    <h6 class="product-name-no-ellipsis">
-                                                        <a th:href="@{/detailbook/{id} (id=${book.id})}" th:text="${book.name}" style="display: inline-block; width: 170px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></a>
-                                                    </h6>
+                                                    <div>
+                                                        <h6 class="product-name-no-ellipsis">
+                                                            <a th:href="@{/detailbook/{id} (id=${book.id})}" th:text="${book.name}" style="display: inline-block; width: 170px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></a>
+                                                        </h6>
 
-                                                    <div class="price-label">
-                                                        <p class="card-text" style="font-size: 16px; text-align: left;"><span th:text="${#numbers.formatInteger(book.sellPrice, 0, 'POINT')}" ></span> đ</p>
+                                                        <div class="price-label">
+                                                            <p class="card-text" style="font-size: 16px; text-align: left;"><span th:text="${#numbers.formatInteger(book.sellPrice, 0, 'POINT')}" ></span> đ</p>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </th:block>
+                                    </th:block>
+                                </div>
+
+
+
                             </div>
+
 
                             <div class="frame-number">
                                 <div th:if="${favoriteBooks.totalPages > 1}">

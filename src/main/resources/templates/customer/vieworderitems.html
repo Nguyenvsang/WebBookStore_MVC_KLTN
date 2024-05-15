@@ -345,16 +345,16 @@
 					</div>
 					<div class="col-03 center-content" style="width: 240px; align-items: flex-end; justify-content: flex-end">
 						<div class="row-operation" style="display: flex; justify-content: flex-end; align-items: flex-end;">
-							<a th:if="${order.paymentStatus.status == 5}" class="btn btn-destroy" th:href="@{/createvnpaypayment(orderId=${order.id})}">Thanh toán lại</a>
+							<a th:if="${order.paymentStatus.status == 5}" class="btn btn-destroy" th:href="@{/createvnpaypayment(orderId=${order.id})}" style="font-weight: bold">Thanh toán lại</a>
 						</div>
 						<div class="row-operation" style="display: flex; justify-content: flex-end; align-items: flex-end; margin-top: 20px">
-							<a th:if="${order.status == 0}" class="btn btn-destroy" th:href="@{/cancelorder(orderId=${order.id})}">Hủy đơn</a>
-							<a th:if="${order.status == 3 || order.status == 10 && daysBetween <= 15}" class="btn btn-return" th:href="@{/returnorder(orderId=${order.id})}">Trả hàng</a>
+							<a th:if="${order.status == 0}" class="btn btn-destroy" th:href="@{/cancelorder(orderId=${order.id})}" style="font-weight: bold">Hủy đơn</a>
+							<a th:if="${order.status == 3 || order.status == 10 && daysBetween <= 15}" class="btn btn-return" th:href="@{/returnorder(orderId=${order.id})}" style="font-weight: bold">Trả hàng</a>
 							<span th:if="${order.status != 0 && !(order.status == 3 && daysBetween <= 15)}"></span>
 						</div>
 						<form th:action="@{/receivedorder}" th:if="${order.status == 3}" method="post" style="display: flex; justify-content: flex-end; align-items: flex-end; margin-top: 20px">
 							<input type="hidden" name="orderId" th:value="${order.id}" />
-							<button type="submit" class="btn btn-receive">Đã nhận hàng</button>
+							<button type="submit" class="btn btn-receive" style="font-weight: bold">Đã nhận hàng</button>
 						</form>
 					</div>
 				</div>
@@ -432,7 +432,7 @@
 				<div th:if="${order.isCompleted != 0 || order.status == 4 || order.status == 7 || order.status == 10}" class="row-order align-items-center">
 					<form th:action="@{/repurchase}" method="post" style="display: flex; justify-content: center; align-items: flex-end;">
 						<input type="hidden" name="orderId" th:value="${order.id}" />
-						<button type="submit" class="btn btn-receive">Mua lại</button>
+						<button type="submit" class="btn btn-receive" style="font-weight: bold">Mua lại</button>
 					</form>
 				</div>
 			</div>

@@ -33,8 +33,8 @@
             padding: 20px;
             margin-top: 40px;
             margin-bottom: 40px;
-            margin-left: 350px;
-            margin-right: 350px;
+            margin-left: 150px;
+            margin-right: 150px;
             border-radius: 15px
         }
         .btn-confirm {
@@ -55,7 +55,6 @@
         }
         .form-group {
             font-weight: 500;
-            margin: 20px;
         }
         .navbar-nav {
             display: frex;
@@ -132,7 +131,7 @@
 
     <!--Khung cho phần nhập-->
     <div class="container-body" style="background-color: white;">
-        <div class="row-00 d-flex align-items-center" style="height: 30px; margin-bottom: 15px; margin: 0px 0px 0px">
+        <div class="row-00 d-flex align-items-center" style="height: 30px; padding: 0px 0px 10px 0px; border-bottom: 1px solid #cecece">
             <div class="col-00" style="display: flex; align-items: center;">
                 <a th:href="@{/viewaddresses}" class="before" style="align-items: center; display: flex; text-decoration: none;">
                     <span class="material-symbols-outlined back">arrow_back_ios</span>
@@ -142,71 +141,95 @@
         </div>
         <form th:action="@{/updateaddress}" method="post">
             <input type="hidden" id="id" name="id" th:value="${address.id}">
-            <div class="form-group">
-                <label for="recipientName">Tên người nhận:</label>
-                <input type="text" class="form-control" id="recipientName" name="recipientName" th:value="${address.recipientName}" required>
+            <div class="row-01 d-flex" style="padding-top: 20px">
+                <div class="col-6">
+                    <div class="form-group">
+                        <label for="recipientName">Tên người nhận:</label>
+                        <input type="text" class="form-control" id="recipientName" name="recipientName" th:value="${address.recipientName}" required>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-group">
+                        <label for="phoneNumber">Số điện thoại:</label>
+                        <input type="text" class="form-control" id="phoneNumber" name="phoneNumber" th:value="${address.phoneNumber}" required>
+                    </div>
+                </div>
+            </div>
+            <div class="row-02 d-flex" style="margin-top: 10px">
+                <div class="col-4">
+                    <div class="form-group">
+                        <label for="city">Tỉnh/Thành phố:</label>
+                        <select id="city" name="city" class="form-control" required>
+                            <option value="">-- Chọn tỉnh/thành phố --</option>
+                            <option th:each="city : ${cities}" th:value="${city.id}" th:text="${city.name}" th:selected="${city.id == address.city.id}"></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-4" >
+                    <div class="form-group">
+                        <label for="district">Quận/Huyện:</label>
+                        <select id="district" name="district" class="form-control" required>
+                            <option value="">-- Chọn quận/huyện --</option>
+                            <!-- Các quận/huyện sẽ được thêm vào đây bằng JavaScript -->
+                        </select>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="form-group">
+                        <label for="ward">Phường/Xã:</label>
+                        <select id="ward" name="ward" class="form-control" required>
+                            <option value="">-- Chọn phường/xã --</option>
+                            <!-- Các phường/xã sẽ được thêm vào đây bằng JavaScript -->
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row-03 d-flex" style="margin-top: 10px">
+                <div class="col-12">
+                    <div class="form-group">
+                        <label for="addressDetails">Tên đường, tòa nhà, số nhà:</label>
+                        <input type="text" class="form-control" id="addressDetails" name="addressDetails" th:value="${address.addressDetails}" required>
+                    </div>
+                </div>
+            </div>
+            <div class="row-04 d-flex" style="margin-top: 10px">
+                <div class="col-12">
+                    <div class="form-group">
+                        <label for="addressNote">Ghi chú thêm (nếu cần):</label>
+                        <input type="text" class="form-control" id="addressNote" name="addressNote" th:value="${address.addressNote}">
+                    </div>
+                </div>
             </div>
 
-            <div class="form-group">
-                <label for="phoneNumber">Số điện thoại:</label>
-                <input type="text" class="form-control" id="phoneNumber" name="phoneNumber" th:value="${address.phoneNumber}" required>
+            <div class="row-05 d-flex" style="margin-top: 10px">
+                <div class="col-12">
+                    <div class="form-group">
+                        <label for="addressType" >Loại:</label>
+                        <select class="form-control" id="addressType" name="addressType" required style="border-radius: 50px;">
+                            <option value="">-- Chọn loại --</option>
+                            <option value="0" th:selected="${address.addressType == 0}">Văn phòng</option>
+                            <option value="1" th:selected="${address.addressType == 1}">Nhà</option>
+                            <option value="2" th:selected="${address.addressType == 2}">Khác</option>
+                        </select>
+                    </div>
+                </div>
             </div>
 
-            <div class="form-group">
-                <label for="city">Tỉnh/Thành phố:</label>
-                <select id="city" name="city" class="form-control" required>
-                    <option value="">-- Chọn tỉnh/thành phố --</option>
-                    <option th:each="city : ${cities}" th:value="${city.id}" th:text="${city.name}" th:selected="${city.id == address.city.id}"></option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label for="district">Quận/Huyện:</label>
-                <select id="district" name="district" class="form-control" required>
-                    <option value="">-- Chọn quận/huyện --</option>
-                    <!-- Các quận/huyện sẽ được thêm vào đây bằng JavaScript -->
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label for="ward">Phường/Xã:</label>
-                <select id="ward" name="ward" class="form-control" required>
-                    <option value="">-- Chọn phường/xã --</option>
-                    <!-- Các phường/xã sẽ được thêm vào đây bằng JavaScript -->
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label for="addressDetails">Tên đường, tòa nhà, số nhà:</label>
-                <input type="text" class="form-control" id="addressDetails" name="addressDetails" th:value="${address.addressDetails}" required>
-            </div>
-
-            <div class="form-group">
-                <label for="addressNote">Ghi chú thêm (nếu cần):</label>
-                <input type="text" class="form-control" id="addressNote" name="addressNote" th:value="${address.addressNote}">
-            </div>
-
-            <div class="form-group">
-                <label for="addressType" style="color: rgb(2,88,155);">Loại:</label>
-                <select class="form-control" id="addressType" name="addressType" required style="border-radius: 10px;">
-                    <option value="">-- Chọn loại --</option>
-                    <option value="0" th:selected="${address.addressType == 0}">Văn phòng</option>
-                    <option value="1" th:selected="${address.addressType == 1}">Nhà</option>
-                    <option value="2" th:selected="${address.addressType == 2}">Khác</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label for="isDefault" style="color: rgb(2,88,155);">Đặt làm mặc định?</label>
-                <select class="form-control" id="isDefault" name="isDefault" required style="border-radius: 10px;" th:disabled="${address.isDefault == 1}">
-                    <option value="">-- Chọn --</option>
-                    <option value="1" th:selected="${address.isDefault == 1}">Có</option>
-                    <option value="0" th:selected="${address.isDefault == 0}">Không</option>
-                </select>
+            <div class="row-06 d-flex" style="margin-top: 10px">
+                <div class="col-12">
+                    <div class="form-group">
+                        <label for="isDefault">Đặt làm mặc định?</label>
+                        <select class="form-control" id="isDefault" name="isDefault" required style="border-radius: 50px;" th:disabled="${address.isDefault == 1}">
+                            <option value="">-- Chọn --</option>
+                            <option value="1" th:selected="${address.isDefault == 1}">Có</option>
+                            <option value="0" th:selected="${address.isDefault == 0}">Không</option>
+                        </select>
+                    </div>
+                </div>
             </div>
 
             <div class="text-center">
-                <button type="submit" class="btn btn-confirm">Cập nhật</button>
+                <button type="submit" class="btn btn-confirm" style="margin: 15px 0px; font-weight: bold">Cập nhật</button>
             </div>
         </form>
 
