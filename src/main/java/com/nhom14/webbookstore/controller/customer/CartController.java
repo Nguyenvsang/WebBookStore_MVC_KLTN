@@ -10,7 +10,7 @@ import com.nhom14.webbookstore.entity.*;
 import com.nhom14.webbookstore.model.lean_model.DiscountLeanModel;
 import com.nhom14.webbookstore.model.response_model.BookResponseModel;
 import com.nhom14.webbookstore.model.response_model.CartItemResponseModel;
-import com.nhom14.webbookstore.service.DiscountService;
+import com.nhom14.webbookstore.service.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,9 +23,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import jakarta.servlet.http.HttpSession;
-import com.nhom14.webbookstore.service.BookService;
-import com.nhom14.webbookstore.service.CartItemService;
-import com.nhom14.webbookstore.service.CartService;
 
 @Controller
 public class CartController {
@@ -35,15 +32,17 @@ public class CartController {
 	private CartItemService cartItemService;
 	private ModelMapper modelMapper;
 	private DiscountService discountService;
+	private VoucherService voucherService;
 
 	@Autowired
-	public CartController(CartService cartService, BookService bookService, CartItemService cartItemService, ModelMapper modelMapper, DiscountService discountService) {
+	public CartController(CartService cartService, BookService bookService, CartItemService cartItemService, ModelMapper modelMapper, DiscountService discountService, VoucherService voucherService) {
 		super();
 		this.cartService = cartService;
 		this.bookService = bookService;
 		this.cartItemService = cartItemService;
         this.modelMapper = modelMapper;
         this.discountService = discountService;
+        this.voucherService = voucherService;
     }
 	
 	@PostMapping("/addtocart")
@@ -161,12 +160,16 @@ public class CartController {
 				.map(this::convertToCartItemResponseModel)
 				.toList();
 
+		// Lấy tất cả các voucher còn giá trị
+		List<Voucher> vouchers = voucherService.getActiveVouchers();
+
 		model.addAttribute("cartItems", cartItems);
 		model.addAttribute("availableItems", availableItemResponseModels);
 		model.addAttribute("totalAmount", totalAmount);
 		model.addAttribute("totalAllAvailableCartItems", totalAllAvailableCartItems);
 		model.addAttribute("unavailableItems", unavailableItemResponseModels);
 		model.addAttribute("unavailableItemIdsString", unavailableItemIdsString);
+		model.addAttribute("vouchers", vouchers);
 
 		return "customer/viewcart";
 	}

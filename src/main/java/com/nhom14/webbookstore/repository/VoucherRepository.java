@@ -46,4 +46,10 @@ public interface VoucherRepository extends JpaRepository<Voucher, Long> {
                                           @Param("startDate") Timestamp startDate,
                                           @Param("endDate") Timestamp endDate);
 
+    @Query("SELECT v FROM Voucher v WHERE " +
+            "v.status = 1 and " +
+            "v.remainingQuantity > 0 and " +
+            "v.startDate <= :now and " +
+            "v.endDate >= :now")
+    List<Voucher> findActiveVouchers(@Param("now") LocalDateTime now);
 }

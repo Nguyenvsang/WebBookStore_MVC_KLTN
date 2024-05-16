@@ -75,4 +75,9 @@ public class VoucherServiceImpl implements VoucherService {
     public List<Voucher> findOverlappingVouchers(Integer categoryId, Timestamp startDate, Timestamp endDate) {
         return voucherRepository.findOverlappingVouchers(categoryId, startDate, endDate);
     }
+
+    @Override
+    public List<Voucher> getActiveVouchers() {
+        return voucherRepository.findActiveVouchers(LocalDateTime.now());
+    }
 }

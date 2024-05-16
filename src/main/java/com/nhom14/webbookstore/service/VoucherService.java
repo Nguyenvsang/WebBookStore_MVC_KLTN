@@ -16,4 +16,6 @@ public interface VoucherService {
     List<Voucher> getAllVouchers();
     Voucher getLatestActiveVoucherByCategoryId(int categoryId);
     List<Voucher> findOverlappingVouchers(Integer categoryId, Timestamp startDate, Timestamp endDate);
+    // Phương thức lấy các Voucher đang còn giá trị
+    List<Voucher> getActiveVouchers();
 }
