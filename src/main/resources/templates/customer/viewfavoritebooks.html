@@ -148,11 +148,9 @@
             .container-body {
                 width: 100%;
                 border-radius: 15px;
-                padding: 15px;
                 margin: 40px auto;
                 box-shadow: 0 8px 10px rgb(226, 226, 226);
                 background-color: white;
-
             }
 
             .container-main {
@@ -183,9 +181,8 @@
 
         .level-0 {
             font-family: Arial, sans-serif;
-            padding-top: 9px;
-            padding-bottom: 9px;
-            padding-right: 15px;
+            padding: 9px 15px;
+
         }
         .level-0:hover {
             color: rgb(2,88,155);
@@ -203,14 +200,14 @@
             color: rgb(2,88,155);
         }
 
-        h4 {
+        h5 {
             text-align: left;
             margin-top: 10px;
             margin-bottom: 20px;
             color: rgb(2,88,155);
         }
 
-        h4.frame {
+        h5.frame {
             text-align: center;
             margin-top: 10px;
             margin-bottom: 20px;
@@ -374,153 +371,125 @@
      th:classappend="${message.contains('thành công') ? 'alert-success' : 'alert-danger'}"
      th:text="${message}" style="font-weight: bold;justify-content: center; display: flex">
 </div>
-<div class="container">
+<div class="container" style="padding: 0px">
     <div class="container-body">
         <div class="container-inner">
             <div class="row-body d-flex" >
-                <div class="col-filter" style="width: 20%; border-right: 1px solid #cecece; padding: 0px 10px 0px 0px" >
+                <div class="col-filter" style="width: 20%; border-right: 1px solid #cecece; padding: 15px" >
                     <div class="row-content" >
-                        <a class="nav-link" th:href="@{/viewfavoritebooks}" style="margin-left: 10px; font-size: 14px;">TẤT CẢ SÁCH ĐÃ YÊU THÍCH</a>
+                        <a class="nav-link" th:href="@{/viewfavoritebooks}" style="padding: 0px; font-size: 14px;">TẤT CẢ SÁCH ĐÃ YÊU THÍCH</a>
                         <li class="dropdown open" style="margin-top: 15px;">
                             <div style="padding: 8px;"></div>
 
                             <span style="color: rgb(2,88,155);"></span>
                             <ul class="no-bullets nav-left" style="padding: 0px">
-                                <h4>DANH MỤC SÁCH <span class="material-symbols-outlined click">drag_click</span></h4>
-                                <li class="level-0">
-                                    <input type="radio" id="category1" onclick="document.getElementById('link1').click();">
+                                <h5>DANH MỤC SÁCH</h5>
+                                <li class="level-0" >
                                     <a id="link1" th:href="@{/viewfavoritebooks(category=1, publisher=${publisher}, nameoption=${nameoption}, priceoption=${priceoption}, search=${search}, pricemin=${pricemin}, pricemax=${pricemax}, page=1)}">Chính Trị - Pháp Luật</a>
                                 </li>
                                 <li class="level-0">
-                                    <input type="radio" id="category2" onclick="document.getElementById('link2').click();">
                                     <a id="link2" th:href="@{/viewfavoritebooks(category=2, publisher=${publisher}, nameoption=${nameoption}, priceoption=${priceoption}, search=${search}, pricemin=${pricemin}, pricemax=${pricemax}, page=1)}">Giáo Trình</a>
                                 </li>
                                 <li class="level-0">
-                                    <input type="radio" id="category3" onclick="document.getElementById('link3').click();">
                                     <a id="link3" th:href="@{/viewfavoritebooks(category=3, publisher=${publisher}, nameoption=${nameoption}, priceoption=${priceoption}, search=${search}, pricemin=${pricemin}, pricemax=${pricemax}, page=1)}">Khoa Học Công Nghệ - Kinh Tế</a>
                                 </li>
                                 <li class="level-0">
-                                    <input type="radio" id="category4" onclick="document.getElementById('link4').click();">
                                     <a id="link4" th:href="@{/viewfavoritebooks(category=4, publisher=${publisher}, nameoption=${nameoption}, priceoption=${priceoption}, search=${search}, pricemin=${pricemin}, pricemax=${pricemax}, page=1)}">Truyện, Tiểu Thuyết</a>
                                 </li>
                                 <li class="level-0">
-                                    <input type="radio" id="category5" onclick="document.getElementById('link5').click();">
                                     <a id="link5" th:href="@{/viewfavoritebooks(category=5, publisher=${publisher}, nameoption=${nameoption}, priceoption=${priceoption}, search=${search}, pricemin=${pricemin}, pricemax=${pricemax}, page=1)}">Tâm Lý, Tâm Linh, Tôn Giáo</a>
                                 </li>
                                 <li class="level-0">
-                                    <input type="radio" id="category6" onclick="document.getElementById('link6').click();">
                                     <a id="link6" th:href="@{/viewfavoritebooks(category=6, publisher=${publisher}, nameoption=${nameoption}, priceoption=${priceoption}, search=${search}, pricemin=${pricemin}, pricemax=${pricemax}, page=1)}">Thiếu Nhi</a>
                                 </li>
                                 <li class="level-0">
-                                    <input type="radio" id="category7" onclick="document.getElementById('link7').click();">
                                     <a id="link7" th:href="@{/viewfavoritebooks(category=7, publisher=${publisher}, nameoption=${nameoption}, priceoption=${priceoption}, search=${search}, pricemin=${pricemin}, pricemax=${pricemax}, page=1)}">Văn Học Nghệ Thuật</a>
                                 </li>
                                 <li class="level-0">
-                                    <input type="radio" id="category8" onclick="document.getElementById('link8').click();">
                                     <a id="link8" th:href="@{/viewfavoritebooks(category=8, publisher=${publisher}, nameoption=${nameoption}, priceoption=${priceoption}, search=${search}, pricemin=${pricemin}, pricemax=${pricemax}, page=1)}">Văn Hóa Xã Hội - Lịch Sử</a>
                                 </li>
                             </ul>
                         </li>
-                        <li class="dropdown open" style="border-bottom: 1px solid #cecece; margin-top: 15px;">
 
+                        <li class="dropdown open" style="margin-top: 15px;">
                             <span style="color: rgb(2,88,155);"></span>
                             <ul class="no-bullets nav-left"  style="padding: 0px">
-                                <h4>THEO NXB<span class="material-symbols-outlined click" style="margin-left: 7px;">drag_click</span></h4>
+                                <h5>THEO NXB</h5>
                                 <li class="level-0">
-                                    <input type="radio" id="publisher1" onclick="document.getElementById('linkNXB1').click();">
                                     <a id="linkNXB1" th:href="@{/viewfavoritebooks(category=${categoryId}, publisher='NXB Kim Đồng', nameoption=${nameoption}, priceoption=${priceoption}, pricemin=${pricemin}, pricemax=${pricemax}, page=1)}">NXB Kim Đồng</a>
                                 </li>
                                 <li class="level-0">
-                                    <input type="radio" id="publisher2" onclick="document.getElementById('linkNXB2').click();">
                                     <a id="linkNXB2" th:href="@{/viewfavoritebooks(category=${categoryId}, publisher='NXB Lao Động', nameoption=${nameoption}, priceoption=${priceoption}, pricemin=${pricemin}, pricemax=${pricemax}, page=1)}">NXB Lao Động</a>
                                 </li>
                                 <li class="level-0">
-                                    <input type="radio" id="publisher3" onclick="document.getElementById('linkNXB3').click();">
                                     <a id="linkNXB3" th:href="@{/viewfavoritebooks(category=${categoryId}, publisher='NXB Thế Giới', nameoption=${nameoption}, priceoption=${priceoption}, pricemin=${pricemin}, pricemax=${pricemax}, page=1)}">NXB Thể Giới</a>
                                 </li>
                                 <li class="level-0">
-                                    <input type="radio" id="publisher4" onclick="document.getElementById('linkNXB4').click();">
                                     <a id="linkNXB4" th:href="@{/viewfavoritebooks(category=${categoryId}, publisher='NXB Trẻ', nameoption=${nameoption}, priceoption=${priceoption}, pricemin=${pricemin}, pricemax=${pricemax}, page=1)}">NXB Trẻ</a>
                                 </li>
                                 <li class="level-0">
-                                    <input type="radio" id="publisher5" onclick="document.getElementById('linkNXB5').click();">
                                     <a id="linkNXB5" th:href="@{/viewfavoritebooks(category=${categoryId}, publisher='NXB Thanh Niên', nameoption=${nameoption}, priceoption=${priceoption}, pricemin=${pricemin}, pricemax=${pricemax}, page=1)}">NXB Thanh Niên</a>
                                 </li>
                                 <li class="level-0">
-                                    <input type="radio" id="publisher6" onclick="document.getElementById('linkNXB6').click();">
                                     <a id="linkNXB6" th:href="@{/viewfavoritebooks(category=${categoryId}, publisher='NXB Hồng Đức', nameoption=${nameoption}, priceoption=${priceoption}, pricemin=${pricemin}, pricemax=${pricemax}, page=1)}">NXB Hồng Đức</a>
                                 </li>
                                 <li class="level-0">
-                                    <input type="radio" id="publisher7" onclick="document.getElementById('linkNXB7').click();">
                                     <a id="linkNXB7" th:href="@{/viewfavoritebooks(category=${categoryId}, publisher='NXB Chính Trị Quốc Gia', nameoption=${nameoption}, priceoption=${priceoption}, pricemin=${pricemin}, pricemax=${pricemax}, page=1)}">NXB Chính Trị Quốc Gia</a>
                                 </li>
                                 <li class="level-0">
-                                    <input type="radio" id="publisher8" onclick="document.getElementById('linkNXB8').click();">
                                     <a id="linkNXB8" th:href="@{/viewfavoritebooks(category=${categoryId}, publisher='NXB Văn Học', nameoption=${nameoption}, priceoption=${priceoption}, pricemin=${pricemin}, pricemax=${pricemax}, page=1)}">NXB Văn Học</a>
                                 </li>
                                 <li class="level-0">
-                                    <input type="radio" id="publisher9" onclick="document.getElementById('linkNXB9').click();">
                                     <a id="linkNXB9" th:href="@{/viewfavoritebooks(category=${categoryId}, publisher='NXB Hội Nhà Văn', nameoption=${nameoption}, priceoption=${priceoption}, pricemin=${pricemin}, pricemax=${pricemax}, page=1)}">NXB Hội Nhà Văn</a>
                                 </li>
                                 <li class="level-0">
-                                    <input type="radio" id="publisher10" onclick="document.getElementById('linkNXB10').click();">
                                     <a id="linkNXB10" th:href="@{/viewfavoritebooks(category=${categoryId}, publisher='NXB Dân Trí', nameoption=${nameoption}, priceoption=${priceoption}, pricemin=${pricemin}, pricemax=${pricemax}, page=1)}">NXB Dân Trí</a>
                                 </li>
                             </ul>
                         </li>
-                        <li class="dropdown open" style="border-bottom: 1px solid #cecece;">
-                            <div style="padding: 8px;"></div>
 
+                        <li class="dropdown open">
+                            <div style="padding: 8px;"></div>
                             <span style="color: rgb(2,88,155);"></span>
                             <ul class="no-bullets nav-left"  style="padding: 0px">
-                                <h4>KHOẢNG GIÁ <span class="material-symbols-outlined click">drag_click</span></h4>
+                                <h5>KHOẢNG GIÁ</h5>
                                 <li class="level-0">
-                                    <input type="radio" id="pricerange0" onclick="document.getElementById('linkprice0').click();">
                                     <a id="linkprice0" th:href="@{/viewfavoritebooks(category=${categoryId}, nameoption=${nameoption}, priceoption=${priceoption}, search=${search}, pricemin=0, pricemax=50000, page=1)}">0 - 50.000</a>
                                 </li>
                                 <li class="level-0">
-                                    <input type="radio" id="pricerange1" onclick="document.getElementById('linkprice1').click();">
                                     <a id="linkprice1" th:href="@{/viewfavoritebooks(category=${categoryId}, publisher=${publisher}, nameoption=${nameoption}, priceoption=${priceoption}, search=${search}, pricemin=50000, pricemax=100000, page=1)}">50.000 - 100.000</a>
                                 </li>
                                 <li class="level-0">
-                                    <input type="radio" id="pricerange2" onclick="document.getElementById('linkprice2').click();">
                                     <a id="linkprice2" th:href="@{/viewfavoritebooks(category=${categoryId}, publisher=${publisher}, nameoption=${nameoption}, priceoption=${priceoption}, search=${search}, pricemin=100000, pricemax=200000, page=1)}">100.000 - 200.000</a>
                                 </li>
                                 <li class="level-0">
-                                    <input type="radio" id="pricerange3" onclick="document.getElementById('linkprice3').click();">
                                     <a id="linkprice3" th:href="@{/viewfavoritebooks(category=${categoryId}, publisher=${publisher}, nameoption=${nameoption}, priceoption=${priceoption}, search=${search}, pricemin=200000, pricemax=300000, page=1)}">200.000 - 300.000</a>
                                 </li>
                                 <li class="level-0">
-                                    <input type="radio" id="pricerange4" onclick="document.getElementById('linkprice4').click();">
                                     <a id="linkprice4" th:href="@{/viewfavoritebooks(category=${categoryId}, publisher=${publisher}, nameoption=${nameoption}, priceoption=${priceoption}, search=${search}, pricemin=300000, pricemax=500000, page=1)}">300.000 - 500.000</a>
                                 </li>
                                 <li class="level-0">
-                                    <input type="radio" id="pricerange5" onclick="document.getElementById('linkprice5').click();">
                                     <a id="linkprice5" th:href="@{/viewfavoritebooks(category=${categoryId}, publisher=${publisher}, nameoption=${nameoption}, priceoption=${priceoption}, search=${search}, pricemin=500000, pricemax=10000000, page=1)}">500.000 trở lên</a>
                                 </li>
                             </ul>
                         </li>
-                        <li class="dropdown open" style="border-bottom: 1px solid #cecece;">
-                            <div style="padding: 8px;"></div>
 
+                        <li class="dropdown open">
+                            <div style="padding: 8px;"></div>
                             <span style="color: rgb(2,88,155);"></span>
                             <ul class="no-bullets nav-left"  style="padding: 0px">
                                 <!-- Nếu đã có priceoption thì phải bỏ nameoption và ngược lại -->
-                                <h4>SẮP XẾP THEO<span class="material-symbols-outlined click" style="margin-left: 7px;">drag_click</span></h4>
+                                <h5>SẮP XẾP THEO</h5>
                                 <li class="level-0">
-                                    <input type="radio" id="priceoption1" onclick="document.getElementById('linkpriceasc').click();">
                                     <a id="linkpriceasc" th:href="@{/viewfavoritebooks(category=${categoryId}, publisher=${publisher}, priceoption=12, search=${search}, pricemin=${pricemin}, pricemax=${pricemax}, page=1)}">Giá tăng dần</a>
                                 </li>
                                 <li class="level-0">
-                                    <input type="radio" id="priceoption2" onclick="document.getElementById('linkpricedes').click();">
                                     <a id="linkpricedes" th:href="@{/viewfavoritebooks(category=${categoryId}, publisher=${publisher}, priceoption=21, search=${search}, pricemin=${pricemin}, pricemax=${pricemax}, page=1)}">Giá giảm dần</a>
                                 </li>
                                 <li class="level-0">
-                                    <input type="radio" id="nameoption1" onclick="document.getElementById('linkpricea-z').click();">
                                     <a id="linkpricea-z" th:href="@{/viewfavoritebooks(category=${categoryId}, publisher=${publisher}, nameoption=12, search=${search}, pricemin=${pricemin}, pricemax=${pricemax}, page=1)}">Tên tăng dần</a>
                                 </li>
                                 <li class="level-0">
-                                    <input type="radio" id="nameoption2" onclick="document.getElementById('linkpricz-a').click();">
                                     <a id="linkpricz-a" th:href="@{/viewfavoritebooks(category=${categoryId}, publisher=${publisher}, nameoption=21, search=${search}, pricemin=${pricemin}, pricemax=${pricemax}, page=1)}">Tên giảm dần</a>
                                 </li>
                             </ul>
@@ -529,19 +498,19 @@
                     </div>
                 </div>
 
-                <div class="col-book" style="width: 80%; padding-left: 10px" >
+                <div class="col-book" style="width: 80%;" >
                     <!--Tìm kiếm từ khóa-->
                     <div th:if="${param.search != null && !param.search.isEmpty()}"></div>
 
                     <div class="category-products" style="width: 100%">
                         <div class="frame-main" style="margin: 0px">
-                            <div class="dropdown mb-3 mt-3">
-                                <div class="row-book flex-item">
+                            <div class="nav-dropdown mb-3 mt-3">
+                                <div class="row row-cols-1 row-cols-md-4 g-4" style="width: 888px; margin-left: 10px">
                                     <th:block th:each="book : ${favoriteBooks.content}">
-                                        <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 flex-item">
+                                        <div class="col" style="width: 250px; padding: 0px 10px">
                                             <div class="item-inner">
                                                 <div class="ma-box-content">
-                                                    <div class="products clear" style="display: flex; justify-content: center; align-items: center;">
+                                                    <div class="products clear d-flex justify-content-center align-items-center">
                                                         <div class="product images-container">
                                                             <a th:href="@{/detailbook/{id} (id=${book.id})}">
                                                                 <!-- Chỉ hiển thị hình ảnh đầu tiên -->
@@ -563,10 +532,8 @@
                                         </div>
                                     </th:block>
                                 </div>
-
-
-
                             </div>
+
 
 
                             <div class="frame-number">

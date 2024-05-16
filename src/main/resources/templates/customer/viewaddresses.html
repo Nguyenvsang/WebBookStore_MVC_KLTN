@@ -310,22 +310,7 @@
             background-color: rgb(182,232,241);
         }
 
-        .close {
-          position: absolute;
-          top: 15px;
-          right: 35px;
-          color: #f1f1f1;
-          font-size: 40px;
-          font-weight: bold;
-          transition: 0.3s;
-        }
 
-        .close:hover,
-        .close:focus {
-          color: #bbb;
-          text-decoration: none;
-          cursor: pointer;
-        }
 
         .card-image {
           cursor: pointer;
@@ -413,7 +398,7 @@
         }
         .row-status{
             border-radius: 5px;
-            background-color: #16aaff;
+            background-color: #36aa00;
             color: white;
             padding: 5px 8px;
         }
@@ -505,21 +490,24 @@
 
 
                         <!-- Modal -->
-                        <div class="modal fade my-custom-modal" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
-                            <div class="modal-dialog" role="document">
+                        <div class="modal fade my-custom-modal" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true"
+                             style="margin: 0px; padding: 0px">
+                            <div class="modal-dialog" style="border-radius: 15px; display: flex; justify-content: center; align-items: center; height: 60vh;" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="deleteModalLabel">Xác nhận xóa</h5>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">×</span>
+                                        <div class="row-title d-flex">
+                                            <h6 class="modal-title" id="deleteModalLabel" style="color: #211f7f;">Xác nhận xóa</h6>
+                                        </div>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="padding: 0px">
+                                            <span aria-hidden="true" style="padding-right: 10px">×</span>
                                         </button>
                                     </div>
                                     <div class="modal-body">
                                         Bạn có chắc chắn muốn xóa địa chỉ này không?
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Không</button>
-                                        <button type="button" class="btn btn-primary delete-confirm">Có</button>
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal" style="border-radius: 15px">Không</button>
+                                        <button type="button" class="btn btn-primary delete-confirm" style="border-radius: 15px">Có</button>
                                     </div>
                                 </div>
                             </div>

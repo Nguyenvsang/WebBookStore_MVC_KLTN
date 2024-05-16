@@ -16,51 +16,20 @@
         	color: rgb(2,88,155);     	
     }
 
-	    .container.main {
-			border: 2px ;
-	        border-radius: 5px;
-	        border-radius: 15px;
-	        padding: 15px;
-	        margin-top: 10px;
-	        margin-bottom: 10px;
-		}
-		
 		.btn-editinfo {
-				background-color: rgb(2,88,155);
-				border-radius: 10px;
-				color: white;
+			background-color: white;
+			border-radius: 10px;
+			color: #3f6ad8;
+			box-shadow: 0px 0px 10px rgba(192, 192, 192, 0.5);
+			font-weight: bold;
 		}
 		.btn-editinfo:hover {
-			color: rgb(182,232,241)
+			color: white;
+            background-color: #3f6ad8;
+			box-shadow: 0px 4px 6px rgba(70, 130, 180, 0.3);
+			font-weight: bold
 		}
-		
-		
-		.card {
-			border: 2px ;
-	        border-radius: 5px;	  
-	        border-radius: 15px;	
-	        padding: 15px;
-	        margin-top: 10px;
-	        margin-bottom: 10px;
-	        margin-left: 300px;
-	        margin-right: 300px;
-		}
-		
-		.frame-body {
-			margin: 30px;
-		}
-		
-		.card {
-		        border-radius: 5px;
-		        padding: 20px;
-		        border-radius: 15px;
-		        margin-top: 50px;			  
-			    margin-bottom: 50px;   
-			}
-			
-		.card {
-			box-shadow: 0 8px 10px rgb(226, 226, 226);
-		}
+
 		
 		.material-symbols-outlined.back {
 			color: rgb(2,88,155);
@@ -68,6 +37,13 @@
 		
 		.material-symbols-outlined.back:hover {
 			color: rgb(182,232,241);
+		}
+
+		.container-body {
+			box-shadow: 0 8px 10px rgb(226, 226, 226);
+			border-radius: 20px;
+	    	padding: 20px;
+	    	width: 500px;
 		}
 		
 </style>
@@ -79,33 +55,36 @@
 			<div th:replace="~{admin/sidebar :: sidebar}"></div>
 		</div>
 
-		<div class="col-08" style="width: 83%">
+		<div class="col-08" style="width: 83%; display: flex; justify-content: center; align-items: center; height: 90vh;">
         <!-- Hiển thị thông báo nếu có -->
 			<div th:if="${param.message}" class="alert"
 				th:classappend="${#strings.containsIgnoreCase(param.message, 'thành công') ? 'alert-success' : 'alert-danger'}">
 				<span th:text="${param.message}"></span>
 			</div>
 
-			<div class="card">
-				<div class="ml-2">
-					<a th:href="@{/manageauthors}" class="btn btn-out">
-					<span class="material-symbols-outlined back">arrow_back_ios</span>
-					</a>
-				</div>
-				<h3>THÔNG TIN TÁC GIẢ</h3>
-				<div class="row no-gutters justify-content: center;">
-					<div class="col-md-12 justify-content: center;">
-						<div class="container-body">
-						   <div class="card-body">
-							   <p class="card-text mt-4">Mã: <span th:text="${author.id}"></span></p>
-							   <h6 class="card-title" style="color: rgb(2,88,155);">Tên tác giả: <span th:text="${author.name}"></span></h6>
-							   <p class="card-text">Tiểu sử:</p>
-							   <div class="form-control" style="border-radius: 10px; height: 100px; overflow: hidden;">
-									<pre class="text" th:text="${author.bio}" style="height: 90px;"></pre>
-								</div>
-						   </div>
+			<div class="container-body" style="background-color: white;">
+				<div class="row-00 d-flex align-items-center" style="height: 30px; margin-bottom: 15px; margin: 0px 0px 0px; justify-content: space-between">
+					<div class="col-00" style="display: flex; align-items: center;">
+						<a th:href="@{/manageauthors}" class="before" style="align-items: center; display: flex; text-decoration: none;">
+							<span class="material-symbols-outlined back">arrow_back_ios</span>
+						</a>
+						<h6 style="color: #3f6ad8; align-items: center;  margin: 0px 5px 0px 0px; font-family: Verdana; font-weight: bold">Thông tin</h6>
+					</div>
+					<div class="col-00" style="display: flex; align-items: center; justify-content: flex-end; border: 1px solid #3f6ad8; padding: 8px; border-radius: 10px">
+						<p class="card-text" style="color: #3f6ad8; font-weight: 500; font-family: Calibri;">MÃ: <span th:text="${author.id}" style="font-family: Calibri;"></span></p>
 					</div>
 				</div>
+				<div class="card-body">
+
+					<h6 class="card-title" style="font-family: Calibri;">Tên tác giả:
+						<span th:text="${author.name}" style="font-family: Calibri;"></span>
+					</h6>
+					<p class="card-text" style="font-family: Calibri;">Tiểu sử:</p>
+					<div class="form-control" style="border-radius: 10px; height: 100px; overflow: hidden;">
+						<pre class="text" th:text="${author.bio}" style="height: 90px; font-family: Calibri;"></pre>
+					</div>
+				</div>
+
 				<div class="d-flex flex-grow-1 justify-content-center" >
 					<a th:href="@{/updateauthor(authorId=${author.id})}" class="btn btn-editinfo">Sửa thông tin</a>
 

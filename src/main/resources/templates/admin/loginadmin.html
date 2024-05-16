@@ -84,13 +84,12 @@
 </head>
 <body>
 <div th:replace="~{admin/headeradmin :: header}"></div>
+<!-- Hiển thị thông báo nếu có -->
+<div th:if="${param.message}" class="alert"
+	 th:classappend="${#strings.containsIgnoreCase(param.message, 'thành công') ? 'alert-success' : 'alert-danger'}">
+	<span th:text="${param.message}"></span>
+</div>
 <div class="container mt-4 mb-4">
-            
-            <!-- Hiển thị thông báo nếu có -->
-		    <div th:if="${param.message}" class="alert"
-				th:classappend="${#strings.containsIgnoreCase(param.message, 'thành công') ? 'alert-success' : 'alert-danger'}">
-				<span th:text="${param.message}"></span>
-			</div>
 			<div class="container-body" style="background-color: white;">
 				<div class="row">  
 					<div class="col">  
@@ -113,11 +112,11 @@
 								<h3 class="text-center">ĐĂNG NHẬP</h3> 
 				                <div class="form-group">
 				                    <label for="username" style="color: rgb(2,88,155);">Tên đăng nhập:</label>
-				                    <input type="text" class="form-control" id="username" name="username" required>
+				                    <input type="text" class="form-control" id="username" name="username" required style="border-radius: 50px">
 				                </div>
 				                <div class="form-group">
 								    <label for="password" style="color: rgb(2,88,155);">Mật khẩu:</label>
-								    <input type="password" class="form-control" id="password" name="password" required>
+								    <input type="password" class="form-control" id="password" name="password" required style="border-radius: 50px">
 								    <input type="checkbox" id="togglePassword" style="margin-top: 20px;"> Hiển thị mật khẩu
 								</div>
 				                <div class="text-center">
