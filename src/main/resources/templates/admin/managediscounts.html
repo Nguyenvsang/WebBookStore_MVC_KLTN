@@ -225,7 +225,7 @@
                 <div class="col-title">
                     <p style="margin: 0px; color: #3f6ad8; font-size: 18px; font-weight: bold; font-family: Helvetica;">QUẢN LÝ ĐỢT GIẢM GIÁ</p>
                     <div class="form-discounts">
-                        <p style="margin: 0px">Tổng số tất cả các đợt giảm giá:</p>
+                        <p style="margin: 0px">Tổng số tất cả các đợt giảm giá: <span th:text="${totalAllDiscounts}"></span></p>
                     </div>
                 </div>
             </div>
@@ -307,9 +307,9 @@
         </div>
 
         <div class="container-main" style="background-color: white;">
-            <div class="form-categories"  th:if="${totalAllDiscounts != null}">
-                <p>Tổng số tất cả các đợt giảm giá: <span th:text="${totalAllDiscounts}"></span></p>
-            </div>
+<!--            <div class="form-categories"  th:if="${totalAllDiscounts != null}">-->
+<!--                <p>Tổng số tất cả các đợt giảm giá: <span th:text="${totalAllDiscounts}"></span></p>-->
+<!--            </div>-->
 
             <div class="next-table only-bottom-border">
                 <div class="next-table-inner">

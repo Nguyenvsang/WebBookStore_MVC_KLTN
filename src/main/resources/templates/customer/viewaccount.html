@@ -304,10 +304,10 @@
 					<div class="form-group" style="display: flex">
 <!--						<label>Mật khẩu:</label>-->
 						<div th:if="${account.password == 'logingoogle'}">
-							<a th:href="@{/addpassword}" class="btn btn-add-password">Thêm mật khẩu</a>
+							<a th:href="@{/addpassword}" class="btn btn-add-password" style="width: 200px">Thêm mật khẩu</a>
 						</div>
 						<div th:if="${account.password != 'logingoogle'}">
-							<a th:href="@{/changepassword}" class="btn btn-edit-password">Đổi mật khẩu</a>
+							<a th:href="@{/changepassword}" class="btn btn-edit-password" style="width: 200px">Đổi mật khẩu</a>
 						</div>
 					</div>
 				</div>

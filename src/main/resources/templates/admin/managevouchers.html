@@ -164,7 +164,7 @@
         .btn.btn-filter-status{
             border: none;
             height: 70px;
-            width: 220px;
+            width: 200px;
             margin-right: 30px;
             box-shadow: 0px 4px 4px rgba(192, 192, 192, 0.3);
             color: grey;
@@ -190,13 +190,13 @@
 
         .row-add{
             height: 70px;
-            width: 220px;
+            width: 200px;
         }
         .nav-link.add-category {
             background-color: white;
             border-radius: 15px;
             height: 70px;
-            width: 220px;
+            width: 200px;
             color:#62bf5e;
             box-shadow: 0px 4px 4px rgba(192, 192, 192, 0.3);
             font-weight: bold;
@@ -220,12 +220,12 @@
         <div class="row-01 d-flex align-items-center">
             <div class="col-04 d-flex align-items-center" style="width: 30%">
                 <div class="title-icon">
-                    <img src="https://res.cloudinary.com/dylwewmt0/image/upload/v1715237152/PHOTO_LIST/Admin/Title-icon/10.png" alt="Knowledge Young" style="width: 100%; height: 100%">
+                    <img src="https://res.cloudinary.com/dylwewmt0/image/upload/v1716306146/PHOTO_LIST/Admin/Title-icon/11.png" alt="Knowledge Young" style="width: 100%; height: 100%">
                 </div>
                 <div class="col-title">
                     <p style="margin: 0px; color: #3f6ad8; font-size: 18px; font-weight: bold; font-family: Helvetica;">QUẢN LÝ VOUCHER</p>
                     <div class="form-discounts">
-                        <p style="margin: 0px">Tổng số tất cả các voucher:</p>
+                        <p style="margin: 0px">Tổng số tất cả các voucher: <span th:text="${totalAllVouchers}"></span></p>
                     </div>
                 </div>
             </div>
@@ -260,7 +260,7 @@
 
                 <div class="dropdown-filter">
                     <button class="btn btn-filter-status d-flex align-items-center justify-content-center" type="button" id="scopeDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Lọc theo phạm vi áp dụng
+                        Phạm vi áp dụng
                         <span class="material-symbols-outlined" style="margin-left: 3px">expand_more</span>
                         <span class="material-symbols-outlined" style="margin-left: 3px">expand_less</span>
                     </button>
@@ -324,9 +324,6 @@
         </div>
 
         <div class="container-main" style="background-color: white;">
-            <div class="form-categories"  th:if="${totalAllVouchers != null}">
-                <p>Tổng số tất cả các voucher: <span th:text="${totalAllVouchers}"></span></p>
-            </div>
 
             <div class="next-table only-bottom-border">
                 <div class="next-table-inner">
@@ -335,59 +332,42 @@
                         <div class="next-table-header-inner">
                             <table>
                                 <colgroup style="width: 1020px">
-                                    <col style="width: 7.5%;">
-                                    <col style="width: 12%;">
-                                    <col style="width: 7.5%;">
-                                    <col style="width: 7.5%;">
-                                    <col style="width: 7.5%;">
-                                    <col style="width: 7.5%;">
-                                    <col style="width: 7.5%;">
-                                    <col style="width: 7.5%;">
-                                    <col style="width: 7.5%;">
-                                    <col style="width: 7.5%;">
-                                    <col style="width: 7.5%;">
-                                    <col style="width: 7.5%;">
-                                    <col style="width: 5.5%;">
+                                    <col style="width: 15%;">
+                                    <col style="width: 10%;">
+                                    <col style="width: 10%;">
+                                    <col style="width: 15%;">
+                                    <col style="width: 15%;">
+                                    <col style="width: 10%;">
+                                    <col style="width: 10%;">
+                                    <col style="width: 10%;">
+                                    <col style="width: 5%;">
                                 </colgroup>
                                 <tbody>
                                 <tr>
-                                    <th rowspan="1" class="next-table-header-node first" style="text-align: center">
-                                        <div class="next-table-cell-wrapper">Id</div>
-                                    </th>
-                                    <th rowspan="1" class="next-table-header-node " style="text-align: center">
+                                    <th rowspan="1" class="next-table-header-node first" style="text-align: center; padding: 0px 10px">
                                         <div class="next-table-cell-wrapper">Mã code</div>
                                     </th>
-                                    <th rowspan="1" class="next-table-header-node " style="text-align: center">
-                                        <div class="next-table-cell-wrapper">Danh mục</div>
-                                    </th>
-                                    <th rowspan="1" class="next-table-header-node " style="text-align: center">
-                                        <div class="next-table-cell-wrapper">Số lượng</div>
-                                    </th>
-                                    <th rowspan="1" class="next-table-header-node " style="text-align: center">
-                                        <div class="next-table-cell-wrapper">Số lượng còn lại</div>
-                                    </th>
-                                    <th rowspan="1" class="next-table-header-node " style="text-align: center">
+                                    <th rowspan="1" class="next-table-header-node " style="text-align: center; padding: 0px 10px">
                                         <div class="next-table-cell-wrapper">Giảm giá (%)</div>
                                     </th>
-                                    <th rowspan="1" class="next-table-header-node " style="text-align: center">
-                                        <div class="next-table-cell-wrapper">Giá giảm</div>
+                                    <th rowspan="1" class="next-table-header-node " style="text-align: center; padding: 0px 10px">
+                                        <div class="next-table-cell-wrapper">Giá giảm (đ)</div>
                                     </th>
-                                    <th rowspan="1" class="next-table-header-node " style="text-align: center">
-                                        <div class="next-table-cell-wrapper">Giá trị đơn hàng tối thiểu</div>
-                                    </th>
-                                    <th rowspan="1" class="next-table-header-node " style="text-align: center">
+                                    <th rowspan="1" class="next-table-header-node " style="text-align: center; padding: 0px 10px">
+                                        <div class="next-table-cell-wrapper">Đơn hàng tối thiểu (đ)</div>
+                                    <th rowspan="1" class="next-table-header-node " style="text-align: center; padding: 0px 10px">
                                         <div class="next-table-cell-wrapper">Phạm vi áp dụng</div>
                                     </th>
-                                    <th rowspan="1" class="next-table-header-node " style="text-align: center">
+                                    <th rowspan="1" class="next-table-header-node " style="text-align: center; padding: 0px 10px">
                                         <div class="next-table-cell-wrapper">Ngày bắt đầu</div>
                                     </th>
-                                    <th rowspan="1" class="next-table-header-node " style="text-align: center">
+                                    <th rowspan="1" class="next-table-header-node " style="text-align: center; padding: 0px 10px">
                                         <div class="next-table-cell-wrapper">Ngày kết thúc</div>
                                     </th>
-                                    <th rowspan="1" class="next-table-header-node " style="text-align: center">
+                                    <th rowspan="1" class="next-table-header-node " style="text-align: center; padding: 0px 10px">
                                         <div class="next-table-cell-wrapper">Trạng thái</div>
                                     </th>
-                                    <th rowspan="1" class="next-table-header-node last" style="text-align: center">
+                                    <th rowspan="1" class="next-table-header-node last" style="text-align: center; padding: 0px 10px">
                                         <div class="next-table-cell-wrapper"></div>
                                     </th>
                                 </tr>
@@ -399,35 +379,20 @@
                     <div class="next-table-body">
                         <table>
                             <colgroup style="width: 1020px;">
-                                <col style="width: 7.5%;">
-                                <col style="width: 12%;">
-                                <col style="width: 7.5%;">
-                                <col style="width: 7.5%;">
-                                <col style="width: 7.5%;">
-                                <col style="width: 7.5%;">
-                                <col style="width: 7.5%;">
-                                <col style="width: 7.5%;">
-                                <col style="width: 7.5%;">
-                                <col style="width: 7.5%;">
-                                <col style="width: 7.5%;">
-                                <col style="width: 7.5%;">
-                                <col style="width: 5.5%;">
+                                <col style="width: 15%;">
+                                <col style="width: 10%;">
+                                <col style="width: 10%;">
+                                <col style="width: 15%;">
+                                <col style="width: 15%;">
+                                <col style="width: 10%;">
+                                <col style="width: 10%;">
+                                <col style="width: 10%;">
+                                <col style="width: 5%;">
                             </colgroup>
                             <tbody>
                             <tr th:each="voucher : ${vouchers}" onmouseover="this.style.backgroundColor='#e0f3ff';" onmouseout="this.style.backgroundColor='transparent';">
 
-                                <td rowspan="1" class="next-table-header-node first " style="padding: 10px 0px;" th:text="${voucher.id}"></td>
-
-                                <td rowspan="1" class="next-table-header-node" style="padding: 10px 0px; text-align: center" th:text="${voucher.code}"></td>
-
-                                <td rowspan="1" class="next-table-header-node" style="padding: 10px 0px; text-align: center;">
-                                    <span th:if="${voucher.category != null}" th:text="${voucher.category.name}"></span>
-                                    <span th:if="${voucher.amountDiscount == null}" th:text="''"></span>
-                                </td>
-
-                                <td rowspan="1" class="next-table-header-node" style="padding: 10px 0px; text-align: center;" th:text="${voucher.quantity}"></td>
-
-                                <td rowspan="1" class="next-table-header-node" style="padding: 10px 0px; text-align: center;" th:text="${voucher.remainingQuantity}"></td>
+                                <td rowspan="1" class="next-table-header-node" style="padding: 10px 10px; text-align: center" th:text="${voucher.code}"></td>
 
                                 <td rowspan="1" class="next-table-header-node" style="padding: 10px 0px; text-align: center;">
                                     <span th:if="${voucher.discountPercent != -1}" th:text="${voucher.discountPercent}"></span>

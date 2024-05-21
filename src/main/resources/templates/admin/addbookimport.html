@@ -16,13 +16,13 @@
         }
         .container-body {
             border-radius: 20px;
-            margin-left: 250px;
-            margin-right: 250px;
-            margin-top: 10px;
-            margin-bottom: 30px;
+            margin-left: 70px;
+            margin-right: 70px;
+            padding: 20px;
+            margin-top: 0px
         }
         .frame-body {
-            margin: 10px;
+            margin-top: 20px;
         }
         .btn-create {
             background-color: rgb(2,88,155);
@@ -40,9 +40,22 @@
             color: rgb(182,232,241);
         }
         .container-body {
-            margin-top: 50px;
             box-shadow: 0 8px 10px rgb(226, 226, 226);
         }
+
+        .btn-create {
+			background-color: white;
+			border-radius: 10px;
+			color: #3f6ad8;
+			box-shadow: 0px 0px 10px rgba(192, 192, 192, 0.5);
+			font-weight: bold;
+		}
+		.btn-create:hover {
+			color: white;
+            background-color: #3f6ad8;
+			box-shadow: 0px 4px 6px rgba(70, 130, 180, 0.3);
+			font-weight: bold
+		}
     </style>
 </head>
 <body>
@@ -52,61 +65,79 @@
         <div th:replace="~{admin/sidebar :: sidebar}"></div>
     </div>
 
-    <div class="col-08" style="width: 83%">
-        <div class="container">
-            <!-- Hiển thị thông báo nếu có -->
-            <div th:if="${param.message}" class="alert"
-                 th:classappend="${#strings.containsIgnoreCase(param.message, 'thành công') ? 'alert-success' : 'alert-danger'}">
-                <span th:text="${param.message}"></span>
-            </div>
+    <div th:if="${param.message}" class="alert"
+         th:classappend="${#strings.containsIgnoreCase(param.message, 'thành công') ? 'alert-success' : 'alert-danger'}">
+        <span th:text="${param.message}"></span>
+    </div>
+
+    <div class="col-08" style="width: 83%; display: flex; justify-content: center; align-items: center; height: 90vh;">
             <div class="container-body" style="background-color: white;">
-                <a th:href="@{/managebookimports}" class="btn btn-out" style="margin: 10px;">
-                    <span class="material-symbols-outlined back">arrow_back_ios</span>
-                </a>
+                <div class="row-00 d-flex align-items-center" style="height: 30px; margin-bottom: 15px; margin: 0px 0px 0px">
+                    <div class="col-00" style="display: flex; align-items: center;">
+                        <a th:href="@{/managebookimports}" class="before" style="align-items: center; display: flex; text-decoration: none;">
+                            <span class="material-symbols-outlined back">arrow_back_ios</span>
+                        </a>
+                        <h6 style="color: #3f6ad8; align-items: center;  margin: 0px 5px 0px 0px; font-family: Verdana; font-weight: bold">Thêm đợt nhập sách</h6>
+                    </div>
+                </div>
                 <div class="frame-body">
-                    <h3>THÊM ĐỢT NHẬP SÁCH</h3>
                     <form th:action="@{/addbookimport}" method="post">
-                        <div class="form-group">
-                            <label for="bookId" style="color: rgb(2,88,155);">Sách:</label>
-                            <select class="form-control" id="bookId" name="bookId" style="border-radius: 10px;">
-                                <option th:each="book : ${allBooks}" th:value="${book.id}" th:text="${book.name}"></option>
-                            </select>
+                        <div class="row-01 d-flex align-items-center">
+                            <div class="form-group">
+                                <label for="bookId" >Sách:</label>
+                                <select class="form-control" id="bookId" name="bookId" style="border-radius: 50px;">
+                                    <option th:each="book : ${allBooks}" th:value="${book.id}" th:text="${book.name}"></option>
+                                </select>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="quantity" style="color: rgb(2,88,155);">Số lượng:</label>
-                            <input type="number" class="form-control" id="quantity" name="quantity" min="0" required style="border-radius: 10px;" />
+                        <div class="row-01 d-flex align-items-center" style="margin-top: 15px">
+                            <div class="col-4" style="padding: 0px 15px 0px 0px; ">
+                                <div class="form-group">
+                                    <label for="quantity" >Số lượng:</label>
+                                    <input type="number" class="form-control" id="quantity" name="quantity" min="0" required style="border-radius: 50px;" />
+                                </div>
+                            </div>
+                            <div class="col-4" style="padding: 0px 15px 0px 0px;">
+                                <div class="form-group">
+                                    <label for="remainingQuantity" >Số lượng còn lại:</label>
+                                    <input type="number" class="form-control" id="remainingQuantity" name="remainingQuantity" min="0" required style="border-radius: 50px;" />
+                                </div>
+                            </div>
+                            <div class="col-4" style="padding: 0px;">
+                                <div class="form-group">
+                                    <label for="importPrice" >Giá nhập:</label>
+                                    <input type="number" class="form-control" id="importPrice" name="importPrice" min="0" required style="border-radius: 50px;" />
+                                </div>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="remainingQuantity" style="color: rgb(2,88,155);">Số lượng còn lại:</label>
-                            <input type="number" class="form-control" id="remainingQuantity" name="remainingQuantity" min="0" required style="border-radius: 10px;" />
+                        <div class="row-01 d-flex align-items-center" style="margin: 15px 0px 15px 0px">
+                            <div class="col-4" style="padding: 0px 15px 0px 0px; ">
+                                <!-- Ô input cho ngày -->
+                                <div class="form-group">
+                                    <label for="importDate">Ngày nhập:</label>
+                                    <input type="date" class="form-control" id="importDate" name="importDate" style="border-radius: 50px;" required />
+                                </div>
+                            </div>
+                            <div class="col-4" style="padding: 0px 15px 0px 0px; ">
+                                <!-- Ô input cho giờ -->
+                                <div class="form-group">
+                                    <label for="importTime">Giờ nhập:</label>
+                                    <input type="time" class="form-control" id="importTime" name="importTime" style="border-radius: 50px;" required />
+                                </div>
+                            </div>
+                            <div class="col-4" style="padding: 0px">
+                                <div class="form-group">
+                                    <label for="status">Trạng thái:</label>
+                                    <select class="form-control" id="status" name="status" style="border-radius: 50px;" required>
+                                        <option value="" disabled selected>Chọn</option>
+                                        <option value="1">Đang bán</option>
+                                        <option value="2">Chưa bán</option>
+                                    </select>
+                                </div>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="importPrice" style="color: rgb(2,88,155);">Giá nhập:</label>
-                            <input type="number" class="form-control" id="importPrice" name="importPrice" min="0" required style="border-radius: 10px;" />
-                        </div>
-                        <!-- Ô input cho ngày -->
-                        <div class="form-group">
-                            <label for="importDate">Ngày nhập:</label>
-                            <input type="date" class="form-control" id="importDate" name="importDate" required />
-                        </div>
-
-                        <!-- Ô input cho giờ -->
-                        <div class="form-group">
-                            <label for="importTime">Giờ nhập:</label>
-                            <input type="time" class="form-control" id="importTime" name="importTime" required />
-                        </div>
-
-                        <div class="form-group">
-                            <label for="status" style="color: rgb(2,88,155);">Trạng thái:</label>
-                            <select class="form-control" id="status" name="status" style="border-radius: 10px;" required>
-                                <option value="" disabled selected>Chọn</option>
-                                <option value="1">Đang bán</option>
-                                <option value="2">Chưa bán</option>
-                            </select>
-                        </div>
-
-                        <div class="text-center mb-4">
-                            <button type="submit" class="btn btn-create">Thêm đợt nhập sách</button>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-create">Thêm đợt nhập</button>
                         </div>
                     </form>
                 </div>
