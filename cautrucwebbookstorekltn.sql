@@ -485,6 +485,24 @@ CREATE TABLE Voucher (
   end_date DATETIME(6) NOT NULL
 );
 
+-- Tạo bảng VoucherInfo 
+CREATE TABLE Voucher (
+  -- Khai báo thuộc tính id kiểu BIGINT, không được null, tăng tự động và là khóa chính
+  id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  -- Khai báo thuộc tính total_amount kiểu double, không được null 
+  total_amount DOUBLE NOT NULL,
+  -- Khai báo thuộc tính voucher_discount kiểu double, không được null 
+  voucher_discount DOUBLE NOT NULL,
+  -- Khai báo thuộc tính discounted_amount kiểu double, không được null 
+  discounted_amount DOUBLE NOT NULL,
+  -- Khai báo thuộc tính order_id kiểu int và là khóa ngoại tham chiếu đến bảng Order
+  order_id INT,
+  FOREIGN KEY (order_id) REFERENCES `Order`(id),
+  -- Khai báo thuộc tính voucher_id kiểu BIGINT và là khóa ngoại tham chiếu đến bảng Voucher
+  voucher_id BIGINT,
+  FOREIGN KEY (voucher_id) REFERENCES Voucher(id)
+);
+
   
 -- Thêm dữ liệu vào bảng Category
 INSERT INTO Category (name, status) VALUES ("CHÍNH TRỊ - PHÁP LUẬT", 1);

@@ -379,8 +379,20 @@
 				</div>
 
 				<div class="row-pay d-flex align-items-center" style="padding: 0px 0px 20px 0px; width: 100%; border-top: 1px solid #cecece; padding: 20px 0px">
+					<div th:if="${order.voucherInfo != null}" class="col-04" style="width: 80%; display: flex; justify-content: flex-end; align-items: flex-end;">
+						<h6 style="margin: 0px 0px 0px">Thành tiền</h6>
+					</div>
+					<div th:if="${order.voucherInfo != null}" class="col-05" style="width: 20%; display: flex; justify-content: flex-end; align-items: flex-end; padding: 0px 20px">
+						<p th:text="${#numbers.formatInteger(order.voucherInfo.totalAmount, 0, 'POINT') + ' đ'}" class="align-middle text-center" style="color: orangered; font-weight: bold; margin: 0px 0px 0px"></p>
+					</div>
+					<div th:if="${order.voucherInfo != null}" class="col-04" style="width: 80%; display: flex; justify-content: flex-end; align-items: flex-end;">
+						<h6 style="margin: 0px 0px 0px">Giảm giá</h6>
+					</div>
+					<div th:if="${order.voucherInfo != null}" class="col-05" style="width: 20%; display: flex; justify-content: flex-end; align-items: flex-end; padding: 0px 20px">
+						<p th:text="'-' + ${#numbers.formatInteger(order.voucherInfo.voucherDiscount, 0, 'POINT') + ' đ'}" class="align-middle text-center" style="color: orangered; font-weight: bold; margin: 0px 0px 0px"></p>
+					</div>
 					<div class="col-04" style="width: 80%; display: flex; justify-content: flex-end; align-items: flex-end;">
-						<h6 style="margin: 0px 0px 0px">Tổng thanh toán</h6>
+						<h6 style="margin: 0px 0px 0px">Tổng cộng</h6>
 					</div>
 					<div class="col-05" style="width: 20%; display: flex; justify-content: flex-end; align-items: flex-end; padding: 0px 20px">
 						<p th:text="${#numbers.formatInteger(order.totalPrice, 0, 'POINT') + ' đ'}" class="align-middle text-center" style="color: orangered; font-weight: bold; margin: 0px 0px 0px"></p>

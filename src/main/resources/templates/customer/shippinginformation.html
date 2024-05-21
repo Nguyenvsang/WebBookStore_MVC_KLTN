@@ -144,10 +144,22 @@
 			box-shadow: 0px 6px 8px rgba(0, 0.4, 0, 0.2);
 		}
 
+		.alert-success {
+			color: rgb(91,181,111);
+		}
+		.alert-danger {
+			color: rgb(247,80,80);
+		}
+
 	</style>
 </head>
 <body>
 	<div th:replace="~{layout/header :: header}"></div>
+	<!-- Hiển thị thông báo nếu có -->
+	<div th:if="${param.message}" class="alert" id="myAlert02"
+		 th:classappend="${#strings.containsIgnoreCase(param.message, 'thành công') ? 'alert-success' : 'alert-danger'}">
+		<span th:text="${param.message}" style="font-weight: bold;justify-content: center; display: flex;"></span>
+	</div>
     <div class="container-fluid mb-4">
         
 
@@ -190,18 +202,42 @@
 								</tr>
 								</thead>
 								<tbody>
-									<tr th:each="cartItem : ${selectedCartItems}" onmouseover="this.style.backgroundColor='#f2f5f6';" onmouseout="this.style.backgroundColor='transparent';"
-										style="border-top: 1px solid #cecece; background-color: transparent;">
-										<td th:text="${cartItem.book.name}" class="align-middle" style="text-align: center; padding: 10px 0px"></td>
-										<td th:text="${cartItem.quantity}" class="align-middle text-center" style="text-align: center; padding: 10px 0px"></td>
-										<td th:text="${cartItem.book.currentDiscount != null ? #numbers.formatInteger(cartItem.book.currentDiscount.discountedPrice, 0, 'POINT')+ ' đ' : #numbers.formatInteger(cartItem.book.sellPrice, 0, 'POINT')+ ' đ'}" class="align-middle" style="text-align: right; padding: 10px 10px"></td>
-										<td th:text="${cartItem.book.currentDiscount != null ? #numbers.formatInteger(cartItem.quantity * cartItem.book.currentDiscount.discountedPrice, 0, 'POINT')+ ' đ' : #numbers.formatInteger(cartItem.quantity * cartItem.book.sellPrice, 0, 'POINT')+ ' đ'}" class="align-middle" style="text-align: right; padding: 10px 10px"></td>
+									<tr th:each="cartItem : ${selectedCartItems}"
+										name="cartItemId"
+										data-category-id="${cartItem.book.category.id}"
+										th:data-price="${cartItem.book.currentDiscount != null ? cartItem.book.currentDiscount.discountedPrice : cartItem.book.sellPrice}"
+										th:data-quantity="${cartItem.quantity}"
+										onmouseover="this.style.backgroundColor='#f2f5f6';" onmouseout="this.style.backgroundColor='transparent';" style="border-top: 1px solid #cecece; background-color: transparent;">
+											<td th:text="${cartItem.book.name}" class="align-middle" style="text-align: center; padding: 10px 0px"></td>
+											<td th:text="${cartItem.quantity}" class="align-middle text-center" style="text-align: center; padding: 10px 0px"></td>
+											<td th:text="${cartItem.book.currentDiscount != null ? #numbers.formatInteger(cartItem.book.currentDiscount.discountedPrice, 0, 'POINT')+ ' đ' : #numbers.formatInteger(cartItem.book.sellPrice, 0, 'POINT')+ ' đ'}" class="align-middle" style="text-align: right; padding: 10px 10px"></td>
+											<td th:text="${cartItem.book.currentDiscount != null ? #numbers.formatInteger(cartItem.quantity * cartItem.book.currentDiscount.discountedPrice, 0, 'POINT')+ ' đ' : #numbers.formatInteger(cartItem.quantity * cartItem.book.sellPrice, 0, 'POINT')+ ' đ'}" class="align-middle" style="text-align: right; padding: 10px 10px"></td>
 									</tr>
 								</tbody>
 							</table>
 							<div class="frame" style="background-color: #ffebae;">
 								<div class="text-total" >
-									<h6 style="margin: 0px; font-weight: bold; ">Tổng thanh toán: <span th:text="${#numbers.formatInteger(totalAmount, 0, 'POINT') + ' đ'}" style="color: orangered; "></span></h6>
+									<h6 style="margin: 0px; font-weight: bold; ">Thành tiền: <span id="totalAmount" th:data-value="${totalAmount}" th:text="${#numbers.formatInteger(totalAmount, 0, 'POINT') + ' đ'}" style="color: orangered; "></span></h6>
+								</div>
+								<div class="text-total" >
+									<!-- Thêm phần tử HTML để hiển thị mã code voucher -->
+									<h7 th:if="${selectedVoucher != null}" id="appliedVoucherCode" style="color: orangered; font-weight: bold;">Voucher: <span th:text="${selectedVoucher.code}" style="color: orangered; "></span></h7>
+								</div>
+								<div class="text-total" >
+									<!-- Thêm phần tử HTML để hiển thị giá được giảm bởi voucher -->
+									<h7 th:if="${selectedVoucher != null}" id="voucherDiscount" style="color: orangered; font-weight: bold;">Giảm giá: <span th:text="'-' + ${#numbers.formatInteger(voucherDiscount, 0, 'POINT') + ' đ'}" style="color: orangered; "></span></h7>
+								</div>
+								<div class="text-total" >
+									<!-- Thêm phần tử HTML để hiển thị giá đã giảm từ voucher -->
+									<h7 th:if="${selectedVoucher != null}" id="discountedPrice" style="color: orangered; font-weight: bold;">Tổng số tiền: <span th:text="${#numbers.formatInteger(discountedPriceByVoucher, 0, 'POINT') + ' đ'}" style="color: orangered; "></span></h7>
+								</div>
+								<div class="text-total" >
+									<!-- Thêm nút để xóa voucher -->
+									<button type="button" th:if="${selectedVoucher != null}" id="removeVoucherButton">Xóa Voucher</button>
+								</div>
+								<div class="text-total row-voucher" style="border-bottom: 1px solid #cecece; padding: 0px 0px 10px; margin: 0px">
+									<!-- Thêm nút để thêm/ đổi voucher -->
+									<button th:if="${vouchers != null || !vouchers.isEmpty() }" type="button" style="text-align: right; color: #211f7f;" data-toggle="modal" data-target="#voucherModal">Chọn Voucher</button>
 								</div>
 							</div>
 						</div>
@@ -270,6 +306,7 @@
 		            </div>
 					<div class="text-center">
 						<input type="hidden" name="idSelectedCartItems" id="idSelectedCartItems" th:value="${idSelectedCartItems}">
+						<input th:if="${selectedVoucher != null}" type="hidden" name="voucherId" id="voucherIdForPlaceOrder" th:data-voucherId="${selectedVoucherId}"th:value="${selectedVoucherId}">
 						<button type="submit" class="btn btn-order">Đặt hàng</button>
 					</div>
 		        </form>
@@ -330,6 +367,67 @@
 		</div>
 	</div>
 
+	<!-- Đoạn mã HTML cho modal đổi Voucher -->
+	<div class="modal fade" id="voucherModal" tabindex="-1" role="dialog" aria-labelledby="voucherModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="voucherModalLabel">Chọn Voucher</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<!-- -->
+					<form id="selectVoucherForm">
+						<div th:each="voucher : ${vouchers}">
+							<div class="card mb-3">
+								<div class="card-body">
+									<input type="radio" id="voucherId_${voucher.id}" name="voucherId" th:value="${voucher.id}" th:data-id="${voucher.id}" th:data-percent="${voucher.discountPercent}" th:data-amount="${voucher.amountDiscount}" th:data-minvalue="${voucher.minimumOrderValue}" th:checked="${voucher.id == selectedVoucherId}">
+									<p class="card-text">
+										Mã code: <span class="voucherCode" id="voucherCode_${voucher.id}" th:text="${voucher.code}"></span>
+									</p>
+									<p class="card-text" th:if="${voucher.category != null}">
+										Dành cho danh mục: <span id="voucherCategory_${voucher.id}" class="voucherCategory" th:text="${voucher.category.name}" th:data-category-id="${voucher.category.id}"></span>
+									</p>
+									<p class="card-text" th:if="${voucher.category == null}">
+										Dành cho mọi sách
+									</p>
+									<p class="card-text">
+										Chỉ còn: <span class="voucherRemainingQuantity" id="voucherRemainingQuantity_${voucher.id}" th:text="${voucher.remainingQuantity} + ' lượt'"></span>
+									</p>
+									<p class="card-text" th:if="${voucher.discountPercent != -1}">
+										Giảm: <span id="voucherDiscountPercent_${voucher.id}" class="voucherDiscountPercent" th:text="${voucher.discountPercent} + '%'"></span>
+									</p>
+									<p class="card-text" th:if="${voucher.amountDiscount != -1}">
+										Giảm: <span id="voucherAmountDiscount_${voucher.id}" class="voucherAmountDiscount" th:text="${#numbers.formatInteger(voucher.amountDiscount, 0, 'POINT')} + ' đ'"></span>
+									</p>
+									<p class="card-text">
+										Đơn hàng từ: <span id="voucherMinimumOrderValue_${voucher.id}" class="voucherMinimumOrderValue" th:text="${#numbers.formatInteger(voucher.minimumOrderValue, 0, 'POINT')} + ' đ'"></span>
+									</p>
+									<p class="card-text">
+										Hạn sử dụng: <span class="voucherEndDate" id="voucherEndDate_${voucher.id}" th:text="${#temporals.format(voucher.endDate.toLocalDateTime(), 'dd/MM/yyyy HH:mm:ss')}"></span>
+									</p>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+					<form id="voucherForm" th:action="@{/shippinginformation}" method="post">
+						<!-- Các trường form khác ở đây -->
+						<input type="hidden" name="idSelectedCartItems" id="idSelectedCartItemsWithVoucher" th:data-idSelectedCartItems="${idSelectedCartItems}" th:value="${idSelectedCartItems}">
+						<!-- Trường mới để lưu trữ ID voucher -->
+						<input type="hidden" name="voucherId" id="voucherId" th:data-voucherId="${selectedVoucherId}" th:value="${selectedVoucherId}">
+						<button type="button" class="btn btn-primary" id="selectVoucherConfirm">Áp dụng Voucher</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Kết thúc đoạn mã HTML cho modal đổi Voucher -->
+
     <div th:replace="~{layout/footer :: footer}"></div>
 	<script>
 		function changeIcon(paymentMethod) {
@@ -376,14 +474,221 @@
 			});
 		});
 
-	</script>
+		function displayAlert(message, alertType) {
+			// Kiểm tra xem đã có thông báo chưa
+			if (document.getElementById('myAlert02')) {
+				return;
+			}
 
-<!--	<script>-->
-<!--		// Lắng nghe sự kiện click vào nút "Đặt hàng"-->
-<!--		$(".btn-order").click(function() {-->
-<!--			// Submit form-->
-<!--			$("#myForm").submit();-->
+			var alertBox = document.createElement('div');
+			alertBox.className = 'alert ' + alertType;
+			alertBox.id = 'myAlert02';
+			alertBox.style.fontWeight = 'bold';
+			alertBox.style.justifyContent = 'center';
+			alertBox.style.display = 'flex';
+
+			var alertText = document.createElement('span');
+			alertText.textContent = message;
+
+			alertBox.appendChild(alertText);
+
+			// Tìm phần tử header và chèn thông báo ngay sau nó
+			var header = document.getElementsByTagName('header')[0];
+			header.parentNode.insertBefore(alertBox, header.nextSibling);
+
+			// Thông báo sẽ tự động biến mất sau 10 giây
+			setTimeout(function() {
+				alertBox.remove();
+			}, 10000);
+		}
+
+		var myAlert02 = document.getElementById('myAlert02'); // Tránh bị null
+		// Đặt thời gian cho alert
+		if (myAlert02){
+			setTimeout(function() {
+			document.getElementById('myAlert02').style.display = 'none';
+			}, 10000);  // Alert sẽ biến mất sau 10 giây
+		}
+
+		// Khi người dùng chọn Voucher
+		$(document).ready(function() {
+			// Khi người dùng nhấn nút xác nhận
+			$('#selectVoucherConfirm').click(function() {
+				// Lấy id của voucher đang được chọn
+				var selectedVoucherId = $('input[name="voucherId"]:checked').val();
+
+				// Cập nhật giá trị của trường ẩn voucherId trong form
+				$('#voucherId').val(selectedVoucherId);
+
+				// Gửi form đi
+				$('#voucherForm').submit();
+			});
+		});
+
+		$(document).ready(function() {
+			// Khi người dùng nhấn nút xóa voucher
+			$('#removeVoucherButton').click(function() {
+				// Đặt là -1 để voucher trả về null
+				$('#voucherId').val(-1);
+
+				// Gửi form đi
+				$('#voucherForm').submit();
+			});
+		});
+
+
+
+<!--		// Khai báo currentVoucherId ở vị trí cao nhất-->
+<!--		var currentVoucherId;-->
+
+<!--		// Tạo hàm để hủy áp dụng voucher-->
+<!--		function cancelVoucherApplication() {-->
+<!--			// Hủy áp dụng voucher-->
+<!--			currentVoucherId = null;-->
+
+<!--			// Ẩn mã code voucher, giá được giảm bởi voucher, giá đã giảm từ voucher và nút hủy áp dụng voucher-->
+<!--			$('#appliedVoucherCode').hide();-->
+<!--			$('#voucherDiscount').hide();-->
+<!--			$('#discountedPrice').hide();-->
+<!--			$('#removeVoucherButton').hide();-->
+
+<!--			// Bỏ chọn tất cả các radio button-->
+<!--			$('input[name="voucherId"]').prop('checked', false);-->
+<!--		}-->
+
+
+<!--		// Tạo hàm để tính toán tổng giá giỏ hàng khi đã nhấn chọn/ đổi Voucher-->
+<!--		function calculateTotalPriceWithVoucher(selectedVoucherId) {-->
+<!--			// Cập nhật voucher đang được chọn-->
+<!--			currentVoucherId = selectedVoucherId;-->
+<!--			var selectedVoucher = $('input[name="voucherId"]:checked').closest('.card-body');-->
+<!--			var category = selectedVoucher.find('.voucherCategory').text();-->
+<!--        var voucherCode = selectedVoucher.find('.voucherCode').text();-->
+<!--			var minimumOrderValue = parseFloat($('input[name="voucherId"]:checked').data('minvalue'));-->
+<!--			var totalAmount = parseFloat($('#totalAmount').data('value'));-->
+
+<!--			// Hiển thị giá trị category, minimumOrderValue và totalpricecart lên console-->
+<!--			console.log('Category: ' + category);-->
+<!--			console.log('Giá trị tối thiểu của voucher: ' + minimumOrderValue);-->
+<!--			console.log('Giá trị đơn hàng: ' + totalAmount);-->
+
+<!--			// Kiểm tra xem voucher (mọi sách) có thể áp dụng cho đơn hàng hay không-->
+<!--			if (category == '' && minimumOrderValue <= totalAmount) {-->
+<!--				var discountPercent = parseFloat($('input[name="voucherId"]:checked').data('percent'));-->
+<!--				var amountDiscount = parseFloat($('input[name="voucherId"]:checked').data('amount'));-->
+
+<!--				// Hiển thị giá trị discountPercent và amountDiscount lên console-->
+<!--				console.log('Phần trăm giảm giá: ' + discountPercent);-->
+<!--				console.log('Số tiền giảm giá: ' + amountDiscount);-->
+
+<!--				// Tính toán giá đã giảm-->
+<!--				var discountedPrice = totalAmount;-->
+<!--				// Giá trị được giảm giá từ voucher-->
+<!--				var voucherDiscount = 0;-->
+<!--				if (discountPercent != -1) {-->
+<!--					voucherDiscount = totalAmount * discountPercent / 100;-->
+<!--					discountedPrice -= voucherDiscount;-->
+<!--				} else if (amountDiscount != -1) {-->
+<!--					voucherDiscount = amountDiscount;-->
+<!--					discountedPrice -= voucherDiscount;-->
+<!--				}-->
+
+<!--				// Hiển thị giá đã giảm lên console-->
+<!--				console.log('Giá đã giảm: ' + discountedPrice);-->
+
+<!--				// Hiện mã code đang được áp dụng lên giao diện-->
+<!--				$('#appliedVoucherCode').text('Mã code voucher: ' + voucherCode).show();-->
+<!--				// Cập nhật giá được giảm từ voucher lên giao diện-->
+<!--				$('#voucherDiscount').text('-' + voucherDiscount.toLocaleString('vi-VN', {style : 'currency', currency : 'VND'})).show();-->
+<!--				// Cập nhật giá đã giảm trên giao diện-->
+<!--				$('#discountedPrice').text(discountedPrice.toLocaleString('vi-VN', {style : 'currency', currency : 'VND'})).show();-->
+<!--				// Hiển thị nút xóa voucher-->
+<!--				$('#removeVoucherButton').show();-->
+<!--			} else if (category != '') {// Kiểm tra xem voucher (danh mục cụ thể) có thể áp dụng cho đơn hàng hay không-->
+<!--				var categoryId = selectedVoucher.find('.voucherCategory').data('category-id');-->
+
+<!--				console.log('=== categoryId: ' + categoryId);-->
+<!--				// Tính tổng giá trị các mặt hàng thuộc về danh mục-->
+<!--				var totalCategoryValue = Array.from(document.querySelectorAll('tr[data-category-id="' + categoryId + '"]')).reduce(function(total, row) {-->
+<!--					var discountPercent = parseFloat($('input[name="voucherId"]:checked').data('percent'));-->
+<!--                	var amountDiscount = parseFloat($('input[name="voucherId"]:checked').data('amount'));-->
+<!--					if (isNaN(price)) {-->
+<!--						price = 0;-->
+<!--					}-->
+<!--					if (isNaN(quantity)) {-->
+<!--						quantity = 0;-->
+<!--					}-->
+<!--					return total + price * quantity;-->
+<!--				}, 0);-->
+
+<!--				console.log('Giá trị các mặt hàng thuộc về danh mục: ' + totalCategoryValue);-->
+
+
+<!--				// Kiểm tra xem tổng giá trị các mặt hàng thuộc về danh mục có lớn hơn hoặc bằng minimumOrderValue không-->
+<!--				if (totalCategoryValue >= minimumOrderValue) {-->
+<!--					var discountPercent = parseFloat($('input[name="voucherId"]:checked').data('percent'));-->
+<!--					var amountDiscount = parseFloat($('input[name="voucherId"]:checked').data('amount'));-->
+
+<!--					// Tính toán giá đã giảm dựa trên tổng giá trị các mặt hàng thuộc về danh mục-->
+<!--					var discountedPrice = totalAmount;-->
+<!--					// Giá trị được giảm giá từ voucher-->
+<!--					var voucherDiscount = 0;-->
+<!--					if (discountPercent != -1) {-->
+<!--						// Nếu là % thì giá cuối cùng = tổng giá giỏ hàng - totalCategoryValue * discountPercent / 100-->
+<!--						voucherDiscount = totalCategoryValue * discountPercent / 100;-->
+<!--						discountedPrice -= voucherDiscount;-->
+<!--					} else if (amountDiscount != -1) {-->
+<!--						// Nếu nó là số tiền mặt thì lấy luôn giá cuối cùng = tổng giá giỏ hàng - amount-->
+<!--						voucherDiscount = amountDiscount-->
+<!--						discountedPrice -= voucherDiscount;-->
+<!--					}-->
+
+<!--					// Hiện mã code đang được áp dụng lên giao diện-->
+<!--					$('#appliedVoucherCode').text('Mã code voucher: ' + voucherCode).show();-->
+<!--					// Cập nhật giá được giảm từ voucher lên giao diện-->
+<!--					$('#voucherDiscount').text('-' + voucherDiscount.toLocaleString('vi-VN', {style : 'currency', currency : 'VND'})).show();-->
+<!--					// Cập nhật giá đã giảm trên giao diện-->
+<!--					$('#discountedPrice').text(discountedPrice.toLocaleString('vi-VN', {style : 'currency', currency : 'VND'})).show();-->
+<!--					// Hiển thị nút xóa voucher-->
+<!--					$('#removeVoucherButton').show();-->
+<!--				} else {-->
+<!--					// Hiển thị thông báo lỗi-->
+<!--					var message = 'Tổng giá trị các mặt hàng thuộc danh mục ' + category + ' trong đơn hàng của bạn nhỏ hơn giá trị tối thiểu của voucher. Vui lòng chọn một voucher khác hoặc tăng giá trị đơn hàng của bạn.';-->
+<!--					displayAlert(message, 'alert-danger');-->
+<!--					cancelVoucherApplication();-->
+<!--				}-->
+<!--			} else {-->
+<!--				// Hiển thị thông báo lỗi-->
+<!--				var message = 'Giá trị đơn hàng của bạn nhỏ hơn giá trị tối thiểu của voucher. Vui lòng chọn một voucher khác hoặc tăng giá trị đơn hàng của bạn.';-->
+<!--				displayAlert(message, 'alert-danger');-->
+<!--				cancelVoucherApplication();-->
+<!--			}-->
+<!--		}-->
+
+<!--		// Xử lý tổng giá giỏ hàng khi đã nhấn chọn Voucher-->
+<!--		$(document).ready(function() {-->
+<!--			// Lấy id của voucher đang được chọn-->
+<!--			$('#selectVoucherConfirm').click(function() {-->
+<!--				var selectedVoucherId = $('input[name="voucherId"]:checked').val();-->
+<!--				if (selectedVoucherId) {-->
+<!--					calculateTotalPriceWithVoucher(selectedVoucherId);-->
+<!--					// Đóng modal-->
+<!--					$('#voucherModal').modal('hide');-->
+<!--				}-->
+<!--			});-->
+
+<!--			// Khi mở modal, chọn radio button tương ứng với voucher đang được chọn-->
+<!--			$('#voucherModal').on('show.bs.modal', function() {-->
+<!--				if (currentVoucherId) {-->
+<!--					$('input[name="voucherId"][value="' + currentVoucherId + '"]').prop('checked', true);-->
+<!--				}-->
+<!--			});-->
+
+<!--			$('#removeVoucherButton').click(function() {-->
+<!--				cancelVoucherApplication();-->
+<!--			});-->
 <!--		});-->
-<!--	</script>-->
+
+	</script>
 </body>
 </html>

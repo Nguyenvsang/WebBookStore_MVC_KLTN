@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 @Setter
 @Getter
@@ -53,4 +54,8 @@ public class Voucher {
 
     @Column(name = "end_date", columnDefinition = "DATETIME(6) NOT NULL")
     private Timestamp endDate;
+
+    //bi-directional one-to-many association with VoucherInfo (de quen)
+    @OneToMany(mappedBy = "voucher")
+    private List<VoucherInfo> voucherInfos;
 }
