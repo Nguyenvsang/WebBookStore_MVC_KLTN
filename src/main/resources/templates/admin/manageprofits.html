@@ -69,13 +69,6 @@
             border-bottom-right-radius: 15px;
         }
 
-        table {
-            border-collapse: collapse;
-        }
-        td {
-            border: 1px solid rgb(242,242,242);
-        }
-
         .frame-number {
                 display: flex;
                 justify-content: center;
@@ -83,31 +76,27 @@
             }
 
         .container-main {
-            border-radius: 5px;
             border-radius: 15px;
-            padding: 15px;
-            margin: 20px;
-        }
-
-        .container-main{
+            margin: 40px;
+            background-color: white;
             box-shadow: 0 8px 10px rgb(226, 226, 226);
         }
 
         .page-link {
-            height: 40px;
-            color: rgb(2,88,155);
-            border: #f8f9fa;
-            border-radius: 10px !important;
-            margin: 2px;
-        }
-        .page-item.active .page-link {
-            background-color: rgb(182,232,241);;
-            color: rgb(2,88,155);
-        }
+	        height: 40px;
+	        color: rgb(2,88,155);
+			border: #f8f9fa;
+			border-radius: 10px !important;
+			margin: 2px;
+	    }
+	    .page-item.active .page-link {
+			background-color: #e0f3ff;
+			color: rgb(2,88,155);
+		}
 
-        .page-link:hover {
-            background-color: rgb(182,232,241);
-        }
+	    .page-link:hover {
+			background-color: #e0f3ff;
+		}
 
         .form-accounts{
             color: orangered;
@@ -178,6 +167,84 @@
             top: 0px;
             padding: 10px; /* Đặt padding tùy ý */
         }
+
+        .form-statistics {
+			color: grey;
+			margin-top: 10px;
+		}
+
+        .row-01{
+			padding: 40px;
+			background-color: #f2fbff;
+		}
+		.title-icon{
+			padding: 10px;
+			margin-right: 20px;
+			background-color: white;
+			box-shadow: 0 8px 10px rgb(226, 226, 226);
+			border-radius: 15px;
+			height: 80px;
+			width: 80px;
+		}
+        .title-icon:hover {
+			box-shadow: 0 8px 10px #d7ebff;
+		}
+
+        .row-search {
+			box-shadow: 0px 4px 4px rgba(192, 192, 192, 0.3);
+		}
+		.row-search:hover {
+			box-shadow: 0px 6px 8px rgba(0, 0.3, 0, 0.2);
+		}
+
+        .select-search{
+            height: 43.2px;
+            border-radius: 50px;
+            border: none;
+            box-shadow: 0px 4px 4px rgba(192, 192, 192, 0.3);
+            padding-left: 16px;
+            color: grey;
+        }
+
+        .select-search:hover{
+            box-shadow: 0px 6px 8px rgba(0, 0.3, 0, 0.2);
+        }
+
+
+        .btn.btn-filter-status{
+            border: none;
+            height: 70px;
+            width: 220px;
+            margin-right: 30px;
+            box-shadow: 0px 4px 4px rgba(192, 192, 192, 0.3);
+            color: grey;
+        }
+
+        .btn.btn-filter-status:hover, .btn.btn-filter-status:focus{
+            box-shadow: 0px 6px 8px rgba(70, 130, 180, 0.5);
+            color: white;
+            background-color: #3f6ad8;
+        }
+
+        .btn.btn-filter-status:active{
+            background-color: #3f6ad8;
+        }
+
+        .material-symbols-outlined:nth-child(1) {
+            display: inline; /* Hiển thị biểu tượng expand_more */
+        }
+
+        .material-symbols-outlined:nth-child(2) {
+            display: none; /* Ẩn biểu tượng expand_less */
+        }
+
+        .row-pagination {
+            margin: 0px 40px 40px 40px;
+            padding: 10px;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0px 4px 4px rgba(192, 192, 192, 0.3);
+        }
     </style>
 </head>
 <body>
@@ -188,97 +255,256 @@
     </div>
 
     <div class="col-08" style="width: 83%">
+        <div class="row-01 d-flex align-items-center">
+            <div class="col-04 d-flex align-items-center" style="width: 30%">
+                <div class="title-icon" >
+                    <img src="https://res.cloudinary.com/dylwewmt0/image/upload/v1716391528/PHOTO_LIST/Admin/Title-icon/13.png" alt="Knowledge Young" style="width: 100%; height: 100%">
+                </div>
+                <div class="col-title">
+                    <p class="d-flex align-items-center" style="margin: 0px; color: #3f6ad8; font-size: 18px; font-weight: bold; font-family: Helvetica;">
+                        <a th:href="@{/statistics}" class="material-symbols-outlined back d-flex align-items-center" style="text-decoration: none">arrow_back_ios</a>
+                        LỢI NHUẬN
+                    </p>
+                    <div class="form-statistics">
+                        <p style="font-family: Helvetica; margin: 0px">Tổng số tất cả các lợi nhuận: <span th:text="${totalAllProfits}"></span></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-05 d-flex align-items-center justify-content-center" style="margin-left: 15px">
+                <!--Tìm theo mã-->
+                <form id="profitId" class="form-inline" method="GET" th:action="@{/manageprofits}">
+                    <div class="row-search" style="background-color: white; border: none; border-radius: 50px; ">
+                        <input style="border: none; width: 500px; padding: 0px 0px 0px 15px; border-top-left-radius: 50px; border-bottom-left-radius: 50px"
+                               class="form-control" type="text" name="profitId" th:placeholder="${profitId != null ? ('Tìm kiếm theo mã lợi nhuận: ' + profitId) : 'Tìm kiếm theo mã lợi nhuận'}">
+                        <button style="border-top-right-radius: 50px; border-bottom-right-radius: 50px" class="btn btn-search" type="submit">
+                            <span class="material-symbols-outlined" style="color: #dbdbdb">search</span>
+                        </button>
+                    </div>
+                </form>
+                <!--Tìm theo mã món hàng-->
+                <form id="orderitemId" class="form-inline" method="GET" th:action="@{/manageprofits}" style="display: none;">
+                    <div class="row-search" style="background-color: white; border: none; border-radius: 50px; ">
+                        <input style="border: none; width: 500px; padding: 0px 0px 0px 15px; border-top-left-radius: 50px; border-bottom-left-radius: 50px"
+                               class="form-control" type="text" name="orderitemId" th:placeholder="${orderitemId != null ? ('Tìm kiếm theo mã món hàng: ' + orderitemId) : 'Tìm kiếm theo mã món hàng'}">
+                        <button style="border-top-right-radius: 50px; border-bottom-right-radius: 50px" class="btn btn-search" type="submit">
+                            <span class="material-symbols-outlined" style="color: #dbdbdb">search</span>
+                        </button>
+                    </div>
+                </form>
+                <!--Tìm theo giá nhập-->
+                <form id="costPrice" class="form-inline" method="GET" th:action="@{/manageprofits}" style="display: none;">
+                    <div class="row-search" style="background-color: white; border: none; border-radius: 50px; ">
+                        <input style="border: none; width: 500px; padding: 0px 0px 0px 15px; border-top-left-radius: 50px; border-bottom-left-radius: 50px"
+                               class="form-control" type="text" name="costPrice" th:placeholder="${costPrice != null ? ('Tìm kiếm theo giá nhập: ' + costPrice) : 'Tìm kiếm theo giá nhập'}">
+                        <button style="border-top-right-radius: 50px; border-bottom-right-radius: 50px" class="btn btn-search" type="submit">
+                            <span class="material-symbols-outlined" style="color: #dbdbdb">search</span>
+                        </button>
+                    </div>
+                </form>
+                <!--Tìm theo giá bán-->
+                <form id="sellPrice" class="form-inline" method="GET" th:action="@{/manageprofits}" style="display: none;">
+                    <div class="row-search" style="background-color: white; border: none; border-radius: 50px; ">
+                        <input style="border: none; width: 500px; padding: 0px 0px 0px 15px; border-top-left-radius: 50px; border-bottom-left-radius: 50px"
+                               class="form-control" type="text" name="sellPrice" th:placeholder="${sellPrice != null ? ('Tìm kiếm theo giá bán: ' + sellPrice) : 'Tìm kiếm theo giá bán'}">
+                        <button style="border-top-right-radius: 50px; border-bottom-right-radius: 50px" class="btn btn-search" type="submit">
+                            <span class="material-symbols-outlined" style="color: #dbdbdb">search</span>
+                        </button>
+                    </div>
+                </form>
+                <!--Tìm theo giá trị lợi nhuận-->
+                <form id="profit" class="form-inline" method="GET" th:action="@{/manageprofits}" style="display: none;">
+                    <div class="row-search" style="background-color: white; border: none; border-radius: 50px; ">
+                        <input style="border: none; width: 500px; padding: 0px 0px 0px 15px; border-top-left-radius: 50px; border-bottom-left-radius: 50px"
+                               class="form-control" type="text" name="profit" th:placeholder="${profit != null ? ('Tìm kiếm theo giá trị lợi nhuận: ' + profit) : 'Tìm kiếm theo giá trị lợi nhuận'}">
+                        <button style="border-top-right-radius: 50px; border-bottom-right-radius: 50px" class="btn btn-search" type="submit">
+                            <span class="material-symbols-outlined" style="color: #dbdbdb">search</span>
+                        </button>
+                    </div>
+                </form>
+                <!--Tìm theo ngày tháng năm-->
+                <form id="dateStr" class="form-inline" method="GET" th:action="@{/manageprofits}" style="display: none;">
+                    <div class="row-search" style="background-color: white; border: none; border-radius: 50px; ">
+                        <input style="border: none; width: 500px; padding: 0px 0px 0px 15px; border-top-left-radius: 50px; border-bottom-left-radius: 50px"
+                               class="form-control" type="date" name="dateStr" th:placeholder="${dateStr != null ? ('Tìm kiếm theo ngày: ' + dateStr) : 'Tìm kiếm theo ngày'}">
+                        <button style="border-top-right-radius: 50px; border-bottom-right-radius: 50px" class="btn btn-search" type="submit">
+                            <span class="material-symbols-outlined" style="color: #dbdbdb">search</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+            <div class="col-03 d-flex align-items-center justify-content-center" style="padding-left: 20px">
+                <select class="select-search" id="searchType" onchange="displaySearchForm()">
+                    <option value="profitId">Tìm theo mã lợi nhuận</option>
+                    <option value="orderitemId">Tìm theo mã món hàng</option>
+                    <option value="costPrice">Tìm theo giá nhập</option>
+                    <option value="sellPrice">Tìm theo giá bán</option>
+                    <option value="profit">Tìm theo giá trị lợi nhuận</option>
+                    <option value="dateStr">Tìm theo ngày tháng năm</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Hiển thị thông báo nếu có -->
+        <div th:if="${param.message}" class="alert"
+             th:classappend="${#strings.containsIgnoreCase(param.message, 'thành công') ? 'alert-success' : 'alert-danger'}">
+            <span th:text="${param.message}"></span>
+        </div>
+
+        <div class="row-03 d-flex align-items-center" style="padding: 0px 40px; justify-content: space-between; margin: 40px 0px 0px 0px">
+            <div class="col-dropdown d-flex align-items-center" style="height: 70px;">
+                <div class="dropdown-filter" >
+                    <button class="btn btn-filter-status d-flex align-items-center justify-content-center" type="button" id="profitDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Sắp xếp:
+<!--                        <span th:switch="${profitOption}">-->
+<!--                        <span th:case="12">Lợi nhuận tăng dần</span>-->
+<!--                        <span th:case="21">Lợi nhuận giảm dần</span>-->
+<!--                        <span th:case="*">Không có</span>-->
+                        <span class="material-symbols-outlined" style="margin-left: 3px">expand_more</span>
+                        <span class="material-symbols-outlined" style="margin-left: 3px">expand_less</span>
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="profitDropdown">
+                        <a class="dropdown-item" th:href="@{/manageprofits(page=1, size=${size},  sort=${sort}, profitId=${profitId}, orderitemId=${orderitemId}, costPrice=${costPrice}, sellPrice=${sellPrice}, profit=${profit}, dateStr=${dateStr}, profitMin=${profitMin}, profitMax=${profitMax}, profitOption=12)}">Lợi nhuận tăng dần</a>
+                        <a class="dropdown-item" th:href="@{/manageprofits(page=1, size=${size},  sort=${sort}, profitId=${profitId}, orderitemId=${orderitemId}, costPrice=${costPrice}, sellPrice=${sellPrice}, profit=${profit}, dateStr=${dateStr}, profitMin=${profitMin}, profitMax=${profitMax}, profitOption=21)}">Lợi nhuận giảm dần</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="container-main" style="background-color: white;">
-            <h3>CHI TIẾT LỢI NHUẬN</h3>
 
-            <!-- Hiển thị thông báo nếu có -->
-            <div th:if="${param.message}" class="alert"
-                 th:classappend="${#strings.containsIgnoreCase(param.message, 'thành công') ? 'alert-success' : 'alert-danger'}">
-                <span th:text="${param.message}"></span>
-            </div>
+<!--            <form class="form-inline my-2 my-lg-0" method="GET" th:action="@{/manageprofits}" style="margin-left: 15px;">-->
+<!--                <input class="form-control mr-sm-2" type="text" name="profitId" th:placeholder="${profitId != null ? ('Tìm kiếm theo mã lợi nhuận: ' + profitId) : 'Tìm kiếm theo mã lợi nhuận'}" style="border: 2px solid rgb(182,232,241); border-radius: 10px;">-->
+<!--                <button class="btn btn-search my-2 my-sm-0" type="submit"><span class="material-symbols-outlined">search</span></button>-->
+<!--            </form>-->
 
-            <a th:href="@{/statistics}" class="btn btn-back">
-                <span class="material-symbols-outlined back">arrow_back_ios</span>
-            </a>
+<!--            <form class="form-inline my-2 my-lg-0" method="GET" th:action="@{/manageprofits}" style="margin-left: 15px;">-->
+<!--                <input class="form-control mr-sm-2" type="text" name="orderitemId" th:placeholder="${orderitemId != null ? ('Tìm kiếm theo mã món hàng: ' + orderitemId) : 'Tìm kiếm theo mã món hàng'}" style="border: 2px solid rgb(182,232,241); border-radius: 10px;">-->
+<!--                <button class="btn btn-search my-2 my-sm-0" type="submit"><span class="material-symbols-outlined">search</span></button>-->
+<!--            </form>-->
 
-            <div class="form-accounts">
-                <p>Tổng số tất cả các doanh thu: <span th:text="${totalAllProfits}"></span></p>
-            </div>
+<!--            <form class="form-inline my-2 my-lg-0" method="GET" th:action="@{/manageprofits}" style="margin-left: 15px;">-->
+<!--                <input class="form-control mr-sm-2" type="text" name="costPrice" th:placeholder="${costPrice != null ? ('Tìm kiếm theo giá nhập: ' + costPrice) : 'Tìm kiếm theo giá nhập'}" style="border: 2px solid rgb(182,232,241); border-radius: 10px;">-->
+<!--                <button class="btn btn-search my-2 my-sm-0" type="submit"><span class="material-symbols-outlined">search</span></button>-->
+<!--            </form>-->
 
-            <form class="form-inline my-2 my-lg-0" method="GET" th:action="@{/manageprofits}" style="margin-left: 15px;">
-                <input class="form-control mr-sm-2" type="text" name="profitId" th:placeholder="${profitId != null ? ('Tìm kiếm theo mã lợi nhuận: ' + profitId) : 'Tìm kiếm theo mã lợi nhuận'}" style="border: 2px solid rgb(182,232,241); border-radius: 10px;">
-                <button class="btn btn-search my-2 my-sm-0" type="submit"><span class="material-symbols-outlined">search</span></button>
-            </form>
+<!--            <form class="form-inline my-2 my-lg-0" method="GET" th:action="@{/manageprofits}" style="margin-left: 15px;">-->
+<!--                <input class="form-control mr-sm-2" type="text" name="sellPrice" th:placeholder="${sellPrice != null ? ('Tìm kiếm theo giá bán: ' + sellPrice) : 'Tìm kiếm theo giá bán'}" style="border: 2px solid rgb(182,232,241); border-radius: 10px;">-->
+<!--                <button class="btn btn-search my-2 my-sm-0" type="submit"><span class="material-symbols-outlined">search</span></button>-->
+<!--            </form>-->
 
-            <form class="form-inline my-2 my-lg-0" method="GET" th:action="@{/manageprofits}" style="margin-left: 15px;">
-                <input class="form-control mr-sm-2" type="text" name="orderitemId" th:placeholder="${orderitemId != null ? ('Tìm kiếm theo mã món hàng: ' + orderitemId) : 'Tìm kiếm theo mã món hàng'}" style="border: 2px solid rgb(182,232,241); border-radius: 10px;">
-                <button class="btn btn-search my-2 my-sm-0" type="submit"><span class="material-symbols-outlined">search</span></button>
-            </form>
+<!--            <form class="form-inline my-2 my-lg-0" method="GET" th:action="@{/manageprofits}" style="margin-left: 15px;">-->
+<!--                <input class="form-control mr-sm-2" type="text" name="profit" th:placeholder="${profit != null ? ('Tìm kiếm theo giá trị lợi nhuận: ' + profit) : 'Tìm kiếm theo giá trị lợi nhuận'}" style="border: 2px solid rgb(182,232,241); border-radius: 10px;">-->
+<!--                <button class="btn btn-search my-2 my-sm-0" type="submit"><span class="material-symbols-outlined">search</span></button>-->
+<!--            </form>-->
 
-            <form class="form-inline my-2 my-lg-0" method="GET" th:action="@{/manageprofits}" style="margin-left: 15px;">
-                <input class="form-control mr-sm-2" type="text" name="costPrice" th:placeholder="${costPrice != null ? ('Tìm kiếm theo giá nhập: ' + costPrice) : 'Tìm kiếm theo giá nhập'}" style="border: 2px solid rgb(182,232,241); border-radius: 10px;">
-                <button class="btn btn-search my-2 my-sm-0" type="submit"><span class="material-symbols-outlined">search</span></button>
-            </form>
+<!--            <form class="form-inline my-2 my-lg-0" method="GET" th:action="@{/manageprofits}" style="margin-left: 15px;">-->
+<!--                <input class="form-control mr-sm-2" type="date" name="dateStr" th:placeholder="${dateStr != null ? ('Tìm kiếm theo ngày: ' + dateStr) : 'Tìm kiếm theo ngày'}" style="border: 2px solid rgb(182,232,241); border-radius: 10px;">-->
+<!--                <button class="btn btn-search my-2 my-sm-0" type="submit"><span class="material-symbols-outlined">search</span></button>-->
+<!--            </form>-->
+            <div class="next-table only-bottom-border">
+                <div class="next-table-inner">
+                    <div class="next-table-header d-flex align-items-center"
+                         style="height: 60px; background-color: #d9e1f7; border-top-left-radius: 15px; border-top-right-radius: 15px">
+                        <div class="next-table-header-inner">
+                            <table>
+                                <colgroup style="width: 1020px">
+                                    <col style="width: 15%;">
+                                    <col style="width: 15%;">
+                                    <col style="width: 15%;">
+                                    <col style="width: 15%;">
+                                    <col style="width: 20%;">
+                                    <col style="width: 20%;">
+                                </colgroup>
+                                <tbody>
+                                <tr>
+                                    <th rowspan="1" class="next-table-header-node first" style="text-align: center">
+                                        <div class="next-table-cell-wrapper">Mã lợi nhuận</div>
+                                    </th>
+                                    <th rowspan="1" class="next-table-header-node " style="text-align: center">
+                                        <div class="next-table-cell-wrapper">Mã món hàng</div>
+                                    </th>
+                                    <th rowspan="1" class="next-table-header-node " style="text-align: center">
+                                        <div class="next-table-cell-wrapper">Giá nhập</div>
+                                    </th>
+                                    <th rowspan="1" class="next-table-header-node " style="text-align: center">
+                                        <div class="next-table-cell-wrapper">Giá bán</div>
+                                    </th>
+                                    <th rowspan="1" class="next-table-header-node " style="text-align: center">
+                                        <div class="next-table-cell-wrapper">Lợi nhuận</div>
+                                    </th>
+                                    <th rowspan="1" class="next-table-header-node last" style="text-align: center">
+                                        <div class="next-table-cell-wrapper">Ngày nhập</div>
+                                    </th>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
 
-            <form class="form-inline my-2 my-lg-0" method="GET" th:action="@{/manageprofits}" style="margin-left: 15px;">
-                <input class="form-control mr-sm-2" type="text" name="sellPrice" th:placeholder="${sellPrice != null ? ('Tìm kiếm theo giá bán: ' + sellPrice) : 'Tìm kiếm theo giá bán'}" style="border: 2px solid rgb(182,232,241); border-radius: 10px;">
-                <button class="btn btn-search my-2 my-sm-0" type="submit"><span class="material-symbols-outlined">search</span></button>
-            </form>
+                    <div class="next-table-body">
+                        <table>
+                            <colgroup style="width: 1020px;">
+                                <col style="width: 15%;">
+                                <col style="width: 15%;">
+                                <col style="width: 15%;">
+                                <col style="width: 15%;">
+                                <col style="width: 20%;">
+                                <col style="width: 20%;">
+                            </colgroup>
+                            <tbody>
+                            <tr th:each="profit : ${profits.content}" th:id="'profit-' + ${profit.id}" onmouseover="this.style.backgroundColor='#e0f3ff';" onmouseout="this.style.backgroundColor='transparent';">
 
-            <form class="form-inline my-2 my-lg-0" method="GET" th:action="@{/manageprofits}" style="margin-left: 15px;">
-                <input class="form-control mr-sm-2" type="text" name="profit" th:placeholder="${profit != null ? ('Tìm kiếm theo giá trị lợi nhuận: ' + profit) : 'Tìm kiếm theo giá trị lợi nhuận'}" style="border: 2px solid rgb(182,232,241); border-radius: 10px;">
-                <button class="btn btn-search my-2 my-sm-0" type="submit"><span class="material-symbols-outlined">search</span></button>
-            </form>
+                                <td rowspan="1" class="next-table-header-node first " style="padding: 20px 10px;" th:text="${profit.id}"></td>
 
-            <form class="form-inline my-2 my-lg-0" method="GET" th:action="@{/manageprofits}" style="margin-left: 15px;">
-                <input class="form-control mr-sm-2" type="date" name="dateStr" th:placeholder="${dateStr != null ? ('Tìm kiếm theo ngày: ' + dateStr) : 'Tìm kiếm theo ngày'}" style="border: 2px solid rgb(182,232,241); border-radius: 10px;">
-                <button class="btn btn-search my-2 my-sm-0" type="submit"><span class="material-symbols-outlined">search</span></button>
-            </form>
+                                <td rowspan="1" class="next-table-header-node" style="padding: 20px 10px; text-align: center" th:text="${profit.orderItem.id}"></td>
 
-            <div class="dropdown mb-3 mt-3"  style="margin-left: 15px;">
-                <button class="btn btn-filter-status dropdown-toggle" type="button" id="profitDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Sắp xếp:
-                    <span th:switch="${profitOption}">
-                        <span th:case="12">Lợi nhuận tăng dần</span>
-                        <span th:case="21">Lợi nhuận giảm dần</span>
-                        <span th:case="*">Không có</span>
-                    </span>
-                </button>
-                <div class="dropdown-menu" aria-labelledby="profitDropdown">
-                    <a class="dropdown-item" th:href="@{/manageprofits(page=1, size=${size},  sort=${sort}, profitId=${profitId}, orderitemId=${orderitemId}, costPrice=${costPrice}, sellPrice=${sellPrice}, profit=${profit}, dateStr=${dateStr}, profitMin=${profitMin}, profitMax=${profitMax}, profitOption=12)}">Lợi nhuận tăng dần</a>
-                    <a class="dropdown-item" th:href="@{/manageprofits(page=1, size=${size},  sort=${sort}, profitId=${profitId}, orderitemId=${orderitemId}, costPrice=${costPrice}, sellPrice=${sellPrice}, profit=${profit}, dateStr=${dateStr}, profitMin=${profitMin}, profitMax=${profitMax}, profitOption=21)}">Lợi nhuận giảm dần</a>
+                                <td rowspan="1" class="next-table-header-node" th:text="${#numbers.formatInteger(profit.costPrice, 0, 'POINT' )+ ' đ'}" style="color: orangered; padding: 20px 10px; text-align: center"></td>
+
+                                <td rowspan="1" class="next-table-header-node" th:text="${#numbers.formatInteger(profit.sellPrice, 0, 'POINT' )+ ' đ'}" style="color: orangered; padding: 20px 10px; text-align: center"></td>
+
+                                <td rowspan="1" class="next-table-header-node" th:text="${#numbers.formatInteger(profit.profit, 0, 'POINT' )+ ' đ'}" style="color: orangered; padding: 20px 10px; text-align: center"></td>
+
+                                <td rowspan="1" class="next-table-header-node last" style="padding: 20px 10px; text-align: center" th:text="${#temporals.format(profit.date.toLocalDateTime(), 'dd/MM/yyyy hh:mm:ss')}"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
 
-            <div class="container main-01" style="background-color: white;" >
-                <table class="table table-striped table-bordered mt-3">
-                    <thead class="thead-title">
-                    <tr style="color: rgb(2,88,155);">
-                        <th scope="col" class="align-middle text-center">Mã lợi nhuận</th>
-                        <th scope="col" class="align-middle text-center">Mã món hàng</th>
-                        <th scope="col" class="align-middle text-center">Giá nhập</th>
-                        <th scope="col" class="align-middle text-center">Giá bán</th>
-                        <th scope="col" class="align-middle text-center">Lợi nhuận</th>
-                        <th scope="col" class="align-middle text-center">Ngày nhập</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr th:each="profit : ${profits.content}" th:id="'profit-' + ${profit.id}">
-                        <td class="align-middle text-center" th:text="${profit.id}"></td>
-                        <td class="align-middle text-center" th:text="${profit.orderItem.id}"></td>
-                        <td class="align-middle text-center" th:text="${#numbers.formatInteger(profit.costPrice, 0, 'POINT' )+ ' đ'}" style="color: orangered;"></td>
-                        <td class="align-middle text-center" th:text="${#numbers.formatInteger(profit.sellPrice, 0, 'POINT' )+ ' đ'}" style="color: orangered;"></td>
-                        <td class="align-middle text-center" th:text="${#numbers.formatInteger(profit.profit, 0, 'POINT' )+ ' đ'}" style="color: orangered;"></td>
-                        <td class="align-middle text-center" th:text="${#temporals.format(profit.date.toLocalDateTime(), 'dd/MM/yyyy hh:mm:ss')}"></td>
+<!--            <div class="container main-01" style="background-color: white;" >-->
+<!--                <table class="table table-striped table-bordered mt-3">-->
+<!--                    <thead class="thead-title">-->
+<!--                    <tr style="color: rgb(2,88,155);">-->
+<!--                        <th scope="col" class="align-middle text-center">Mã lợi nhuận</th>-->
+<!--                        <th scope="col" class="align-middle text-center">Mã món hàng</th>-->
+<!--                        <th scope="col" class="align-middle text-center">Giá nhập</th>-->
+<!--                        <th scope="col" class="align-middle text-center">Giá bán</th>-->
+<!--                        <th scope="col" class="align-middle text-center">Lợi nhuận</th>-->
+<!--                        <th scope="col" class="align-middle text-center">Ngày nhập</th>-->
+<!--                    </tr>-->
+<!--                    </thead>-->
+<!--                    <tbody>-->
+<!--                    <tr th:each="profit : ${profits.content}" th:id="'profit-' + ${profit.id}">-->
+<!--                        <td class="align-middle text-center" th:text="${profit.id}"></td>-->
+<!--                        <td class="align-middle text-center" th:text="${profit.orderItem.id}"></td>-->
+<!--                        <td class="align-middle text-center" th:text="${#numbers.formatInteger(profit.costPrice, 0, 'POINT' )+ ' đ'}" style="color: orangered;"></td>-->
+<!--                        <td class="align-middle text-center" th:text="${#numbers.formatInteger(profit.sellPrice, 0, 'POINT' )+ ' đ'}" style="color: orangered;"></td>-->
+<!--                        <td class="align-middle text-center" th:text="${#numbers.formatInteger(profit.profit, 0, 'POINT' )+ ' đ'}" style="color: orangered;"></td>-->
+<!--                        <td class="align-middle text-center" th:text="${#temporals.format(profit.date.toLocalDateTime(), 'dd/MM/yyyy hh:mm:ss')}"></td>-->
 
-                        <!-- Thêm các nút thao tác tại đây -->
-                    </tr>
-                    </tbody>
-                </table>
+<!--                        &lt;!&ndash; Thêm các nút thao tác tại đây &ndash;&gt;-->
+<!--                    </tr>-->
+<!--                    </tbody>-->
+<!--                </table>-->
+
+
+            </div>
+            <div class="row-pagination d-flex align-items-center justify-content-center">
                 <!-- Thêm phần tử phân trang tại đây -->
-                <div class="frame-number">
+                <div class="frame-number d-flex align-items-center">
                     <div th:if="${profits.totalPages > 1}">
-                        <ul class="pagination">
+                        <ul class="pagination"  style="margin: 0px">
                             <li th:if="${profits.hasPrevious()}" class="page-item">
                                 <a class="page-link" th:href="@{/manageprofits(page=${profits.number}, size=${size},  sort=${sort}, orderitemId=${orderitemId}, costPrice=${costPrice}, sellPrice=${sellPrice}, profit=${profit}, dateStr=${dateStr}, profitMin=${profitMin}, profitMax=${profitMax}, profitOption=${profitOption})}">
                                     <span class="material-symbols-outlined">navigate_before</span>
@@ -305,7 +531,6 @@
                     </div>
                 </div>
             </div>
-        </div>
     </div>
 </div>
 
@@ -313,6 +538,43 @@
 <script th:src="@{/js/jquery-3.4.1.slim.min.js}"></script>
 <script th:src="@{/js/popper.min.js}"></script>
 <script th:src="@{/js/bootstrap.min.js}"></script>
+
+<script>
+    function displaySearchForm() {
+        var searchType = document.getElementById("searchType").value;
+        var forms = document.getElementsByClassName("form-inline");
+        for (var i = 0; i < forms.length; i++) {
+            if (forms[i].id == searchType) {
+                forms[i].style.display = "block";
+            } else {
+                forms[i].style.display = "none";
+            }
+        }
+    }
+</script>
+<script>
+    ['profitDropdown'].forEach(function(id) {
+        var dropdown = document.getElementById(id);
+        var expandMore = dropdown.querySelector('.material-symbols-outlined:nth-child(1)');
+        var expandLess = dropdown.querySelector('.material-symbols-outlined:nth-child(2)');
+
+        dropdown.addEventListener('click', function() {
+            if (expandMore.style.display === 'none') {
+                expandMore.style.display = 'inline';
+                expandLess.style.display = 'none';
+            } else {
+                expandMore.style.display = 'none';
+                expandLess.style.display = 'inline';
+            }
+        });
+
+        dropdown.addEventListener('blur', function() {
+            expandMore.style.display = 'inline';
+            expandLess.style.display = 'none';
+        });
+    });
+
+</script>
 
 </body>
 
