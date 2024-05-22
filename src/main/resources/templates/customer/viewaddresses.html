@@ -9,8 +9,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
 
-    <!-- Các thư viện Thymeleaf đã được thêm -->
-
     <!--Thêm đoạn javascript bên dưới để có thể thực hiện dropdown Account	?\\-->
     <!-- jQuery library -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -380,7 +378,7 @@
         	align-items: center;
         	justify-content: center;
         	background-color: white;
-        	box-shadow: 0 8px 10px rgb(226, 226, 226);
+        	box-shadow: 0px 8px 10px rgb(226, 226, 226);
         }
 
         .card-header {
@@ -402,6 +400,27 @@
             color: white;
             padding: 5px 8px;
         }
+
+        .btn-continue {
+		    margin-top: 20px;
+			background-color: #36aa00;
+			border-radius: 50px;
+			color: white;
+			width: 200px;
+			box-shadow: 0px 4px 6px rgba(0, 0.4, 0, 0.2);
+			font-weight: bold;
+		}
+		.btn-continue:hover {
+			margin-top: 20px;
+			background-color: #228b22;
+			color: white;
+			box-shadow: 0px 6px 8px rgba(0, 0.4, 0, 0.2);
+			font-weight: bold;
+		}
+
+        .modal-backdrop.show {
+            opacity: 0.3;
+        }
     </style>
 </head>
 <body>
@@ -415,7 +434,18 @@
     <!-- Thêm thẻ div để chứa thông báo lỗi từ ResponseEntity -->
     <div id="errorDiv" class="alert alert-danger" style="display: none;"></div>
 
-    <div class="container" >
+    <!-- Nếu giỏ hàng trống thì dẫn hướng về trang viewbooks -->
+    <div class="container" th:if="${addresses.isEmpty()}" style="padding: 0px">
+        <div class="container-body" style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 0px; height: 350px">
+            <img src="https://res.cloudinary.com/dylwewmt0/image/upload/v1716369579/PHOTO_LIST/Address/delivery.png" alt="" style="width: 180px;">
+            <div class="row d-flex align-items-center justify-content-center">
+                <p style="margin: 0px; color: grey; font-weight: bold;">Vui lòng thêm địa chỉ nhận hàng!</p>
+            </div>
+            <a class="btn btn-continue" th:href="@{/addaddress}">Thêm địa chỉ</a>
+        </div>
+    </div>
+
+    <div class="container" th:if="${!addresses.isEmpty()}">
         <div class="container-body">
             <div class="row-00 d-flex align-items-center" style="height: 30px; margin-bottom: 15px; margin: 0px 0px 0px">
                 <div class="col-00" style="display: flex; align-items: center; border-right: 2px solid #cecece;">
@@ -447,7 +477,7 @@
                                 </a>
 
                                 <!-- Button trigger modal -->
-                                <a th:if="${address.isDefault != 1}" type="button" class="delete" data-toggle="modal" data-target="#deleteModal" th:attr="data-id=${address.id}">
+                                <a th:if="${address.isDefault != 1}" type="button" class="btn delete-btn" data-toggle="modal" data-target="#deleteModal" th:attr="data-id=${address.id}">
                                     <span class="material-symbols-outlined edit d-flex align-items-center">delete</span>
                                 </a>
                             </div>
@@ -456,19 +486,19 @@
                     <div class="card-body">
                         <div class="row-body d-flex">
                             <div class="col-10" style="padding: 0px">
-                                <div class="delivery d-flex">
+                                <div class="delivery d-flex align-items-center">
                                     <span class="material-symbols-outlined location" style="margin-right: 5px">distance</span>
-                                    <p class="card-text">
-                                        <span th:text="${address.city.name}"></span>, <span th:text="${address.district.name}"></span>, <span th:text="${address.ward.name}"></span>,
+                                    <p class="card-text d-flex align-items-center" style="margin: 0px">
+                                        <span th:text="${address.city.name}"></span>, <span th:text="${address.district.name}" style="margin-left: 5px"></span>, <span th:text="${address.ward.name}" style="margin-left: 5px"></span>,
                                     </p>
-                                    <p class="card-text">
-                                        <span th:text="${address.addressDetails}" style="margin-left: 3px"></span>
+                                    <p class="card-text d-flex align-items-center">
+                                        <span th:text="${address.addressDetails}" style="margin-left: 5px"></span>
                                     </p>
                                 </div>
-                                <div class="type d-flex">
-                                    <p class="card-text">
-                                        <span th:text="${address.addressNote}"></span>
-                                    </p>
+                                <p class="card-text d-flex align-items-center" style="padding-left: 29px; margin-top: 10px">
+                                    <span th:text="${address.addressNote}" style="color: #f17746;"></span>
+                                </p>
+                                <div class="type d-flex align-items-center">
                                     <p class="card-text d-flex align-items-center">
                                         <span class="material-symbols-outlined location" style="margin-right: 5px">location_away</span>
                                         Loại địa chỉ:
@@ -507,16 +537,14 @@
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal" style="border-radius: 15px">Không</button>
-                                        <button type="button" class="btn btn-primary delete-confirm" style="border-radius: 15px">Có</button>
+                                        <button type="button" class="btn btn-primary delete-confirm"  data-dismiss="modal" style="border-radius: 15px">Xóa</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 

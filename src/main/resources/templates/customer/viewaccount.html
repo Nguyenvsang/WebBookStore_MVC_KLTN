@@ -56,32 +56,34 @@
 		}
 
 		.btn-edit-password {
-			background-color: #3448c5;
-			color: white;
+			background-color: white;
 			border-radius: 50px;
-			margin-top: 15px;
-			font-weight: 500;
-			box-shadow: 0px 4px 6px rgba(0, 0.4, 0, 0.2);
+			color: #c90e0f;
+			width: 200px;
+			font-weight: bold;
+			border: 1px solid #c90e0f;
 		}
 		.btn-add-password {
-			background-color: #3448c5;
-			color: white;
+			margin-top: 20px;
+			background-color: white;
 			border-radius: 50px;
-			margin-top: 15px;
-			font-weight: 500;
-			box-shadow: 0px 4px 6px rgba(0, 0.4, 0, 0.2);
+			color: #228b22;
+			width: 200px;
+			font-weight: bold;
+			border: 1px solid #228b22;
 		}
 		.btn-edit-password:hover {
-			background-color: #211f7f;
+			background-color: #c90e0f;
 			color: white;
-			font-weight: 500;
 			box-shadow: 0px 6px 8px rgba(0, 0.4, 0, 0.2);
+			font-weight: bold;
 		}
 		.btn-add-password:hover {
-			background-color: #211f7f;
+			margin-top: 20px;
+			background-color: #228b22;
 			color: white;
-			font-weight: 500;
 			box-shadow: 0px 6px 8px rgba(0, 0.4, 0, 0.2);
+			font-weight: bold;
 		}
 
 
@@ -304,10 +306,10 @@
 					<div class="form-group" style="display: flex">
 <!--						<label>Mật khẩu:</label>-->
 						<div th:if="${account.password == 'logingoogle'}">
-							<a th:href="@{/addpassword}" class="btn btn-add-password" style="width: 200px">Thêm mật khẩu</a>
+							<a th:href="@{/addpassword}" class="btn btn-add-password" style="width: 200px; ">Thêm mật khẩu</a>
 						</div>
 						<div th:if="${account.password != 'logingoogle'}">
-							<a th:href="@{/changepassword}" class="btn btn-edit-password" style="width: 200px">Đổi mật khẩu</a>
+							<a th:href="@{/changepassword}" class="btn btn-edit-password" style="width: 200px; margin-top: 15px">Đổi mật khẩu</a>
 						</div>
 					</div>
 				</div>

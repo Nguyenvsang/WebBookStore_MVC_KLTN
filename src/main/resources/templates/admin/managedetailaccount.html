@@ -18,28 +18,25 @@
 	    }
 	    .container-body {
 	    	border-radius: 20px;
-	    	margin-left: 250px;
-	    	margin-right: 250px;
-	    	margin-top: 20px;
-	    	margin-bottom: 20px;   		
+	    	padding: 20px;
+	    	box-shadow: 0 8px 10px rgb(226, 226, 226);
+	    	width: 1100px;
 		}
-		.frame-body {
-			margin: 30px;
-		}
-		
-		.btn-edit-info {
-				background-color: rgb(2,88,155);
-				border-radius: 10px;
-				color: white;
-				margin-bottom: 20px;
+
+		.btn-edit-info  {
+			background-color: white;
+			border-radius: 10px;
+			color: #3f6ad8;
+			box-shadow: 0px 0px 10px rgba(192, 192, 192, 0.5);
+			font-weight: bold;
 		}
 		.btn-edit-info:hover {
-			color: rgb(182,232,241)
+			color: white;
+            background-color: #3f6ad8;
+			box-shadow: 0px 4px 6px rgba(70, 130, 180, 0.3);
+			font-weight: bold
 		}
-		
-		.container-body {
-			box-shadow: 0 8px 10px rgb(226, 226, 226);
-		}
+
 		
 		.material-symbols-outlined.back {
 			color: rgb(2,88,155);
@@ -48,7 +45,34 @@
 		.material-symbols-outlined.back:hover {
 			color: rgb(182,232,241);
 		}
-		
+
+		.btn-edit-password{
+			background-color: white;
+			border-radius: 10px;
+			color: #f75050;
+			font-weight: bold;
+			border: 1px solid #f75050;
+		}
+		.btn-edit-password:hover{
+			color: white;
+            background-color: #f75050;
+			box-shadow: 0px 6px 8px rgba(255, 0, 0, 0.3);
+			font-weight: bold
+		}
+
+		.btn-add-password{
+			background-color: white;
+			border-radius: 10px;
+			color: #62bf5e;
+			font-weight: bold;
+			border: 1px solid #62bf5e;
+		}
+		.btn-add-password:hover{
+			color: white;
+            background-color: #62bf5e;
+			box-shadow: 0px 6px 8px rgba(0, 128, 0, 0.3);
+			font-weight: bold
+		}
 	</style>
     
 </head>
@@ -59,94 +83,103 @@
 			<div th:replace="~{admin/sidebar :: sidebar}"></div>
 		</div>
 
-		<div class="col-08" style="width: 83%">
-			<div class="container">
-				<!-- Hiển thị thông báo nếu có -->
-				<div th:if="${param.message}" class="alert"
-					 th:classappend="${#strings.containsIgnoreCase(param.message, 'thành công') ? 'alert-success' : 'alert-danger'}">
-					<span th:text="${param.message}"></span>
+		<!-- Hiển thị thông báo nếu có -->
+		<div th:if="${param.message}" class="alert"
+			 th:classappend="${#strings.containsIgnoreCase(param.message, 'thành công') ? 'alert-success' : 'alert-danger'}">
+			<span th:text="${param.message}"></span>
+		</div>
+		<div class="col-08" style="width: 83%; display: flex; justify-content: center; align-items: center; height: 90vh;">
+			<div class="container-body" style="background-color: white;">
+				<div class="row-00 d-flex align-items-center" style="height: 30px; margin-bottom: 15px; margin: 0px 0px 0px; justify-content: space-between">
+					<div class="col-00" style="display: flex; align-items: center;">
+						<a th:href="@{/manageaccounts}" class="before" style="align-items: center; display: flex; text-decoration: none;">
+							<span class="material-symbols-outlined back">arrow_back_ios</span>
+						</a>
+						<h6 style="color: #3f6ad8; align-items: center;  margin: 0px 5px 0px 0px; font-family: Verdana; font-weight: bold">Thông tin</h6>
+					</div>
+					<div class="col-00" style="display: flex; align-items: center; justify-content: flex-end; border: 1px solid #3f6ad8; padding: 8px; border-radius: 10px">
+						<p class="card-text" style="color: #3f6ad8; font-weight: 500; font-family: Calibri;">MÃ: <span th:text="${account.id}" style="font-family: Calibri;"></span></p>
+					</div>
 				</div>
-
-				<div class="container-body" style="background-color: white;">
-					<a th:href="@{/manageaccounts}" class="btn btn-out" style="margin: 10px;">
-						<span class="material-symbols-outlined back">arrow_back_ios</span>
-					</a>
-					<h3>CHI TIẾT TÀI KHOẢN</h3>
-					<div class="frame-body">
-						<div class="form-group">
-							<label for="id" style="color: rgb(2,88,155);">Mã:</label>
-							<output class="form-control" id="id" name="id" th:text="${account.id}" style="border-radius: 10px;"></output>
-						</div>
-						<div class="form-group">
-							<label for="firstName" style="color: rgb(2,88,155);">Tên:</label>
-							<output class="form-control" id="firstName" name="firstName" th:text="${account.firstName}" style="border-radius: 10px;"></output>
-						</div>
-						<div class="form-group">
-							<label for="lastName" style="color: rgb(2,88,155);">Họ:</label>
-							<output class="form-control" id="lastName" name="lastName" th:text="${account.lastName}" style="border-radius: 10px;"></output>
-						</div>
-						<div class="form-group">
-							<label for="username" style="color: rgb(2,88,155);">Tên người dùng:</label>
-							<output class="form-control" id="username" name="username" th:text="${account.username}" style="border-radius: 10px;"></output>
-						</div>
-						<div class="form-group">
-							<label>Mật khẩu:</label>
-							<div th:if="${account.password == 'logingoogle'}">
-								<a th:href="@{/manageaddpassword(accountId=${account.id})}" class="btn btn-danger">Thêm mật khẩu</a>
-							</div>
-							<div th:if="${account.password != 'logingoogle'}">
-								<a th:href="@{/managechangepassword(accountId=${account.id})}" class="btn btn-danger">Đổi mật khẩu</a>
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="gender" style="color: rgb(2,88,155);">Giới tính:</label>
-							<output class="form-control" id="gender" name="gender" th:text="${account.gender}" style="border-radius: 10px;"></output>
-						</div>
-						<div class="form-group">
-							<label for="currentImage" style="color: rgb(2,88,155);">Hình ảnh hiện tại:</label>
-							<center>
+				<div class="frame-body">
+					<div class="row-01 d-flex" style="margin-top: 15px">
+						<div class="col-4">
+							<div class="form-group" style="display: flex; align-items: center; justify-content: center; margin-top: 10px">
 								<div th:if="${account != null and account.img != ''}">
 									<img th:src="${account.img + '?v=' + randomNumber}" class="img-thumbnail" id="currentImage" alt="Hình ảnh hiện tại" style="width: 200px; height: 200px;">
 								</div>
 								<div th:if="${account == null or account.img == ''}">
-									<img src="https://res.cloudinary.com/dosdzo1lg/image/upload/v1687862555/Booktopia/img_account/account_default.jpg" class="img-thumbnail" style="width: 200px; height: 200px;" id="currentImage" alt="Hình ảnh mặc định">
+									<img src="https://res.cloudinary.com/dosdzo1lg/image/upload/v1687862555/Booktopia/img_account/account_default.jpg" class="img-thumbnail" style="width: 200px; height: 200px;" id="currentImage2" alt="Hình ảnh mặc định">
 								</div>
-						   </center>
-						</div>
-						<div class="form-group">
-							<label for="dob" style="color: rgb(2,88,155);">Ngày sinh:</label>
-							<output class="form-control" id="dob" name="dob" th:text="${#dates.format(account.dateOfBirth, 'dd/MM/yyyy')}" style="border-radius: 10px;"></output>
-						</div>
-						<div class="form-group">
-							<label for="address" style="color: rgb(2,88,155);">Địa chỉ:</label>
-							<output class="form-control" id="address" name="address" th:text="${account.address}" style="border-radius: 10px;"></output>
-						</div>
-						<div class="form-group">
-							<label for="phoneNumber" style="color: rgb(2,88,155);">Số điện thoại:</label>
-							<output class="form-control" id="phoneNumber" name="phoneNumber" th:text="${account.phoneNumber}" style="border-radius: 10px;"></output>
-						</div>
-						<div class="form-group">
-							<label for="email"style="color: rgb(2,88,155);">Email:</label>
-							<output class="form-control" id="email" name="email" th:text="${account.email}" style="border-radius: 10px;"></output>
-						</div>
-						<div class="form-group">
-							<label for="accountType" style="color: rgb(2,88,155);">Loại tài khoản:</label>
-							<output class="form-control" id="accountType" name="accountType" style="border-radius: 10px;">
-								<span th:if="${account.accountType} == 0">Admin</span>
-								<span th:if="${account.accountType} == 1">Khách hàng</span>
-							</output>
-						</div>
-						<div class="form-group">
-							<label for="status" style="color: rgb(2,88,155);">Trạng thái:</label>
-							<output class="form-control" id="status" name="status" style="border-radius: 10px;">
-								<span th:if="${account.status} == 0">Ngừng hoạt động</span>
-								<span th:if="${account.status} == 1">Đang hoạt động</span>
-							</output>
-						</div>
-						<div class="text-center mb-4">
-							<a th:href="@{/editaccount(accountId=${account.id})}" class="btn btn-edit-info" >Sửa thông tin</a>
+							</div>
+							<div class="form-group" style="display: flex; align-items: center; margin: 0px; justify-content: center; height: 25px">
+								<div class="row-01" style="display: flex;">
+									<output class="form-control-name-user" id="firstName" name="firstName" th:text="${account.firstName}"
+											style="display: flex; justify-content: flex-end; border: none; padding: 0px 0px; margin-right: 5px; font-weight: 500; height: 25px; color: rgb(2,88,155);"></output>
+									<output class="form-control-name-user" id="lastName" name="lastName" th:text="${account.lastName}"
+											style="border: none; padding: 0px 0px; font-weight: 500; height: 25px; color: rgb(2,88,155); width: auto"></output>
+								</div>
+							</div>
 
+							<div class="form-group" style="display: flex; align-items: center; margin: 0px; justify-content: center">
+								<div class="row-01" style="display: flex;">
+									<output class="form-control" id="username" name="username" th:text="${account.username}" style="border: none; padding: 0px 0px; font-size: 12px"></output>
+								</div>
+							</div>
 						</div>
+						<div class="col-8 d-flex" style="margin: 10px 0px">
+							<div class="row-02 d-flex" style="width: 100%;">
+								<div class="col-6">
+									<div class="form-group">
+										<label for="email">Email:</label>
+										<output class="form-control" id="email" name="email" th:text="${account.email}" style="border-radius: 50px;"></output>
+									</div>
+									<div class="form-group">
+										<label for="dob" >Ngày sinh:</label>
+										<output class="form-control" id="dob" name="dob" th:text="${#dates.format(account.dateOfBirth, 'dd/MM/yyyy')}" style="border-radius: 50px;"></output>
+									</div>
+									<div class="form-group">
+										<label for="accountType" >Loại tài khoản:</label>
+										<output class="form-control" id="accountType" name="accountType" style="border-radius: 50px;">
+											<span th:if="${account.accountType} == 0">Admin</span>
+											<span th:if="${account.accountType} == 1">Khách hàng</span>
+										</output>
+									</div>
+									<div class="form-group" style="margin: 30px 0px">
+										<div th:if="${account.password == 'logingoogle'}">
+											<a th:href="@{/manageaddpassword(accountId=${account.id})}" class="btn btn-add-password">Thêm mật khẩu</a>
+										</div>
+										<div th:if="${account.password != 'logingoogle'}">
+											<a th:href="@{/managechangepassword(accountId=${account.id})}" class="btn btn-edit-password">Đổi mật khẩu</a>
+										</div>
+									</div>
+								</div>
+								<div class="col-6">
+									<div class="form-group">
+										<label for="phoneNumber" >Số điện thoại:</label>
+										<output class="form-control" id="phoneNumber" name="phoneNumber" th:text="${account.phoneNumber}" style="border-radius: 50px;"></output>
+									</div>
+									<div class="form-group">
+										<label for="gender" >Giới tính:</label>
+										<output class="form-control" id="gender" name="gender" th:text="${account.gender}" style="border-radius: 50px;"></output>
+									</div>
+									<div class="form-group">
+										<label for="status" >Trạng thái:</label>
+										<output class="form-control" id="status" name="status" style="border-radius: 50px;">
+											<span th:if="${account.status} == 0">Ngừng hoạt động</span>
+											<span th:if="${account.status} == 1">Đang hoạt động</span>
+										</output>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="form-group" style="padding: 15px 0px; border-top: 1px solid #cecece">
+						<label for="address" >Địa chỉ:</label>
+						<output class="form-control" id="address" name="address" th:text="${account.address}" style="border-radius: 50px;"></output>
+					</div>
+					<div class="text-center">
+						<a th:href="@{/editaccount(accountId=${account.id})}" class="btn btn-edit-info" >Sửa thông tin</a>
 					</div>
 				</div>
 			</div>
