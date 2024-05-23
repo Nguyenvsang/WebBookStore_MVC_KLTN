@@ -39,10 +39,6 @@
 			box-shadow: 0 8px 10px rgb(226, 226, 226);
 			border: solid 2px rgb(226, 226, 226);
 		}
-		
-		.frame-02 {
-
-		}
 
 
 		.btn-add-cart {
@@ -94,14 +90,10 @@
 		    margin-top: 30px;
 		}
 		.frame-description {
-			
     		border-radius: 20px;
     		margin-top: 20px;
     		background-color: white;
-		}
-		.frame-description {
-			box-shadow: 0 8px 10px rgb(226, 226, 226);
-			
+    		box-shadow: 0 8px 10px rgb(226, 226, 226);
 		}
 
 		p.card-text.text-description {
@@ -172,6 +164,20 @@
 			color: rgb(182,232,241);
 		}
 
+		material-symbols-outlined.edit{
+			color: rgb(2,88,155);
+		}
+		.material-symbols-outlined.edit:hover {
+			color: rgb(182,232,241);
+		}
+
+		material-symbols-outlined.delete{
+			color: rgb(2,88,155);
+		}
+		.material-symbols-outlined.delete:hover {
+			color: rgb(182,232,241);
+		}
+
 		.rating {
 		  unicode-bidi: bidi-override;
 		  direction: rtl;
@@ -192,20 +198,27 @@
 		  color: gold;
 		}
 
-		.user-review-box {
-			border: 1px solid #ccc;
-			border-radius: 10px;
-			padding: 10px;
+		.user-review {
+			margin-top: 20px;
+			border-radius: 15px;
+			padding: 25px;
 			margin-bottom: 20px;
+			box-shadow: 0px 0px 8px rgba(192, 192, 192, 0.5);
 		}
 
 		.review {
-			border: 1px solid #ddd;
-			padding: 15px;
+			padding: 25px;
 			margin-bottom: 20px;
-			background-color: #f9f9f9;
-			border-radius: 5px;
+			background-color: white;
+			border-radius: 15px;
+			box-shadow: 0px 0px 8px rgba(192, 192, 192, 0.5);
 		}
+
+		.review:hover{
+			background-color: #f2f5f6;
+			box-shadow: none;
+		}
+
 		.review .user-info {
 			display: flex;
 			align-items: center;
@@ -232,26 +245,36 @@
 		}
 
 		.like-button {
-			background-color: grey; /* Màu nền xanh */
-			border: none; /* Không viền */
-			color: white; /* Màu chữ trắng */
-			padding: 15px 32px; /* Đệm trên dưới 15px, trái phải 32px */
+			background-color: white; /* Màu nền xanh */
+			border: 1px solid #5390f5; /* Không viền */
+			color: #5390f5; /* Màu chữ trắng */
+			padding: 5px 5px; /* Đệm trên dưới 15px, trái phải 32px */
 			text-align: center; /* Căn giữa chữ */
 			text-decoration: none; /* Không gạch chân */
 			display: inline-block;
-			font-size: 16px;
+			font-size: 14px;
 			margin: 4px 2px;
 			cursor: pointer; /* Biến đổi con trỏ khi di chuột qua nút */
 			border-radius: 12px; /* Bo góc nút */
 		}
 
-		.purchased, .published {
+		.published {
 			color: green;
 			font-weight: bold;
 		}
 
-		.not-purchased, .not-published {
-			color: red;
+		.purchased {
+			color: #5390f5;
+			font-weight: bold;
+		}
+
+		.not-purchased {
+			color: #ff6c37;
+			font-weight: bold;
+		}
+
+		.not-published{
+			color: #93979b;
 			font-weight: bold;
 		}
 
@@ -390,7 +413,35 @@
 			outline: none;
 		}
 
+		.frame-review {
+			border-radius: 20px;
+    		margin-top: 20px;
+    		background-color: white;
+    		box-shadow: 0 8px 10px rgb(226, 226, 226);
+    		margin-bottom: 40px;
+		}
 
+		.review-rating {
+			margin: 0 10px;
+			width: calc(100% - 115px);
+			height: 5px;
+			background-color: #e6e6e6;
+		}
+
+		.btn-write-review {
+			background-color: white;
+			border-radius: 50px;
+			color: #228b22 ;
+			width: 200px;
+			font-weight: bold;
+			border: 1px solid #228b22 ;
+		}
+		.btn-write-review:hover {
+			background-color: #228b22 ;
+			color: white;
+			box-shadow: 0px 6px 8px rgba(0, 0.4, 0, 0.2);
+			font-weight: bold;
+		}
 	</style>
 	
 </head>
@@ -600,121 +651,160 @@
 			</div>
 
 
-			<!-- Kiểm tra xem người dùng đã đăng nhập hay chưa -->
-			<div th:if="${session.account == null}">
-				<p style="padding: 20px 0px; color: rgb(247,80,80);">Vui lòng đăng nhập để viết đánh giá cho cuốn sách!</p>
-			</div>
-
-			<!-- Nếu người dùng đã đăng nhập nhưng chưa viết đánh giá -->
-			<div th:if="${session.account != null and loggedInUserReview == null}">
-				<!-- Button trigger modal -->
-				<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#reviewModal">
-					Viết đánh giá
-				</button>
-				<!-- Modal -->
-				<div class="modal fade" id="reviewModal" tabindex="-1" role="dialog" aria-labelledby="reviewModalLabel" aria-hidden="true">
-					<div class="modal-dialog" role="document">
-						<div class="modal-content">
-							<div class="modal-header">
-								<h5 class="modal-title" id="reviewModalLabel">Viết đánh giá</h5>
-								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-									<span aria-hidden="true">×</span>
-								</button>
+			<!--Đánh giá sản phẩm-->
+			<div class="frame-review" style="padding: 20px">
+				<h5 style="color: #211f7f; font-family: Helvetica; font-weight: 550; margin: 0px; display: flex; align-items: center; padding-bottom: 15px; border-bottom: 1px solid #cecece">
+						Đánh giá sản phẩm
+				</h5>
+				<!-- Kiểm tra xem người dùng đã đăng nhập hay chưa -->
+				<div th:if="${session.account == null}" style="margin-top: 10px;">
+					<h5 class="text-center" style="padding: 20px 0px; color: rgb(247,80,80); font-weight: 500;">Vui lòng đăng nhập để viết đánh giá cho cuốn sách!</h5>
+					<div class="row-review d-flex align-items-center" style="margin-top: 20px; background-color: #f2fbff; border-radius: 15px; width: 100%">
+						<div class="col-3">
+							<img src="https://res.cloudinary.com/dylwewmt0/image/upload/v1716474181/PHOTO_LIST/Detailbook/01.png" alt="" style="height: 250px; width: 250px">
+						</div>
+						<div class="col-3">
+							<p class="text-center" style="margin: 20px; font-family: 'Museo Moderno', sans-serif; font-size: 14px; color: #3f6ad8; font-weight: 500">Lượt đánh giá cho quyển sách</p>
+							<p class="text-center" style="margin: 20px; font-family: 'Museo Moderno', sans-serif; font-size: 14px; color: #3f6ad8; font-weight: 500">(Đánh giá)</p>
+						</div>
+						<div class="col-6" style="display-direction: column; align-items: center; justify-content: center">
+							<div class="row-review" style="display-direction: column; align-items: center; justify-content: center">
+								<div style="display: flex; align-items: center">
+									<span>5 sao</span>
+									<div class="review-rating">
+										<div style="width: 0%;"></div>
+									</div>
+									<span>0%</span>
+								</div>
+								<div style="display: flex; align-items: center">
+									<span>4 sao</span>
+									<div class="review-rating">
+										<div style="width: 0%;"></div>
+									</div>
+									<span>0%</span>
+								</div>
+								<div style="display: flex; align-items: center">
+									<span>3 sao</span>
+									<div class="review-rating">
+										<div style="width: 0%;"></div>
+									</div>
+									<span>0%</span>
+								</div>
+								<div style="display: flex; align-items: center">
+									<span>2 sao</span>
+									<div class="review-rating">
+										<div style="width: 0%;"></div>
+									</div>
+									<span>0%</span>
+								</div>
+								<div style="display: flex; align-items: center">
+									<span>1 sao</span>
+									<div class="review-rating">
+										<div style="width: 0%;"></div>
+									</div>
+									<span>0%</span>
+								</div>
 							</div>
-							<div class="modal-body">
-								<!-- Thêm thuộc tính action và method vào form -->
-								<form th:action="@{/addreviewbook}" method="post">
-									<!-- Thêm trường ẩn chứa ID của cuốn sách -->
-									<input type="hidden" name="bookId" th:value="${book.id}">
-									<div class="form-group">
-										<fieldset id="review-rating">
-											<legend class="col-form-label">Đánh giá:</legend>
-											<div class="rating">
-												<input type="radio" id="star5" name="rating" value="5" required /><label for="star5" title="5 sao">☆</label>
-												<input type="radio" id="star4" name="rating" value="4" /><label for="star4" title="4 sao">☆</label>
-												<input type="radio" id="star3" name="rating" value="3" /><label for="star3" title="3 sao">☆</label>
-												<input type="radio" id="star2" name="rating" value="2" /><label for="star2" title="2 sao">☆</label>
-												<input type="radio" id="star1" name="rating" value="1" /><label for="star1" title="1 sao">☆</label>
-											</div>
-										</fieldset>
-									</div>
 
-									<div class="form-group">
-										<label for="review-comment" class="col-form-label">Bình luận:</label>
-										<textarea class="form-control" id="review-comment" name="comment" maxlength="1000" required></textarea>
-									</div>
-									<div class="modal-footer">
-										<button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
-										<!-- Thay đổi type của nút Lưu đánh giá thành submit để gửi form -->
-										<button type="submit" class="btn btn-primary">Lưu đánh giá</button>
-									</div>
-								</form>
-							</div>
 						</div>
 					</div>
 				</div>
-			</div>
 
+				<!-- Nếu người dùng đã đăng nhập nhưng chưa viết đánh giá -->
+				<div th:if="${session.account != null and loggedInUserReview == null}">
 
-			<!-- Nếu người dùng đã đăng nhập và đã viết đánh giá -->
-			<div th:if="${session.account != null and loggedInUserReview != null}" class="user-review-box">
-				<!-- Hiển thị đánh giá của người dùng -->
-				<div class="user-review">
-					<h5>Đánh giá của bạn:</h5>
-					<div class="stars" th:text="${'*'.repeat(loggedInUserReview.rating)}"></div>
-					<p th:text="${loggedInUserReview.comment}"></p>
-					<p class="purchased" th:if="${loggedInUserReview.isPurchased}">Bạn đã mua cuốn sách này</p>
-					<p class="not-purchased" th:if="${!loggedInUserReview.isPurchased}">Bạn chưa mua cuốn sách này</p>
-					<!-- Hiển thị trạng thái đánh giá -->
-					<p class="published" th:if="${loggedInUserReview.isPublished}">Đánh giá của bạn đã được đăng.</p>
-					<p class="not-published" th:if="${!loggedInUserReview.isPublished}">Đánh giá của bạn đang chờ duyệt.</p>
+					<div class="row-review d-flex align-items-center" style="margin-top: 20px; background-color: #f2fbff; border-radius: 15px; width: 100%">
+						<div class="col-3">
+							<img src="https://res.cloudinary.com/dylwewmt0/image/upload/v1716474181/PHOTO_LIST/Detailbook/01.png" alt="" style="height: 250px; width: 250px">
+						</div>
+						<div class="col-3">
+							<p class="text-center" style="margin: 20px; font-family: 'Museo Moderno', sans-serif; font-size: 14px; color: #3f6ad8; font-weight: 500">Lượt đánh giá cho quyển sách</p>
+							<p class="text-center" style="margin: 20px; font-family: 'Museo Moderno', sans-serif; font-size: 14px; color: #3f6ad8; font-weight: 500">(Đánh giá)</p>
+						</div>
+						<div class="col-6" style="display-direction: column; align-items: center; justify-content: center">
+							<div class="row-review" style="display-direction: column; align-items: center; justify-content: center">
+								<div style="display: flex; align-items: center">
+									<span>5 sao</span>
+									<div class="review-rating">
+										<div style="width: 0%;"></div>
+									</div>
+									<span>0%</span>
+								</div>
+								<div style="display: flex; align-items: center">
+									<span>4 sao</span>
+									<div class="review-rating">
+										<div style="width: 0%;"></div>
+									</div>
+									<span>0%</span>
+								</div>
+								<div style="display: flex; align-items: center">
+									<span>3 sao</span>
+									<div class="review-rating">
+										<div style="width: 0%;"></div>
+									</div>
+									<span>0%</span>
+								</div>
+								<div style="display: flex; align-items: center">
+									<span>2 sao</span>
+									<div class="review-rating">
+										<div style="width: 0%;"></div>
+									</div>
+									<span>0%</span>
+								</div>
+								<div style="display: flex; align-items: center">
+									<span>1 sao</span>
+									<div class="review-rating">
+										<div style="width: 0%;"></div>
+									</div>
+									<span>0%</span>
+								</div>
+							</div>
 
+						</div>
+					</div>
 					<!-- Button trigger modal -->
-					<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editReviewModal">
-						Chỉnh sửa đánh giá
-					</button>
-
-					<!-- Button to delete review -->
-					<form id="deleteReviewForm" method="post" th:action="@{/deletereviewbook/} + ${book.id}">
-						<button type="submit" class="btn btn-danger" id="deleteReviewButton">Xóa đánh giá</button>
-					</form>
+					<div class="row-write-review d-flex align-items-center justify-content-center" style="margin-top: 20px">
+						<button type="button" class="btn btn-write-review" data-toggle="modal" data-target="#reviewModal">
+							Viết đánh giá
+						</button>
+					</div>
 
 					<!-- Modal -->
-					<div class="modal fade" id="editReviewModal" tabindex="-1" role="dialog" aria-labelledby="editReviewModalLabel" aria-hidden="true">
-						<div class="modal-dialog" role="document">
+					<div class="modal fade" id="reviewModal" tabindex="-1" role="dialog" aria-labelledby="reviewModalLabel" aria-hidden="true">
+						<div class="modal-dialog" style="border-radius: 15px; display: flex; justify-content: center; align-items: center; height: 90vh;" role="document">
 							<div class="modal-content">
 								<div class="modal-header">
-									<h5 class="modal-title" id="editReviewModalLabel">Chỉnh sửa đánh giá</h5>
+									<h5 class="modal-title" id="reviewModalLabel" style="color: #211f7f; margin: 0px">Viết đánh giá</h5>
 									<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 										<span aria-hidden="true">×</span>
 									</button>
 								</div>
 								<div class="modal-body">
 									<!-- Thêm thuộc tính action và method vào form -->
-									<form th:action="@{/editreviewbook}" method="post">
+									<form th:action="@{/addreviewbook}" method="post">
 										<!-- Thêm trường ẩn chứa ID của cuốn sách -->
 										<input type="hidden" name="bookId" th:value="${book.id}">
 										<div class="form-group">
-											<fieldset id="edit-review-rating">
+											<fieldset id="review-rating">
 												<legend class="col-form-label">Đánh giá:</legend>
 												<div class="rating">
-													<input type="radio" id="edit-star5" name="rating" value="5" th:checked="${loggedInUserReview.rating == 5}" required /><label for="edit-star5" title="5 sao">☆</label>
-													<input type="radio" id="edit-star4" name="rating" value="4" th:checked="${loggedInUserReview.rating == 4}" /><label for="edit-star4" title="4 sao">☆</label>
-													<input type="radio" id="edit-star3" name="rating" value="3" th:checked="${loggedInUserReview.rating == 3}" /><label for="edit-star3" title="3 sao">☆</label>
-													<input type="radio" id="edit-star2" name="rating" value="2" th:checked="${loggedInUserReview.rating == 2}" /><label for="edit-star2" title="2 sao">☆</label>
-													<input type="radio" id="edit-star1" name="rating" value="1" th:checked="${loggedInUserReview.rating == 1}" /><label for="edit-star1" title="1 sao">☆</label>
+													<input type="radio" id="star5" name="rating" value="5" required /><label for="star5" title="5 sao">☆</label>
+													<input type="radio" id="star4" name="rating" value="4" /><label for="star4" title="4 sao">☆</label>
+													<input type="radio" id="star3" name="rating" value="3" /><label for="star3" title="3 sao">☆</label>
+													<input type="radio" id="star2" name="rating" value="2" /><label for="star2" title="2 sao">☆</label>
+													<input type="radio" id="star1" name="rating" value="1" /><label for="star1" title="1 sao">☆</label>
 												</div>
 											</fieldset>
 										</div>
 
 										<div class="form-group">
-											<label for="edit-review-comment" class="col-form-label">Bình luận:</label>
-											<textarea class="form-control" id="edit-review-comment" name="comment" th:text="${loggedInUserReview.comment}" maxlength="500" required></textarea>
+											<label for="review-comment" class="col-form-label">Bình luận:</label>
+											<textarea class="form-control" id="review-comment" name="comment" maxlength="1000" required></textarea>
 										</div>
 										<div class="modal-footer">
-											<button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+											<button type="button" class="btn btn-secondary" data-dismiss="modal" style="border-radius: 10px">Đóng</button>
 											<!-- Thay đổi type của nút Lưu đánh giá thành submit để gửi form -->
-											<button type="submit" class="btn btn-primary">Lưu đánh giá</button>
+											<button type="submit" class="btn btn-primary" style="border-radius: 10px">Lưu đánh giá</button>
 										</div>
 									</form>
 								</div>
@@ -722,32 +812,166 @@
 						</div>
 					</div>
 				</div>
-			</div>
 
 
-			<!-- Hiển thị danh sách các đánh giá -->
-			<div th:each="review : ${bookReviews}">
-				<div class="review">
-					<!-- Hiển thị thông tin người dùng đã viết đánh giá -->
-					<div class="user-info">
-						<img th:src="${review.account.img != '' ? review.account.img : 'https://res.cloudinary.com/dosdzo1lg/image/upload/v1709875316/WebBookStoreKLTN/img_account/account_default.jpg'}" class="img-thumbnail" style="width: 50px; height: 50px;" id="currentImage2" alt="Img">
-						<div class="username" th:text="${review.account.username}"></div>
+				<!-- Nếu người dùng đã đăng nhập và đã viết đánh giá -->
+				<div th:if="${session.account != null and loggedInUserReview != null}" class="user-review-box">
+
+					<div class="row-review d-flex align-items-center" style="margin-top: 20px; background-color: #f2fbff; border-radius: 15px; width: 100%">
+						<div class="col-3">
+							<img src="https://res.cloudinary.com/dylwewmt0/image/upload/v1716474181/PHOTO_LIST/Detailbook/01.png" alt="" style="height: 250px; width: 250px">
+						</div>
+						<div class="col-3">
+							<p class="text-center" style="margin: 20px; font-family: 'Museo Moderno', sans-serif; font-size: 14px; color: #3f6ad8; font-weight: 500">Lượt đánh giá cho quyển sách</p>
+							<p class="text-center" style="margin: 20px; font-family: 'Museo Moderno', sans-serif; font-size: 14px; color: #3f6ad8; font-weight: 500">(Đánh giá)</p>
+						</div>
+						<div class="col-6" style="display-direction: column; align-items: center; justify-content: center">
+							<div class="row-review" style="display-direction: column; align-items: center; justify-content: center">
+								<div style="display: flex; align-items: center">
+									<span>5 sao</span>
+									<div class="review-rating">
+										<div style="width: 0%;"></div>
+									</div>
+									<span>0%</span>
+								</div>
+								<div style="display: flex; align-items: center">
+									<span>4 sao</span>
+									<div class="review-rating">
+										<div style="width: 0%;"></div>
+									</div>
+									<span>0%</span>
+								</div>
+								<div style="display: flex; align-items: center">
+									<span>3 sao</span>
+									<div class="review-rating">
+										<div style="width: 0%;"></div>
+									</div>
+									<span>0%</span>
+								</div>
+								<div style="display: flex; align-items: center">
+									<span>2 sao</span>
+									<div class="review-rating">
+										<div style="width: 0%;"></div>
+									</div>
+									<span>0%</span>
+								</div>
+								<div style="display: flex; align-items: center">
+									<span>1 sao</span>
+									<div class="review-rating">
+										<div style="width: 0%;"></div>
+									</div>
+									<span>0%</span>
+								</div>
+							</div>
+
+						</div>
 					</div>
-					<!-- Hiển thị số sao đánh giá -->
-					<div class="stars" th:text="${'*'.repeat(review.rating)}"></div>
-					<!-- Hiển thị nội dung đánh giá -->
-					<div class="comment" th:text="${review.comment}"></div>
-					<p class="purchased" th:if="${review.isPurchased}">Người dùng này đã mua cuốn sách</p>
-					<p class="not-purchased" th:if="${!review.isPurchased}">Người dùng này chưa mua cuốn sách</p>
-					<!-- Hiển thị ngày đánh giá -->
-					<small class="date" th:text="${#temporals.format(review.datePosted.toLocalDateTime(), 'dd-MM-yyyy')}"></small>
-					<!-- Hiển thị nút Thích và số lượng thích -->
-					<button class="like-button" th:text="${likedReviews.contains(review) ? '👍 Đã thích' : '👍 Thích'}" th:data-book-review-id="${review.id}">
-						👍 Thích
-					</button>
-					<span class="like-count" th:text="'(' + ${review.bookReviewLikes.size()} + ')'"></span>
+
+					<!-- Hiển thị đánh giá của người dùng -->
+					<div class="user-review">
+						<div class="row-title d-flex" >
+							<div class="col-6 d-flex align-items-center" style="padding: 0px">
+								<h6 style="margin: 0px; color: #5b5a7a; font-weight: bold">Đánh giá của bạn</h6>
+								<div class="stars d-flex align-items-center" th:text="${'★'.repeat(loggedInUserReview.rating)}" style="margin: 0px; padding: 10px"></div>
+							</div>
+							<div class="col-6 d-flex" style="padding: 0px; justify-content: flex-end">
+								<!-- Button trigger modal -->
+								<button type="button" class="btn btn-edit" style="padding: 5px" data-toggle="modal" data-target="#editReviewModal">
+									<span class="material-symbols-outlined edit">edit</span>
+								</button>
+								<!-- Button to delete review -->
+								<form id="deleteReviewForm" method="post" th:action="@{/deletereviewbook/} + ${book.id}">
+									<button type="submit" style="padding: 5px" class="btn btn-delete" id="deleteReviewButton">
+										<span class="material-symbols-outlined delete">delete</span>
+									</button>
+								</form>
+							</div>
+						</div>
+
+						<p th:text="${loggedInUserReview.comment}" style="text-align: justify;"></p>
+						<p class="purchased" th:if="${loggedInUserReview.isPurchased}">Bạn đã mua cuốn sách này</p>
+						<p class="not-purchased" th:if="${!loggedInUserReview.isPurchased}">Bạn chưa mua cuốn sách này</p>
+						<!-- Hiển thị trạng thái đánh giá -->
+						<p class="published" th:if="${loggedInUserReview.isPublished}">Đánh giá của bạn đã được đăng.</p>
+						<p class="not-published" th:if="${!loggedInUserReview.isPublished}">Đánh giá của bạn đang chờ duyệt.</p>
+
+
+
+						<!-- Modal -->
+						<div class="modal fade" id="editReviewModal" tabindex="-1" role="dialog" aria-labelledby="editReviewModalLabel" aria-hidden="true">
+							<div class="modal-dialog" style="border-radius: 15px; display: flex; justify-content: center; align-items: center; height: 90vh;" role="document">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h5 class="modal-title" id="editReviewModalLabel" style="color: #211f7f; margin: 0px">Chỉnh sửa đánh giá</h5>
+										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+											<span aria-hidden="true">×</span>
+										</button>
+									</div>
+									<div class="modal-body">
+										<!-- Thêm thuộc tính action và method vào form -->
+										<form th:action="@{/editreviewbook}" method="post">
+											<!-- Thêm trường ẩn chứa ID của cuốn sách -->
+											<input type="hidden" name="bookId" th:value="${book.id}">
+											<div class="form-group">
+												<fieldset id="edit-review-rating">
+													<legend class="col-form-label">Đánh giá:</legend>
+													<div class="rating">
+														<input type="radio" id="edit-star5" name="rating" value="5" th:checked="${loggedInUserReview.rating == 5}" required /><label for="edit-star5" title="5 sao">☆</label>
+														<input type="radio" id="edit-star4" name="rating" value="4" th:checked="${loggedInUserReview.rating == 4}" /><label for="edit-star4" title="4 sao">☆</label>
+														<input type="radio" id="edit-star3" name="rating" value="3" th:checked="${loggedInUserReview.rating == 3}" /><label for="edit-star3" title="3 sao">☆</label>
+														<input type="radio" id="edit-star2" name="rating" value="2" th:checked="${loggedInUserReview.rating == 2}" /><label for="edit-star2" title="2 sao">☆</label>
+														<input type="radio" id="edit-star1" name="rating" value="1" th:checked="${loggedInUserReview.rating == 1}" /><label for="edit-star1" title="1 sao">☆</label>
+													</div>
+												</fieldset>
+											</div>
+
+											<div class="form-group">
+												<label for="edit-review-comment" class="col-form-label">Bình luận:</label>
+												<textarea class="form-control" id="edit-review-comment" name="comment" th:text="${loggedInUserReview.comment}" maxlength="500" required></textarea>
+											</div>
+											<div class="modal-footer">
+												<button type="button" class="btn btn-secondary" data-dismiss="modal" style="border-radius: 10px">Đóng</button>
+												<!-- Thay đổi type của nút Lưu đánh giá thành submit để gửi form -->
+												<button type="submit" class="btn btn-primary" style="border-radius: 10px">Lưu đánh giá</button>
+											</div>
+										</form>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+
+				<!-- Hiển thị danh sách các đánh giá -->
+				<div th:each="review : ${bookReviews}">
+					<div class="review" style="margin-top: 20px">
+						<div class="row-star d-flex align-items-center" style="margin-bottom: 10px">
+							<!-- Hiển thị thông tin người dùng đã viết đánh giá -->
+							<div class="user-info">
+								<img th:src="${review.account.img != '' ? review.account.img : 'https://res.cloudinary.com/dosdzo1lg/image/upload/v1709875316/WebBookStoreKLTN/img_account/account_default.jpg'}" class="img-thumbnail" style="width: 50px; height: 50px;" id="currentImage2" alt="Img">
+								<div class="username" th:text="${review.account.username}" style="color: #5b5a7a"></div>
+							</div>
+							<!-- Hiển thị số sao đánh giá -->
+							<div class="stars d-flex align-items-center" th:text="${'★'.repeat(review.rating)}" style="margin: 0px; padding: 10px"></div>
+						</div>
+
+						<!-- Hiển thị nội dung đánh giá -->
+						<div class="comment" th:text="${review.comment}" style="text-align: justify;"></div>
+						<p class="purchased" th:if="${review.isPurchased}">Người dùng này đã mua cuốn sách</p>
+						<p class="not-purchased" th:if="${!review.isPurchased}">Người dùng này chưa mua cuốn sách</p>
+						<!-- Hiển thị ngày đánh giá -->
+						<small class="date" th:text="${#temporals.format(review.datePosted.toLocalDateTime(), 'dd-MM-yyyy')}"></small>
+						<!-- Hiển thị nút Thích và số lượng thích -->
+						<button class="like-button" th:text="${likedReviews.contains(review) ? ' Đã thích' : ' Thích'}" th:data-book-review-id="${review.id}">
+							 <span class="material-symbols-outlined">thumb_up</span>Thích
+						</button>
+						<span class="like-count" th:text="'(' + ${review.bookReviewLikes.size()} + ')'"></span>
+					</div>
 				</div>
 			</div>
+
+
 		</div>
     </div>
 
@@ -834,15 +1058,17 @@
                         // Nếu phản hồi bắt đầu bằng '/', giả định nó là URL và chuyển hướng người dùng
                         window.location.href = data;
                     } else if (data === 'liked') {
-                        button.text('👍 Đã thích');
-                        button.css('background-color', 'blue');
+                        button.text('Đã thích');
+                        button.css('background-color', '#5390f5');
+                        button.css('color', 'white');
 
                         // Tăng số lượng thích lên 1
                         var count = parseInt(likeCount.text().slice(1, -1));
                         likeCount.text('(' + (count + 1) + ')');
                     } else if (data === 'unliked') {
-                        button.text('👍 Thích');
-                        button.css('background-color', 'grey');
+                        button.text('Thích');
+                        button.css('background-color', 'white');
+                        button.css('color', '#5390f5');
 
                         // Giảm số lượng thích đi 1
                         var count = parseInt(likeCount.text().slice(1, -1));
