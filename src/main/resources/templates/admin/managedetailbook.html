@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <style>
 		
-		body { background-color: #f8f9fa  }
+		body { background-color: #f2fbff  }
 		
 		h3 {
         	text-align: center;
@@ -18,23 +18,18 @@
     	.frame-01 {
 			background-color: white;
     		border-radius: 20px;
-    		margin-top: 20px;
+    		margin-top: 40px;
+    		box-shadow: 0 8px 10px rgb(226, 226, 226);
 		}
-		.frame-02 {			
-			margin-top: 20px;
+		.frame-02 {
+			border-top: 1px solid #cecece;
+			padding-top: 20px;
 			margin-bottom: 20px;
-			margin-left: 20px;			
+			padding-left: 20px;
+			border-bottom: 1px solid #3f6ad8;
+			padding-bottom: 20px;
 		}
-		
-		
-		.btn-edit-info {
-			background-color: rgb(2,88,155);
-			border-radius: 10px;
-			color: white;
-		}
-		.btn-edit-info:hover {
-			color: rgb(182,232,241)
-		}
+
 		
 		.flex-grow-2 {
 			display: flex;
@@ -86,10 +81,7 @@
 		    justify-content: right;
 		    margin-right: 15px;
 		}
-		
-		.frame-01 {
-			box-shadow: 0 8px 10px rgb(226, 226, 226);
-		}
+
 		
 		.frame-description {
 			box-shadow: 0 8px 10px rgb(226, 226, 226);
@@ -102,7 +94,21 @@
 		.material-symbols-outlined.back:hover {
 			color: rgb(182,232,241);
 		}
-		
+
+		.btn-edit-info {
+			background-color: white;
+			border-radius: 10px;
+			color: #3f6ad8;
+			box-shadow: 0px 0px 10px rgba(192, 192, 192, 0.5);
+			font-weight: bold;
+		}
+		.btn-edit-info:hover {
+			color: white;
+            background-color: #3f6ad8;
+			box-shadow: 0px 4px 6px rgba(70, 130, 180, 0.3);
+			font-weight: bold
+		}
+
 	</style>
 </head>
 <body>
@@ -114,152 +120,237 @@
 	</div>
 
 	<div class="col-08" style="width: 83%">
-		<div class="container">
-			<div class="frame-01">
-				<div class="ml-2" style="justify-content: left; margin: 10px;">
-					<a th:href="@{/managebooks}" class="btn btn-out" style="margin-top: 15px;">
-						<span class="material-symbols-outlined back">arrow_back_ios</span>
-					</a>
+		<div class="container" style="padding: 0px">
+
+			<div class="frame-01" style="background-color: white; padding: 20px">
+				<div class="row-cart d-flex align-items-center" style="padding-bottom: 10px">
+					<div class="col-00 d-flex align-items-center">
+						<a th:href="@{/managebooks}" class="before" style="align-items: center; display: flex; text-decoration: none;">
+							<span class="material-symbols-outlined back">arrow_back_ios</span>
+						</a>
+						<h5 style="color: #211f7f; align-items: center;  margin: 0px 5px 0px 0px">Thông tin sách</h5>
+					</div>
 				</div>
-				<h3>THÔNG TIN SÁCH</h3>
-				<div class="frame-02">
-					<div class="row no-gutters">
-						<div class="col-md-4">
-							<div class="row">
-								<div class="col-md-4">
-									<img th:src="${book.bookImages[1].path + '?v=' + randomNumber}" alt="Book Image 1" width="90" style="margin-bottom: 10px;"><br>
-									<img th:src="${book.bookImages[2].path + '?v=' + randomNumber}" alt="Book Image 1" width="90" style="margin-bottom: 10px;"><br>
-									<img th:src="${book.bookImages[3].path + '?v=' + randomNumber}" alt="Book Image 1" width="90" style="margin-bottom: 10px;"><br>
+				<div class="frame-02 d-flex" >
+					<div class="row no-gutters" style="display: flex">
+						<div class="col-image d-flex" style="width: 485px">
+							<div class="row-image d-flex" style="width: 485px">
+								<div class="col-list-image" style="width: 100px;">
+									<img data-lightbox="gallery" data-title="Hình ảnh 1" th:src="${book.bookImages[1].path + '?v=' + randomNumber}" class="image" alt="Book Image 1" width="100" style="padding: 10px;"><br>
+									<img data-lightbox="gallery" data-title="Hình ảnh 1" th:src="${book.bookImages[2].path + '?v=' + randomNumber}" class="image" alt="Book Image 1" width="100" style="padding: 10px;"><br>
+									<img data-lightbox="gallery" data-title="Hình ảnh 1" th:src="${book.bookImages[3].path + '?v=' + randomNumber}" class="image" alt="Book Image 1" width="100" style="padding: 10px;"><br>
 								</div>
-								<div class="col-md-8">
-									<img th:src="${book.bookImages[0].path}" alt="Book Image" class="card-img" style="border-radius: 15px;">
+								<div class="col-image-large" style="width: 375px; padding: 0px">
+									<img data-lightbox="gallery" data-title="Hình ảnh 1" th:src="${book.bookImages[0].path + '?v=' + randomNumber}" alt="Book Image" class="card-img" style="border-radius: 15px; width: 295px; margin: 10px 25px 10px 45px">
 								</div>
 							</div>
 						</div>
-						<div class="col-md-8">
-							<div class="card-body">
-								<h5 class="card-title" th:text="${book.name}" style="margin-left: 20px;"></h5>
-								<div class="row main" style="margin-right: 250px;">
-									<div class="col" style="margin-left: 20px;" >
-
-										<div class="row one" style="display: flex; justify-content: center; align-items: center;">
+						<div class="col-content" style="width: 570px; padding: 0px">
+							<div class="card-body" style="padding: 0px">
+								<h4 class="card-title" th:text="${book.name}" style="margin-left: 15px;"></h4>
+								<div class="row-main" style="padding: 0px 0px 10px">
+									<div class="col" style="padding: 0px;">
+										<div class="row-one" style="display: flex; justify-content: center; align-items: center; padding: 20px 0px 10px">
 											<div class="col">
-												<p class="card-text">Tác giả:</p>
+												<p class="card-text" style="display: flex; justify-content: left; align-items: center; font-family: Helvetica;">Tác giả:</p>
 											</div>
-											<div class="col">
+											<div class="col-author" style="width: 284px; display: flex; justify-content: left; align-items: center;">
 												<span th:each="bookauthor : ${book.bookAuthors}" th:text="${bookauthor.author.name}"></span>
 											</div>
 										</div>
 
-										<div class="row two"  style="display: flex; justify-content: left; align-items: center;">
+										<div class="row-two" style="display: flex; justify-content: center; align-items: center; padding-bottom: 10px">
 											<div class="col">
-												<p class="card-text" style="display: flex; justify-content: left; align-items: center;">Nhà xuất bản: </p>
+												<p class="card-text" style="font-family: Helvetica; display: flex; justify-content: left; align-items: center;">Nhà xuất bản: </p>
 											</div>
-											<div class="col" style="display: flex; justify-content: left; align-items: center;">
+											<div class="col-data" style=" width: 284px; display: flex; justify-content: left; align-items: center;">
 												<span th:text="${book.publisher}"></span>
 											</div>
 										</div>
 
-										<div class="row third" style="display: flex; justify-content: center; align-items: center;">
+										<div class="row-four" style="display: flex; justify-content: center; align-items: center; padding-bottom: 10px">
 											<div class="col">
-												<p class="card-text" style="display: flex; justify-content: left; align-items: center;">Số lượng: </p>
+												<p class="card-text" style="display: flex; justify-content: left; align-items: center; font-family: Helvetica;">Danh mục:</p>
 											</div>
-											<div class="col" style="display: flex; justify-content: left; align-items: center;">
-												<span th:text="${book.quantity}"></span>
-											</div>
-										</div>
-
-										<div class="row four" style="display: flex; justify-content: center; align-items: center;">
-											<div class="col">
-												<p class="card-text" style="display: flex; justify-content: left; align-items: center;">Danh mục:</p>
-											</div>
-											<div class="col" style="display: flex; justify-content: left; align-items: center;">
+											<div class="col-data" style="width: 284px; display: flex; justify-content: left; align-items: center;">
 												<span th:text="${book.category.name}"></span>
 											</div>
 										</div>
-
-										<p class="card-text" style="font-size: 30px; font-weight: bold;text-align: left; color: orangered;"><span th:text="${#numbers.formatInteger(book.sellPrice, 0, 'POINT')}" ></span> đ</p>
+										<div class="row-four" style="display: flex; justify-content: center; align-items: center; padding-bottom: 10px">
+											<div class="col">
+												<p class="card-text" style="display: flex; justify-content: left; align-items: center; font-family: Helvetica;">Số lượng</p>
+											</div>
+											<div class="col-data" style=" width: 284px; display: flex; justify-content: left; align-items: center;">
+												<span th:text="${book.quantity}"></span>
+											</div>
+										</div>
+										<p class="card-text" style="margin-left: 15px; font-size: 30px; font-weight: bold;text-align: left; color: orangered;"><span th:text="${#numbers.formatInteger(book.sellPrice, 0, 'POINT')}" ></span> đ</p>
 									</div>
 								</div>
-								<div class="d-flex flex-grow-2">
-									<form th:action="@{/addtocart}" method="post">
-										<div class="d-flex flex-grow-1">
-											<a th:href="@{/updatebook(bookId=${book.id})}" class="btn btn-edit-info">Sửa thông tin</a>
-										</div>
-									</form>
-								</div>
 								<th:block th:switch="${book.status}">
-									<div th:case="1" class="alert alert-success"  style="border-radius: 10px; margin-top: 20px;" role="alert">Đang kinh doanh</div>
-									<div th:case="0" class="alert alert-danger" style="border-radius: 10px; margin-top: 20px;" role="alert">Ngừng kinh doanh</div>
+									<div th:case="1" class="text-center alert alert-success"  style="border-radius: 10px; margin-top: 20px; color: #105d2f; font-weight: bold" role="alert">Đang kinh doanh</div>
+									<div th:case="0" class="text-center alert alert-danger" style="border-radius: 10px; margin-top: 20px; color: #b80101; font-weight: bold" role="alert">Ngừng kinh doanh</div>
 								</th:block>
 							</div>
 						</div>
 					</div>
 				</div>
-				<div class="frame-description">
-					<div class="frame-description-01" style="padding: 20px; font-family: Arial">
-						<p class="card-text text-description">Mô tả:</p>
-						<p class="card-text content" th:text="${book.description}" style="text-align: justify;"></p>
+				<div class="row-content d-flex">
+					<div class="col-8" style="font-family: Arial; padding: 0px 20px 0px 0px;">
+						<p class="card-text text-description" style="margin-bottom: 10px; color: #5390f5; font-weight: bold">Giới thiệu sách:</p>
+						<div class="description" style="height: 9em; overflow: hidden;">
+							<p class="card-text content" th:text="${book.description}" style="text-align: justify;"></p>
+						</div>
+						<div style="display: flex; justify-content: center; align-items: center;">
+							<button id="readMore" style="display: none; border-radius: 50px; background-color: white; color: #5390f5; margin-top: 20px; border: 1px solid #5390f5; width: 200px; height: 40px">Xem thêm</button>
+							<button id="readLess" style="display: none; border-radius: 50px; background-color: white; color: #5390f5; margin-top: 20px; border: 1px solid #5390f5; width: 200px; height: 40px">Rút gọn</button>
+						</div>
+					</div>
+					<div class="col-4" style="padding: 0px 0px 0px 20px">
+						<p class="card-text" style="color: #5390f5; font-size: 20px; margin-bottom: 10px; font-weight: bold">Chi tiết:</p>
+						<pre class="card-text" th:text="${book.detail}" style="font-size: 16px; font-family: Arial; white-space: pre-wrap;"></pre>
 					</div>
 				</div>
-				<div class="frame-description">
-					<div class="frame-description-01" style="padding: 20px; font-family: Arial; margin: 0px;">
-						<div class="col" style="padding: 0px;">
-							<p class="card-text" style="color: rgb(2,88,155); font-size: 20px;">Chi tiết:</p>
-							<pre class="card-text" th:text="${book.detail}" style="font-size: 16px; font-family: Arial;"></pre>
+				<div class="row-edit d-flex justify-content-center align-items-center;" style="padding: 15px">
+					<form th:action="@{/addtocart}" method="post">
+						<div class="d-flex flex-grow-1">
+							<a th:href="@{/updatebook(bookId=${book.id})}" class="btn btn-edit-info">Sửa thông tin</a>
+						</div>
+					</form>
+				</div>
+			</div>
+
+			<div class="frame-01" style="background-color: white; margin-bottom: 50px">
+				<div class="next-table only-bottom-border">
+					<div class="next-table-inner">
+						<div class="next-table-header d-flex align-items-center"
+							 style="height: 60px; background-color: #d9e1f7; border-top-left-radius: 15px; border-top-right-radius: 15px">
+							<div class="next-table-header-inner">
+								<table>
+									<colgroup style="width: 1020px">
+										<col style="width: 10%;">
+										<col style="width: 7%;">
+										<col style="width: 25%;">
+										<col style="width: 10%;">
+										<col style="width: 10%;">
+										<col style="width: 13%;">
+										<col style="width: 10%;">
+										<col style="width: 10%;">
+										<col style="width: 5%;">
+									</colgroup>
+									<tbody>
+									<tr>
+										<th rowspan="1" class="next-table-header-node first" style="text-align: center">
+											<div class="next-table-cell-wrapper">Mã nhập</div>
+										</th>
+										<th rowspan="1" class="next-table-header-node " style="text-align: center">
+											<div class="next-table-cell-wrapper">Mã sách</div>
+										</th>
+										<th rowspan="1" class="next-table-header-node " style="text-align: center">
+											<div class="next-table-cell-wrapper">Tên sách</div>
+										</th>
+										<th rowspan="1" class="next-table-header-node " style="text-align: center">
+											<div class="next-table-cell-wrapper">Sách nhập</div>
+										</th>
+										<th rowspan="1" class="next-table-header-node " style="text-align: center">
+											<div class="next-table-cell-wrapper">Sách còn lại</div>
+										</th>
+										<th rowspan="1" class="next-table-header-node " style="text-align: center">
+											<div class="next-table-cell-wrapper">Giá nhập</div>
+										</th>
+										<th rowspan="1" class="next-table-header-node " style="text-align: center">
+											<div class="next-table-cell-wrapper">Ngày nhập</div>
+										</th>
+										<th rowspan="1" class="next-table-header-node " style="text-align: center">
+											<div class="next-table-cell-wrapper">Trạng thái</div>
+										</th>
+										<th rowspan="1" class="next-table-header-node last" style="text-align: center">
+											<div class="next-table-cell-wrapper"></div>
+										</th>
+									</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+
+						<div class="next-table-body">
+							<table>
+								<colgroup style="width: 1020px;">
+									<col style="width: 10%;">
+									<col style="width: 7%;">
+									<col style="width: 25%;">
+									<col style="width: 10%;">
+									<col style="width: 10%;">
+									<col style="width: 13%;">
+									<col style="width: 10%;">
+									<col style="width: 10%;">
+									<col style="width: 5%;">
+								</colgroup>
+								<tbody>
+								<tr th:each="bookImport : ${bookImports}" onmouseover="this.style.backgroundColor='#e0f3ff';" onmouseout="this.style.backgroundColor='transparent';">
+
+									<td rowspan="1" class="next-table-header-node first " style="text-align: center; padding: 10px 0px;" th:text="${bookImport.id}"></td>
+
+									<td rowspan="1" class="next-table-header-node" style="padding: 10px 0px; text-align: center" th:text="${bookImport.book.id}"></td>
+
+									<td rowspan="1" class="next-table-header-node" style="padding: 10px 0px; text-align: center;">
+										<span th:if="${#strings.length(bookImport.book.name) > 100}" th:text="${#strings.substring(bookImport.book.name, 0, 100) + '...'}"></span>
+										<span th:if="${#strings.length(bookImport.book.name) <= 100}" th:text="${bookImport.book.name}"></span>
+									</td>
+
+									<td rowspan="1" class="next-table-header-node" style="padding: 10px 0px; text-align: center;" th:text="${bookImport.quantity}"></td>
+
+									<td rowspan="1" class="next-table-header-node" style="padding: 10px 0px; text-align: center;" th:text="${bookImport.remainingQuantity}"></td>
+
+									<td rowspan="1" class="next-table-header-node" style="color: orangered; padding: 10px 0px; text-align: center;" th:text="${#numbers.formatInteger(bookImport.importPrice, 0, 'POINT')} + ' đ'"></td>
+
+									<td rowspan="1" class="next-table-header-node" style="padding: 10px 0px; text-align: center;" th:text="${#temporals.format(bookImport.importDate.toLocalDateTime(), 'dd/MM/yyyy HH:mm:ss')}"></td>
+
+									<td rowspan="1" class="next-table-header-node" style="padding: 10px 0px; text-align: center;">
+                                    <span th:switch="${bookImport.status}">
+                                        <span th:case="0" class="badge badge-danger">Ngừng bán</span>
+                                        <span th:case="1" class="badge badge-success">Đang bán</span>
+                                        <span th:case="2" class="badge badge-warning">Chưa bán</span>
+                                        <span th:case="3" class="badge badge-secondary">Hủy bỏ</span>
+                                    </span>
+									</td>
+
+									<td rowspan="1" class="next-table-header-node last" style="padding: 10px 0px; text-align: center" >
+										<a th:href="@{/updatebookimport(bookImportId=${bookImport.id})}" class="btn btn-edit">
+											<span class="material-symbols-outlined">edit</span>
+										</a>
+									</td>
+								</tr>
+								</tbody>
+							</table>
 						</div>
 					</div>
 				</div>
-
-				<!--	Hiển thị các đợt nhập		-->
-				<table class="table table-striped table-bordered mt-3">
-					<thead class="thead-title">
-					<tr style="color: rgb(2,88,155);">
-						<th scope="col" class="align-middle text-center">Mã nhập</th>
-						<th scope="col" class="align-middle text-center">Mã sách</th>
-						<th scope="col" class="align-middle text-center">Tên sách</th>
-						<th scope="col" class="align-middle text-center">Số lượng khi nhập</th>
-						<th scope="col" class="align-middle text-center">Số lượng còn lại</th>
-						<th scope="col" class="align-middle text-center">Giá nhập</th>
-						<th scope="col" class="align-middle text-center">Ngày nhập</th>
-						<th scope="col" class="align-middle text-center">Trạng thái</th>
-						<th scope="col" class="align-middle text-center">Sửa</th>
-					</tr>
-					</thead>
-					<tbody>
-					<tr th:each="bookImport : ${bookImports}">
-						<td class="align-middle text-center" th:text="${bookImport.id}"></td>
-						<td class="align-middle text-center" th:text="${bookImport.book.id}"></td>
-						<td class="align-middle text-center">
-							<span th:if="${#strings.length(bookImport.book.name) > 100}" th:text="${#strings.substring(bookImport.book.name, 0, 100) + '...'}"></span>
-							<span th:if="${#strings.length(bookImport.book.name) <= 100}" th:text="${bookImport.book.name}"></span>
-						</td>
-						<td class="align-middle text-center" th:text="${bookImport.quantity}"></td>
-						<td class="align-middle text-center" th:text="${bookImport.remainingQuantity}"></td>
-						<td class="align-middle text-center" th:text="${#numbers.formatInteger(bookImport.importPrice, 0, 'POINT')} + ' đ'" style="color: orangered; width: 100px;"></td>
-						<td class="align-middle text-center" th:text="${#temporals.format(bookImport.importDate.toLocalDateTime(), 'dd/MM/yyyy HH:mm:ss')}"></td>
-						<td class="align-middle text-center">
-							<span th:switch="${bookImport.status}">
-								<span th:case="0" class="badge badge-danger">Ngừng bán</span>
-								<span th:case="1" class="badge badge-success">Đang bán</span>
-								<span th:case="2" class="badge badge-warning">Chưa bán</span>
-								<span th:case="3" class="badge badge-secondary">Hủy bỏ</span>
-							</span>
-						</td>
-						<td class="align-middle text-center">
-							<a th:href="@{/updatebookimport(bookImportId=${bookImport.id})}" class="btn btn-edit">
-								<span class="material-symbols-outlined">edit</span>
-							</a>
-						</td>
-					</tr>
-					</tbody>
-				</table>
-
 			</div>
 		</div>
 	</div>
 </div>
 <!--<div th:replace="~{admin/footeradmin :: footer}"></div>-->
+<script>
+	window.onload = function() {
+        var content = document.querySelector('.description');
+        var readMoreButton = document.getElementById('readMore');
+        var readLessButton = document.getElementById('readLess');
+        if (content.scrollHeight > content.clientHeight) {
+            readMoreButton.style.display = 'block';
+        }
+        readMoreButton.onclick = function() {
+            content.style.height = 'auto';
+            readMoreButton.style.display = 'none';
+            readLessButton.style.display = 'block';
+        }
+        readLessButton.onclick = function() {
+            content.style.height = '9em';
+            readLessButton.style.display = 'none';
+            readMoreButton.style.display = 'block';
+        }
+    }
+</script>
 </body>
 
 </html>

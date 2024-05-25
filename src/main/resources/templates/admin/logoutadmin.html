@@ -7,7 +7,7 @@
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
 	<style>
 		
-		body { background-color: #f8f9fa  }
+		body { background-color: #f2fbff }
 		
 		.card-body {
 			border: 2px solid rgb(255, 255, 255);
@@ -17,23 +17,33 @@
 	    }
 	    
 		.btn-logout {
-			border-radius: 10px;
-			background-color: rgb(2,88,155);
-			border: 2px solid rgb(2,88,155);	
-			color: white;		
-			}
-		.btn-logout:hover {
-			color:rgb(182,232,241); /* Thay đổi màu văn bản khi trỏ chuột vào nút */
-		}
-		.btn-no {
-			border-radius: 10px;
-			color: black;
 			background-color: white;
-			border: 2px solid rgb(2,88,155);			
+			border-radius: 10px;
+			color: #211f7f;
+			box-shadow: 0px 0px 10px rgba(192, 192, 192, 0.5);
+			font-weight: bold;
+		}
+		.btn-logout:hover {
+			color: white;
+            background-color: #211f7f;
+			box-shadow: 0px 4px 6px rgba(70, 130, 180, 0.3);
+			font-weight: bold
+		}
+
+		.btn-no {
+			background-color: white;
+			border-radius: 10px;
+			color: #211f7f;
+			box-shadow: 0px 0px 10px rgba(192, 192, 192, 0.5);
+			font-weight: bold;
 		}
 		.btn-no:hover {
-			color:rgb(2,88,155); /* Thay đổi màu văn bản khi trỏ chuột vào nút */
+			color: white;
+            background-color: #211f7f;
+			box-shadow: 0px 4px 6px rgba(70, 130, 180, 0.3);
+			font-weight: bold
 		}
+
 		.card-title {
 			color: rgb(2,88,155);
 		}
@@ -55,11 +65,11 @@
 				border-radius: 10px
 			}
 			
-		.frame.center {
-		  display: flex;
-		  justify-content: center;
-		  align-items: center;
-		  flex-direction: column; /* Sắp xếp các thành phần theo hướng dọc */
+		.frame-center {
+			  display: flex;
+			  justify-content: center;
+			  align-items: center;
+			  flex-direction: column; /* Sắp xếp các thành phần theo hướng dọc */
 		}
 		
 		.form-container {
@@ -71,23 +81,17 @@
 <body>
 <div th:replace="~{admin/headeradmin :: header}"></div>
 <div class="container-expand d-flex" style="margin: 0px; padding: 0px; width: 100%">
-	<div class="col-03" style="width: 17%">
-		<div th:replace="~{admin/sidebar :: sidebar}"></div>
-	</div>
-
-	<div class="col-08" style="width: 83%">
-    	<div class="row justify-content-center">
-        	<div class="col-md-6">
-				<div class="form-container" style="background-color: white;">
-					<h3 class="text-center">BẠN CÓ MUỐN ĐĂNG XUẤT KHÔNG?</h3>
-					<div class="frame center">
-						<form th:action="@{/logoutadmin}" method="post" >
-		                   <button type="submit" class="btn btn-logout">Đăng xuất</button>
-		                   <a th:href="@{/admin}" class="btn btn-no">Không</a>
-		                </form>
-					</div>			            
-            	</div>
-        	</div>
+	<div class="col-00"  style="width: 100%; display: flex; justify-content: center; align-items: center; height: 90vh;">
+    	<div class="row-text display: flex; align-items: center; justify-content-center">
+			<div class="form-container " style="background-color: white; width: 600px; height: 200px;">
+				<h3 class="text-center" style="color: #211f7f; margin-top: 30px">BẠN CÓ MUỐN ĐĂNG XUẤT KHÔNG?</h3>
+				<div class="frame-center">
+					<form th:action="@{/logoutadmin}" method="post" >
+						<button type="submit" class="btn btn-logout">Đăng xuất</button>
+						<a th:href="@{/admin}" class="btn btn-no">Không</a>
+					</form>
+				</div>
+			</div>
     	</div>
 	</div>
 </div>

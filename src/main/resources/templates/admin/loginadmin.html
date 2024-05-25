@@ -8,7 +8,7 @@
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
 	<style>
 		
-		body { background-color: #f8f9fa  }		
+		body { background-color: #f2fbff  }
 		
 		.form-control {
 			border-radius: 10px;
@@ -22,12 +22,17 @@
 	        margin-right: 60px;        
 		}
 		.btn-login {
-			background-color: rgb(2,88,155);
+			background-color: white;
 			border-radius: 10px;
-			color: white;
+			color: #211f7f;
+			box-shadow: 0px 0px 10px rgba(192, 192, 192, 0.5);
+			font-weight: bold;
 		}
 		.btn-login:hover {
-			color: rgb(182,232,241);
+			color: white;
+            background-color: #211f7f;
+			box-shadow: 0px 4px 6px rgba(70, 130, 180, 0.3);
+			font-weight: bold
 		}
 		
 		.col-image {
@@ -56,14 +61,10 @@
 		h5.login {
 			color: white;
 		}
-		.col.center-content {
+		.col-login.center-content {
 			width: 30%;
 		}
-		
-		.row {
-		    display: flex;
-		}
-		
+
 		h3 {
         	text-align: center;
         	margin-bottom: 20px;  
@@ -84,52 +85,49 @@
 </head>
 <body>
 <div th:replace="~{admin/headeradmin :: header}"></div>
-<!-- Hiển thị thông báo nếu có -->
-<div th:if="${param.message}" class="alert"
-	 th:classappend="${#strings.containsIgnoreCase(param.message, 'thành công') ? 'alert-success' : 'alert-danger'}">
-	<span th:text="${param.message}"></span>
-</div>
-<div class="container mt-4 mb-4">
-			<div class="container-body" style="background-color: white;">
-				<div class="row">  
-					<div class="col">  
-						<div class="row" style="justify-content: center; display: flex;"> 
-							<h5 class="login" >ĐĂNG NHẬP</h5> 						 
+	<!-- Hiển thị thông báo nếu có -->
+	<div th:if="${param.message}" class="alert"
+		 th:classappend="${#strings.containsIgnoreCase(param.message, 'thành công') ? 'alert-success' : 'alert-danger'}">
+		<span th:text="${param.message}"></span>
+	</div>
+	<div class="container"  style="display: flex; justify-content: center; align-items: center; height: 90vh;">
+		<div class="container-body" style="background-color: white;">
+			<div class="row-content d-flex justify-content-center; align-items-center;">
+				<div class="col-7" >
+					<div class="row row-image" style="margin-top: 20px">
+						<div class="col-image">
+							<img class="responsive-image-01" src="https://res.cloudinary.com/dylwewmt0/image/upload/v1699020641/PHOTO_LIST/AboutUs/login_01.png" alt>
 						</div>
-						<div class="row row-image">  
-							<div class="col-image">
-								<img class="responsive-image-01" src="https://res.cloudinary.com/dylwewmt0/image/upload/v1699020641/PHOTO_LIST/AboutUs/login_01.png" alt>
-							</div>
-							<div class="col-image">
-								<img class="responsive-image-02" src="https://res.cloudinary.com/dylwewmt0/image/upload/v1699020664/PHOTO_LIST/AboutUs/login_02.png" alt>
-							</div>
-						
+						<div class="col-image">
+							<img class="responsive-image-02" src="https://res.cloudinary.com/dylwewmt0/image/upload/v1699020664/PHOTO_LIST/AboutUs/login_02.png" alt>
 						</div>
-					</div>    
-					<div class="col">
-						<div class="form-container">      
-				            <form th:action="@{/loginadmin}" method="post">
-								<h3 class="text-center">ĐĂNG NHẬP</h3> 
-				                <div class="form-group">
-				                    <label for="username" style="color: rgb(2,88,155);">Tên đăng nhập:</label>
-				                    <input type="text" class="form-control" id="username" name="username" required style="border-radius: 50px">
-				                </div>
-				                <div class="form-group">
-								    <label for="password" style="color: rgb(2,88,155);">Mật khẩu:</label>
-								    <input type="password" class="form-control" id="password" name="password" required style="border-radius: 50px">
-								    <input type="checkbox" id="togglePassword" style="margin-top: 20px;"> Hiển thị mật khẩu
-								</div>
-				                <div class="text-center">
-				                    <button type="submit" class="btn btn-login">Đăng nhập</button>
-				                </div>
-				            </form>
-						</div>
+
 					</div>
-	    		</div>
+				</div>
+				<div class="col-5">
+					<div class="form-container">
+						<form th:action="@{/loginadmin}" method="post">
+							<h3 class="text-center" style="color: #211f7f;">ĐĂNG NHẬP</h3>
+							<div class="form-group">
+								<label for="username" >Tên đăng nhập:</label>
+								<input type="text" class="form-control" id="username" name="username" required style="border-radius: 50px">
+							</div>
+							<div class="form-group">
+								<label for="password" >Mật khẩu:</label>
+								<input type="password" class="form-control" id="password" name="password" required style="border-radius: 50px">
+								<input type="checkbox" id="togglePassword" style="margin-top: 20px;"> Hiển thị mật khẩu
+							</div>
+							<div class="text-center">
+								<button type="submit" class="btn btn-login">Đăng nhập</button>
+							</div>
+						</form>
+					</div>
+				</div>
 			</div>
-</div>
-<!--<div th:replace="~{admin/footeradmin :: footer}"></div>-->
-<!--<div th:replace="~{layout/footer :: footer}"></div>-->
+		</div>
+	</div>
+	<!--<div th:replace="~{admin/footeradmin :: footer}"></div>-->
+	<!--<div th:replace="~{layout/footer :: footer}"></div>-->
 	<script>
 	    var password = document.getElementById('password');
 	    var togglePassword = document.getElementById('togglePassword');

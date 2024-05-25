@@ -207,6 +207,11 @@
             color: white;
             font-weight: bold;
         }
+        .badge-all-book {
+            background-color: #5390f5;
+            color: white;
+        }
+
     </style>
 </head>
 <body>
@@ -408,7 +413,7 @@
 
                                 <td rowspan="1" class="next-table-header-node" style="padding: 10px 0px; text-align: center;">
                                     <span th:switch="${voucher.voucherScope}">
-                                        <span th:case="0" class="badge badge-danger">Mọi sách</span>
+                                        <span th:case="0" class="badge badge-all-book">Mọi sách</span>
                                         <span th:case="1" class="badge badge-success">Danh mục cụ thể</span>
                                     </span>
                                 </td>
