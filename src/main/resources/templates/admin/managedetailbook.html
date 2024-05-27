@@ -109,6 +109,24 @@
 			font-weight: bold
 		}
 
+		.material-symbols-outlined.edit{
+			color: rgb(2,88,155);
+		}
+
+		.material-symbols-outlined.edit:hover {
+			color:rgb(182,232,241);
+		}
+
+		.image {
+			border: 1px solid #cecece;
+			border-radius: 15px;
+			margin-top: 10px;
+		}
+
+		.image:hover {
+			border: 1px solid #211f7f;
+		}
+
 	</style>
 </head>
 <body>
@@ -317,7 +335,7 @@
 
 									<td rowspan="1" class="next-table-header-node last" style="padding: 10px 0px; text-align: center" >
 										<a th:href="@{/updatebookimport(bookImportId=${bookImport.id})}" class="btn btn-edit">
-											<span class="material-symbols-outlined">edit</span>
+											<span class="material-symbols-outlined edit">edit</span>
 										</a>
 									</td>
 								</tr>
@@ -351,6 +369,241 @@
         }
     }
 </script>
+
+<script>
+	// Lấy div chứa các hình ảnh
+    var imageContainer = document.querySelector('.row-image.d-flex');
+
+    // Mảng chứa đường dẫn của tất cả các hình ảnh trong div
+    var images = Array.from(imageContainer.querySelectorAll('img')).map(img => img.src);
+
+    // Khi người dùng nhấp vào một hình ảnh trong div...
+    imageContainer.querySelectorAll('img').forEach((img, index) => {
+        img.addEventListener('click', function(event) {
+            // Tạo một div mới để chứa hình ảnh
+            var lightbox = document.createElement('div');
+            lightbox.style.position = 'fixed';
+            lightbox.style.top = 0;
+            lightbox.style.bottom = 0;
+            lightbox.style.left = 0;
+            lightbox.style.right = 0;
+            lightbox.style.background = 'rgba(0, 0, 0, 0.7)';
+            lightbox.style.display = 'flex';
+            lightbox.style.justifyContent = 'center';
+            lightbox.style.alignItems = 'center';
+            lightbox.style.zIndex = 99999;
+
+            // Tạo một hình ảnh mới và đặt nguồn của nó thành nguồn của hình ảnh đã nhấp
+            var lightboxImg = document.createElement('img');
+            lightboxImg.src = event.target.src;
+            lightboxImg.style.maxWidth = '80%';
+            lightboxImg.style.maxHeight = '80%';
+
+            // Tạo các mũi tên
+            var leftArrow = document.createElement('div');
+            leftArrow.innerHTML = '<span class="material-symbols-outlined arrow_back_ios">arrow_back_ios</span>';
+            leftArrow.style.position = 'absolute';
+            leftArrow.style.left = '10px';
+            leftArrow.style.top = '50%';
+            leftArrow.style.fontSize = '3em';
+            leftArrow.style.color = 'white';
+            leftArrow.style.cursor = 'pointer';
+            leftArrow.style.transform = 'translateY(-50%)';
+
+            var rightArrow = document.createElement('div');
+            rightArrow.innerHTML = '<span class="material-symbols-outlined arrow_forward_ios">arrow_forward_ios</span>';
+            rightArrow.style.position = 'absolute';
+            rightArrow.style.right = '10px';
+            rightArrow.style.top = '50%';
+            rightArrow.style.fontSize = '3em';
+            rightArrow.style.color = 'white';
+            rightArrow.style.cursor = 'pointer';
+            rightArrow.style.transform = 'translateY(-50%)';
+
+            // Tạo nút đóng
+            var closeButton = document.createElement('span');
+            closeButton.innerHTML = '<span class="material-symbols-outlined close">close</span>';
+            closeButton.style.position = 'absolute';
+            closeButton.style.right = '10px';
+            closeButton.style.top = '10px';
+            closeButton.style.height = '40px';
+            closeButton.style.width = '40px';
+            closeButton.style.color = '#f1f1f1';
+            closeButton.style.justifyContent = 'center';
+            closeButton.style.alignItems = 'center';
+            closeButton.style.display = 'flex';
+            closeButton.style.fontSize = '30px';
+            closeButton.style.fontWeight = 'bold';
+            closeButton.style.cursor = 'pointer';
+            closeButton.style.alignSelf = 'flex-start';
+
+            closeButton.onclick = function() {
+                document.body.removeChild(lightbox);
+            };
+
+            // Tạo nút Play
+            var playButton = document.createElement('span');
+            playButton.innerHTML = '<span class="material-symbols-outlined play_arrow">play_circle</span>';
+            playButton.style.position = 'absolute';
+            playButton.style.right = '60px';
+            playButton.style.top = '10px';
+            playButton.style.height = '40px';
+            playButton.style.width = '40px';
+            playButton.style.color = '#f1f1f1';
+            playButton.style.justifyContent = 'center';
+            playButton.style.alignItems = 'center';
+            playButton.style.display = 'flex';
+            playButton.style.fontSize = '30px';
+            playButton.style.fontWeight = 'bold';
+            playButton.style.cursor = 'pointer';
+            playButton.style.alignSelf = 'flex-start';
+
+            var intervalId;
+
+            playButton.onclick = function() {
+                if (intervalId) {
+                    // Nếu đã có một bộ đếm thời gian đang chạy, hãy dừng nó
+                    clearInterval(intervalId);
+                    intervalId = null;
+                    playButton.innerHTML = '<span class="material-symbols-outlined play_arrow">play_arrow</span>'; // Đổi biểu tượng thành Play
+                } else {
+                    // Nếu không có bộ đếm thời gian nào đang chạy, hãy bắt đầu một cái mới
+                    intervalId = setInterval(function() {
+                        index = (index + 1) % images.length;
+                        lightboxImg.src = images[index];
+                    }, 3000); // Chuyển hình ảnh sau mỗi 3 giây
+                    playButton.innerHTML = '<span class="material-symbols-outlined pause">pause</span>'; // Đổi biểu tượng thành Pause
+                }
+            };
+
+
+            // Tạo nút phóng to
+            var zoomInButton = document.createElement('span');
+            zoomInButton.innerHTML = '<span class="material-symbols-outlined zoom_in">zoom_in</span>';
+            zoomInButton.style.position = 'absolute';
+            zoomInButton.style.right = '160px';
+            zoomInButton.style.top = '10px';
+            zoomInButton.style.height = '40px';
+            zoomInButton.style.width = '40px';
+            zoomInButton.style.color = '#f1f1f1';
+            zoomInButton.style.justifyContent = 'center';
+            zoomInButton.style.alignItems = 'center';
+            zoomInButton.style.display = 'flex';
+            zoomInButton.style.fontSize = '30px';
+            zoomInButton.style.fontWeight = 'bold';
+            zoomInButton.style.cursor = 'pointer';
+            zoomInButton.style.alignSelf = 'flex-start';
+
+            zoomInButton.onclick = function() {
+                lightboxImg.style.maxWidth = parseInt(lightboxImg.style.maxWidth) + 10 + '%';
+                lightboxImg.style.maxHeight = parseInt(lightboxImg.style.maxHeight) + 10 + '%';
+            };
+
+            // Tạo nút thu nhỏ
+            var zoomOutButton = document.createElement('span');
+            zoomOutButton.innerHTML = '<span class="material-symbols-outlined zoom_out">zoom_out</span>';
+            zoomOutButton.style.position = 'absolute';
+            zoomOutButton.style.right = '210px';
+            zoomOutButton.style.top = '10px';
+            zoomOutButton.style.height = '40px';
+            zoomOutButton.style.width = '40px';
+            zoomOutButton.style.color = '#f1f1f1';
+            zoomOutButton.style.justifyContent = 'center';
+            zoomOutButton.style.alignItems = 'center';
+            zoomOutButton.style.display = 'flex';
+            zoomOutButton.style.fontSize = '30px';
+            zoomOutButton.style.fontWeight = 'bold';
+            zoomOutButton.style.cursor = 'pointer';
+            zoomOutButton.style.alignSelf = 'flex-start';
+
+            zoomOutButton.onclick = function() {
+                if (parseInt(lightboxImg.style.maxWidth) > 80) {
+                    lightboxImg.style.maxWidth = parseInt(lightboxImg.style.maxWidth) - 10 + '%';
+                    lightboxImg.style.maxHeight = parseInt(lightboxImg.style.maxHeight) - 10 + '%';
+                }
+            };
+
+            // Tạo nút Fullscreen
+            var fullscreenButton = document.createElement('span');
+            fullscreenButton.innerHTML = '<span class="material-symbols-outlined fullscreen">fullscreen</span>';
+            fullscreenButton.style.position = 'absolute';
+            fullscreenButton.style.right = '110px';
+            fullscreenButton.style.top = '10px';
+            fullscreenButton.style.height = '40px';
+            fullscreenButton.style.width = '40px';
+            fullscreenButton.style.color = '#f1f1f1';
+            fullscreenButton.style.justifyContent = 'center';
+            fullscreenButton.style.alignItems = 'center';
+            fullscreenButton.style.display = 'flex';
+            fullscreenButton.style.fontSize = '30px';
+            fullscreenButton.style.fontWeight = 'bold';
+            fullscreenButton.style.cursor = 'pointer';
+            fullscreenButton.style.alignSelf = 'flex-start';
+
+            fullscreenButton.onclick = function() {
+                if (!document.fullscreenElement) {
+                    if (lightbox.requestFullscreen) {
+                        lightbox.requestFullscreen();
+                    } else if (lightbox.mozRequestFullScreen) { /* Firefox */
+                        lightbox.mozRequestFullScreen();
+                    } else if (lightbox.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
+                        lightbox.webkitRequestFullscreen();
+                    } else if (lightbox.msRequestFullscreen) { /* IE/Edge */
+                        lightbox.msRequestFullscreen();
+                    }
+                } else {
+                    if (document.exitFullscreen) {
+                        document.exitFullscreen();
+                    } else if (document.mozCancelFullScreen) { /* Firefox */
+                        document.mozCancelFullScreen();
+                    } else if (document.webkitExitFullscreen) { /* Chrome, Safari and Opera */
+                        document.webkitExitFullscreen();
+                    } else if (document.msExitFullscreen) { /* IE/Edge */
+                        document.msExitFullscreen();
+                    }
+                }
+            };
+
+
+            // Thêm hình ảnh, mũi tên và nút đóng vào lightbox
+            lightbox.appendChild(lightboxImg);
+            lightbox.appendChild(leftArrow);
+            lightbox.appendChild(rightArrow);
+            lightbox.appendChild(closeButton);
+            lightbox.appendChild(zoomInButton);
+            lightbox.appendChild(zoomOutButton);
+            lightbox.appendChild(playButton);
+            lightbox.appendChild(fullscreenButton);
+
+            // Thêm lightbox vào trang
+            document.body.appendChild(lightbox);
+
+            // Khi người dùng nhấp vào mũi tên phải hoặc trái, chuyển đổi hình ảnh
+            document.addEventListener('keydown', function(event) {
+                if (event.key === 'ArrowRight') {
+                    index = (index + 1) % images.length;
+                    lightboxImg.src = images[index];
+                } else if (event.key === 'ArrowLeft') {
+                    index = (index - 1 + images.length) % images.length;
+                    lightboxImg.src = images[index];
+                }
+            });
+
+            // Khi người dùng nhấp vào mũi tên, chuyển đổi hình ảnh
+            leftArrow.addEventListener('click', function() {
+                index = (index - 1 + images.length) % images.length;
+                lightboxImg.src = images[index];
+            });
+
+            rightArrow.addEventListener('click', function() {
+                index = (index + 1) % images.length;
+                lightboxImg.src = images[index];
+            });
+        });
+    });
+
+</script>
+
 </body>
 
 </html>

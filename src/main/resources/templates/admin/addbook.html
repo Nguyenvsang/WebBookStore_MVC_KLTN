@@ -29,8 +29,8 @@
 			background-color: rgb(2,88,155);
 			border-radius: 10px;
 			color: white;
-			margin-bottom: 40px;
-			margin-top: 40px;
+			margin-bottom: 20px;
+			margin-top: 20px;
 		}
 		.btn-save:hover {
 			color: rgb(182,232,241)
@@ -68,7 +68,7 @@
 	    var output = document.getElementById('output1');
 	    output.src = URL.createObjectURL(event.target.files[0]);
 	    output.onload = function() {
-	        URL.revokeObjectURL(output.src) // free memory 
+	        URL.revokeObjectURL(output.src) // free memory
 	    }
 	};
 	</script>
@@ -192,12 +192,12 @@
 							</div>
 							<div class="col-5" style="padding-right: 0px">
 								<div class="form-group">
-									<label for="detail" >Giới thiệu sách</label>
-									<textarea class="form-control"  style="border-radius: 10px; resize: none;" id="detail" name="detail" rows="9" required></textarea>
+									<label for="detail" >Chi tiết</label>
+									<textarea class="form-control"  style="border-radius: 10px; resize: none;" id="detail" name="detail" rows="7" required></textarea>
 								</div>
 								<div class="form-group">
-									<label for="description" >Mô tả</label>
-									<textarea class="form-control" style="border-radius: 10px; resize: none;" id="description" name="description" rows="7" required></textarea>
+									<label for="description" >Giới thiệu sách</label>
+									<textarea class="form-control" style="border-radius: 10px; resize: none;" id="description" name="description" rows="9" required></textarea>
 								</div>
 							</div>
 						</div>
@@ -233,13 +233,14 @@
 							<div class="col">
 								<div class="form-group">
 									<label for="image4" >Ảnh 4:</label>
-									<input type="file" class="form-control-file" id="image4" name="image4" accept="image/*" onchange="loadFile4(event)" style="margin-bottom: 10px ;" required>
+										<input type="file" class="form-control-file" id="image4" name="image4" accept="image/*" onchange="loadFile4(event)" style="margin-bottom: 10px ;" required>
 									<div style="display: flex; justify-content: center; align-items: center;">
 										<img id="output4" width="100"/>
 									</div>
 								</div>
 							</div>
 						</div>
+
 						<div class="text-center">
 							<button type="submit" class="btn btn-save">Lưu</button>
 						</div>
@@ -250,7 +251,7 @@
 	</div>
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-    <!--<div th:replace="~{admin/footeradmin :: footer}"></div>-->   
-	
+    <!--<div th:replace="~{admin/footeradmin :: footer}"></div>-->
+
 </body>
 </html>

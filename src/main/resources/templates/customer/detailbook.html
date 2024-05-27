@@ -661,7 +661,7 @@
 					<h5 class="text-center" style="padding: 20px 0px; color: rgb(247,80,80); font-weight: 500;">Vui lòng đăng nhập để viết đánh giá cho cuốn sách!</h5>
 					<div class="row-review d-flex align-items-center" style="margin-top: 20px; background-color: #f2fbff; border-radius: 15px; width: 100%">
 						<div class="col-3">
-							<img src="https://res.cloudinary.com/dylwewmt0/image/upload/v1716474181/PHOTO_LIST/Detailbook/01.png" alt="" style="height: 250px; width: 250px">
+							<img src="https://res.cloudinary.com/dylwewmt0/image/upload/v1716817984/PHOTO_LIST/Detailbook/02.png" alt="" style="height: 250px; width: 250px">
 						</div>
 						<div class="col-3">
 							<p class="text-center" style="margin: 20px; font-family: 'Museo Moderno', sans-serif; font-size: 14px; color: #3f6ad8; font-weight: 500">Lượt đánh giá cho quyển sách</p>
@@ -715,7 +715,7 @@
 
 					<div class="row-review d-flex align-items-center" style="margin-top: 20px; background-color: #f2fbff; border-radius: 15px; width: 100%">
 						<div class="col-3">
-							<img src="https://res.cloudinary.com/dylwewmt0/image/upload/v1716474181/PHOTO_LIST/Detailbook/01.png" alt="" style="height: 250px; width: 250px">
+							<img src="https://res.cloudinary.com/dylwewmt0/image/upload/v1716817984/PHOTO_LIST/Detailbook/02.png" alt="" style="height: 250px; width: 250px">
 						</div>
 						<div class="col-3">
 							<p class="text-center" style="margin: 20px; font-family: 'Museo Moderno', sans-serif; font-size: 14px; color: #3f6ad8; font-weight: 500">Lượt đánh giá cho quyển sách</p>
@@ -819,7 +819,7 @@
 
 					<div class="row-review d-flex align-items-center" style="margin-top: 20px; background-color: #f2fbff; border-radius: 15px; width: 100%">
 						<div class="col-3">
-							<img src="https://res.cloudinary.com/dylwewmt0/image/upload/v1716474181/PHOTO_LIST/Detailbook/01.png" alt="" style="height: 250px; width: 250px">
+							<img src="https://res.cloudinary.com/dylwewmt0/image/upload/v1716817984/PHOTO_LIST/Detailbook/02.png" alt="" style="height: 250px; width: 250px">
 						</div>
 						<div class="col-3">
 							<p class="text-center" style="margin: 20px; font-family: 'Museo Moderno', sans-serif; font-size: 14px; color: #3f6ad8; font-weight: 500">Lượt đánh giá cho quyển sách</p>
@@ -872,7 +872,7 @@
 						<div class="row-title d-flex" >
 							<div class="col-6 d-flex align-items-center" style="padding: 0px">
 								<h6 style="margin: 0px; color: #5b5a7a; font-weight: bold">Đánh giá của bạn</h6>
-								<div class="stars d-flex align-items-center" th:text="${'★'.repeat(loggedInUserReview.rating)}" style="margin: 0px; padding: 10px"></div>
+								<div class="stars d-flex align-items-center" th:text="${'★'.repeat(loggedInUserReview.rating)}" style="margin: 0px; padding: 10px; font-size: 20px;"></div>
 							</div>
 							<div class="col-6 d-flex" style="padding: 0px; justify-content: flex-end">
 								<!-- Button trigger modal -->
@@ -946,27 +946,33 @@
 				<!-- Hiển thị danh sách các đánh giá -->
 				<div th:each="review : ${bookReviews}">
 					<div class="review" style="margin-top: 20px">
-						<div class="row-star d-flex align-items-center" style="margin-bottom: 10px">
-							<!-- Hiển thị thông tin người dùng đã viết đánh giá -->
-							<div class="user-info">
-								<img th:src="${review.account.img != '' ? review.account.img : 'https://res.cloudinary.com/dosdzo1lg/image/upload/v1709875316/WebBookStoreKLTN/img_account/account_default.jpg'}" class="img-thumbnail" style="width: 50px; height: 50px;" id="currentImage2" alt="Img">
-								<div class="username" th:text="${review.account.username}" style="color: #5b5a7a"></div>
+						<div class="row-star d-flex" style="margin-bottom: 10px">
+							<div class="col-4">
+								<!-- Hiển thị thông tin người dùng đã viết đánh giá -->
+								<div class="user-info">
+									<img th:src="${review.account.img != '' ? review.account.img : 'https://res.cloudinary.com/dosdzo1lg/image/upload/v1709875316/WebBookStoreKLTN/img_account/account_default.jpg'}" class="img-thumbnail" style="width: 50px; height: 50px;" id="currentImage2" alt="Img">
+									<div class="username" th:text="${review.account.username}" style="color: #5b5a7a"></div>
+								</div>
+								<!-- Hiển thị ngày đánh giá -->
+								<small class="date" th:text="${#temporals.format(review.datePosted.toLocalDateTime(), 'dd-MM-yyyy')}"></small>
+								<!-- Hiển thị nội dung đánh giá -->
+								<p class="purchased" th:if="${review.isPurchased}">Người dùng này đã mua cuốn sách</p>
+								<p class="not-purchased" th:if="${!review.isPurchased}">Người dùng này chưa mua cuốn sách</p>
 							</div>
-							<!-- Hiển thị số sao đánh giá -->
-							<div class="stars d-flex align-items-center" th:text="${'★'.repeat(review.rating)}" style="margin: 0px; padding: 10px"></div>
+							<div class="col-8">
+								<!-- Hiển thị số sao đánh giá -->
+								<div class="stars d-flex align-items-center" th:text="${'★'.repeat(review.rating)}" style="margin: 0px; font-size: 20px;"></div>
+
+								<div class="comment" th:text="${review.comment}" style="text-align: justify;"></div>
+								<!-- Hiển thị nút Thích và số lượng thích -->
+								<button class="like-button" th:text="${likedReviews.contains(review) ? ' Đã thích' : ' Thích'}" th:data-book-review-id="${review.id}">
+									<span class="material-symbols-outlined">thumb_up</span>Thích
+								</button>
+								<span class="like-count" th:text="'(' + ${review.bookReviewLikes.size()} + ')'"></span>
+							</div>
 						</div>
 
-						<!-- Hiển thị nội dung đánh giá -->
-						<div class="comment" th:text="${review.comment}" style="text-align: justify;"></div>
-						<p class="purchased" th:if="${review.isPurchased}">Người dùng này đã mua cuốn sách</p>
-						<p class="not-purchased" th:if="${!review.isPurchased}">Người dùng này chưa mua cuốn sách</p>
-						<!-- Hiển thị ngày đánh giá -->
-						<small class="date" th:text="${#temporals.format(review.datePosted.toLocalDateTime(), 'dd-MM-yyyy')}"></small>
-						<!-- Hiển thị nút Thích và số lượng thích -->
-						<button class="like-button" th:text="${likedReviews.contains(review) ? ' Đã thích' : ' Thích'}" th:data-book-review-id="${review.id}">
-							 <span class="material-symbols-outlined">thumb_up</span>Thích
-						</button>
-						<span class="like-count" th:text="'(' + ${review.bookReviewLikes.size()} + ')'"></span>
+
 					</div>
 				</div>
 			</div>

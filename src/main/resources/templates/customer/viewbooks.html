@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     
 	<style> 
-		body { background-color: #f8f9fa  }
+		body { background-color: #f2fbff }
 		.book-card { 
 			margin-bottom: 20px; 
 			margin-top: 20px;
@@ -174,17 +174,17 @@
 			list-style-type: none;
 		}
 		
-		.level-0 {		    
-		    font-family: Arial, sans-serif;
-		    padding-top: 9px;
-		    padding-bottom: 9px;
-		    padding-right: 15px;
-		}
-		.level-0:hover {
-		    color: rgb(2,88,155);
-		    background-color: aliceblue;
-		    border-radius: 10px;
-		}
+		.level-0 {
+            font-family: Arial, sans-serif;
+            padding: 9px 15px;
+
+        }
+        .level-0:hover {
+            color: rgb(2,88,155);
+            background-color: aliceblue;
+            border-radius: 10px;
+        }
+
 		a {
 			color: black;
 			font-family: Arial, sans-serif;
@@ -196,19 +196,19 @@
 			color: rgb(2,88,155);
 		}
 		
-		h4 {
-        	text-align: left;
-        	margin-top: 10px;
-        	margin-bottom: 20px;  
-        	color: rgb(2,88,155);     	
-    	}
+		h5 {
+            text-align: left;
+            margin-top: 10px;
+            margin-bottom: 20px;
+            color: #211f7f;
+        }
     	
-    	h4.frame {
-        	text-align: center;
-        	margin-top: 10px;
-        	margin-bottom: 20px;  
-        	color: rgb(2,88,155);     	
-    	}
+    	 h5.frame {
+            text-align: center;
+            margin-top: 10px;
+            margin-bottom: 20px;
+            color: #211f7f;
+        }
     	
     	.navbar-nav {
 			display: frex;
@@ -392,6 +392,14 @@
 			font-size: 18px;
 		}
 
+		.container-body {
+             width: 100%;
+             border-radius: 15px;
+             margin: 40px auto;
+             box-shadow: 0 8px 10px rgb(226, 226, 226);
+             background-color: white;
+        }
+
 	</style>
 </head>
 <!--Phần Chat Box -->
@@ -414,288 +422,240 @@
 		 th:text="${message}" style="font-weight: bold;justify-content: center; display: flex">
 	</div>
 
-	<div class="container-main d-flex align-items-center justify-content-center" style="background-color: #f0f0f0; width: 100%; padding: 0px">
-			<div class="container-inner d-flex align-items-center justify-content-center" style="width: 1200px; background-color: white;">
-			    
-			   				
-				<div class="container-content d-flex align-items-center justify-content-center" style="width: 1200px; background-color: white;">
-					<div class="col-left sidebar col-lg-3 col-md-3 col-sm-12 col-xs-12" style="border-right: 1px solid #cecece; width: 280px;" >
-						<div class="row row-content" >
-								<a class="nav-link" th:href="@{/viewbooks}" style="margin-left: 10px; font-size: 14px;">TẤT CẢ SÁCH</a>
-							<li class="dropdown open" style="border-bottom: 1px solid #cecece;  border-top: 1px solid #cecece; margin-top: 15px; width: 280px;"> 
-								<div style="padding: 8px;"></div>
-																
+	<div class="container" style="padding: 0px">
+		<div class="container-body">
+			<div class="container-inner">
+				<div class="row-body d-flex" >
+					<div class="col-filter" style="width: 20%; border-right: 10px solid #f2fbff; padding: 15px" >
+						<div class="row-content" >
+							<a class="nav-link" th:href="@{/viewbooks}" style="margin-left: 10px; font-size: 14px;">TẤT CẢ SÁCH</a>
+							<li class="dropdown open" style="margin-top: 15px;">
 								<span style="color: rgb(2,88,155);"></span>
-								<ul class="no-bullets nav-left" style="padding: 0px 0px 0px 20px;">
-									<h4>DANH MỤC SÁCH <span class="material-symbols-outlined click">drag_click</span></h4>
+								<ul class="no-bullets nav-left" style="padding: 0px">
+									<h5>DANH MỤC SÁCH</h5>
 									<li class="level-0">
-										<input type="radio" id="category1" onclick="document.getElementById('link1').click();">
 										<a id="link1" th:href="@{/viewbooks(categoryId=1, publisher=${publisher}, sortOption=${sortOption}, searchKeyword=${searchKeyword}, priceMin=${priceMin}, priceMax=${priceMax}, page=1)}">Chính Trị - Pháp Luật</a>
 									</li>
 									<li class="level-0">
-										<input type="radio" id="category2" onclick="document.getElementById('link2').click();">
 										<a id="link2" th:href="@{/viewbooks(categoryId=2, publisher=${publisher}, sortOption=${sortOption}, searchKeyword=${searchKeyword}, priceMin=${priceMin}, priceMax=${priceMax}, page=1)}">Giáo Trình</a>
 									</li>
 									<li class="level-0">
-										<input type="radio" id="category3" onclick="document.getElementById('link3').click();">
 										<a id="link3" th:href="@{/viewbooks(categoryId=3, publisher=${publisher}, sortOption=${sortOption}, searchKeyword=${searchKeyword}, priceMin=${priceMin}, priceMax=${priceMax}, page=1)}">Khoa Học Công Nghệ - Kinh Tế</a>
 									</li>
 									<li class="level-0">
-										<input type="radio" id="category4" onclick="document.getElementById('link4').click();">
 										<a id="link4" th:href="@{/viewbooks(categoryId=4, publisher=${publisher}, sortOption=${sortOption}, searchKeyword=${searchKeyword}, priceMin=${priceMin}, priceMax=${priceMax}, page=1)}">Truyện, Tiểu Thuyết</a>
 									</li>
 									<li class="level-0">
-										<input type="radio" id="category5" onclick="document.getElementById('link5').click();">
 										<a id="link5" th:href="@{/viewbooks(categoryId=5, publisher=${publisher}, sortOption=${sortOption}, searchKeyword=${searchKeyword}, priceMin=${priceMin}, priceMax=${priceMax}, page=1)}">Tâm Lý, Tâm Linh, Tôn Giáo</a>
 									</li>	
 									<li class="level-0">
-										<input type="radio" id="category6" onclick="document.getElementById('link6').click();">
 										<a id="link6" th:href="@{/viewbooks(categoryId=6, publisher=${publisher}, sortOption=${sortOption}, searchKeyword=${searchKeyword}, priceMin=${priceMin}, priceMax=${priceMax}, page=1)}">Thiếu Nhi</a>
 									</li>
 									<li class="level-0">
-										<input type="radio" id="category7" onclick="document.getElementById('link7').click();">
 										<a id="link7" th:href="@{/viewbooks(categoryId=7, publisher=${publisher}, sortOption=${sortOption}, searchKeyword=${searchKeyword}, priceMin=${priceMin}, priceMax=${priceMax}, page=1)}">Văn Học Nghệ Thuật</a>
 									</li>
 									<li class="level-0">
-										<input type="radio" id="category8" onclick="document.getElementById('link8').click();">
 										<a id="link8" th:href="@{/viewbooks(categoryId=8, publisher=${publisher}, sortOption=${sortOption}, searchKeyword=${searchKeyword}, priceMin=${priceMin}, priceMax=${priceMax}, page=1)}">Văn Hóa Xã Hội - Lịch Sử</a>
 									</li>								
 								</ul>
 							</li>
-							<li class="dropdown open" style="border-bottom: 1px solid #cecece; margin-top: 15px; width: 280px;"> 
-																
+							<li class="dropdown open" style="margin-top: 15px;">
+
 								<span style="color: rgb(2,88,155);"></span>
-								<ul class="no-bullets nav-left" style="padding: 0px 0px 0px 20px;">
-									<h4>THEO NXB<span class="material-symbols-outlined click" style="margin-left: 7px;">drag_click</span></h4>
+								<ul class="no-bullets nav-left" style="padding: 0px">
+									<h5>THEO NXB</h5>
 									<li class="level-0">
-										<input type="radio" id="publisher1" onclick="document.getElementById('linkNXB1').click();">
-											<a id="linkNXB1" th:href="@{/viewbooks(categoryId=${categoryId}, publisher='NXB Kim Đồng', sortOption=${sortOption}, priceMin=${priceMin}, priceMax=${priceMax}, page=1)}">NXB Kim Đồng</a>
+										<a id="linkNXB1" th:href="@{/viewbooks(categoryId=${categoryId}, publisher='NXB Kim Đồng', sortOption=${sortOption}, priceMin=${priceMin}, priceMax=${priceMax}, page=1)}">NXB Kim Đồng</a>
 									</li>
 									<li class="level-0">
-										<input type="radio" id="publisher2" onclick="document.getElementById('linkNXB2').click();">
-											<a id="linkNXB2" th:href="@{/viewbooks(categoryId=${categoryId}, publisher='NXB Lao Động', sortOption=${sortOption}, priceMin=${priceMin}, priceMax=${priceMax}, page=1)}">NXB Lao Động</a>
+										<a id="linkNXB2" th:href="@{/viewbooks(categoryId=${categoryId}, publisher='NXB Lao Động', sortOption=${sortOption}, priceMin=${priceMin}, priceMax=${priceMax}, page=1)}">NXB Lao Động</a>
 									</li>
 									<li class="level-0">
-										<input type="radio" id="publisher3" onclick="document.getElementById('linkNXB3').click();">
-											<a id="linkNXB3" th:href="@{/viewbooks(categoryId=${categoryId}, publisher='NXB Thế Giới', sortOption=${sortOption}, priceMin=${priceMin}, priceMax=${priceMax}, page=1)}">NXB Thể Giới</a>
+										<a id="linkNXB3" th:href="@{/viewbooks(categoryId=${categoryId}, publisher='NXB Thế Giới', sortOption=${sortOption}, priceMin=${priceMin}, priceMax=${priceMax}, page=1)}">NXB Thể Giới</a>
 									</li>
 									<li class="level-0">
-										<input type="radio" id="publisher4" onclick="document.getElementById('linkNXB4').click();">
-											<a id="linkNXB4" th:href="@{/viewbooks(categoryId=${categoryId}, publisher='NXB Trẻ', sortOption=${sortOption}, priceMin=${priceMin}, priceMax=${priceMax}, page=1)}">NXB Trẻ</a>
+										<a id="linkNXB4" th:href="@{/viewbooks(categoryId=${categoryId}, publisher='NXB Trẻ', sortOption=${sortOption}, priceMin=${priceMin}, priceMax=${priceMax}, page=1)}">NXB Trẻ</a>
 									</li>
 									<li class="level-0">
-										<input type="radio" id="publisher5" onclick="document.getElementById('linkNXB5').click();">
-											<a id="linkNXB5" th:href="@{/viewbooks(categoryId=${categoryId}, publisher='NXB Thanh Niên', sortOption=${sortOption}, priceMin=${priceMin}, priceMax=${priceMax}, page=1)}">NXB Thanh Niên</a>
+										<a id="linkNXB5" th:href="@{/viewbooks(categoryId=${categoryId}, publisher='NXB Thanh Niên', sortOption=${sortOption}, priceMin=${priceMin}, priceMax=${priceMax}, page=1)}">NXB Thanh Niên</a>
 									</li>
 									<li class="level-0">
-										<input type="radio" id="publisher6" onclick="document.getElementById('linkNXB6').click();"> 
-											<a id="linkNXB6" th:href="@{/viewbooks(categoryId=${categoryId}, publisher='NXB Hồng Đức', sortOption=${sortOption}, priceMin=${priceMin}, priceMax=${priceMax}, page=1)}">NXB Hồng Đức</a>
+										<a id="linkNXB6" th:href="@{/viewbooks(categoryId=${categoryId}, publisher='NXB Hồng Đức', sortOption=${sortOption}, priceMin=${priceMin}, priceMax=${priceMax}, page=1)}">NXB Hồng Đức</a>
 									</li>	
 									<li class="level-0">
-										<input type="radio" id="publisher7" onclick="document.getElementById('linkNXB7').click();">
-											<a id="linkNXB7" th:href="@{/viewbooks(categoryId=${categoryId}, publisher='NXB Chính Trị Quốc Gia', sortOption=${sortOption}, priceMin=${priceMin}, priceMax=${priceMax}, page=1)}">NXB Chính Trị Quốc Gia</a>
+										<a id="linkNXB7" th:href="@{/viewbooks(categoryId=${categoryId}, publisher='NXB Chính Trị Quốc Gia', sortOption=${sortOption}, priceMin=${priceMin}, priceMax=${priceMax}, page=1)}">NXB Chính Trị Quốc Gia</a>
 									</li>	
 									<li class="level-0">
-										<input type="radio" id="publisher8" onclick="document.getElementById('linkNXB8').click();">
-											<a id="linkNXB8" th:href="@{/viewbooks(categoryId=${categoryId}, publisher='NXB Văn Học', sortOption=${sortOption}, priceMin=${priceMin}, priceMax=${priceMax}, page=1)}">NXB Văn Học</a>
+										<a id="linkNXB8" th:href="@{/viewbooks(categoryId=${categoryId}, publisher='NXB Văn Học', sortOption=${sortOption}, priceMin=${priceMin}, priceMax=${priceMax}, page=1)}">NXB Văn Học</a>
 									</li>
 									<li class="level-0">
-										<input type="radio" id="publisher9" onclick="document.getElementById('linkNXB9').click();">
-											<a id="linkNXB9" th:href="@{/viewbooks(categoryId=${categoryId}, publisher='NXB Hội Nhà Văn', sortOption=${sortOption}, priceMin=${priceMin}, priceMax=${priceMax}, page=1)}">NXB Hội Nhà Văn</a>
+										<a id="linkNXB9" th:href="@{/viewbooks(categoryId=${categoryId}, publisher='NXB Hội Nhà Văn', sortOption=${sortOption}, priceMin=${priceMin}, priceMax=${priceMax}, page=1)}">NXB Hội Nhà Văn</a>
 									</li>	
 									<li class="level-0">
-										<input type="radio" id="publisher10" onclick="document.getElementById('linkNXB10').click();">
-											<a id="linkNXB10" th:href="@{/viewbooks(categoryId=${categoryId}, publisher='NXB Dân Trí', sortOption=${sortOption}, priceMin=${priceMin}, priceMax=${priceMax}, page=1)}">NXB Dân Trí</a>
+										<a id="linkNXB10" th:href="@{/viewbooks(categoryId=${categoryId}, publisher='NXB Dân Trí', sortOption=${sortOption}, priceMin=${priceMin}, priceMax=${priceMax}, page=1)}">NXB Dân Trí</a>
 									</li>							
 								</ul>
 							</li>
-							<li class="dropdown open" style="border-bottom: 1px solid #cecece; width: 280px;"> 
+							<li class="dropdown open">
 								<div style="padding: 8px;"></div>
 																
 								<span style="color: rgb(2,88,155);"></span>
-								<ul class="no-bullets nav-left" style="padding: 0px 0px 0px 20px;">
-									<h4>KHOẢNG GIÁ <span class="material-symbols-outlined click">drag_click</span></h4>
+								<ul class="no-bullets nav-left" style="padding: 0px">
+									<h5>KHOẢNG GIÁ</h5>
 									<li class="level-0">
-										<input type="radio" id="pricerange0" onclick="document.getElementById('linkprice0').click();">
 										<a id="linkprice0" th:href="@{/viewbooks(categoryId=${categoryId}, sortOption=${sortOption}, searchKeyword=${searchKeyword}, priceMin=0, priceMax=50000, page=1)}">0 - 50.000</a>
 									</li>
 									<li class="level-0">
-										<input type="radio" id="pricerange1" onclick="document.getElementById('linkprice1').click();">
 										<a id="linkprice1" th:href="@{/viewbooks(categoryId=${categoryId}, sortOption=${sortOption}, searchKeyword=${searchKeyword}, priceMin=50000, priceMax=100000, page=1)}">50.000 - 100.000</a>
 									</li>
 									<li class="level-0">
-										<input type="radio" id="pricerange2" onclick="document.getElementById('linkprice2').click();">
 										<a id="linkprice2" th:href="@{/viewbooks(categoryId=${categoryId}, sortOption=${sortOption}, searchKeyword=${searchKeyword}, priceMin=100000, priceMax=200000, page=1)}">100.000 - 200.000</a>
 									</li>
 									<li class="level-0">
-										<input type="radio" id="pricerange3" onclick="document.getElementById('linkprice3').click();">
 										<a id="linkprice3" th:href="@{/viewbooks(categoryId=${categoryId}, sortOption=${sortOption}, searchKeyword=${searchKeyword}, priceMin=200000, priceMax=300000, page=1)}">200.000 - 300.000</a>
 									</li>		
 									<li class="level-0">
-										<input type="radio" id="pricerange4" onclick="document.getElementById('linkprice4').click();">
 										<a id="linkprice4" th:href="@{/viewbooks(categoryId=${categoryId}, sortOption=${sortOption}, searchKeyword=${searchKeyword}, priceMin=300000, priceMax=500000, page=1)}">300.000 - 500.000</a>
 									</li>	
 									<li class="level-0">
-										<input type="radio" id="pricerange5" onclick="document.getElementById('linkprice5').click();">
 										<a id="linkprice5" th:href="@{/viewbooks(categoryId=${categoryId}, sortOption=${sortOption}, searchKeyword=${searchKeyword}, priceMin=500000, priceMax=1000000000, page=1)}">500.000 trở lên</a>
 									</li>				
 								</ul>
 							</li>
-							<li class="dropdown open" style="border-bottom: 1px solid #cecece; width: 280px;"> 
+							<li class="dropdown open">
 								<div style="padding: 8px;"></div>
 																
 								<span style="color: rgb(2,88,155);"></span>
-								<ul class="no-bullets nav-left" style="padding: 0px 0px 0px 20px;">
+								<ul class="no-bullets nav-left" style="padding: 0px">
 									<!-- Nếu đã có priceoption thì phải bỏ nameoption và ngược lại -->
-									<h4>SẮP XẾP THEO<span class="material-symbols-outlined click" style="margin-left: 7px;">drag_click</span></h4>
+									<h5>SẮP XẾP THEO</h5>
 									<li class="level-0">
-										<input type="radio" id="priceoption1" onclick="document.getElementById('linkpriceasc').click();">
 										<a id="linkpriceasc" th:href="@{/viewbooks(categoryId=${categoryId}, publisher=${publisher}, sortOption='sp12', searchKeyword=${searchKeyword}, priceMin=${priceMin}, priceMax=${priceMax}, page=1)}">Giá tăng dần</a>
 									</li>
 									<li class="level-0">
-										<input type="radio" id="priceoption2" onclick="document.getElementById('linkpricedes').click();">
 										<a id="linkpricedes" th:href="@{/viewbooks(categoryId=${categoryId}, publisher=${publisher}, sortOption='sp21', searchKeyword=${searchKeyword}, priceMin=${priceMin}, priceMax=${priceMax}, page=1)}">Giá giảm dần</a>
 									</li>
 									<li class="level-0">
-										<input type="radio" id="nameoption1" onclick="document.getElementById('linkpricea-z').click();"> 
 										<a id="linkpricea-z" th:href="@{/viewbooks(categoryId=${categoryId}, publisher=${publisher}, sortOption='n12', searchKeyword=${searchKeyword}, priceMin=${priceMin}, priceMax=${priceMax}, page=1)}">Tên tăng dần</a>
 									</li>
 									<li class="level-0">
-										<input type="radio" id="nameoption2" onclick="document.getElementById('linkpricz-a').click();">
 										<a id="linkpricz-a" th:href="@{/viewbooks(categoryId=${categoryId}, publisher=${publisher}, sortOption='n21', searchKeyword=${searchKeyword}, priceMin=${priceMin}, priceMax=${priceMax}, page=1)}">Tên giảm dần</a>
 									</li>
 								</ul>
-								
 							</li>
-										
 						</div>
 					</div>
-					
-					<div class="col-main col-lg-9 col-md-9 col-sm-12 col-xs-12 col-fhs-main-body" style="margin-left: 25px;">
-						
-						<!--Ô nhập tìm kiếm và nhấn tìm kiếm-->
-<!--					    <div style="display: flex; justify-content: center;">-->
-<!--							<form class="form-inline my-2 my-lg-0" th:action="@{/viewbooks}" method="GET" style="display: flex;">-->
-<!--								<input class="form-control mr-sm-2" type="text" name="searchKeyword" placeholder="Tìm kiếm từ khóa" style="width: 88.5%;">-->
 
-<!--								<button class="btn btn-outline my-2 my-sm-2" type="submit" style="width: 10%;">-->
-<!--									<span class="material-symbols-outlined search">search</span></button>-->
-<!--							</form>-->
-<!--						</div>-->
-																	
+					<div class="col-book" style="width: 80%;" >
 						<!--Tìm kiếm từ khóa-->
-						<div th:if="${param.searchKeyword != null && !param.searchKeyword.isEmpty()}">
-							
-						</div>
-						
-						<div class="category-products row">
-							<div id="carouselExampleControls" class="carousel slide d-flex" data-ride="carousel" data-interval="3000" data-pause="false">
-						        <div class="carousel-inner">
-						            <div class="carousel-item active justify-content-center align-items-center">
-						                <img src="https://res.cloudinary.com/dylwewmt0/image/upload/v1698856277/PHOTO_LIST/Index/book_01.jpg" class="d-block mx-auto" alt="...">
+
+						<div class="category-products" style="width: 100%">
+							<div id="carouselExampleControls" class="carousel slide d-flex ustify-content-center align-items-center" data-ride="carousel" data-interval="3000" data-pause="false">
+						        <div class="carousel-inner" style="width: 902px; margin: 20px; height: 450px">
+						            <div class="carousel-item active d-flex justify-content-center align-items-center">
+						                <img src="https://res.cloudinary.com/dylwewmt0/image/upload/v1716814710/PHOTO_LIST/Index/01.jpg" class="d-block mx-auto" alt="...">
 						            </div>
 						            <div class="carousel-item justify-content-center align-items-center">
-						                <img src="https://res.cloudinary.com/dylwewmt0/image/upload/v1698856507/PHOTO_LIST/Index/book_02.jpg" class="d-block mx-auto" alt="...">
+						                <img src="https://res.cloudinary.com/dylwewmt0/image/upload/v1716814709/PHOTO_LIST/Index/02.jpg" class="d-block mx-auto" alt="...">
 						            </div>
 						            <div class="carousel-item justify-content-center align-items-center">
-						                <img src="https://res.cloudinary.com/dylwewmt0/image/upload/v1698856959/PHOTO_LIST/Index/book_03.jpg" class="d-block mx-auto" alt="...">
+						                <img src="https://res.cloudinary.com/dylwewmt0/image/upload/v1716814709/PHOTO_LIST/Index/03.jpg" class="d-block mx-auto" alt="...">
 						            </div>
 						            <!-- Thêm các mục carousel-item khác tương tự -->
 						        </div>
 						        <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
-						            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+						            <span style="color: #9bddff" class="carousel-control-prev-icon" aria-hidden="true"></span>
 						            <span class="sr-only">Previous</span>
 						        </a>
 						        <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
-						            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+						            <span style="color: #9bddff" class="carousel-control-next-icon" aria-hidden="true"></span>
 						            <span class="sr-only">Next</span>
 						        </a>
 			    			</div>
 							<div class="frame-main">
 								
-								<!--Ảnh giới thiệu sản phẩm-->
-								<div class="row row-image-intro" style="border-bottom: 1px solid #cecece; margin-top: 10px; margin-bottom: 40px; padding-bottom: 30px; padding-top: 10px;" >
-									<div class="col-image">
-										<img id="myImg1" class="card-image" src="https://res.cloudinary.com/dylwewmt0/image/upload/v1703864343/PHOTO_LIST/view_books/Intro_10.png" alt>
-									</div>
-									<div class="col-image">
-										<img  id="myImg2" class="card-image" src="https://res.cloudinary.com/dylwewmt0/image/upload/v1703864343/PHOTO_LIST/view_books/Intro_11.png" alt>
-									</div>
-									<div class="col-image">
-										<img  id="myImg3" class="card-image" src="https://res.cloudinary.com/dylwewmt0/image/upload/v1703864342/PHOTO_LIST/view_books/Intro_12.png" alt>
-									</div>																			
-								</div>
-								
-							    <div class="dropdown mb-3 mt-3">
-							    </div>
-							    
-								<div class="row">
-								    <th:block th:each="book : ${books.content}">
-								        <div class="col-md-3 flex-item">
-											<div class="item-inner">
-												<div class="ma-box-content">								
-										            <div class="products clear" style="display: flex; justify-content: center; align-items: center;">
-										                <div class="product images-container">
-															<a th:href="@{/detailbook/{id} (id=${book.id})}">
-											                    <!-- Chỉ hiển thị hình ảnh đầu tiên -->
-											                	<img th:src="${book.bookImages[0].path + '?v=' + randomNumber}" alt="Book Image" class="card-img">
-															</a>
-										                </div>
-										            </div>
-										            <div>
-										                <h6 class="product-name-no-ellipsis">
-									            			<a th:href="@{/detailbook/{id} (id=${book.id})}" th:text="${book.name}" style="display: inline-block; width: 170px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></a>
-										                </h6>
+<!--								&lt;!&ndash;Ảnh giới thiệu sản phẩm&ndash;&gt;-->
+<!--								<div class="row row-image-intro" style="border-bottom: 1px solid #cecece; margin-top: 10px; margin-bottom: 40px; padding-bottom: 30px; padding-top: 10px;" >-->
+<!--									<div class="col-image">-->
+<!--										<img id="myImg1" class="card-image" src="https://res.cloudinary.com/dylwewmt0/image/upload/v1703864343/PHOTO_LIST/view_books/Intro_10.png" alt>-->
+<!--									</div>-->
+<!--									<div class="col-image">-->
+<!--										<img  id="myImg2" class="card-image" src="https://res.cloudinary.com/dylwewmt0/image/upload/v1703864343/PHOTO_LIST/view_books/Intro_11.png" alt>-->
+<!--									</div>-->
+<!--									<div class="col-image">-->
+<!--										<img  id="myImg3" class="card-image" src="https://res.cloudinary.com/dylwewmt0/image/upload/v1703864342/PHOTO_LIST/view_books/Intro_12.png" alt>-->
+<!--									</div>																			-->
+<!--								</div>-->
 
-														<div class="row-price-discount-cart d-flex" style="justify-content: space-between">
-															<div class="col-8" style="padding: 0px">
-																<div class="row-price-favorite d-flex align-items-center" style="justify-content: space-between">
-																	<div class="col-price d-flex align-items-center" style="margin: 0px">
-																		<div th:if="${book.currentDiscount != null}" class="col-price d-flex align-items-center" style="margin: 0px">
-																			<p class="card-text"
-																			   style="margin: 0px 10px 0px 0px; font-size: 15px; font-weight: bold; text-align: left; color: orangered; ">
-																				<span th:text="${#numbers.formatInteger(book.currentDiscount.discountedPrice, 0, 'POINT')}" ></span> đ
-																			</p>
-																		</div>
-																		<div th:if="${book.currentDiscount != null}" class="col-price d-flex align-items-center" style="margin: 0px">
-																			<p class="card-text d-flex align-items-center"
-																			   style="border-radius: 10px; padding: 3px; background-color: #5390f5; font-size: 12px; font-weight: bold; text-align: left; color: white; ">
-																				<span th:text="'-' + ${book.currentDiscount.discountPercent} + '%'" ></span>
-																			</p>
-																		</div>
-																		<!--Giá không giảm -->
-																		<div th:if="${book.currentDiscount == null}" class="col-price d-flex align-items-center">
-																			<p class="card-text"
-																			   style="font-size: 15px; font-weight: bold;text-align: left; color: orangered; ">
-																				<span th:text="${#numbers.formatInteger(book.sellPrice, 0, 'POINT')}" ></span> đ
-																			</p>
-																		</div>
-																	</div>
-																</div>
-																<div th:if="${book.currentDiscount != null}" class="row-price-main">
-																	<p class="card-text"
-																	   style="margin: 0px; font-size: 12px; font-weight: bold;text-align: left; color: grey; text-decoration: line-through; ">
-																		<span th:text="${#numbers.formatInteger(book.sellPrice, 0, 'POINT')}" ></span> đ
-																	</p>
-																</div>
-															</div>
-
-															<div class="col-3" style="padding: 0px; display: flex; justify-content: flex-end;">
-																<!-- Thêm form thêm vào giỏ hàng tại đây -->
-																<form class="add-to-cart-form" th:action="@{/addtocartfromallbooks}" method="post" style="display: flex; justify-content: flex-end; align-items: flex-start;">
-																	<input type="hidden" name="bookId" th:value="${book.id}">
-																	<input type="hidden" name="quantity" value="1">
-																	<button type="submit" class="btn btn-add-cart btn-block" style="padding: 0px">
-																		<i class="material-symbols-outlined shopping-bag">shopping_bag</i>
-																	</button>
-																</form>
+								<div class="nav-dropdown mb-3 mt-3">
+									<div class="row row-cols-1 row-cols-md-4 g-4" style="width: 888px; margin-left: 10px">
+										<th:block th:each="book : ${books.content}">
+											<div class="col" style="width: 250px; padding: 0px 10px">
+												<div class="item-inner">
+													<div class="ma-box-content">
+														<div class="products clear" style="display: flex; justify-content: center; align-items: center;">
+															<div class="product images-container">
+																<a th:href="@{/detailbook/{id} (id=${book.id})}">
+																	<!-- Chỉ hiển thị hình ảnh đầu tiên -->
+																	<img th:src="${book.bookImages[0].path + '?v=' + randomNumber}" alt="Book Image" class="card-img">
+																</a>
 															</div>
 														</div>
-										            </div>
+														<div>
+															<h6 class="product-name-no-ellipsis">
+																<a th:href="@{/detailbook/{id} (id=${book.id})}" th:text="${book.name}" style="display: inline-block; width: 170px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></a>
+															</h6>
+
+															<div class="row-price-discount-cart d-flex" style="justify-content: space-between">
+																<div class="col-8" style="padding: 0px">
+																	<div class="row-price-favorite d-flex align-items-center" style="justify-content: space-between">
+																		<div class="col-price d-flex align-items-center" style="margin: 0px">
+																			<div th:if="${book.currentDiscount != null}" class="col-price d-flex align-items-center" style="margin: 0px">
+																				<p class="card-text"
+																				   style="margin: 0px 10px 0px 0px; font-size: 15px; font-weight: bold; text-align: left; color: orangered; ">
+																					<span th:text="${#numbers.formatInteger(book.currentDiscount.discountedPrice, 0, 'POINT')}" ></span> đ
+																				</p>
+																			</div>
+																			<div th:if="${book.currentDiscount != null}" class="col-price d-flex align-items-center" style="margin: 0px">
+																				<p class="card-text d-flex align-items-center"
+																				   style="border-radius: 10px; padding: 3px; background-color: #5390f5; font-size: 12px; font-weight: bold; text-align: left; color: white; ">
+																					<span th:text="'-' + ${book.currentDiscount.discountPercent} + '%'" ></span>
+																				</p>
+																			</div>
+																			<!--Giá không giảm -->
+																			<div th:if="${book.currentDiscount == null}" class="col-price d-flex align-items-center">
+																				<p class="card-text"
+																				   style="font-size: 15px; font-weight: bold;text-align: left; color: orangered; ">
+																					<span th:text="${#numbers.formatInteger(book.sellPrice, 0, 'POINT')}" ></span> đ
+																				</p>
+																			</div>
+																		</div>
+																	</div>
+																	<div th:if="${book.currentDiscount != null}" class="row-price-main">
+																		<p class="card-text"
+																		   style="margin: 0px; font-size: 12px; font-weight: bold;text-align: left; color: grey; text-decoration: line-through; ">
+																			<span th:text="${#numbers.formatInteger(book.sellPrice, 0, 'POINT')}" ></span> đ
+																		</p>
+																	</div>
+																</div>
+
+																<div class="col-3" style="padding: 0px; display: flex; justify-content: flex-end;">
+																	<!-- Thêm form thêm vào giỏ hàng tại đây -->
+																	<form class="add-to-cart-form" th:action="@{/addtocartfromallbooks}" method="post" style="display: flex; justify-content: flex-end; align-items: flex-start;">
+																		<input type="hidden" name="bookId" th:value="${book.id}">
+																		<input type="hidden" name="quantity" value="1">
+																		<button type="submit" class="btn btn-add-cart btn-block" style="padding: 0px">
+																			<i class="material-symbols-outlined shopping-bag">shopping_bag</i>
+																		</button>
+																	</form>
+																</div>
+															</div>
+														</div>
+													</div>
 												</div>
 											</div>
-								        </div>
-								    </th:block>
+										</th:block>
+									</div>
 								</div>
 
 								<!--Phần phân trang-->
@@ -733,6 +693,7 @@
 					</div>
 				</div>
 			</div>
+		</div>
 	</div>
 	
 	

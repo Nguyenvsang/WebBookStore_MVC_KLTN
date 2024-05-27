@@ -36,9 +36,19 @@
 							th:if="${session.admin != null}"
 							style="display: flex; padding: 0px 15px 0px 15px; font-size: 13px; justify-content-: flex-end">
 							<a class="nav-link" href="#" style="color: #93979b; font-family: Arial, sans-serif; padding: 0%; display: flex; align-items: center; justify-content: center;">
-								<span class="material-symbols-outlined" style="margin-right: 3px">waving_hand</span>
-								Xin chào
-								<span th:text="${session.admin['firstName']}" style="margin-left: 3px"></span>
+								<div class="circle" style="width: 40px;
+																		height: 40px;
+																		border-radius: 50%;
+																		border: 1px solid #ddd;
+																		padding: 10px;
+																		background-color: #f9f9f9;
+																		display: flex;
+																		align-items: center;
+																		justify-content: center"
+								>
+									<img th:src="${#strings.isEmpty(session.admin.img) ? 'https://res.cloudinary.com/dosdzo1lg/image/upload/v1709875316/WebBookStoreKLTN/img_account/account_default.jpg' : session.admin.img + '?v=' + randomNumber}" style="width: 30px; height: 30px; border-radius: 50%;">
+								</div>
+								<span th:text="${#strings.isEmpty(session.admin) ? 'Guest' : session.admin['firstName'] + ' ' + session.admin['lastName']}" style="color:rgb(0, 0, 160); font-family: Arial, sans-serif; font-size: 16px; margin-left: 5px"></span>
 							</a>
 						</li>
 
@@ -124,6 +134,7 @@
 <!--								Đăng xuất</a>-->
 <!--						</li>-->
 					</ul>
+
 				</div>
         </div>
     </header>
@@ -131,5 +142,7 @@
     <script th:src="@{/js/jquery-3.4.1.slim.min.js}"></script>
     <script th:src="@{/js/popper.min.js}"></script>
     <script th:src="@{/js/bootstrap.min.js}"></script>
+
+
 </body>
 </html>

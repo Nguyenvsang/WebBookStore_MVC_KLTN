@@ -41,6 +41,7 @@
         .material-symbols-outlined.back:hover {
             color: rgb(182,232,241);
         }
+
     </style>
 </head>
 <body>
@@ -119,13 +120,13 @@
                             </div>
                             <div class="form-group" th:if="${voucher.amountDiscount != -1}">
                                 <label for="amountDiscount" >Số tiền giảm giá:</label>
-                                <output class="form-control" id="amountDiscount" name="amountDiscount" th:text="${voucher.amountDiscount}" style="border-radius: 50px;"></output>
+                                <output class="form-control" id="amountDiscount" name="amountDiscount" th:text="${#numbers.formatInteger(voucher.amountDiscount, 0, 'POINT')}" style="border-radius: 50px;"></output>
                             </div>
                         </div>
                         <div class="col-8" style="padding: 0px 0px 0px 10px">
                             <div class="form-group">
                                 <label for="minimumOrderValue" >Giá trị đơn hàng tối thiểu:</label>
-                                <output class="form-control" id="minimumOrderValue" name="minimumOrderValue" th:text="${voucher.minimumOrderValue}" style="border-radius: 50px;"></output>
+                                <output class="form-control" id="minimumOrderValue" name="minimumOrderValue" th:text="${#numbers.formatInteger(voucher.minimumOrderValue, 0, 'POINT')}" style="border-radius: 50px;"></output>
                             </div>
                         </div>
                     </div>
