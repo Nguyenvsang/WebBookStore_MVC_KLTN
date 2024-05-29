@@ -151,6 +151,52 @@
 			color: rgb(247,80,80);
 		}
 
+		.modal-body {
+		  overflow: auto; /* hoặc overflow: scroll; */
+		  max-height: 400px; /* Chiều cao tối đa của thẻ div */
+		}
+
+		.modal-dialog {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			height: 90vh;
+		}
+
+		.btn-voucher{
+			background-color: white;
+			color: #5390f5;
+			border-radius: 15px;
+			height: 40px;
+			border: 1px solid #5390f5;
+			font-weight: bold;
+		}
+		.btn-voucher:hover {
+			background-color: #5390f5;
+			color: white;
+
+
+			border-radius: 15px;
+			height: 40px;
+			border: 1px solid #5390f5;
+			font-weight: bold;
+		}
+		.btn-delete{
+			background-color: white;
+			color: #5b5a7a;
+			border-radius: 15px;
+			height: 40px;
+			border: 1px solid #5b5a7a;
+			font-weight: bold;
+		}
+		.btn-delete:hover {
+			background-color: #5b5a7a;
+			color: white;
+			border-radius: 15px;
+			height: 40px;
+			border: 1px solid #5b5a7a;
+			font-weight: bold;
+		}
 	</style>
 </head>
 <body>
@@ -194,11 +240,11 @@
 							</div>
 							<table>
 								<thead>
-								<tr style="width: 100%; height: 50px; border-top: 1px solid #cecece; background-color: #f2f5f6; margin-top: 10px" >
-									<th class="align-middle text-center" style="width: 50%; text-align: center; padding: 0px 10px">Tên sách</th>
-									<th class="align-middle text-center" style="width: 10%; text-align: center; padding: 0px 10px">Số lượng</th>
-									<th class="align-middle " style="width: 20%; text-align: right; padding: 0px 10px">Giá</th>
-									<th class="align-middle " style="width: 20%; text-align: right; padding: 0px 10px">Tổng cộng</th>
+								<tr style="width: 100%; height: 50px;  background-color: #d9e1f7; margin-top: 10px; border-radius: 10px">
+									<th class="align-middle text-center" style="width: 50%; text-align: center; padding: 10px 10px">Tên sách</th>
+									<th class="align-middle text-center" style="width: 10%; text-align: center; padding: 10px 10px">Số lượng</th>
+									<th class="align-middle " style="width: 20%; text-align: right; padding: 10px 10px">Giá</th>
+									<th class="align-middle " style="width: 20%; text-align: right; padding: 10px 10px">Tổng cộng</th>
 								</tr>
 								</thead>
 								<tbody>
@@ -207,7 +253,7 @@
 										data-category-id="${cartItem.book.category.id}"
 										th:data-price="${cartItem.book.currentDiscount != null ? cartItem.book.currentDiscount.discountedPrice : cartItem.book.sellPrice}"
 										th:data-quantity="${cartItem.quantity}"
-										onmouseover="this.style.backgroundColor='#f2f5f6';" onmouseout="this.style.backgroundColor='transparent';" style="border-top: 1px solid #cecece; background-color: transparent;">
+										onmouseover="this.style.backgroundColor='#f2fbff';" onmouseout="this.style.backgroundColor='transparent';" style="border: 1px solid #cecece; background-color: transparent;">
 											<td th:text="${cartItem.book.name}" class="align-middle" style="text-align: center; padding: 10px 0px"></td>
 											<td th:text="${cartItem.quantity}" class="align-middle text-center" style="text-align: center; padding: 10px 0px"></td>
 											<td th:text="${cartItem.book.currentDiscount != null ? #numbers.formatInteger(cartItem.book.currentDiscount.discountedPrice, 0, 'POINT')+ ' đ' : #numbers.formatInteger(cartItem.book.sellPrice, 0, 'POINT')+ ' đ'}" class="align-middle" style="text-align: right; padding: 10px 10px"></td>
@@ -215,30 +261,59 @@
 									</tr>
 								</tbody>
 							</table>
-							<div class="frame" style="background-color: #ffebae;">
-								<div class="text-total" >
-									<h6 style="margin: 0px; font-weight: bold; ">Thành tiền: <span id="totalAmount" th:data-value="${totalAmount}" th:text="${#numbers.formatInteger(totalAmount, 0, 'POINT') + ' đ'}" style="color: orangered; "></span></h6>
-								</div>
-								<div class="text-total" >
-									<!-- Thêm phần tử HTML để hiển thị mã code voucher -->
-									<h7 th:if="${selectedVoucher != null}" id="appliedVoucherCode" style="color: orangered; font-weight: bold;">Voucher: <span th:text="${selectedVoucher.code}" style="color: orangered; "></span></h7>
-								</div>
-								<div class="text-total" >
-									<!-- Thêm phần tử HTML để hiển thị giá được giảm bởi voucher -->
-									<h7 th:if="${selectedVoucher != null}" id="voucherDiscount" style="color: orangered; font-weight: bold;">Giảm giá: <span th:text="'-' + ${#numbers.formatInteger(voucherDiscount, 0, 'POINT') + ' đ'}" style="color: orangered; "></span></h7>
-								</div>
-								<div class="text-total" >
-									<!-- Thêm phần tử HTML để hiển thị giá đã giảm từ voucher -->
-									<h7 th:if="${selectedVoucher != null}" id="discountedPrice" style="color: orangered; font-weight: bold;">Tổng số tiền: <span th:text="${#numbers.formatInteger(discountedPriceByVoucher, 0, 'POINT') + ' đ'}" style="color: orangered; "></span></h7>
-								</div>
-								<div class="text-total" >
-									<!-- Thêm nút để xóa voucher -->
-									<button type="button" th:if="${selectedVoucher != null}" id="removeVoucherButton">Xóa Voucher</button>
-								</div>
-								<div class="text-total row-voucher" style="border-bottom: 1px solid #cecece; padding: 0px 0px 10px; margin: 0px">
+							<div class="frame-price" style="background-color: white; margin-top: 20px">
+								<div class="row-voucher d-flex align-items-center">
 									<!-- Thêm nút để thêm/ đổi voucher -->
-									<button th:if="${vouchers != null || !vouchers.isEmpty() }" type="button" style="text-align: right; color: #211f7f;" data-toggle="modal" data-target="#voucherModal">Chọn Voucher</button>
+									<a onmouseover="this.style.color='white';"
+									   onmouseout="this.style.color='#5390f5';"
+									   th:if="${vouchers != null || !vouchers.isEmpty() }" type="button"
+									   class="btn btn-voucher d-flex align-items-center" data-toggle="modal" data-target="#voucherModal" style="color: #5390f5;">
+										<span class="material-symbols-outlined" style="display: flex; margin-right: 5px">redeem</span>
+										Vouchers
+									</a>
+									<!-- Thêm phần tử HTML để hiển thị mã code voucher -->
+									<h6 th:if="${selectedVoucher != null}" id="appliedVoucherCode" style=" color: #5b5a7a; font-weight: bold; margin: 0px 0px 0px 30px;">Áp dụng: <span th:text="${selectedVoucher.code}"></span></h6>
+									<!-- Thêm nút để xóa voucher -->
+									<button type="button" th:if="${selectedVoucher != null}" id="removeVoucherButton" style="margin-left: 20px" class="btn-delete">Xóa Voucher</button>
 								</div>
+								<div class="row-pay d-flex" style="width: 100%; margin: 20px 0px">
+									<div class="col-08" style="width: 80%">
+										<div class="row-01">
+											<h6 style="margin: 0px; font-weight: bold; text-align: right;">Thành tiền:</h6>
+										</div>
+										<div class="row-02" style="margin-top: 15px">
+											<h6 th:if="${selectedVoucher != null}" style="margin: 0px; font-weight: bold; text-align: right;">Giảm giá:</h6>
+										</div>
+										<div class="row-03" style="margin-top: 15px">
+											<h6 th:if="${selectedVoucher != null}" style="margin: 0px; font-weight: bold; text-align: right;">Tổng số tiền:</h6>
+										</div>
+									</div>
+									<div class="col-04" style="width: 20%">
+										<div class="row-01">
+											<h6 style="margin: 0px; font-weight: bold; text-align: right;"><span id="totalAmount" th:data-value="${totalAmount}" th:text="${#numbers.formatInteger(totalAmount, 0, 'POINT') + ' đ'}" style="color: orangered; "></span></h6>
+										</div>
+										<div class="row-02" style="margin-top: 15px">
+											<!-- Thêm phần tử HTML để hiển thị giá được giảm bởi voucher -->
+											<h6 th:if="${selectedVoucher != null}" id="voucherDiscount" style="margin: 0px; font-weight: bold; text-align: right;"><span th:text="'-' + ${#numbers.formatInteger(voucherDiscount, 0, 'POINT') + ' đ'}" style="color: #93979b;"></span></h6>
+										</div>
+										<div class="row-03" style="margin-top: 15px">
+											<!-- Thêm phần tử HTML để hiển thị giá đã giảm từ voucher -->
+											<h6 th:if="${selectedVoucher != null}" id="discountedPrice" style="margin: 0px; font-weight: bold; text-align: right;"><span th:text="${#numbers.formatInteger(discountedPriceByVoucher, 0, 'POINT') + ' đ'}"
+																																										 style="color: orangered; padding: 5px 10px; border-radius: 10px; background-color: #ffebae;"></span></h6>
+										</div>
+									</div>
+								</div>
+								<div class="text-total" >
+								</div>
+
+								<div class="text-total" >
+
+								</div>
+								<div class="text-total" >
+
+								</div>
+
+
 							</div>
 						</div>
 						<!-- Nếu addresses không rỗng, hiển thị các input -->
@@ -318,7 +393,7 @@
 	<div  th:if="${addresses != null && addresses.size() > 0}"  class="modal fade my-custom-modal" id="changeAddressModal" tabindex="-1" role="dialog" aria-labelledby="changeAddressModalLabel" aria-hidden="true" style="z-index: 9999; margin: 0px">
 		<div class="modal-dialog" style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); border-radius: 15px" role="document">
 			<div class="modal-content">
-				<div class="modal-header">
+				<div class="modal-header" style="border-bottom: 1px solid white;">
 					<div class="row-title d-flex">
 						<span class="material-symbols-outlined" style="color: #211f7f; margin: 0px; padding-right: 5px">distance</span>
 						<h6 class="modal-title" id="changeAddressModalLabel" style="color: #211f7f;">Chọn địa chỉ</h6>
@@ -357,7 +432,7 @@
 						</div>
 					</form>
 				</div>
-				<div class="modal-footer">
+				<div class="modal-footer" style="border-top: 1px solid white;">
 					<!-- Thêm nút "Thêm địa chỉ" -->
 					<a th:href="@{/addaddress}" class="btn btn-success" style="border-radius: 15px">Thêm địa chỉ</a>
 					<button type="button" class="btn btn-secondary" style="border-radius: 15px" data-dismiss="modal">Đóng</button>
@@ -372,7 +447,10 @@
 		<div class="modal-dialog" style=" top: 50%; left: 50%; transform: translate(-50%, -50%); border-radius: 15px; height: 100%"  role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title" id="voucherModalLabel">Chọn Voucher</h5>
+					<div class="row-title d-flex">
+						<span class="material-symbols-outlined" style="color: #211f7f; margin: 0px; padding-right: 5px">redeem</span>
+						<h6 class="modal-title" id="voucherModalLabel" style="color: #211f7f;">Chọn Voucher</h6>
+					</div>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
@@ -381,8 +459,8 @@
 					<!-- -->
 					<form id="selectVoucherForm">
 						<div th:each="voucher : ${vouchers}">
-							<div class="card mb-3">
-								<div class="card-body">
+							<div class="card mb-3" >
+								<div class="card-body" style="margin-radius: 15px">
 									<input type="radio" id="voucherId_${voucher.id}" name="voucherId" th:value="${voucher.id}" th:data-id="${voucher.id}" th:data-percent="${voucher.discountPercent}" th:data-amount="${voucher.amountDiscount}" th:data-minvalue="${voucher.minimumOrderValue}" th:checked="${voucher.id == selectedVoucherId}">
 									<p class="card-text">
 										Mã code: <span class="voucherCode" id="voucherCode_${voucher.id}" th:text="${voucher.code}"></span>
@@ -414,13 +492,13 @@
 					</form>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+					<button type="button" class="btn btn-secondary" data-dismiss="modal" style="border-radius: 15px">Đóng</button>
 					<form id="voucherForm" th:action="@{/shippinginformation}" method="post">
 						<!-- Các trường form khác ở đây -->
 						<input type="hidden" name="idSelectedCartItems" id="idSelectedCartItemsWithVoucher" th:data-idSelectedCartItems="${idSelectedCartItems}" th:value="${idSelectedCartItems}">
 						<!-- Trường mới để lưu trữ ID voucher -->
 						<input type="hidden" name="voucherId" id="voucherId" th:data-voucherId="${selectedVoucherId}" th:value="${selectedVoucherId}">
-						<button type="button" class="btn btn-primary" id="selectVoucherConfirm">Áp dụng Voucher</button>
+						<button type="button" class="btn btn-primary" id="selectVoucherConfirm" style="border-radius: 15px">Áp dụng Voucher</button>
 					</form>
 				</div>
 			</div>

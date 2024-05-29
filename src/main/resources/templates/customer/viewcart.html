@@ -270,6 +270,52 @@
 		input[type=number] {
 			-moz-appearance: textfield;
 		}
+
+		.modal-body {
+		  overflow: auto; /* hoặc overflow: scroll; */
+		  max-height: 400px; /* Chiều cao tối đa của thẻ div */
+		}
+
+		.modal-dialog {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			height: 90vh;
+		}
+
+		.btn-voucher{
+			background-color: white;
+			color: #5390f5;
+			border-radius: 15px;
+			height: 40px;
+			border: 1px solid #5390f5;
+			font-weight: bold;
+		}
+		.btn-voucher:hover {
+			background-color: #5390f5;
+			color: white;
+			border-radius: 15px;
+			height: 40px;
+			border: 1px solid #5390f5;
+			font-weight: bold;
+		}
+
+		.btn-delete{
+			background-color: white;
+			color: #5b5a7a;
+			border-radius: 15px;
+			height: 40px;
+			border: 1px solid #5b5a7a;
+			font-weight: bold;
+		}
+		.btn-delete:hover {
+			background-color: #5b5a7a;
+			color: white;
+			border-radius: 15px;
+			height: 40px;
+			border: 1px solid #5b5a7a;
+			font-weight: bold;
+		}
 	</style>
 </head>
 <body>
@@ -553,25 +599,36 @@
 
 		</div>
 		<div th:if="${!availableItems.isEmpty()}" class="container-body-01" style="padding: 20px 20px 10px 20px;">
-			<div class="row-voucher" style="border-bottom: 1px solid #cecece; padding: 0px 0px 10px; margin: 0px">
-				<button style="text-align: right; color: #211f7f;" data-toggle="modal" data-target="#voucherModal">Chọn Voucher</button>
+			<div class="row-voucher d-flex align-items-center" style="border-bottom: 1px solid #cecece; padding: 0px 0px 20px; margin: 0px">
+				<a onmouseover="this.style.color='white';"
+				   onmouseout="this.style.color='#5390f5';"
+					style="color: #5390f5;" class="btn btn-voucher d-flex align-items-center" data-toggle="modal" data-target="#voucherModal">
+					<span class="material-symbols-outlined" style="display: flex; margin-right: 5px">redeem</span>
+					Vouchers
+				</a>
+				<!-- Thêm phần tử HTML để hiển thị mã code voucher -->
+				<h6 id="appliedVoucherCode" style="display: none; color: #5b5a7a; font-weight: bold; margin: 0px 0px 0px 30px;"></h6>
+				<!-- Thêm nút để xóa voucher -->
+				<button id="removeVoucherButton" style="display: none; margin-left: 20px" class="btn-delete">Xóa Voucher</button>
 			</div>
 			<div class="row-payment d-flex align-items-center justify-content-center" style="padding: 10px 0px 0px 0px;">
 				<div class="next-table-body">
 					<table>
 						<colgroup style="width: 1020px;">
-							<col style="width: 20%">
-							<col style="width: 16%;">
-							<col style="width: 16%;">
-							<col style="width: 16%;">
-							<col style="width: 16%;">
-							<col style="width: 16%;">
+							<col style="width: 15%">
+							<col style="width: 10%;">
+							<col style="width: 10%;">
+							<col style="width: 15%;">
+							<col style="width: 30%;">
+							<col style="width: 20%;">
 						</colgroup>
 						<tbody>
 						<tr>
-							<td rowspan="1" class="next-table-header-node first d-flex align-items-center justify-content-center" style="padding: 20px 20px 20px 0px; height: 77.6px">
-								<input type="checkbox" id="check-All" style="width: 20px; height: 20px; margin-right: 20px; margin-bottom: 8px">
-								<h6 style="margin: 0px 70px 8px 0px;">Chọn tất cả</h6>
+							<td rowspan="1" class="next-table-header-node first" style="padding: 20px 0px; ">
+								<div class="row-all d-flex align-items-center">
+									<input type="checkbox" id="check-All" style="width: 20px; height: 20px; margin-right: 20px; margin-bottom: 0px">
+									<h6 style="margin: 0px 20px 0px 0px;">Chọn tất cả</h6>
+								</div>
 							</td>
 							<td rowspan="1" class="next-table-header-node" style="padding: 20px 20px;">
 								<button type="submit" id="deleteSelected" class="d-flex align-items-center"  onmouseover="this.style.color='rgb(2,88,155)';"
@@ -587,19 +644,20 @@
 							<!--									&lt;!&ndash;Dùng Javascript document.getElementById('deleteSelected') để xử lý&ndash;&gt;-->
 							<!--									<button id="deleteSelected" class="btn btn-danger">Xóa</button>-->
 							<!--								</td>-->
-							<td rowspan="1" class="next-table-header-node" style="padding: 20px 0px 20px 0px; text-align: right">
-								<h6>Tổng thanh toán:</h6>
+							<td rowspan="1" class="next-table-header-node" style="padding: 20px 10px; text-align: right">
+								<h6 style="margin: 0px">Tổng thanh toán:</h6>
 							</td>
-							<td rowspan="1" class="next-table-header-node" style="padding: 20px 20px; ">
-								<h5 id="totalpricecart" data-value="${totalAmount}" th:text="${#numbers.formatInteger(totalAmount, 0, 'POINT') + ' đ'}" style="color: orangered; font-weight: bold;"></h5>
-								<!-- Thêm phần tử HTML để hiển thị mã code voucher -->
-								<h5 id="appliedVoucherCode" style="display: none; color: orangered; font-weight: bold;"></h5>
+							<td rowspan="1" class="next-table-header-node" style="padding: 20px 40px 20px 0px; ">
+								<div class="row-price d-flex align-items-center" style="justify-content: flex-end; margin-top: 18px">
+									<h5 id="totalpricecart" data-value="${totalAmount}" th:text="${#numbers.formatInteger(totalAmount, 0, 'POINT') + ' đ'}" style="color: orangered; font-weight: bold; text-align: right; margin: 0px"></h5>
+								</div>
 								<!-- Thêm phần tử HTML để hiển thị giá được giảm bởi voucher -->
-								<h5 id="voucherDiscount" style="display: none; color: orangered; font-weight: bold;"></h5>
+								<h6 id="voucherDiscount" style="display: none; color: #93979b; font-weight: bold; text-align: right; margin: 5px 0px"></h6>
 								<!-- Thêm phần tử HTML để hiển thị giá đã giảm từ voucher -->
-								<h5 id="discountedPrice" style="display: none; color: orangered; font-weight: bold;"></h5>
-								<!-- Thêm nút để xóa voucher -->
-								<button id="removeVoucherButton" style="display: none;">Xóa Voucher</button>
+								<div class="row-price d-flex align-items-center justify-content-center" style="margin: 10px 0px  10px 100px; background-color: #ffebae; border-radius: 10px">
+									<h4 id="discountedPrice" style="padding: 5px 0px; display: none; color: orangered; font-weight: bold; text-align: right; margin: 0px"></h4>
+								</div>
+
 							</td>
 							<td rowspan="1" class="next-table-header-node last" style="padding: 20px 0px 20px 0px; align-items: right">
 								<form id="purchaseForm" th:action="@{/shippinginformation}" method="post">
@@ -607,7 +665,7 @@
 									<input type="hidden" name="idSelectedCartItems" id="idSelectedCartItems">
 									<!-- Trường mới để lưu trữ ID voucher -->
 									<input type="hidden" name="voucherId" id="voucherId">
-									<button type="submit" class="btn btn-purchase">Mua hàng</button>
+									<button type="submit" class="btn btn-purchase" style="font-weight: bold">Mua hàng</button>
 								</form>
 							</td>
 						</tr>
@@ -624,7 +682,10 @@
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title" id="voucherModalLabel">Chọn Voucher</h5>
+				<div class="row-title d-flex">
+					<span class="material-symbols-outlined" style="color: #211f7f; margin: 0px; padding-right: 5px">redeem</span>
+					<h6 class="modal-title" id="voucherModalLabel" style="color: #211f7f;">Chọn Voucher</h6>
+				</div>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
@@ -666,8 +727,8 @@
 				</form>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
-				<button type="button" class="btn btn-primary" id="selectVoucherConfirm">Áp dụng Voucher</button>
+				<button type="button" class="btn btn-secondary" data-dismiss="modal" style="border-radius: 15px">Đóng</button>
+				<button type="button" class="btn btn-primary" id="selectVoucherConfirm" style="border-radius: 15px">Áp dụng Voucher</button>
 			</div>
 		</div>
 	</div>
@@ -1192,7 +1253,7 @@
             console.log('Giá đã giảm: ' + discountedPrice);
 
             // Hiện mã code đang được áp dụng lên giao diện
-            $('#appliedVoucherCode').text('Mã code voucher: ' + voucherCode).show();
+            $('#appliedVoucherCode').text('Áp dụng voucher: ' + voucherCode).show();
             // Cập nhật giá được giảm từ voucher lên giao diện
             $('#voucherDiscount').text('-' + voucherDiscount.toLocaleString('vi-VN', {style : 'currency', currency : 'VND'})).show();
             // Cập nhật giá đã giảm trên giao diện
