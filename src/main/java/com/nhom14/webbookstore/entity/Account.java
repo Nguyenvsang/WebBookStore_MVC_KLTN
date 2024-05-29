@@ -68,6 +68,12 @@ public class Account {
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "account")
 	private List<AccountAddress> accountAddresses;
 
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "receiver")
+	private List<Notification> receivedNotifications;
+
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "triggerUser")
+	private List<Notification> triggerredNotifications;
+
 	// Các phương thức getter, setter, constructor, toString...
 
 	public Account() {

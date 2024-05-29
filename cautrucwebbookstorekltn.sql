@@ -486,7 +486,7 @@ CREATE TABLE Voucher (
 );
 
 -- Tạo bảng VoucherInfo 
-CREATE TABLE Voucher (
+CREATE TABLE VoucherInfo (
   -- Khai báo thuộc tính id kiểu BIGINT, không được null, tăng tự động và là khóa chính
   id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   -- Khai báo thuộc tính total_amount kiểu double, không được null 
@@ -501,6 +501,28 @@ CREATE TABLE Voucher (
   -- Khai báo thuộc tính voucher_id kiểu BIGINT và là khóa ngoại tham chiếu đến bảng Voucher
   voucher_id BIGINT,
   FOREIGN KEY (voucher_id) REFERENCES Voucher(id)
+);
+
+-- Tạo bảng Notification 
+CREATE TABLE Notification (
+  -- Khai báo thuộc tính id kiểu BIGINT, không được null, tăng tự động và là khóa chính
+  id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  -- Khai báo thuộc tính content VARCHAR(255), có thể null
+  content VARCHAR(255),
+  -- Khai báo thuộc tính status kiểu int, không được null
+  status INT NOT NULL,
+  -- Khai báo thuộc tính type kiểu int, không được null
+  type INT NOT NULL,
+  -- Khai báo thuộc tính referred_id kiểu int, không được null
+  referred_id INT NOT NULL,
+  -- Khai báo thuộc tính receiver kiểu int và là khóa ngoại tham chiếu đến bảng Account
+  receiver INT,
+  FOREIGN KEY (receiver) REFERENCES Account(id),
+  -- Khai báo thuộc tính trigger_user kiểu int và là khóa ngoại tham chiếu đến bảng Account
+  trigger_user INT,
+  FOREIGN KEY (trigger_user) REFERENCES Account(id),
+  -- Khai báo thuộc tính sent_time kiểu DATETIME(6), không được null
+  sent_time DATETIME(6) NOT NULL
 );
 
   

@@ -25,10 +25,11 @@ public class AdminOrderController {
 	private RevenueService revenueService;
 	private ProfitService profitService;
 	private InfoReturnOrderService infoReturnOrderService;
+	private NotificationService notificationService;
 	
 	@Autowired
 	public AdminOrderController(OrderService orderService, BookService bookService,
-                                PaymentStatusService paymentStatusService, OrderItemService orderItemService, BookImportService bookImportService, RevenueService revenueService, ProfitService profitService, InfoReturnOrderService infoReturnOrderService) {
+                                PaymentStatusService paymentStatusService, OrderItemService orderItemService, BookImportService bookImportService, RevenueService revenueService, ProfitService profitService, InfoReturnOrderService infoReturnOrderService, NotificationService notificationService) {
 		super();
 		this.orderService = orderService;
 		this.bookService = bookService;
@@ -38,6 +39,7 @@ public class AdminOrderController {
         this.revenueService = revenueService;
         this.profitService = profitService;
         this.infoReturnOrderService = infoReturnOrderService;
+        this.notificationService = notificationService;
     }
 	
 	@GetMapping("/manageorders")
@@ -172,8 +174,82 @@ public class AdminOrderController {
 	    // Cập nhật đơn hàng thông qua Service
 	    orderService.updateOrder(order);
 
+		Notification notification = new Notification();
+		// Chỗ này là chuỗi ghi nội dung ví dụ:
+		// Đơn hàng mã 10 của bạn đang chờ lấy hàng
+		String content = createNotificationContent(orderId, status, paymentStatusService.getPaymentStatusByOrder(order));
+		notification.setContent(content);
+		notification.setStatus(0);// Chưa đọc
+		notification.setType(0); // :Loại thông báo về order
+		notification.setReferredId(orderId);
+		notification.setReceiver(order.getAccount());
+		notification.setTriggerUser(admin);
+		notification.setSentTime(new Timestamp(System.currentTimeMillis()));
+		notification = notificationService.save(notification);
+		notificationService.notifyAccount(order.getAccount().getId(), notification);
 	    // Chuyển hướng về trang manageorderitems
 	    return "redirect:/manageorderitems?orderId=" + orderId;
+	}
+
+	public String createNotificationContent(int orderId, int status, PaymentStatus paymentStatus) {
+		String content = "";
+		switch (status) {
+			case 0:
+				content = "Đơn hàng mã " + orderId + " của bạn đang chờ xác nhận.";
+				break;
+			case 1:
+				content = "Đơn hàng mã " + orderId + " của bạn đang chờ lấy hàng.";
+				break;
+			case 2:
+				content = "Đơn hàng mã " + orderId + " của bạn đang được giao.";
+				break;
+			case 3:
+				content = "Đơn hàng mã " + orderId + " của bạn đã được giao.";
+				break;
+			case 4:
+				content = "Đơn hàng mã " + orderId + " của bạn đã bị hủy.";
+				break;
+			case 5:
+				content = "Đơn hàng mã " + orderId + " của bạn đã yêu cầu trả hàng.";
+				break;
+			case 6:
+				content = "Đơn hàng mã " + orderId + " của bạn đang được xử lý trả hàng.";
+				break;
+			case 7:
+				content = "Đơn hàng mã " + orderId + " của bạn đã được trả hàng thành công.";
+				break;
+			case 8:
+				content = "Yêu cầu trả hàng của đơn hàng mã " + orderId + " đã bị từ chối.";
+				break;
+			case 9:
+				content = "Đơn hàng mã " + orderId + " không được bạn nhận hàng.";
+				break;
+			case 10:
+				content = "Đơn hàng mã " + orderId + " đã được bạn nhận hàng.";
+				break;
+		}
+
+		switch (paymentStatus.getStatus()) {
+			case 0:
+				content += " Thanh toán chưa được thực hiện.";
+				break;
+			case 1:
+				content += " Thanh toán đã được thực hiện.";
+				break;
+			case 2:
+				content += " Đang xử lý hoàn tiền.";
+				break;
+			case 3:
+				content += " Đã hoàn tiền.";
+				break;
+			case 4:
+				content += " Không cần thanh toán.";
+				break;
+			case 5:
+				content += " Chờ thanh toán lại.";
+				break;
+		}
+		return content;
 	}
 
 	@PostMapping("/updatepaymentstatus")

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Thông báo</title>
+    <!-- Phải thêm popper để không bị lỗi dropdown-menu -->
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+
+    <style>
+        /* CSS */
+        .notification {
+            visibility: hidden;
+            max-width: 50px;
+            height: 50px;
+            line-height: 50px;
+            border-radius: 15px;
+            background-color: #006400;
+            color: white;
+            text-align: center;
+            padding: 16px;
+            position: fixed;
+            z-index: 1;
+            left: 50%;
+            bottom: 30px;
+            font-size: 17px;
+            margin-left: -125px;
+        }
+    </style>
+</head>
+<body>
+<!-- HTML thông báo từ Notification -->
+<div th:fragment="notify">
+    <div id="toast" class="notification" style="background-color: green; display: none;">
+        <div id="toast-content"></div>
+        <button id="view-details" onclick="viewDetails()">Xem chi tiết</button>
+        <button id="mark-as-read" onclick="markNotifyAsRead()">Đánh dấu đã đọc</button>
+    </div>
+    <!-- Thêm các tệp tin JavaScript -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> <!-- Để xài ajax -->
+    <script>
+        // Khai báo thông báo hiện tại
+        var currentNotificationId = null;
+
+        // Phương thức longPolling để kiểm xem có thông báo mới không
+        function longPolling() {
+            fetch('http://localhost:8080/webbookstore/notifications')
+                .then(response => {
+                    // Kiểm tra nếu phản hồi có trạng thái 'noContent'
+                    if (response.status === 204) {
+                        throw new Error("No content");
+                    } else {
+                        return response.json();
+                    }
+                })
+                .then(notification => {
+                    console.log('Received notification:', notification);
+                    // Kiểm tra nếu thông báo mới hơn
+                    if (currentNotificationId === null || notification.id > currentNotificationId) {
+                        // Gửi orderId và type vào hàm showToastForOrder
+                        showToast(notification.content, notification.referredId, notification.type);
+                        currentNotificationId = notification.id;
+                    }
+                    // Gửi yêu cầu Long Polling mới
+                    longPolling();
+                })
+                .catch(error => {
+                    if (error.message === "No content") {
+                        // Nếu không có nội dung, tiếp tục Long Polling
+                        longPolling();
+                    } else {
+                        console.error('Error:', error);
+                    }
+                });
+        }
+
+        // Bắt đầu Long Polling
+        longPolling();
+
+        // Hiển thị thông báo Notification trên Toast
+        function showToast(message, referredId, type) {
+            var toast = document.getElementById("toast");
+            var toastContent = document.getElementById("toast-content");
+            var viewDetailsButton = document.getElementById("view-details");
+            var markAsReadButton = document.getElementById("mark-as-read");
+
+            // Thêm nội dung thông báo
+            toastContent.innerHTML = message;
+
+            // Hiển thị nút "Xem chi tiết" nếu type của thông báo là 0
+            if (type === 0) {
+                viewDetailsButton.style.display = "block";
+                viewDetailsButton.onclick = function() {
+                    window.location.href = "/webbookstore/vieworderitems?orderId=" + referredId;
+                    markNotifyAsRead(); // Gọi hàm markNotifyAsRead() khi nhấn "Xem chi tiết"
+                };
+            } else {
+                viewDetailsButton.style.display = "none";
+            }
+
+            // Hiển thị nút "Đánh dấu đã đọc"
+            markAsReadButton.style.display = "block";
+
+            // Hiển thị thông báo
+            toast.style.display = "block";
+            toast.className = "show";
+            setTimeout(function(){ toast.className = toast.className.replace("show", ""); }, 3000);
+        }
+
+        // Gửi yêu cầu đến máy chủ để đánh dấu thông báo là đã đọc
+        function markNotifyAsRead() {
+            // Gửi yêu cầu đến máy chủ để đánh dấu thông báo là đã đọc
+            fetch('http://localhost:8080/webbookstore/marknotifyasread/' + currentNotificationId, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ id: currentNotificationId }),
+            })
+            .then(response => {
+                if (response.ok) {
+                    console.log('Success:', response.status);
+                    // Ẩn thông báo
+                    var toast = document.getElementById("toast");
+                    toast.style.display = "none";
+                    toast.className = toast.className.replace("show", "");
+                    // Đặt currentNotificationId về null
+                    currentNotificationId = null;
+                } else {
+                    console.error('Error:', response.status);
+                }
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        }
+    </script>
+</div>
+</body>
+</html>

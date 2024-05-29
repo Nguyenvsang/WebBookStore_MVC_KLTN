@@ -20,4 +20,9 @@ public class HomeController {
 	public String showError() {
 		return "customer/error";
 	}
+
+	@GetMapping("/viewnotify")
+	public String viewNotify() {
+		return "customer/notify";
+	}
 }

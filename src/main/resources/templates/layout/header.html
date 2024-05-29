@@ -79,7 +79,10 @@
 						</p>
 					</div>
 				</div>
-				<div class="col-6"></div>
+				<div class="col-6">
+					<!--Thông báo từ lớp Notification -->
+					<div th:replace="~{customer/notify :: notify}"></div>
+				</div>
 				<div class="col-3">
 <!--					<ul class="navbar-nav mr-auto navbar-nav-left" >-->
 <!--						<li class="nav-itemt" th:if="${session.account != null}">-->
@@ -249,6 +252,14 @@
 						<div class="col-account-cart" style="display: flex; align-items:center; justify-content: flex-end; width: 250px">
 							<div class="content-icon">
 								<ul class="navbar-nav mr-auto">
+
+									<!-- thông báo -->
+									<li class="nav-item" th:if="${session.account != null}" style="display: flex; align-items:center;">
+										<a class="nav-link" th:href="@{/viewnotifications}" style="padding-right: 0px; color:rgb(0, 0, 160); font-family: Arial, sans-serif; align-items:center;">
+											<span class="material-symbols-outlined" style="font-size: 30px;">notifications</span>
+										</a>
+									</li>
+
 									<li class="nav-item" th:if="${session.account != null}" style="display: flex; align-items:center;">
 										<a class="nav-link" th:href="@{/viewcart}" style="padding-right: 0px; color:rgb(0, 0, 160); font-family: Arial, sans-serif; align-items:center;">
 											<span class="material-symbols-outlined" style="font-size: 30px;">shopping_bag</span>
@@ -353,7 +364,6 @@
 
 
 				</div>
-			</div>
 		</div>
 
     </header>
