@@ -214,8 +214,8 @@ public class BookController {
         String currentUrl = request.getRequestURL().toString();
 
         // Kiểm tra xem referer có khác với URL hiện tại hay không (tránh trường hợp 1 trang lặp lại)
-        // và có chứa cụm "/viewbooks" hoặc "/viewcart" hoặc "/home" (tránh trường hợp vượt quá kiểm soát)
-        if (referer != null && !referer.equals(currentUrl) && (referer.contains("/viewbooks") || referer.contains("/viewcart") || referer.contains("/home"))) {
+        // và có chứa cụm "/viewbooks" hoặc "/viewcart" hoặc "/home" hoặc "/viewnotifications" (tránh trường hợp vượt quá kiểm soát)
+        if (referer != null && !referer.equals(currentUrl) && (referer.contains("/viewbooks") || referer.contains("/viewcart") || referer.contains("/home") || referer.contains("/viewnotifications"))) {
             session.setAttribute("previousUrl", referer);
         }
 

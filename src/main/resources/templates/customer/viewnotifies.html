@@ -467,11 +467,21 @@
         <div class="card-body">
             <p class="card-text" th:text="${notification.content}">Nội dung thông báo</p>
             <span th:text="${#temporals.format(notification.sentTime.toLocalDateTime(), 'dd/MM/yyyy')}"></span>
+
+            <!-- Nếu type = 0, hiển thị nút xem chi tiết đơn hàng -->
             <a th:if="${notification.type == 0}" class="btn btn-primary"
                th:href="@{/vieworderitems(orderId=${notification.referredId})}"
                th:data-id="${notification.id}" th:onclick="markAsReadAndRedirect(this)">Xem chi tiết</a>
+
+            <!-- Nếu type = 1, hiển thị nút xem chi tiết sách -->
+            <a th:if="${notification.type == 1}" class="btn btn-primary"
+               th:href="@{/detailbook/{id}(id=${notification.referredId})}"
+               th:data-id="${notification.id}" th:onclick="markAsReadAndRedirect(this)">Xem chi tiết</a>
+
+            <!-- Nút đánh dấu đã đọc -->
             <a th:if="${notification.status == 0}" href="#" th:id="'mark-as-read-' + ${notification.id}" class="btn btn-secondary" th:onclick="'markNotifyAsRead(' + ${notification.id} + ', event)'">Đánh dấu đã đọc</a>
         </div>
+
     </div>
 </th:block>
 
