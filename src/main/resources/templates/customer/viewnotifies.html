@@ -466,7 +466,10 @@
     <div class="card" style="width: 18rem;">
         <div class="card-body">
             <p class="card-text" th:text="${notification.content}">Nội dung thông báo</p>
-            <a th:if="${notification.type == 0}" class="btn btn-primary" th:href="@{/vieworderitems(orderId=${notification.referredId})}">Xem chi tiết</a>
+            <span th:text="${#temporals.format(notification.sentTime.toLocalDateTime(), 'dd/MM/yyyy')}"></span>
+            <a th:if="${notification.type == 0}" class="btn btn-primary"
+               th:href="@{/vieworderitems(orderId=${notification.referredId})}"
+               th:data-id="${notification.id}" th:onclick="markAsReadAndRedirect(this)">Xem chi tiết</a>
             <a th:if="${notification.status == 0}" href="#" th:id="'mark-as-read-' + ${notification.id}" class="btn btn-secondary" th:onclick="'markNotifyAsRead(' + ${notification.id} + ', event)'">Đánh dấu đã đọc</a>
         </div>
     </div>
@@ -508,6 +511,48 @@
 <script th:src="@{/js/popper.min.js}"></script>
 <script th:src="@{/js/bootstrap.min.js}"></script>
 <script>
+    // Nút xem chi tiết (đánh dấu đã đọc và chuyển đến trang chi tiết)
+    function markAsReadAndRedirect(element) {
+        var notificationId = element.getAttribute('data-id');
+        var redirectUrl = element.getAttribute('href');
+
+        // Ẩn nút "Đánh dấu đã đọc" ngay lập tức
+        var markAsReadButton = document.getElementById('mark-as-read-' + notificationId);
+        if (markAsReadButton) {
+            markAsReadButton.style.display = 'none';
+        }
+
+        // Gửi yêu cầu GET đến máy chủ để đánh dấu thông báo là đã đọc
+        fetch('http://localhost:8080/webbookstore/marknotifyasread/' + notificationId, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ id: notificationId }),
+        })
+        .then(response => {
+            if (response.ok) {
+                console.log('Notification marked as read on server');
+                // Chuyển hướng sau khi đánh dấu thành công
+                window.location.href = redirectUrl;
+            } else {
+                console.error('Error:', response.status);
+                // Nếu có lỗi, hiển thị lại nút "Đánh dấu đã đọc"
+                if (markAsReadButton) {
+                    markAsReadButton.style.display = 'block';
+                }
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            // Nếu có lỗi, hiển thị lại nút "Đánh dấu đã đọc"
+            if (markAsReadButton) {
+                markAsReadButton.style.display = 'block';
+            }
+        });
+    }
+
+
     // Nút đánh dấu đã đọc
     function markNotifyAsRead(notificationId, event) {
         // Ngăn chặn hành động mặc định của thẻ <a>

@@ -35,65 +35,6 @@ public class NotificationController {
         this.modelMapper = modelMapper;
     }
 
-    @MessageMapping("/notify/send-user")
-    @SendToUser("/notify/send-back-user")
-    public ResponseEntity<?> getPrivateMessage(Notification notification, HttpSession session) throws InterruptedException {
-        Thread.sleep(1000); // Giả lập thời gian xử lý
-
-        // Lấy thông tin người dùng từ HttpSession
-        Account account = (Account) session.getAttribute("account");
-
-        // Kiểm tra xem người dùng đã đăng nhập hay chưa
-        if (account == null) {
-            // Nếu chưa đăng nhập, trả về lỗi
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User not logged in");
-        }
-
-        // Gửi thông báo
-        notificationService.sendPrivateNotification(account.getId());
-
-        return ResponseEntity.ok().build(); // Trả về cho client
-    }
-
-    @PostMapping("/notify/{accountId}")
-    public ResponseEntity<?> sendNotification(@PathVariable int accountId,
-                                              @RequestParam("content") String content,
-                                              @RequestParam("status") Integer status,
-                                              @RequestParam("type") Integer type,
-                                              @RequestParam("referredId") Integer referredId,
-                                              @RequestParam("receiverId") Integer receiverId,
-                                              HttpSession session) {
-        // Lấy thông tin người dùng từ HttpSession
-        Account account = (Account) session.getAttribute("account");
-
-        // Kiểm tra xem người dùng (cũng là người gửi/kích hoạt thông báo)  đã đăng nhập hay chưa
-        if (account == null) {
-            // Nếu chưa đăng nhập, trả về lỗi
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User not logged in");
-        }
-
-        // Lấy thông tin người nhận thông báo
-        Account receiver = accountService.getAccountById(receiverId);
-        if (receiver == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-
-        Notification notification = new Notification();
-        notification.setContent(content);
-        notification.setStatus(status);
-        notification.setType(type);
-        notification.setReferredId(referredId);
-        notification.setReceiver(receiver);
-        notification.setTriggerUser(account);
-        notification.setSentTime(new Timestamp(System.currentTimeMillis()));
-        notification = notificationService.save(notification);
-
-        NotificationResponseModel notificationResponseModel = modelMapper.map(notification, NotificationResponseModel.class);
-        notificationService.notifyAccount(account.getId(), notification);
-
-        return ResponseEntity.ok().build();
-    }
-
     // Nhận thông báo mới
     @GetMapping("/notifications")
     public ResponseEntity<?> getNotifications(HttpSession session) {

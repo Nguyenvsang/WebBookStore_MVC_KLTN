@@ -186,7 +186,6 @@ public class AdminOrderController {
 		notification.setTriggerUser(admin);
 		notification.setSentTime(new Timestamp(System.currentTimeMillis()));
 		notification = notificationService.save(notification);
-		notificationService.notifyAccount(order.getAccount().getId(), notification);
 	    // Chuyển hướng về trang manageorderitems
 	    return "redirect:/manageorderitems?orderId=" + orderId;
 	}

@@ -17,33 +17,31 @@ import java.util.List;
 @Service
 public class NotificationServiceImpl implements NotificationService {
     private NotificationRepository notificationRepository;
-    private SimpMessagingTemplate simpMessagingTemplate;
     private ModelMapper modelMapper;
 
     @Autowired
-    public NotificationServiceImpl(NotificationRepository notificationRepository, SimpMessagingTemplate simpMessagingTemplate, ModelMapper modelMapper) {
+    public NotificationServiceImpl(NotificationRepository notificationRepository, ModelMapper modelMapper) {
         super();
         this.notificationRepository = notificationRepository;
-        this.simpMessagingTemplate = simpMessagingTemplate;
         this.modelMapper = modelMapper;
     }
 
-    @Override
-    public void sendPrivateNotification(final int accountId) {
-        Notification notification = new Notification();
-        simpMessagingTemplate.convertAndSendToUser(String.valueOf(accountId), "/topic/private-notifications", notification);
-    }
+//    @Override
+//    public void sendPrivateNotification(final int accountId) {
+//        Notification notification = new Notification();
+//        simpMessagingTemplate.convertAndSendToUser(String.valueOf(accountId), "/topic/private-notifications", notification);
+//    }
 
     @Override
     public Notification save(Notification notification) {
         return notificationRepository.save(notification);
     }
 
-    @Override
-    public void notifyAccount(int accountId, Notification notification) {
-        NotificationResponseModel notificationResponseModel = modelMapper.map(notification, NotificationResponseModel.class);
-        simpMessagingTemplate.convertAndSendToUser(String.valueOf(accountId), "/notify/send-back-user", notificationResponseModel);
-    }
+//    @Override
+//    public void notifyAccount(int accountId, Notification notification) {
+//        NotificationResponseModel notificationResponseModel = modelMapper.map(notification, NotificationResponseModel.class);
+//        simpMessagingTemplate.convertAndSendToUser(String.valueOf(accountId), "/notify/send-back-user", notificationResponseModel);
+//    }
 
     @Override
     public Page<Notification> findAllByAccountReceived(Account account, Pageable pageable) {

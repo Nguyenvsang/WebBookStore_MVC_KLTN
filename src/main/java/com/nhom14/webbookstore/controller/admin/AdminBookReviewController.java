@@ -3,7 +3,9 @@ package com.nhom14.webbookstore.controller.admin;
 import com.nhom14.webbookstore.entity.Account;
 import com.nhom14.webbookstore.entity.Book;
 import com.nhom14.webbookstore.entity.BookReview;
+import com.nhom14.webbookstore.entity.Notification;
 import com.nhom14.webbookstore.service.BookReviewService;
+import com.nhom14.webbookstore.service.NotificationService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -18,16 +20,19 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.Map;
 
 @Controller
 public class AdminBookReviewController {
     private BookReviewService bookReviewService;
+    private NotificationService notificationService;
 
     @Autowired
-    public AdminBookReviewController(BookReviewService bookReviewService) {
+    public AdminBookReviewController(BookReviewService bookReviewService, NotificationService notificationService) {
         this.bookReviewService = bookReviewService;
+        this.notificationService = notificationService;
     }
 
     @GetMapping("/managebookreviews")
@@ -100,6 +105,17 @@ public class AdminBookReviewController {
             }
             bookReview.setPublished(newIsPublished);
             bookReviewService.update(bookReview);
+            Notification notification = new Notification();
+            String content = "Bình luận của bạn về sách " + bookReview.getBook().getName() + " đã được đăng!";
+            notification.setContent(content);
+            notification.setStatus(0);// Chưa đọc
+            notification.setType(1); // :Loại thông báo về bookReview
+            notification.setReferredId(bookReview.getBook().getId());
+            notification.setReceiver(bookReview.getAccount());
+            notification.setTriggerUser(admin);
+            notification.setSentTime(new Timestamp(System.currentTimeMillis()));
+            notification = notificationService.save(notification);
+
             return new ResponseEntity<>("success", HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>("error", HttpStatus.INTERNAL_SERVER_ERROR);

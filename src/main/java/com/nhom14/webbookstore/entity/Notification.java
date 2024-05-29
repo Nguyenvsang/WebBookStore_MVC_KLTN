@@ -22,7 +22,7 @@ public class Notification {
     private int status; //0: chưa đọc, 1: đã đọc
 
     @Column(name = "type", columnDefinition = "INT NOT NULL")
-    private int type; //loại thông báo, 0: order
+    private int type; //loại thông báo, 0: order, 1: bookReview
 
     @Column(name = "referred_id", columnDefinition = "INT NOT NULL")
     private int referredId; //mã order liên quan, mã khác nếu có
