@@ -679,9 +679,9 @@
 
 <!-- Đoạn mã HTML cho modal chọn Voucher -->
 <div class="modal fade" id="voucherModal" tabindex="-1" role="dialog" aria-labelledby="voucherModalLabel" aria-hidden="true">
-	<div class="modal-dialog" role="document">
-		<div class="modal-content">
-			<div class="modal-header">
+	<div class="modal-dialog" role="document" >
+		<div class="modal-content"  style="border-radius: 15px">
+			<div class="modal-header" style="border-bottom: 1px solid white;">
 				<div class="row-title d-flex">
 					<span class="material-symbols-outlined" style="color: #211f7f; margin: 0px; padding-right: 5px">redeem</span>
 					<h6 class="modal-title" id="voucherModalLabel" style="color: #211f7f;">Chọn Voucher</h6>
@@ -694,39 +694,47 @@
 				<!-- -->
 				<form id="selectVoucherForm">
 					<div th:each="voucher : ${vouchers}">
-						<div class="card mb-3">
+						<div class="card mb-3" style="border-radius: 15px" onmouseover="this.style.backgroundColor='#f2f8f8';"
+							 												onmouseout="this.style.backgroundColor='transparent';">
 							<div class="card-body">
-								<input type="radio" name="voucherId" th:value="${voucher.id}" th:data-id="${voucher.id}" th:data-percent="${voucher.discountPercent}" th:data-amount="${voucher.amountDiscount}" th:data-minvalue="${voucher.minimumOrderValue}">
-								<p class="card-text">
-									Mã code: <span id="voucherCode" class="voucherCode" th:text="${voucher.code}"></span>
-								</p>
-								<p class="card-text" th:if="${voucher.category != null}">
-									Dành cho danh mục: <span id="voucherCategory" class="voucherCategory" th:text="${voucher.category.name}" th:data-category-id="${voucher.category.id}"></span>
-								</p>
-								<p class="card-text" th:if="${voucher.category == null}">
-									Dành cho mọi sách
-								</p>
-								<p class="card-text">
-									Chỉ còn: <span class="voucherRemainingQuantity" th:text="${voucher.remainingQuantity} + ' lượt'"></span>
-								</p>
-								<p class="card-text" th:if="${voucher.discountPercent != -1}">
-									Giảm: <span id="voucherDiscountPercent" class="voucherDiscountPercent" th:text="${voucher.discountPercent} + '%'"></span>
-								</p>
-								<p class="card-text" th:if="${voucher.amountDiscount != -1}">
-									Giảm: <span class="voucherAmountDiscount" th:text="${#numbers.formatInteger(voucher.amountDiscount, 0, 'POINT')} + ' đ'"></span>
-								</p>
-								<p class="card-text">
-									Đơn hàng từ: <span class="voucherMinimumOrderValue" th:text="${#numbers.formatInteger(voucher.minimumOrderValue, 0, 'POINT')} + ' đ'"></span>
-								</p>
-								<p class="card-text">
-									Hạn sử dụng: <span class="voucherEndDate" th:text="${#temporals.format(voucher.endDate.toLocalDateTime(), 'dd/MM/yyyy HH:mm:ss')}"></span>
-								</p>
+								<div class="row-voucher d-flex justify-content-center">
+									<div class="col-3 " style="padding-left: 0px; flex-direction: column; justify-content: center">
+										<img src="https://res.cloudinary.com/dylwewmt0/image/upload/v1717093858/PHOTO_LIST/Vouchers/discount.png" alt="Knowledge Young" style="width: 100px;">
+										<input style="width: 15px; height: 15px" type="radio" name="voucherId" th:value="${voucher.id}" th:data-id="${voucher.id}" th:data-percent="${voucher.discountPercent}" th:data-amount="${voucher.amountDiscount}" th:data-minvalue="${voucher.minimumOrderValue}">
+									</div>
+									<div class="col-9" style="padding-right: 0px">
+										<p class="card-text" style="margin-bottom: 8px">
+											<span id="voucherCode" class="voucherCode" th:text="${voucher.code}" style="color: #f17746; font-weight: bold"></span>
+										</p>
+										<p class="card-text" th:if="${voucher.category != null}" style="font-size: 1em; color: #7A7E7F; font-family: 'Nunito Sans' !important; margin-bottom: 8px">
+											Dành cho danh mục: <span id="voucherCategory" class="voucherCategory" th:text="${voucher.category.name}" th:data-category-id="${voucher.category.id}"></span>
+										</p>
+										<p class="card-text" th:if="${voucher.category == null}" style="font-size: 1em; color: #7A7E7F; font-family: 'Nunito Sans' !important; margin-bottom: 8px">
+											Dành cho mọi sách
+										</p>
+										<p class="card-text" style="font-size: 1em; color: #7A7E7F; font-family: 'Nunito Sans' !important; margin-bottom: 8px">
+											Chỉ còn: <span class="voucherRemainingQuantity" th:text="${voucher.remainingQuantity} + ' lượt'"></span>
+										</p>
+										<p class="card-text" th:if="${voucher.discountPercent != -1}" style="font-size: 1em; color: #7A7E7F; font-family: 'Nunito Sans' !important; margin-bottom: 8px">
+											Giảm: <span id="voucherDiscountPercent" class="voucherDiscountPercent" th:text="${voucher.discountPercent} + '%'"></span>
+										</p>
+										<p class="card-text" th:if="${voucher.amountDiscount != -1}" style="font-size: 1em; color: #7A7E7F; font-family: 'Nunito Sans' !important; margin-bottom: 8px">
+											Giảm: <span class="voucherAmountDiscount" th:text="${#numbers.formatInteger(voucher.amountDiscount, 0, 'POINT')} + ' đ'"></span>
+										</p>
+										<p class="card-text" style="font-size: 1em; color: #7A7E7F; font-family: 'Nunito Sans' !important; margin-bottom: 8px">
+											Đơn hàng từ: <span class="voucherMinimumOrderValue" th:text="${#numbers.formatInteger(voucher.minimumOrderValue, 0, 'POINT')} + ' đ'"></span>
+										</p>
+										<p class="card-text" style="font-size: 1em; color: #7A7E7F; font-family: 'Nunito Sans' !important; margin-bottom: 8px">
+											Hạn sử dụng: <span class="voucherEndDate" th:text="${#temporals.format(voucher.endDate.toLocalDateTime(), 'dd/MM/yyyy HH:mm:ss')}"></span>
+										</p>
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>
 				</form>
 			</div>
-			<div class="modal-footer">
+			<div class="modal-footer" style="border-top: 1px solid white;">
 				<button type="button" class="btn btn-secondary" data-dismiss="modal" style="border-radius: 15px">Đóng</button>
 				<button type="button" class="btn btn-primary" id="selectVoucherConfirm" style="border-radius: 15px">Áp dụng Voucher</button>
 			</div>
