@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
 
     <style>
-        body { background-color: #f2fbff }
+        body { background-color: #f8f9fa  }
         .book-card {
             margin-bottom: 20px;
             margin-top: 20px;
@@ -101,9 +101,7 @@
             margin-bottom: 20px;
             text-align: justify;
         }
-        .card-text {
-            color: orangered;
-        }
+
 
         .row-image-intro {
             display: flex;
@@ -442,6 +440,15 @@
             to {bottom: 0; opacity: 0;}
         }
 >>>>>>> Stashed changes
+        .btn-tick:hover {
+            background-color: #5390f5;
+            color: white;
+        }
+
+        .btn-detail:hover {
+            background-color: #5390f5;
+            color: white;
+        }
     </style>
 </head>
 <!--Phần Chat Box -->
@@ -462,56 +469,85 @@
 </div>
 
 <!-- Danh sách thông báo -->
-<th:block th:each="notification : ${notifications.content}">
-    <div class="card" style="width: 18rem;">
-        <div class="card-body">
-            <p class="card-text" th:text="${notification.content}">Nội dung thông báo</p>
-            <span th:text="${#temporals.format(notification.sentTime.toLocalDateTime(), 'dd/MM/yyyy')}"></span>
+<div class="container" >
+    <div class="form-container" style="background-color: white; padding: 20px; border-radius: 15px; margin: 40px 0px; box-shadow: 0 4px 8px rgb(226, 226, 226);">
+            <h6 style="color: #211f7f; align-items: center;  margin: 0px 5px 0px 0px; padding: 0px 0px 20px 20px; font-family: Verdana; font-weight: bold">Thông báo</h6>
+        <th:block th:each="notification : ${notifications.content}">
+            <div  onmouseover="this.style.backgroundColor='#f2f8f8';"
+                  onmouseout="this.style.backgroundColor='transparent';"
+                   class="card" style="width: 100%; border-radius: 15px; border: none;">
+                <div class="card-body">
+                    <div class="row-announce d-flex align-items-center" style="width: 100%; ">
+                        <div class="col-10 d-flex" style="width: 90%; padding: 0px 20px 0px 0px">
+                            <img src="https://res.cloudinary.com/dylwewmt0/image/upload/v1717046493/PHOTO_LIST/Notifications/01.png" alt="Knowledge Young" style="width:50px;">
+                            <div class="row-01">
+                                <span th:text="${#temporals.format(notification.sentTime.toLocalDateTime(), 'dd/MM/yyyy')}" style="color: grey; font-family: 'Museo Moderno', sans-serif;"></span>
+                                <p class="card-text" th:text="${notification.content}" style="font-family: 'Museo Moderno', sans-serif;">Nội dung thông báo</p>
+                            </div>
+                        </div>
+                        <div class="col-2 align-items-center justify-content-center" style="display-direction: column; width: 10%; padding: 0px">
+                            <!-- Nếu type = 0, hiển thị nút xem chi tiết đơn hàng -->
+                            <a th:if="${notification.type == 0}" class="btn btn-detail"
+                               th:href="@{/vieworderitems(orderId=${notification.referredId})}"
+                               th:data-id="${notification.id}" th:onclick="markAsReadAndRedirect(this)"
+                               onmouseover="this.style.backgroundColor='#5390f5'; this.style.color='white';"
+                               onmouseout="this.style.backgroundColor='white'; this.style.color='#5390f5';"
+                               style="border-radius: 50px; background-color: white; color: #5390f5;  border: 1px solid #5390f5; width: 170px; height: 40px">
+                                Xem chi tiết
+                            </a>
 
-            <!-- Nếu type = 0, hiển thị nút xem chi tiết đơn hàng -->
-            <a th:if="${notification.type == 0}" class="btn btn-primary"
-               th:href="@{/vieworderitems(orderId=${notification.referredId})}"
-               th:data-id="${notification.id}" th:onclick="markAsReadAndRedirect(this)">Xem chi tiết</a>
+                            <!-- Nếu type = 1, hiển thị nút xem chi tiết sách -->
+                            <a th:if="${notification.type == 1}" class="btn btn-detail"
+                               th:href="@{/detailbook/{id}(id=${notification.referredId})}"
+                               th:data-id="${notification.id}" th:onclick="markAsReadAndRedirect(this)"
+                               onmouseover="this.style.backgroundColor='#5390f5'; this.style.color='white';"
+                               onmouseout="this.style.backgroundColor='white'; this.style.color='#5390f5';"
+                               style="border-radius: 50px; background-color: white; color: #5390f5; border: 1px solid #5390f5; width: 170px; height: 40px">
+                                Xem chi tiết
+                            </a>
+                            <div class="row-tick" style=" display-direction: column">
+                                <!-- Nút đánh dấu đã đọc -->
+                                <a th:if="${notification.status == 0}" href="#" th:id="'mark-as-read-' + ${notification.id}" class="btn btn-tick" th:onclick="'markNotifyAsRead(' + ${notification.id} + ', event)'"
+                                   onmouseover="this.style.backgroundColor='#5390f5'; this.style.color='white';"
+                                   onmouseout="this.style.backgroundColor='white'; this.style.color='#5390f5';"
+                                   style="border-radius: 50px; margin-top: 15px; background-color: white; color: #5390f5; border: 1px solid #5390f5; width: 170px; height: 40px">
+                                    Đánh dấu đã đọc
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </th:block>
+        <!--Phần phân trang-->
+        <div class="frame-number d-flex align-items-center" style="margin-top: 15px">
+            <div th:if="${notifications.totalPages > 1}">
+                <ul class="pagination">
+                    <li th:if="${notifications.hasPrevious()}" class="page-item">
+                        <a class="page-link" th:href="@{/viewnotifications(page=${notifications.number})}">
+                            <span class="material-symbols-outlined">navigate_before</span>
+                        </a>
+                    </li>
 
-            <!-- Nếu type = 1, hiển thị nút xem chi tiết sách -->
-            <a th:if="${notification.type == 1}" class="btn btn-primary"
-               th:href="@{/detailbook/{id}(id=${notification.referredId})}"
-               th:data-id="${notification.id}" th:onclick="markAsReadAndRedirect(this)">Xem chi tiết</a>
+                    <th:block th:each="pageNumber : ${#numbers.sequence(0, notifications.totalPages - 1)}">
+                        <li class="page-item" th:classappend="${pageNumber == notifications.number ? 'active' : ''}">
+                            <th:block th:if="${pageNumber == notifications.number}">
+                                <span class="page-link" th:text="${pageNumber + 1}"></span>
+                            </th:block>
+                            <th:block th:unless="${pageNumber == notifications.number}">
+                                <a class="page-link" th:href="@{/viewnotifications(page=${pageNumber + 1})}" th:text="${pageNumber + 1}"></a>
+                            </th:block>
+                        </li>
+                    </th:block>
 
-            <!-- Nút đánh dấu đã đọc -->
-            <a th:if="${notification.status == 0}" href="#" th:id="'mark-as-read-' + ${notification.id}" class="btn btn-secondary" th:onclick="'markNotifyAsRead(' + ${notification.id} + ', event)'">Đánh dấu đã đọc</a>
+                    <li th:if="${notifications.hasNext()}" class="page-item">
+                        <a class="page-link" th:href="@{/viewnotifications(page=${notifications.number + 2})}">
+                            <span class="material-symbols-outlined">navigate_next</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
         </div>
-
-    </div>
-</th:block>
-
-<!--Phần phân trang-->
-<div class="frame-number">
-    <div th:if="${notifications.totalPages > 1}">
-        <ul class="pagination">
-            <li th:if="${notifications.hasPrevious()}" class="page-item">
-                <a class="page-link" th:href="@{/viewnotifications(page=${notifications.number})}">
-                    <span class="material-symbols-outlined">navigate_before</span>
-                </a>
-            </li>
-
-            <th:block th:each="pageNumber : ${#numbers.sequence(0, notifications.totalPages - 1)}">
-                <li class="page-item" th:classappend="${pageNumber == notifications.number ? 'active' : ''}">
-                    <th:block th:if="${pageNumber == notifications.number}">
-                        <span class="page-link" th:text="${pageNumber + 1}"></span>
-                    </th:block>
-                    <th:block th:unless="${pageNumber == notifications.number}">
-                        <a class="page-link" th:href="@{/viewnotifications(page=${pageNumber + 1})}" th:text="${pageNumber + 1}"></a>
-                    </th:block>
-                </li>
-            </th:block>
-
-            <li th:if="${notifications.hasNext()}" class="page-item">
-                <a class="page-link" th:href="@{/viewnotifications(page=${notifications.number + 2})}">
-                    <span class="material-symbols-outlined">navigate_next</span>
-                </a>
-            </li>
-        </ul>
     </div>
 </div>
 
