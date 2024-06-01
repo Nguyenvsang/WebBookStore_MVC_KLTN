@@ -383,7 +383,7 @@
 
                                 <td rowspan="1" class="next-table-header-node" style="padding: 10px 0px; text-align: center" th:text="${discount.book.id}"></td>
 
-                                <td rowspan="1" class="next-table-header-node" style="padding: 10px 0px; text-align: center;">
+                                <td rowspan="1" class="next-table-header-node" style="padding: 10px 10px; text-align: left;">
                                     <span th:if="${#strings.length(discount.book.name) > 100}" th:text="${#strings.substring(discount.book.name, 0, 100) + '...'}"></span>
                                     <span th:if="${#strings.length(discount.book.name) <= 100}" th:text="${discount.book.name}"></span>
                                 </td>

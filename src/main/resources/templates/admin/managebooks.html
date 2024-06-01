@@ -372,7 +372,7 @@
 										<img th:src="${book.bookImages[0].path}" alt="Book Image" style="max-height: 100px;">
 									</td>
 
-									<td rowspan="1" class="next-table-header-node" style="padding: 10px 0px; text-align: center;" th:text="${book.name}"></td>
+									<td rowspan="1" class="next-table-header-node" style="padding: 10px 10px; text-align: left;" th:text="${book.name}"></td>
 
 									<td rowspan="1" class="next-table-header-node" style="padding: 10px 10px; text-align: center;">
 										<span th:each="bookauthor : ${book.bookAuthors}" th:text="${bookauthor.author.name}"></span>
