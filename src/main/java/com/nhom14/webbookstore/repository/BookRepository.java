@@ -1,5 +1,6 @@
 package com.nhom14.webbookstore.repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
@@ -79,4 +80,25 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
 										  @Param("publisher") String publisher,
 										  Pageable pageable);
 
+	@Query("SELECT b FROM Book b JOIN b.discounts d WHERE b.status = 1 AND d.endDate > :now")
+	Page<Book> findDiscountedBooks(@Param("now") LocalDateTime now, Pageable pageable);
+
+	@Query("SELECT oi.book, SUM(oi.quantity) as totalQuantity FROM OrderItem oi " +
+			"WHERE oi.order.isCompleted = 1 AND oi.order.dateOrder BETWEEN :startDate AND :endDate " +
+			"GROUP BY oi.book " +
+			"ORDER BY totalQuantity DESC")
+	Page<Object[]> findTopSellingBooks(@Param("startDate") LocalDateTime startDate,
+									   @Param("endDate") LocalDateTime endDate,
+									   Pageable pageable);
+
+	@Query("SELECT br.book, AVG(br.rating) as averageRating FROM BookReview br " +
+			"WHERE br.isPublished = true " +
+			"GROUP BY br.book " +
+			"ORDER BY averageRating DESC")
+	Page<Object[]> findHighlightedBooks(Pageable pageable);
+
+	@Query("SELECT bi.book FROM BookImport bi " +
+			"WHERE bi.importDate > :oneMonthAgo AND bi.status = 1 " +
+			"ORDER BY bi.importDate DESC")
+	Page<Book> findRecentlyImportedBooks(@Param("oneMonthAgo") LocalDateTime oneMonthAgo, Pageable pageable);
 }

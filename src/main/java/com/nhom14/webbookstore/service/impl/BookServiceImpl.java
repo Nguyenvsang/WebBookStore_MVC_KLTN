@@ -1,6 +1,7 @@
 package com.nhom14.webbookstore.service.impl;
 
 import java.text.Collator;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -9,10 +10,13 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.nhom14.webbookstore.entity.Book;
@@ -243,5 +247,39 @@ public class BookServiceImpl implements BookService {
 		// nghĩa là .getTotalElements() = 0
 	}
 
+	@Override
+	public Page<Book> getDiscountedBooksPage(Pageable pageable) {
+		return bookRepository.findDiscountedBooks(LocalDateTime.now(), pageable);
+	}
 
+	@Override
+	public Page<Book> getBooksByCategoryPage(Integer categoryId, Pageable pageable) {
+		return bookRepository.findActiveBooksWithFilters(categoryId, null, null, null, null, pageable);
+	}
+
+	@Override
+	public Page<Book> getBooksPublisherPage(String publisher, Pageable pageable) {
+		// Sử dụng phương thức findActiveBooksWithFilters đã có trong BookRepository
+		// và truyền null cho các tham số không sử dụng
+		return bookRepository.findActiveBooksWithFilters(null, null, null, null, publisher, pageable);
+	}
+
+	@Override
+	public Page<Book> getTopSellingBooks(LocalDateTime startDate, LocalDateTime endDate, Pageable pageable) {
+		// Chuyển đổi kết quả từ Object[] sang Book và trả về Page<Book>
+		return bookRepository.findTopSellingBooks(startDate, endDate, pageable)
+				.map(result -> (Book) result[0]);
+	}
+
+	@Override
+	public Page<Book> getHighlightedBooks(Pageable pageable) {
+		return bookRepository.findHighlightedBooks(pageable)
+				.map(result -> (Book) result[0]);
+	}
+
+	@Override
+	public Page<Book> getRecentlyImportedBooks(Pageable pageable) {
+		LocalDateTime oneMonthAgo = LocalDateTime.now().minusMonths(1);
+		return bookRepository.findRecentlyImportedBooks(oneMonthAgo, pageable);
+	}
 }
