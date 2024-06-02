@@ -349,30 +349,6 @@
         </div>
         <div class="container-main" style="background-color: white;">
 
-<!--            <div class="form-accounts">-->
-<!--                <p></p>-->
-<!--            </div>-->
-
-<!--            <form class="form-inline my-2 my-lg-0" method="GET" th:action="@{/managerevenues}" style="margin-left: 15px;">-->
-<!--                <input class="form-control mr-sm-2" type="text" name="revenueId" th:placeholder="${revenueId != null ? ('Tìm kiếm theo mã doanh thu: ' + revenueId) : 'Tìm kiếm theo mã doanh thu'}" style="border: 2px solid rgb(182,232,241); border-radius: 10px;">-->
-<!--                <button class="btn btn-search my-2 my-sm-0" type="submit"><span class="material-symbols-outlined">search</span></button>-->
-<!--            </form>-->
-
-<!--            <form class="form-inline my-2 my-lg-0" method="GET" th:action="@{/managerevenues}" style="margin-left: 15px;">-->
-<!--                <input class="form-control mr-sm-2" type="text" name="orderId" th:placeholder="${orderId != null ? ('Tìm kiếm theo mã đơn hàng: ' + orderId) : 'Tìm kiếm theo mã đơn hàng'}" style="border: 2px solid rgb(182,232,241); border-radius: 10px;">-->
-<!--                <button class="btn btn-search my-2 my-sm-0" type="submit"><span class="material-symbols-outlined">search</span></button>-->
-<!--            </form>-->
-
-<!--            <form class="form-inline my-2 my-lg-0" method="GET" th:action="@{/managerevenues}" style="margin-left: 15px;">-->
-<!--                <input class="form-control mr-sm-2" type="text" name="revenue" th:placeholder="${revenue != null ? ('Tìm kiếm theo giá trị doanh thu: ' + revenue) : 'Tìm kiếm theo giá trị doanh thu'}" style="border: 2px solid rgb(182,232,241); border-radius: 10px;">-->
-<!--                <button class="btn btn-search my-2 my-sm-0" type="submit"><span class="material-symbols-outlined">search</span></button>-->
-<!--            </form>-->
-
-<!--            <form class="form-inline my-2 my-lg-0" method="GET" th:action="@{/managerevenues}" style="margin-left: 15px;">-->
-<!--                <input class="form-control mr-sm-2" type="date" name="dateStr" th:placeholder="${dateStr != null ? ('Tìm kiếm theo ngày: ' + dateStr) : 'Tìm kiếm theo ngày'}" style="border: 2px solid rgb(182,232,241); border-radius: 10px;">-->
-<!--                <button class="btn btn-search my-2 my-sm-0" type="submit"><span class="material-symbols-outlined">search</span></button>-->
-<!--            </form>-->
-
             <div class="next-table only-bottom-border">
                 <div class="next-table-inner">
                     <div class="next-table-header d-flex align-items-center"
@@ -430,60 +406,64 @@
                 </div>
             </div>
 
-<!--            <div class="container main-01" style="background-color: white;" >-->
-<!--                <table class="table table-striped table-bordered mt-3">-->
-<!--                    <thead class="thead-title">-->
-<!--                    <tr style="color: rgb(2,88,155);">-->
-<!--                        <th scope="col" class="align-middle text-center">Mã doanh thu</th>-->
-<!--                        <th scope="col" class="align-middle text-center">Mã đơn hàng</th>-->
-<!--                        <th scope="col" class="align-middle text-center">Doanh thu</th>-->
-<!--                        <th scope="col" class="align-middle text-center">Ngày nhập</th>-->
-<!--                    </tr>-->
-<!--                    </thead>-->
-<!--                    <tbody>-->
-<!--                    <tr th:each="revenue : ${revenues.content}" th:id="'revenue-' + ${revenue.id}">-->
-<!--                        <td class="align-middle text-center" th:text="${revenue.id}"></td>-->
-<!--                        <td class="align-middle text-center" th:text="${revenue.order.id}"></td>-->
-<!--                        <td class="align-middle text-center" th:text="${#numbers.formatInteger(revenue.revenue, 0, 'POINT' )+ ' đ'}" style="color: orangered;"></td>-->
-<!--                        <td class="align-middle text-center" th:text="${#temporals.format(revenue.date.toLocalDateTime(), 'dd/MM/yyyy hh:mm:ss')}"></td>-->
-
-<!--                        &lt;!&ndash; Thêm các nút thao tác tại đây &ndash;&gt;-->
-<!--                    </tr>-->
-<!--                    </tbody>-->
-<!--                </table>-->
-
             </div>
-            <div class="row-pagination d-flex align-items-center justify-content-center">
-                <!-- Thêm phần tử phân trang tại đây -->
-                <div class="frame-number d-flex align-items-center">
-                    <div th:if="${revenues.totalPages > 1}">
-                        <ul class="pagination" style="margin: 0px">
-                            <li th:if="${revenues.hasPrevious()}" class="page-item">
-                                <a class="page-link" th:href="@{/managerevenues(page=${revenues.number}, size=${size},  sort=${sort}, revenueId=${revenueId}, orderId=${orderId}, revenue=${revenue}, dateStr=${dateStr}, revenueMin=${revenueMin}, revenueMax=${revenueMax}, revenueOption=${revenueOption})}">
-                                    <span class="material-symbols-outlined">navigate_before</span>
-                                </a>
-                            </li>
+        <div class="row-pagination d-flex align-items-center justify-content-center">
+            <!-- Thêm phần tử phân trang tại đây -->
+            <div class="frame-number d-flex align-items-center">
+                <div th:if="${revenues.totalPages > 1}">
+                    <ul class="pagination" style="margin: 0px">
+                        <!-- Nút 'Trang trước' -->
+                        <li th:if="${revenues.hasPrevious()}" class="page-item">
+                            <a class="page-link" th:href="@{/managerevenues(page=${revenues.number}, size=${size}, sort=${sort}, revenueId=${revenueId}, orderId=${orderId}, revenue=${revenue}, dateStr=${dateStr}, revenueMin=${revenueMin}, revenueMax=${revenueMax}, revenueOption=${revenueOption})}">
+                                <span class="material-symbols-outlined">navigate_before</span>
+                            </a>
+                        </li>
 
-                            <th:block th:each="pageNumber : ${#numbers.sequence(0, revenues.totalPages - 1)}">
-                                <li class="page-item" th:classappend="${pageNumber == revenues.number ? 'active' : ''}">
-                                    <th:block th:if="${pageNumber == revenues.number}">
-                                        <span class="page-link" th:text="${pageNumber + 1}"></span>
-                                    </th:block>
-                                    <th:block th:unless="${pageNumber == revenues.number}">
-                                        <a class="page-link" th:inline="text" th:href="@{/managerevenues(page=${pageNumber + 1}, size=${size},  sort=${sort}, revenueId=${revenueId}, orderId=${orderId}, revenue=${revenue}, dateStr=${dateStr}, revenueMin=${revenueMin}, revenueMax=${revenueMax}, revenueOption=${revenueOption})}" th:text="${pageNumber + 1}"></a>
-                                    </th:block>
-                                </li>
-                            </th:block>
+                        <!-- Trang đầu tiên -->
+                        <li class="page-item" th:classappend="${0 == revenues.number ? 'active' : ''}">
+                            <a th:if="${0 != revenues.number}" class="page-link" th:href="@{/managerevenues(page=1, size=${size}, sort=${sort}, revenueId=${revenueId}, orderId=${orderId}, revenue=${revenue}, dateStr=${dateStr}, revenueMin=${revenueMin}, revenueMax=${revenueMax}, revenueOption=${revenueOption})}" th:text="1"></a>
+                            <span th:if="${0 == revenues.number}" class="page-link" th:text="1"></span>
+                        </li>
 
-                            <li th:if="${revenues.hasNext()}" class="page-item">
-                                <a class="page-link" th:href="@{/managerevenues(page=${revenues.number + 2}, size=${size},  sort=${sort}, revenueId=${revenueId}, orderId=${orderId}, revenue=${revenue}, dateStr=${dateStr}, revenueMin=${revenueMin}, revenueMax=${revenueMax}, revenueOption=${revenueOption})}">
-                                    <span class="material-symbols-outlined">navigate_next</span>
-                                </a>
+                        <!-- Dấu '...' nếu cần -->
+                        <li class="page-item" th:if="${revenues.number > 2}">
+                            <span class="page-link">...</span>
+                        </li>
+
+                        <!-- Các trang xung quanh trang hiện tại -->
+                        <th:block th:each="pageNumber : ${#numbers.sequence(revenues.number - 2 > 1 ? revenues.number - 2 : 1, revenues.number + 2 < revenues.totalPages - 2 ? revenues.number + 2 : revenues.totalPages - 2)}">
+                            <li class="page-item" th:classappend="${pageNumber == revenues.number ? 'active' : ''}">
+                                <th:block th:if="${pageNumber == revenues.number}">
+                                    <span class="page-link" th:text="${pageNumber + 1}"></span>
+                                </th:block>
+                                <th:block th:unless="${pageNumber == revenues.number}">
+                                    <a class="page-link" th:href="@{/managerevenues(page=${pageNumber + 1}, size=${size}, sort=${sort}, revenueId=${revenueId}, orderId=${orderId}, revenue=${revenue}, dateStr=${dateStr}, revenueMin=${revenueMin}, revenueMax=${revenueMax}, revenueOption=${revenueOption})}" th:text="${pageNumber + 1}"></a>
+                                </th:block>
                             </li>
-                        </ul>
-                    </div>
+                        </th:block>
+
+                        <!-- Dấu '...' nếu cần -->
+                        <li class="page-item" th:if="${revenues.number < revenues.totalPages - 3}">
+                            <span class="page-link">...</span>
+                        </li>
+
+                        <!-- Trang cuối cùng -->
+                        <li class="page-item" th:classappend="${revenues.totalPages - 1 == revenues.number ? 'active' : ''}">
+                            <a th:if="${revenues.totalPages - 1 != revenues.number}" class="page-link" th:href="@{/managerevenues(page=${revenues.totalPages}, size=${size}, sort=${sort}, revenueId=${revenueId}, orderId=${orderId}, revenue=${revenue}, dateStr=${dateStr}, revenueMin=${revenueMin}, revenueMax=${revenueMax}, revenueOption=${revenueOption})}" th:text="${revenues.totalPages}"></a>
+                            <span th:if="${revenues.totalPages - 1 == revenues.number}" class="page-link" th:text="${revenues.totalPages}"></span>
+                        </li>
+
+                        <!-- Nút 'Trang sau' -->
+                        <li th:if="${revenues.hasNext()}" class="page-item">
+                            <a class="page-link" th:href="@{/managerevenues(page=${revenues.number + 2}, size=${size}, sort=${sort}, revenueId=${revenueId}, orderId=${orderId}, revenue=${revenue}, dateStr=${dateStr}, revenueMin=${revenueMin}, revenueMax=${revenueMax}, revenueOption=${revenueOption})}">
+                                <span class="material-symbols-outlined">navigate_next</span>
+                            </a>
+                        </li>
+                    </ul>
                 </div>
             </div>
+        </div>
+
     </div>
 </div>
 

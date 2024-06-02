@@ -381,7 +381,7 @@
 			color: rgb(247,80,80);
 		}
 
-		.button-shop-now{
+		.btn-shop-now{
 			height: 50px;
 			width: 150px;
 			border-radius: 50px;
@@ -391,6 +391,10 @@
 			font-style: Palatino;
 			font-weight: bold;
 			font-size: 18px;
+		}
+
+		.btn-shop-now:hover {
+		    color: rgb(2,88,155);
 		}
 
 		.container-body {
@@ -441,7 +445,7 @@
         <img src="https://res.cloudinary.com/dylwewmt0/image/upload/v1714989171/PHOTO_LIST/Index/upDate.png"
              style="width: 100%; display: flex; align-items: center; justify-content: center;">
         <a th:href="@{/viewbooks}">
-            <button class="button-shop-now" style="position: absolute; top: 83%; left: 50%; transform: translate(-50%, -50%);">SHOP NOW</button>
+            <button class="btn btn-shop-now" style="position: absolute; top: 83%; left: 50%; transform: translate(-50%, -50%);">SHOP NOW</button>
         </a>
     </div>
 </div>

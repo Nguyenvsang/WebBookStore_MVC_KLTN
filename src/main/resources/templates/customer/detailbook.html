@@ -692,7 +692,7 @@
 					</div>
 					<div class="col-4" style="padding: 0px 0px 0px 20px">
 						<p class="card-text" style="color: #5390f5; font-size: 20px; margin-bottom: 10px; font-weight: bold">Chi tiết:</p>
-						<pre class="card-text" th:text="${book.detail}" style="font-size: 16px; font-family: Arial; white-space: pre-wrap;"></pre>
+						<pre class="card-text" id="bookDetail" th:text="${book.detail}" style="font-size: 16px; font-family: Arial; white-space: pre-wrap;"></pre>
 					</div>
 				</div>
 			</div>
@@ -1035,6 +1035,14 @@
 	<script th:src="@{/js/jquery-3.4.1.min.js}"></script>
 	<script th:src="@{/js/popper.min.js}"></script>
 	<script th:src="@{/js/bootstrap.min.js}"></script>
+
+	<!--Chỉ cho 1 khoảng cách sau mỗi thông tin của phần chi tiết sách-->
+	<script>
+		document.addEventListener("DOMContentLoaded", function() {
+            var preElement = document.getElementById("bookDetail");
+            preElement.innerHTML = preElement.innerHTML.replace(/:\s*/g, ": ");
+        });
+	</script>
 
 	<script>
 		function closePopup() {

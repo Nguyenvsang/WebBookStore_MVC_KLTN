@@ -102,6 +102,24 @@
 			color: white;
 		}
 
+		.btn-primary {
+			background-color: #3f6ad8 ;
+			border-color: #3f6ad8 ;
+			color: white;
+			padding: 10px 20px;
+			border-radius: 50px;
+			cursor: pointer;
+			transition: background-color 0.3s ease, transform 0.3s ease;
+		}
+
+		.btn-primary:hover {
+			background-color: #3448c5 ;
+			transform: scale(1.05);
+		}
+
+		.btn-primary:active {
+			background-color: rgb(1,50,100);
+		}
     </style>
     <script>
 	var loadFile1 = function(event) {
@@ -250,40 +268,64 @@
 							</div>
 						</div>
 
-						<div class="row-img d-flex">
-							<div class="col">
-								<div class="form-group">
-									<label for="image1" >Ảnh 1:</label>
-									<input type="file" class="form-control-file" id="image1" name="image1" accept="image/*" onchange="loadFile1(event)" style="margin-bottom: 10px ;" required>
-									<div style="display: flex; justify-content: center; align-items: center;">
-										<img id="output1" width="100"/>
+						<div class="row-img d-flex" style="padding: 30px; margin-top: 20px; border-top: 1px solid #cecece">
+							<div class="col-3">
+								<p>Ảnh 1</p>
+								<div class="form-group d-flex justify-content-center">
+									<label for="image1" ></label>
+									<input type="file" class="form-control-file" id="image1" name="image1" accept="image/*" onchange="loadFile1(event)" style="display: none;" required>
+									<div class="row-button" style="width: 150px; display: flex; justify-content: center; align-items: center;">
+										<button type="button" class="btn btn-primary d-flex justify-content-center" onclick="document.getElementById('image1').click()" style="width: 100%">Chọn ảnh</button>
+									</div>
+								</div>
+								<div class="form-group d-flex justify-content-center">
+									<div style="display: flex; justify-content: center; align-items: center; margin-top: 20px">
+										<img id="output1" width="150"/>
 									</div>
 								</div>
 							</div>
-							<div class="col">
-								<div class="form-group">
-									<label for="image2" >Ảnh 2:</label>
-									<input type="file" class="form-control-file" id="image2" name="image2" accept="image/*" onchange="loadFile2(event)" style="margin-bottom: 10px ;" required>
-									<div style="display: flex; justify-content: center; align-items: center;">
-										<img id="output2" width="100"/>
+							<div class="col-3">
+								<p>Ảnh 2</p>
+								<div class="form-group d-flex justify-content-center">
+									<label for="image2" ></label>
+									<input type="file" class="form-control-file" id="image2" name="image2" accept="image/*" onchange="loadFile2(event)" style="display: none;" required>
+									<div class="row-button" style="width: 150px; display: flex; justify-content: center; align-items: center;">
+										<button type="button" class="btn btn-primary d-flex justify-content-center" onclick="document.getElementById('image2').click()" style="width: 100%">Chọn ảnh</button>
+									</div>
+								</div>
+								<div class="form-group d-flex justify-content-center">
+									<div style="display: flex; justify-content: center; align-items: center; margin-top: 20px">
+										<img id="output2" width="150"/>
 									</div>
 								</div>
 							</div>
-							<div class="col">
-								<div class="form-group">
-									<label for="image3" >Ảnh 3:</label>
-									<input type="file" class="form-control-file" id="image3" name="image3" accept="image/*" onchange="loadFile3(event)" style="margin-bottom: 10px ;" required>
-									<div style="display: flex; justify-content: center; align-items: center;">
-										<img id="output3" width="100"/>
+							<div class="col-3">
+								<p>Ảnh 3</p>
+								<div class="form-group d-flex justify-content-center">
+									<label for="image3" ></label>
+									<input type="file" class="form-control-file" id="image3" name="image3" accept="image/*" onchange="loadFile3(event)" style="display: none;" required>
+									<div class="row-button" style="width: 150px; display: flex; justify-content: center; align-items: center;">
+										<button type="button" class="btn btn-primary d-flex justify-content-center" onclick="document.getElementById('image3').click()" style="width: 100%">Chọn ảnh</button>
+									</div>
+								</div>
+								<div class="form-group d-flex justify-content-center">
+									<div style="display: flex; justify-content: center; align-items: center; margin-top: 20px">
+										<img id="output3" width="150"/>
 									</div>
 								</div>
 							</div>
-							<div class="col">
-								<div class="form-group">
-									<label for="image4" >Ảnh 4:</label>
-										<input type="file" class="form-control-file" id="image4" name="image4" accept="image/*" onchange="loadFile4(event)" style="margin-bottom: 10px ;" required>
-									<div style="display: flex; justify-content: center; align-items: center;">
-										<img id="output4" width="100"/>
+							<div class="col-3">
+								<p>Ảnh 4</p>
+								<div class="form-group d-flex justify-content-center">
+									<label for="image4" ></label>
+									<input type="file" class="form-control-file" id="image4" name="image4" accept="image/*" onchange="loadFile4(event)" style="display: none;" required>
+									<div class="row-button d-flex justify-content-center" style="width: 150px">
+										<button type="button" class="btn btn-primary d-flex justify-content-center" onclick="document.getElementById('image4').click()" style="width: 100%">Chọn ảnh</button>
+									</div>
+								</div>
+								<div class="form-group d-flex justify-content-center">
+									<div style="display: flex; justify-content: center; align-items: center; margin-top: 20px">
+										<img id="output4" width="150"/>
 									</div>
 								</div>
 							</div>

@@ -662,13 +662,26 @@
 								<div class="frame-number">
 									<div th:if="${books.totalPages > 1}">
 										<ul class="pagination">
+											<!-- Nút 'Trang trước' -->
 											<li th:if="${books.hasPrevious()}" class="page-item">
 												<a class="page-link" th:href="@{/viewbooks(page=${books.number}, sort=${sort}, categoryId=${categoryId}, publisher=${publisher}, sortOption=${sortOption}, searchKeyword=${searchKeyword}, priceMin=${priceMin}, priceMax=${priceMax})}">
 													<span class="material-symbols-outlined">navigate_before</span>
 												</a>
 											</li>
 
-											<th:block th:each="pageNumber : ${#numbers.sequence(0, books.totalPages - 1)}">
+											<!-- Trang đầu tiên -->
+											<li class="page-item" th:classappend="${0 == books.number ? 'active' : ''}">
+												<a th:if="${0 != books.number}" class="page-link" th:href="@{/viewbooks(page=1, sort=${sort}, categoryId=${categoryId}, publisher=${publisher}, sortOption=${sortOption}, searchKeyword=${searchKeyword}, priceMin=${priceMin}, priceMax=${priceMax})}" th:text="1"></a>
+												<span th:if="${0 == books.number}" class="page-link" th:text="1"></span>
+											</li>
+
+											<!-- Dấu '...' nếu cần -->
+											<li class="page-item" th:if="${books.number > 2}">
+												<span class="page-link">...</span>
+											</li>
+
+											<!-- Các trang xung quanh trang hiện tại -->
+											<th:block th:each="pageNumber : ${#numbers.sequence(books.number - 2 > 1 ? books.number - 2 : 1, books.number + 2 < books.totalPages - 2 ? books.number + 2 : books.totalPages - 2)}">
 												<li class="page-item" th:classappend="${pageNumber == books.number ? 'active' : ''}">
 													<th:block th:if="${pageNumber == books.number}">
 														<span class="page-link" th:text="${pageNumber + 1}"></span>
@@ -679,6 +692,18 @@
 												</li>
 											</th:block>
 
+											<!-- Dấu '...' nếu cần -->
+											<li class="page-item" th:if="${books.number < books.totalPages - 3}">
+												<span class="page-link">...</span>
+											</li>
+
+											<!-- Trang cuối cùng -->
+											<li class="page-item" th:classappend="${books.totalPages - 1 == books.number ? 'active' : ''}">
+												<a th:if="${books.totalPages - 1 != books.number}" class="page-link" th:href="@{/viewbooks(page=${books.totalPages}, sort=${sort}, categoryId=${categoryId}, publisher=${publisher}, sortOption=${sortOption}, searchKeyword=${searchKeyword}, priceMin=${priceMin}, priceMax=${priceMax})}" th:text="${books.totalPages}"></a>
+												<span th:if="${books.totalPages - 1 == books.number}" class="page-link" th:text="${books.totalPages}"></span>
+											</li>
+
+											<!-- Nút 'Trang sau' -->
 											<li th:if="${books.hasNext()}" class="page-item">
 												<a class="page-link" th:href="@{/viewbooks(page=${books.number + 2}, sort=${sort}, categoryId=${categoryId}, publisher=${publisher}, sortOption=${sortOption}, searchKeyword=${searchKeyword}, priceMin=${priceMin}, priceMax=${priceMax})}">
 													<span class="material-symbols-outlined">navigate_next</span>
@@ -687,6 +712,7 @@
 										</ul>
 									</div>
 								</div>
+
 
 							</div>
 						</div>

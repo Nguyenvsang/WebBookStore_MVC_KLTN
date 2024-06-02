@@ -429,10 +429,10 @@
 					</div>
 
 				</div>
-				<div th:if="${order.isCompleted != 0 || order.status == 4 || order.status == 7 || order.status == 10}" class="row-order align-items-center">
+				<div th:if="${order.isCompleted != 0 || order.status == 4 || order.status == 7 || order.status == 10}" class="row-order align-items-center" style="padding-bottom: 20px">
 					<form th:action="@{/repurchase}" method="post" style="display: flex; justify-content: center; align-items: flex-end;">
 						<input type="hidden" name="orderId" th:value="${order.id}" />
-						<button type="submit" class="btn btn-receive" style="font-weight: bold">Mua lại</button>
+						<button type="submit" class="btn btn-receive" style="font-weight: bold;">Mua lại</button>
 					</form>
 				</div>
 			</div>

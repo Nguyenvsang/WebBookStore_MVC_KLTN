@@ -54,6 +54,7 @@
             background-color: #e0f3ff;
             color: #3f6ad8;
         }
+
     </style>
 </head>
 <body>
@@ -62,8 +63,8 @@
         <ul style="background-color: white; position: fixed; left: 0; width: 17%; height: 100%; padding: 20px 20px;">
             <!-- Hiển thị "Username" và "Đăng xuất" và "Giỏ hàng" và "Đơn hàng" -->
             <li class="nav-item active d-flex" th:if="${session.admin != null}"
-                onmouseover="this.style.backgroundColor='#e0f3ff'; Array.from(this.getElementsByTagName('a')).forEach(a => a.style.color='#211f7f');"
-                onmouseout="this.style.backgroundColor='transparent'; Array.from(this.getElementsByTagName('a')).forEach(a => a.style.color='#93979b');"
+                onmouseover="this.style.backgroundColor='#e0f3ff'; Array.from(this.getElementsByTagName('a')).forEach(a => a.style.color='#211f7f'); this.style.fontWeight='bold';"
+                onmouseout="this.style.backgroundColor='transparent'; Array.from(this.getElementsByTagName('a')).forEach(a => a.style.color='#93979b'); this.style.fontWeight='normal';"
                 style="list-style: none; padding: 10px 15px; font-size: 13px; border-radius: 20px;">
                 <a class="nav-link" th:href="@{/admin}" style="color: #93979b; font-family: Arial, sans-serif; padding: 0%; display: flex; align-items: center; justify-content: center;">
                     <span class="material-symbols-outlined" style="display: flex; ">roofing</span><span
@@ -75,8 +76,9 @@
             <li class="nav-item" th:if="${session.admin != null}"
                 style="list-style: none;  font-size: 13px;">
                 <a class="nav-link author" th:href="@{/manageauthors}"
-                   onmouseover="this.style.backgroundColor='#e0f3ff'; this.style.color='#211f7f';"
-                   onmouseout="this.style.backgroundColor='transparent'; this.style.color='#93979b';"
+                   onmouseover="this.style.backgroundColor='#e0f3ff'; this.style.color='#211f7f'; this.style.fontWeight='bold';"
+                   onmouseout="this.style.backgroundColor='transparent'; this.style.color='#93979b'; this.style.fontWeight='normal';"
+
                    style="color: #93979b; border-radius: 20px; padding: 10px 15px; width: 100%; font-family: Arial, sans-serif; display: flex; align-items: center; justify-content: space-between;">
                     <div style="display: flex; align-items: center;">
                         <span class="material-symbols-outlined" style="display: flex;">stylus</span>
@@ -108,8 +110,8 @@
             <li class="nav-item d-flex " th:if="${session.admin != null}"
                 style="list-style: none; font-size: 13px; ">
                 <a class="nav-link" th:href="@{/managebookimports}"
-                   onmouseover="this.style.backgroundColor='#e0f3ff'; this.style.color='#211f7f';"
-                   onmouseout="this.style.backgroundColor='transparent'; this.style.color='#93979b';"
+                   onmouseover="this.style.backgroundColor='#e0f3ff'; this.style.color='#211f7f'; this.style.fontWeight='bold';"
+                   onmouseout="this.style.backgroundColor='transparent'; this.style.color='#93979b'; this.style.fontWeight='normal';"
                    style="color: #93979b; border-radius: 20px; padding: 10px 15px; width: 100%; font-family: Arial, sans-serif; display: flex; align-items: center; justify-content: space-between;">
                     <div style="display: flex; align-items: center;">
                         <span class="material-symbols-outlined" style="display: flex;">Archive</span>
@@ -124,8 +126,8 @@
             <li class="nav-item d-flex " th:if="${session.admin != null}"
                 style="list-style: none;  font-size: 13px;">
                 <a class="nav-link" th:href="@{/managebookprices}"
-                   onmouseover="this.style.backgroundColor='#e0f3ff'; this.style.color='#211f7f';"
-                   onmouseout="this.style.backgroundColor='transparent'; this.style.color='#93979b';"
+                   onmouseover="this.style.backgroundColor='#e0f3ff'; this.style.color='#211f7f'; this.style.fontWeight='bold';"
+                   onmouseout="this.style.backgroundColor='transparent'; this.style.color='#93979b'; this.style.fontWeight='normal';"
                    style="color: #93979b; border-radius: 20px; padding: 10px 15px; width: 100%; font-family: Arial, sans-serif; display: flex; align-items: center; justify-content: space-between;">
                     <div style="display: flex; align-items: center;">
                         <span class="material-symbols-outlined" style="display: flex;">attach_money</span>
@@ -140,8 +142,8 @@
             <li class="nav-item d-flex " th:if="${session.admin != null}"
                 style="list-style: none;  font-size: 13px;">
                 <a class="nav-link" th:href="@{/managediscounts}"
-                   onmouseover="this.style.backgroundColor='#e0f3ff'; this.style.color='#211f7f';"
-                   onmouseout="this.style.backgroundColor='transparent'; this.style.color='#93979b';"
+                   onmouseover="this.style.backgroundColor='#e0f3ff'; this.style.color='#211f7f'; this.style.fontWeight='bold';"
+                   onmouseout="this.style.backgroundColor='transparent'; this.style.color='#93979b'; this.style.fontWeight='normal';"
                    style="color: #93979b; border-radius: 20px; padding: 10px 15px; width: 100%; font-family: Arial, sans-serif; display: flex; align-items: center; justify-content: space-between;">
                     <div style="display: flex; align-items: center;">
                         <span class="material-symbols-outlined" style="display: flex;">sell</span>
@@ -156,8 +158,8 @@
             <li class="nav-item d-flex " th:if="${session.admin != null}"
                 style="list-style: none;  font-size: 13px;">
                 <a class="nav-link" th:href="@{/managevouchers}"
-                   onmouseover="this.style.backgroundColor='#e0f3ff'; this.style.color='#211f7f';"
-                   onmouseout="this.style.backgroundColor='transparent'; this.style.color='#93979b';"
+                   onmouseover="this.style.backgroundColor='#e0f3ff'; this.style.color='#211f7f'; this.style.fontWeight='bold';"
+                   onmouseout="this.style.backgroundColor='transparent'; this.style.color='#93979b'; this.style.fontWeight='normal';"
                    style="color: #93979b; border-radius: 20px; padding: 10px 15px; width: 100%; font-family: Arial, sans-serif; display: flex; align-items: center; justify-content: space-between;">
                     <div style="display: flex; align-items: center;">
                         <span class="material-symbols-outlined" style="display: flex;">redeem</span>
@@ -172,8 +174,8 @@
             <li class="nav-item d-flex " th:if="${session.admin != null}"
                 style="list-style: none;  font-size: 13px;">
                 <a class="nav-link" th:href="@{/managebooks}"
-                   onmouseover="this.style.backgroundColor='#e0f3ff'; this.style.color='#211f7f';"
-                   onmouseout="this.style.backgroundColor='transparent'; this.style.color='#93979b';"
+                   onmouseover="this.style.backgroundColor='#e0f3ff'; this.style.color='#211f7f'; this.style.fontWeight='bold';"
+                   onmouseout="this.style.backgroundColor='transparent'; this.style.color='#93979b'; this.style.fontWeight='normal';"
                    style="color: #93979b; border-radius: 20px; padding: 10px 15px; width: 100%; font-family: Arial, sans-serif; display: flex; align-items: center; justify-content: space-between;">
                     <div style="display: flex; align-items: center;">
                         <span class="material-symbols-outlined" style="display: flex;">library_books</span>
@@ -188,8 +190,8 @@
             <li class="nav-item d-flex " th:if="${session.admin != null}"
                 style="list-style: none;  font-size: 13px;">
                 <a class="nav-link" th:href="@{/managecategories}"
-                   onmouseover="this.style.backgroundColor='#e0f3ff'; this.style.color='#211f7f';"
-                   onmouseout="this.style.backgroundColor='transparent'; this.style.color='#93979b';"
+                   onmouseover="this.style.backgroundColor='#e0f3ff'; this.style.color='#211f7f'; this.style.fontWeight='bold';"
+                   onmouseout="this.style.backgroundColor='transparent'; this.style.color='#93979b'; this.style.fontWeight='normal';"
                    style="color: #93979b; border-radius: 20px; padding: 10px 15px; width: 100%; font-family: Arial, sans-serif; display: flex; align-items: center; justify-content: space-between;">
                     <div style="display: flex; align-items: center;">
                         <span class="material-symbols-outlined" style="display: flex;">stacks</span>
@@ -204,8 +206,8 @@
             <li class="nav-item d-flex " th:if="${session.admin != null}"
                 style="list-style: none;  font-size: 13px;">
                 <a class="nav-link" th:href="@{/manageorders}"
-                   onmouseover="this.style.backgroundColor='#e0f3ff'; this.style.color='#211f7f';"
-                   onmouseout="this.style.backgroundColor='transparent'; this.style.color='#93979b';"
+                   onmouseover="this.style.backgroundColor='#e0f3ff'; this.style.color='#211f7f'; this.style.fontWeight='bold';"
+                   onmouseout="this.style.backgroundColor='transparent'; this.style.color='#93979b'; this.style.fontWeight='normal';"
                    style="color: #93979b; border-radius: 20px; padding: 10px 15px; width: 100%; font-family: Arial, sans-serif; display: flex; align-items: center; justify-content: space-between;">
                     <div style="display: flex; align-items: center;">
                         <span class="material-symbols-outlined" style="display: flex;">inventory</span>
@@ -220,8 +222,8 @@
             <li class="nav-item d-flex " th:if="${session.admin != null}"
                 style="list-style: none;  font-size: 13px;">
                 <a class="nav-link" th:href="@{/managebookreviews}"
-                   onmouseover="this.style.backgroundColor='#e0f3ff'; this.style.color='#211f7f';"
-                   onmouseout="this.style.backgroundColor='transparent'; this.style.color='#93979b';"
+                   onmouseover="this.style.backgroundColor='#e0f3ff'; this.style.color='#211f7f'; this.style.fontWeight='bold';"
+                   onmouseout="this.style.backgroundColor='transparent'; this.style.color='#93979b'; this.style.fontWeight='normal';"
                    style="color: #93979b; border-radius: 20px; padding: 10px 15px; width: 100%; font-family: Arial, sans-serif; display: flex; align-items: center; justify-content: space-between;">
                     <div style="display: flex; align-items: center;">
                         <span class="material-symbols-outlined" style="display: flex;">star</span>
@@ -236,8 +238,8 @@
             <li class="nav-item d-flex " th:if="${session.admin != null}"
                 style="list-style: none;  font-size: 13px;">
                 <a class="nav-link" th:href="@{/statistics}"
-                   onmouseover="this.style.backgroundColor='#e0f3ff'; this.style.color='#211f7f';"
-                   onmouseout="this.style.backgroundColor='transparent'; this.style.color='#93979b';"
+                   onmouseover="this.style.backgroundColor='#e0f3ff'; this.style.color='#211f7f'; this.style.fontWeight='bold';"
+                   onmouseout="this.style.backgroundColor='transparent'; this.style.color='#93979b'; this.style.fontWeight='normal';"
                    style="color: #93979b; border-radius: 20px; padding: 10px 15px; width: 100%; font-family: Arial, sans-serif; display: flex; align-items: center; justify-content: space-between;">
                     <div style="display: flex; align-items: center;">
                         <span class="material-symbols-outlined" style="display: flex;">bar_chart</span>
@@ -263,8 +265,8 @@
             <li class="nav-item d-flex " th:if="${session.admin != null}"
                 style="list-style: none;  font-size: 13px;">
                 <a class="nav-link" th:href="@{/manageaccounts}"
-                   onmouseover="this.style.backgroundColor='#e0f3ff'; this.style.color='#211f7f';"
-                   onmouseout="this.style.backgroundColor='transparent'; this.style.color='#93979b';"
+                   onmouseover="this.style.backgroundColor='#e0f3ff'; this.style.color='#211f7f'; this.style.fontWeight='bold';"
+                   onmouseout="this.style.backgroundColor='transparent'; this.style.color='#93979b'; this.style.fontWeight='normal';"
                    style="color: #93979b; border-radius: 20px; padding: 10px 15px; width: 100%; font-family: Arial, sans-serif; display: flex; align-items: center; justify-content: space-between;">
                     <div style="display: flex; align-items: center;">
                         <span class="material-symbols-outlined" style="display: flex;">manage_accounts</span>
@@ -279,8 +281,8 @@
             <li class="nav-item d-flex " th:if="${session.admin != null}"
                 style="list-style: none;  font-size: 13px;">
                 <a class="nav-link" th:href="@{/logoutadmin}"
-                   onmouseover="this.style.backgroundColor='#e0f3ff'; this.style.color='#211f7f';"
-                   onmouseout="this.style.backgroundColor='transparent'; this.style.color='#93979b';"
+                   onmouseover="this.style.backgroundColor='#e0f3ff'; this.style.color='#211f7f'; this.style.fontWeight='bold';"
+                   onmouseout="this.style.backgroundColor='transparent'; this.style.color='#93979b'; this.style.fontWeight='normal';"
                    style="color: #93979b; border-radius: 20px; padding: 10px 15px; width: 100%; font-family: Arial, sans-serif; display: flex; align-items: center; justify-content: space-between;">
                     <div style="display: flex; align-items: center;">
                         <span class="material-symbols-outlined" style="display: flex;">logout</span>

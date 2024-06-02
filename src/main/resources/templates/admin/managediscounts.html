@@ -416,50 +416,8 @@
                     </div>
                 </div>
             </div>
-
-<!--            <table class="table table-striped table-bordered mt-3">-->
-<!--                <thead class="thead-title">-->
-<!--                <tr style="color: rgb(2,88,155);">-->
-<!--                    <th scope="col" class="align-middle text-center">Mã giảm giá</th>-->
-<!--                    <th scope="col" class="align-middle text-center">Mã sách</th>-->
-<!--                    <th scope="col" class="align-middle text-center">Tên sách</th>-->
-<!--                    <th scope="col" class="align-middle text-center">Tỷ lệ giảm giá (%)</th>-->
-<!--                    <th scope="col" class="align-middle text-center">Giá cuối cùng</th>-->
-<!--                    <th scope="col" class="align-middle text-center">Ngày bắt đầu</th>-->
-<!--                    <th scope="col" class="align-middle text-center">Ngày kết thúc</th>-->
-<!--                    <th scope="col" class="align-middle text-center">Trạng thái</th>-->
-<!--                    <th scope="col" class="align-middle text-center">Sửa</th>-->
-<!--                </tr>-->
-<!--                </thead>-->
-<!--                <tbody>-->
-<!--                <tr th:each="discount : ${discounts}">-->
-<!--                    <td class="align-middle text-center" th:text="${discount.id}"></td>-->
-<!--                    <td class="align-middle text-center" th:text="${discount.book.id}"></td>-->
-<!--                    <td class="align-middle text-center">-->
-<!--                        <span th:if="${#strings.length(discount.book.name) > 100}" th:text="${#strings.substring(discount.book.name, 0, 100) + '...'}"></span>-->
-<!--                        <span th:if="${#strings.length(discount.book.name) <= 100}" th:text="${discount.book.name}"></span>-->
-<!--                    </td>-->
-<!--                    <td class="align-middle text-center" th:text="${discount.discountPercent}"></td>-->
-<!--                    <td class="align-middle text-center" th:text="${#numbers.formatInteger(discount.discountedPrice, 0, 'POINT')} + ' đ'" style="color: orangered; width: 100px;"></td>-->
-<!--                    <td class="align-middle text-center" th:text="${#temporals.format(discount.startDate.toLocalDateTime(), 'dd/MM/yyyy HH:mm:ss')}"></td>-->
-<!--                    <td class="align-middle text-center" th:text="${#temporals.format(discount.endDate.toLocalDateTime(), 'dd/MM/yyyy HH:mm:ss')}"></td>-->
-<!--                    <td class="align-middle text-center">-->
-<!--                            <span th:switch="${discount.status}">-->
-<!--                                <span th:case="0" class="badge badge-danger">Ngưng áp dụng</span>-->
-<!--                                <span th:case="1" class="badge badge-success">Áp dụng</span>-->
-<!--                                <span th:case="2" class="badge badge-warning">Chưa áp dụng</span>-->
-<!--                                <span th:case="3" class="badge badge-secondary">Hủy bỏ</span>-->
-<!--                            </span>-->
-<!--                    </td>-->
-<!--                    <td class="align-middle text-center">-->
-<!--                        <a th:href="@{/updatediscount(discountId=${discount.id})}" class="btn btn-edit">-->
-<!--                            <span class="material-symbols-outlined">edit</span>-->
-<!--                        </a>-->
-<!--                    </td>-->
-<!--                </tr>-->
-<!--                </tbody>-->
-<!--            </table>-->
         </div>
+
         <div class="row-pagination d-flex align-items-center justify-content-center">
             <!-- Thêm phần tử phân trang tại đây -->
             <div class="frame-number d-flex align-items-center">

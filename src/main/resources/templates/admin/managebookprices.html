@@ -179,13 +179,13 @@
 
         .row-add{
             height: 70px;
-            width: 260px;
+            width: 200px;
         }
         .nav-link.add-category {
             background-color: white;
             border-radius: 15px;
             height: 70px;
-            width: 260px;
+            width: 200px;
             color:#62bf5e;
             box-shadow: 0px 4px 4px rgba(192, 192, 192, 0.3);
             font-weight: bold;
@@ -214,9 +214,9 @@
                     <img src="https://res.cloudinary.com/dylwewmt0/image/upload/v1715193279/PHOTO_LIST/Admin/Title-icon/04.png" alt="Knowledge Young" style="width: 100%; height: 100%">
                 </div>
                 <div class="col-title">
-                    <p style="margin: 0px; color: #3f6ad8; font-size: 18px; font-weight: bold; font-family: Helvetica;">QUẢN LÝ ĐỢT GÁN GIÁ BÁN SÁCH</p>
+                    <p style="margin: 0px; color: #3f6ad8; font-size: 18px; font-weight: bold; font-family: Helvetica;">QUẢN LÝ GIÁ BÁN</p>
                     <div class="form-categories"  th:if="${totalAllBookPrices != null}">
-                        <p style="margin: 0px; font-family: Helvetica;">Tổng số tất cả các đợt gán giá bán sách: <span th:text="${totalAllBookPrices}"></span></p>
+                        <p style="margin: 0px; font-family: Helvetica;">Tổng số đợt nhập giá bán: <span th:text="${totalAllBookPrices}"></span></p>
                     </div>
                 </div>
             </div>
@@ -270,7 +270,7 @@
                         <a th:href="@{/addbookprice}" class="nav-link add-category"
                            style="font-family: Arial, sans-serif; padding: 0%; display: flex; align-items: center; justify-content: center;">
                             <span class="material-symbols-outlined">add</span>
-                            Thêm đợt gán giá bán sách
+                            Thêm giá bán
                         </a>
                     </div>
                 </div>
@@ -357,50 +357,31 @@
                     </div>
                 </div>
             </div>
-<!--            <table class="table table-striped table-bordered mt-3">-->
-<!--                <thead class="thead-title">-->
-<!--                <tr style="color: rgb(2,88,155);">-->
-<!--                    <th scope="col" class="align-middle text-center">Mã giá bán</th>-->
-<!--                    <th scope="col" class="align-middle text-center">Mã sách</th>-->
-<!--                    <th scope="col" class="align-middle text-center">Tên sách</th>-->
-<!--                    <th scope="col" class="align-middle text-center">Giá bán</th>-->
-<!--                    <th scope="col" class="align-middle text-center">Ngày có hiệu lực</th>-->
-<!--                    <th scope="col" class="align-middle text-center">Sửa</th>-->
-<!--                </tr>-->
-<!--                </thead>-->
-<!--                <tbody>-->
-<!--                <tr th:each="bookPrice : ${bookPrices}">-->
-<!--                    <td class="align-middle text-center" th:text="${bookPrice.id}"></td>-->
-<!--                    <td class="align-middle text-center" th:text="${bookPrice.book.id}"></td>-->
-<!--                    <td class="align-middle text-center">-->
-<!--                        <span th:if="${#strings.length(bookPrice.book.name) > 100}" th:text="${#strings.substring(bookPrice.book.name, 0, 100) + '...'}"></span>-->
-<!--                        <span th:if="${#strings.length(bookPrice.book.name) <= 100}" th:text="${bookPrice.book.name}"></span>-->
-<!--                    </td>-->
-<!--                    <td class="align-middle text-center" th:text="${#numbers.formatInteger(bookPrice.sellPrice, 0, 'POINT')} + ' đ'" style="color: orangered; width: 100px;"></td>-->
-<!--                    <td class="align-middle text-center" th:text="${#temporals.format(bookPrice.effectiveDate.toLocalDateTime(), 'dd/MM/yyyy HH:mm:ss')}"></td>-->
-<!--                    <td class="align-middle text-center">-->
-<!--                        <a th:href="@{/updatebookprice(bookPriceId=${bookPrice.id})}" class="btn btn-edit">-->
-<!--                            <span class="material-symbols-outlined">edit</span>-->
-<!--                        </a>-->
-<!--                    </td>-->
-<!--                </tr>-->
-<!--                </tbody>-->
-<!--            </table>-->
-
-
         </div>
         <div class="row-pagination d-flex align-items-center justify-content-center">
-            <!-- Thêm phần tử phân trang tại đây -->
-            <div class="frame-number d-flex align-items-center" >
+            <div class="frame-number d-flex align-items-center">
                 <div th:if="${bookPrices.totalPages > 1}">
                     <ul class="pagination" style="margin: 0px">
-                        <li th:if="${bookPrices.hasPrevious()}" class="page-item">
+                        <!-- Nút 'Trang trước' -->
+                        <li th:if="${bookPrices.number > 0}" class="page-item">
                             <a class="page-link" th:href="@{/managebookprices(page=${bookPrices.number}, size=${size}, sortOption=${sortOption}, bookId=${bookId}, searchKeyword=${searchKeyword})}">
                                 <span class="material-symbols-outlined">navigate_before</span>
                             </a>
                         </li>
 
-                        <th:block th:each="pageNumber : ${#numbers.sequence(0, bookPrices.totalPages - 1)}">
+                        <!-- Trang đầu tiên -->
+                        <li class="page-item" th:classappend="${0 == bookPrices.number ? 'active' : ''}">
+                            <a th:if="${0 != bookPrices.number}" class="page-link" th:href="@{/managebookprices(page=1, size=${size}, sortOption=${sortOption}, bookId=${bookId}, searchKeyword=${searchKeyword})}" th:text="1"></a>
+                            <span th:if="${0 == bookPrices.number}" class="page-link" th:text="1"></span>
+                        </li>
+
+                        <!-- Dấu '...' nếu cần -->
+                        <li class="page-item" th:if="${bookPrices.number > 2}">
+                            <span class="page-link">...</span>
+                        </li>
+
+                        <!-- Các trang xung quanh trang hiện tại -->
+                        <th:block th:each="pageNumber : ${#numbers.sequence(bookPrices.number - 2 > 1 ? bookPrices.number - 2 : 1, bookPrices.number + 2 < bookPrices.totalPages - 2 ? bookPrices.number + 2 : bookPrices.totalPages - 2)}">
                             <li class="page-item" th:classappend="${pageNumber == bookPrices.number ? 'active' : ''}">
                                 <th:block th:if="${pageNumber == bookPrices.number}">
                                     <span class="page-link" th:text="${pageNumber + 1}"></span>
@@ -411,6 +392,18 @@
                             </li>
                         </th:block>
 
+                        <!-- Dấu '...' nếu cần -->
+                        <li class="page-item" th:if="${bookPrices.number < bookPrices.totalPages - 3}">
+                            <span class="page-link">...</span>
+                        </li>
+
+                        <!-- Trang cuối cùng -->
+                        <li class="page-item" th:classappend="${bookPrices.totalPages - 1 == bookPrices.number ? 'active' : ''}">
+                            <a th:if="${bookPrices.totalPages - 1 != bookPrices.number}" class="page-link" th:href="@{/managebookprices(page=${bookPrices.totalPages}, size=${size}, sortOption=${sortOption}, bookId=${bookId}, searchKeyword=${searchKeyword})}" th:text="${bookPrices.totalPages}"></a>
+                            <span th:if="${bookPrices.totalPages - 1 == bookPrices.number}" class="page-link" th:text="${bookPrices.totalPages}"></span>
+                        </li>
+
+                        <!-- Nút 'Trang sau' -->
                         <li th:if="${bookPrices.hasNext()}" class="page-item">
                             <a class="page-link" th:href="@{/managebookprices(page=${bookPrices.number + 2}, size=${size}, sortOption=${sortOption}, bookId=${bookId}, searchKeyword=${searchKeyword})}">
                                 <span class="material-symbols-outlined">navigate_next</span>
@@ -420,6 +413,7 @@
                 </div>
             </div>
         </div>
+
 
     </div>
 </div>
