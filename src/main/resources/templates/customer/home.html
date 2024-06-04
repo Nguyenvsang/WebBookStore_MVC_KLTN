@@ -192,12 +192,12 @@
 		a {
 			color: black;
 			font-family: Arial, sans-serif;
-			font-size: 14px;
+			font-size: 16px;
 		}
 
 		a:hover {
 			text-decoration: none;
-			color: rgb(2,88,155);
+			color: #5390f5;
 		}
 
 		h5 {
@@ -471,6 +471,16 @@
             flex-wrap: nowrap;
             animation: scroll-left 15s linear infinite;
         }
+
+        .name-book{
+            color: grey;
+            font-weight: bold;
+        }
+
+        .name-book:hover {
+            color: #5390f5;
+            font-weight: bold;
+        }
     </style>
 </head>
 <!--Phần Chat Box -->
@@ -501,7 +511,8 @@
     <div class="container-body" style="background-color: white; width: 1250px; padding: 10px 0px; margin-top: 0px; margin-bottom: 30px; box-shadow: none; ">
         <div class="nav-dropdown" style="padding: 10px 20px">
             <div class="row-title d-flex align-items-center" style="border-radius: 10px; padding-bottom: 15px">
-                <span class="material-symbols-outlined d-flex align-items-center" style="margin-right: 5px; font-weight: 500; font-size: 30px;">widgets</span>
+                <img src="https://res.cloudinary.com/dylwewmt0/image/upload/v1717492875/PHOTO_LIST/Home/icon_danh_muc.png" alt="Knowledge Young" style="width: 40px; border-radius: 10px; margin-right: 5px">
+<!--                <span class="material-symbols-outlined d-flex align-items-center" style="margin-right: 5px; font-weight: 500; font-size: 30px;">widgets</span>-->
                 <h4 style=" font-family: 'Museo Moderno', sans-serif; color: rgb(2,88,155); font-weight: bold; margin: 0px">Danh mục</h4>
             </div>
             <div class="row-catalog-wrapper" style="overflow: hidden; white-space: nowrap; width: 100%;">
@@ -695,6 +706,10 @@
                     <div class="col flex-item">
                         <div class="item-inner">
                             <div class="ma-box-content">
+                                <!-- Hình ảnh mới thêm vào phía trên bên phải -->
+                                <div class="top-right-image" style="position: absolute; top: 0; right: 0;">
+                                    <img src="https://res.cloudinary.com/dylwewmt0/image/upload/v1717499660/PHOTO_LIST/Home/newbook_01.png" alt="Top Right Image" style="width: 50px; height: 50px;">
+                                </div>
                                 <div class="products clear" style="display: flex; justify-content: center; align-items: center;">
                                     <div class="product images-container">
                                         <a th:href="@{/detailbook/{id} (id=${recentlyImportedBook.id})}">
@@ -932,75 +947,156 @@
 
 
 <!--Top 10 sách bán chạy trong 1 tháng gần đây-->
-<div class="nav-dropdown mb-3 mt-3">
-    <h2>Sách Bán Chạy</h2>
-    <div class="row row-cols-1 row-cols-md-4 g-4" style="width: 888px; margin-left: 10px">
-        <th:block th:each="topSellingBook : ${topSellingBooks.content}">
-            <div class="col-md-3 flex-item">
-                <div class="item-inner">
-                    <div class="ma-box-content">
-                        <div class="products clear" style="display: flex; justify-content: center; align-items: center;">
-                            <div class="product images-container">
-                                <a th:href="@{/detailbook/{id} (id=${topSellingBook.id})}">
-                                    <!-- Chỉ hiển thị hình ảnh đầu tiên -->
-                                    <img th:src="${topSellingBook.bookImages[0].path + '?v=' + randomNumber}" alt="Book Image" class="card-img">
-                                </a>
-                            </div>
-                        </div>
-                        <div>
-                            <h6 class="product-name-no-ellipsis">
-                                <a th:href="@{/detailbook/{id} (id=${topSellingBook.id})}" th:text="${topSellingBook.name}" style="display: inline-block; width: 170px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></a>
-                            </h6>
+<div class="container-top-10-new d-flex align-items-center justify-content-center" style="width: 100%; ">
+    <div class="container-body d-flex align-items-center justify-content-center" style="background-color: white; width: 1250px; padding: 10px 0px;">
+        <div class="nav-dropdown mb-3 mt-3">
+            <div class="row-title d-flex align-items-center" style="justify-content: flex-start; padding: 15px 0px; border-bottom: 1px solid #c6eaff; background-color: #d8e9f5; border-radius: 10px">
+                <img src="https://res.cloudinary.com/dylwewmt0/image/upload/v1717433799/PHOTO_LIST/Home/02.png" alt="Knowledge Young" style="width:50px; margin-left: 20px;">
+                <h4 style="padding-left: 8px; font-family: 'Museo Moderno', sans-serif; color: rgb(2,88,155); font-weight: bold; margin: 0px">Sách bán chạy</h4>
+            </div>
+            <div class="row-book d-flex" style="width: 1200px; margin-top: 25px">
+                <div class="col-5" style="padding: 0px">
+                    <th:block th:each="topSellingBook : ${topSellingBooks.content}">
+                        <div class="item-inner">
+                            <div class="row-item d-flex">
+                                <div class="col-3">
+                                    <div class="products clear" style="display: flex; justify-content: center; align-items: center;">
+                                        <div class="images-container">
+                                            <a th:href="@{/detailbook/{id} (id=${topSellingBook.id})}">
+                                                <!-- Chỉ hiển thị hình ảnh đầu tiên -->
+                                                <img th:src="${topSellingBook.bookImages[0].path + '?v=' + randomNumber}" alt="Book Image" class="card-img" style="width: 80px">
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
 
-                            <div class="row-price-discount-cart d-flex" style="justify-content: space-between">
-                                <div class="col-8" style="padding: 0px">
-                                    <div class="row-price-favorite d-flex align-items-center" style="justify-content: space-between">
-                                        <div class="col-price d-flex align-items-center" style="margin: 0px">
-                                            <div th:if="${topSellingBook.currentDiscount != null}" class="col-price d-flex align-items-center" style="margin: 0px">
-                                                <p class="card-text"
-                                                   style="margin: 0px 10px 0px 0px; font-size: 15px; font-weight: bold; text-align: left; color: orangered; ">
-                                                    <span th:text="${#numbers.formatInteger(topSellingBook.currentDiscount.discountedPrice, 0, 'POINT')}" ></span> đ
-                                                </p>
+                                <div class="col-9">
+                                    <h6 class="product-name-no-ellipsis">
+                                        <a class="name-book" th:href="@{/detailbook/{id} (id=${topSellingBook.id})}" th:text="${topSellingBook.name}"></a>
+                                    </h6>
+
+                                    <div class="row-price-discount-cart d-flex" style="justify-content: space-between">
+                                        <div class="col-8" style="padding: 0px">
+                                            <div class="row-price-favorite d-flex align-items-center" style="justify-content: space-between">
+                                                <div class="col-price d-flex align-items-center" style="margin: 0px">
+                                                    <div th:if="${topSellingBook.currentDiscount != null}" class="col-price d-flex align-items-center" style="margin: 0px">
+                                                        <p class="card-text"
+                                                           style="margin: 0px 10px 0px 0px; font-size: 15px; font-weight: bold; text-align: left; color: orangered; ">
+                                                            <span th:text="${#numbers.formatInteger(topSellingBook.currentDiscount.discountedPrice, 0, 'POINT')}" ></span> đ
+                                                        </p>
+                                                    </div>
+                                                    <div th:if="${topSellingBook.currentDiscount != null}" class="col-price d-flex align-items-center" style="margin: 0px">
+                                                        <p class="card-text d-flex align-items-center"
+                                                           style="border-radius: 10px; padding: 3px; background-color: #5390f5; font-size: 12px; font-weight: bold; text-align: left; color: white; ">
+                                                            <span th:text="'-' + ${topSellingBook.currentDiscount.discountPercent} + '%'" ></span>
+                                                        </p>
+                                                    </div>
+                                                    <!--Giá không giảm -->
+                                                    <div th:if="${topSellingBook.currentDiscount == null}" class="col-price d-flex align-items-center">
+                                                        <p class="card-text"
+                                                           style="font-size: 15px; font-weight: bold;text-align: left; color: orangered; ">
+                                                            <span th:text="${#numbers.formatInteger(topSellingBook.sellPrice, 0, 'POINT')}" ></span> đ
+                                                        </p>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div th:if="${topSellingBook.currentDiscount != null}" class="col-price d-flex align-items-center" style="margin: 0px">
-                                                <p class="card-text d-flex align-items-center"
-                                                   style="border-radius: 10px; padding: 3px; background-color: #5390f5; font-size: 12px; font-weight: bold; text-align: left; color: white; ">
-                                                    <span th:text="'-' + ${topSellingBook.currentDiscount.discountPercent} + '%'" ></span>
-                                                </p>
-                                            </div>
-                                            <!--Giá không giảm -->
-                                            <div th:if="${topSellingBook.currentDiscount == null}" class="col-price d-flex align-items-center">
+                                            <div th:if="${topSellingBook.currentDiscount != null}" class="row-price-main">
                                                 <p class="card-text"
-                                                   style="font-size: 15px; font-weight: bold;text-align: left; color: orangered; ">
+                                                   style="margin: 0px; font-size: 12px; font-weight: bold;text-align: left; color: grey; text-decoration: line-through; ">
                                                     <span th:text="${#numbers.formatInteger(topSellingBook.sellPrice, 0, 'POINT')}" ></span> đ
                                                 </p>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div th:if="${topSellingBook.currentDiscount != null}" class="row-price-main">
-                                        <p class="card-text"
-                                           style="margin: 0px; font-size: 12px; font-weight: bold;text-align: left; color: grey; text-decoration: line-through; ">
-                                            <span th:text="${#numbers.formatInteger(topSellingBook.sellPrice, 0, 'POINT')}" ></span> đ
-                                        </p>
+
+<!--                                        <div class="col-3" style="padding: 0px; display: flex; justify-content: flex-end;">-->
+<!--                                            &lt;!&ndash; Thêm form thêm vào giỏ hàng tại đây &ndash;&gt;-->
+<!--                                            <form class="add-to-cart-form" th:action="@{/addtocartfromallbooks}" method="post" style="display: flex; justify-content: flex-end; align-items: flex-start;">-->
+<!--                                                <input type="hidden" name="bookId" th:value="${topSellingBook.id}">-->
+<!--                                                <input type="hidden" name="quantity" value="1">-->
+<!--                                                <button type="submit" class="btn btn-add-cart btn-block" style="padding: 0px">-->
+<!--                                                    <i class="material-symbols-outlined shopping-bag">shopping_bag</i>-->
+<!--                                                </button>-->
+<!--                                            </form>-->
+<!--                                        </div>-->
                                     </div>
                                 </div>
 
-                                <div class="col-3" style="padding: 0px; display: flex; justify-content: flex-end;">
-                                    <!-- Thêm form thêm vào giỏ hàng tại đây -->
-                                    <form class="add-to-cart-form" th:action="@{/addtocartfromallbooks}" method="post" style="display: flex; justify-content: flex-end; align-items: flex-start;">
-                                        <input type="hidden" name="bookId" th:value="${topSellingBook.id}">
-                                        <input type="hidden" name="quantity" value="1">
-                                        <button type="submit" class="btn btn-add-cart btn-block" style="padding: 0px">
-                                            <i class="material-symbols-outlined shopping-bag">shopping_bag</i>
-                                        </button>
-                                    </form>
-                                </div>
                             </div>
                         </div>
-                    </div>
+                    </th:block>
+                </div>
+                <div class="col-7" style="border-left: 1px solid #cecece">
+                    <th:block th:each="topSellingBook : ${topSellingBooks.content}">
+                        <div class="item-inner">
+                            <div class="row-item d-flex">
+                                <div class="col-3">
+                                    <div class="products clear" style="display: flex; justify-content: center; align-items: center;">
+                                        <div class="images-container">
+                                            <a th:href="@{/detailbook/{id} (id=${topSellingBook.id})}">
+                                                <!-- Chỉ hiển thị hình ảnh đầu tiên -->
+                                                <img th:src="${topSellingBook.bookImages[0].path + '?v=' + randomNumber}" alt="Book Image" class="card-img" style="width: 80px">
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-9">
+                                    <h6 class="product-name-no-ellipsis">
+                                        <a th:href="@{/detailbook/{id} (id=${topSellingBook.id})}" th:text="${topSellingBook.name}"></a>
+                                    </h6>
+
+                                    <div class="row-price-discount-cart d-flex" style="justify-content: space-between">
+                                        <div class="col-8" style="padding: 0px">
+                                            <div class="row-price-favorite d-flex align-items-center" style="justify-content: space-between">
+                                                <div class="col-price d-flex align-items-center" style="margin: 0px">
+                                                    <div th:if="${topSellingBook.currentDiscount != null}" class="col-price d-flex align-items-center" style="margin: 0px">
+                                                        <p class="card-text"
+                                                           style="margin: 0px 10px 0px 0px; font-size: 15px; font-weight: bold; text-align: left; color: orangered; ">
+                                                            <span th:text="${#numbers.formatInteger(topSellingBook.currentDiscount.discountedPrice, 0, 'POINT')}" ></span> đ
+                                                        </p>
+                                                    </div>
+                                                    <div th:if="${topSellingBook.currentDiscount != null}" class="col-price d-flex align-items-center" style="margin: 0px">
+                                                        <p class="card-text d-flex align-items-center"
+                                                           style="border-radius: 10px; padding: 3px; background-color: #5390f5; font-size: 12px; font-weight: bold; text-align: left; color: white; ">
+                                                            <span th:text="'-' + ${topSellingBook.currentDiscount.discountPercent} + '%'" ></span>
+                                                        </p>
+                                                    </div>
+                                                    <!--Giá không giảm -->
+                                                    <div th:if="${topSellingBook.currentDiscount == null}" class="col-price d-flex align-items-center">
+                                                        <p class="card-text"
+                                                           style="font-size: 15px; font-weight: bold;text-align: left; color: orangered; ">
+                                                            <span th:text="${#numbers.formatInteger(topSellingBook.sellPrice, 0, 'POINT')}" ></span> đ
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div th:if="${topSellingBook.currentDiscount != null}" class="row-price-main">
+                                                <p class="card-text"
+                                                   style="margin: 0px; font-size: 12px; font-weight: bold;text-align: left; color: grey; text-decoration: line-through; ">
+                                                    <span th:text="${#numbers.formatInteger(topSellingBook.sellPrice, 0, 'POINT')}" ></span> đ
+                                                </p>
+                                            </div>
+                                        </div>
+
+                                        <!--                                        <div class="col-3" style="padding: 0px; display: flex; justify-content: flex-end;">-->
+                                        <!--                                            &lt;!&ndash; Thêm form thêm vào giỏ hàng tại đây &ndash;&gt;-->
+                                        <!--                                            <form class="add-to-cart-form" th:action="@{/addtocartfromallbooks}" method="post" style="display: flex; justify-content: flex-end; align-items: flex-start;">-->
+                                        <!--                                                <input type="hidden" name="bookId" th:value="${topSellingBook.id}">-->
+                                        <!--                                                <input type="hidden" name="quantity" value="1">-->
+                                        <!--                                                <button type="submit" class="btn btn-add-cart btn-block" style="padding: 0px">-->
+                                        <!--                                                    <i class="material-symbols-outlined shopping-bag">shopping_bag</i>-->
+                                        <!--                                                </button>-->
+                                        <!--                                            </form>-->
+                                        <!--                                        </div>-->
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </th:block>
                 </div>
             </div>
-        </th:block>
+        </div>
     </div>
 </div>
 
