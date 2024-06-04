@@ -478,6 +478,9 @@
 
     <div class="form-container" style="background-color: white; padding: 20px; border-radius: 15px; margin: 40px 0px; box-shadow: 0 4px 8px rgb(226, 226, 226);">
             <h6 style="color: #211f7f; align-items: center;  margin: 0px 5px 0px 0px; padding: 0px 0px 20px 20px; font-family: Verdana; font-weight: bold">Thông báo</h6>
+
+        <button id="mark-all-read-btn" onclick="markAllAsRead(this)" class="btn btn-primary">Đánh dấu tất cả là đã đọc</button>
+
         <th:block th:each="notification : ${notifications.content}">
             <div  onmouseover="this.style.backgroundColor='#f2f8f8';"
                   onmouseout="this.style.backgroundColor='transparent';"
@@ -562,6 +565,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> <!-- Để xài ajax -->
 <script th:src="@{/js/popper.min.js}"></script>
 <script th:src="@{/js/bootstrap.min.js}"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script>
     // Nút xem chi tiết (đánh dấu đã đọc và chuyển đến trang chi tiết)
     function markAsReadAndRedirect(element) {
@@ -641,6 +645,30 @@
             if (markAsReadButton) {
                 markAsReadButton.style.display = 'block';
             }
+        });
+    }
+
+    // Nút đánh dấu tất cả đã đọc
+    function markAllAsRead(button) {
+        button.innerHTML = "Đang xử lý..."; // Thay đổi nội dung nút
+
+        fetch('http://localhost:8080/webbookstore/markallnotificationsasread', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+        .then(response => {
+            if (response.ok) {
+                location.reload(); // Tải lại trang để cập nhật giao diện
+            } else {
+                console.error('Server responded with status:', response.status);
+                document.getElementById('mark-all-read-btn').innerHTML = "Đánh dấu tất cả là đã đọc"; // Đổi lại nội dung nút nếu có lỗi
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            document.getElementById('mark-all-read-btn').innerHTML = "Đánh dấu tất cả là đã đọc"; // Đổi lại nội dung nút nếu có lỗi
         });
     }
 </script>

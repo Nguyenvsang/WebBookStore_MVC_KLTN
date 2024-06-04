@@ -14,4 +14,6 @@ public interface NotificationRepository extends JpaRepository<Notification, Long
     Page<Notification> findAllByReceiver(Account account, Pageable pageable);
 
     List<Notification> findAllByReceiverAndStatusOrderBySentTimeDesc(Account account, int i);
+
+    List<Notification> findAllByReceiverAndStatus(Account receiver, int status);
 }

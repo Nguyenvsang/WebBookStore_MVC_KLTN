@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -94,26 +95,17 @@ public class NotificationController {
         return ResponseEntity.ok().build();
     }
 
-    // Trả về danh sách các thông báo cho người dùng hiện tại
-//    @GetMapping("/viewnotifications")
-//    public ResponseEntity<?> viewNotifications(@RequestParam(defaultValue = "0") int page,
-//                                             @RequestParam(defaultValue = "10") int size,
-//                                             HttpSession session) {
-//        // Lấy thông tin người dùng từ HttpSession
-//        Account account = (Account) session.getAttribute("account");
-//
-//        // Kiểm tra xem người dùng (cũng là người gửi/kích hoạt thông báo)  đã đăng nhập hay chưa
-//        if (account == null) {
-//            // Nếu chưa đăng nhập, trả về lỗi
-//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User not logged in");
-//        }
-//
-//        Pageable pageable = PageRequest.of(page, size);
-//        Page<Notification> notifications = notificationService.findAllByAccountReceived(account, pageable);
-//        Page<NotificationResponseModel> responses = notifications.map(this::convertToNotificationResponseModel);
-//
-//        return ResponseEntity.ok(responses);
-//    }
+    @PostMapping("/markallnotificationsasread")
+    public ResponseEntity<?> markAllNotificationsAsRead(HttpSession session) {
+        Account account = (Account) session.getAttribute("account");
+        if (account == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User not logged in");
+        }
+
+        notificationService.markAllAsReadForAccount(account);
+        return ResponseEntity.ok().build();
+    }
+
 
     // Trả về danh sách các thông báo cho người dùng hiện tại
     @GetMapping("/viewnotifications")
@@ -127,7 +119,10 @@ public class NotificationController {
             return "redirect:/customer/loginaccount";
         }
 
-        Pageable pageable = PageRequest.of(currentPage - 1, pageSize);
+        Sort sort = Sort.unsorted();
+        sort = sort.and(Sort.by("sentTime").descending());
+
+        Pageable pageable = PageRequest.of(currentPage - 1, pageSize, sort);
 
         Page<Notification> notifications = notificationService.findAllByAccountReceived(account, pageable);
         Page<NotificationResponseModel> notificationResponseModels = notifications.map(this::convertToNotificationResponseModel);

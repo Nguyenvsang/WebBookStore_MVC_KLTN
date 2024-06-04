@@ -65,4 +65,13 @@ public class NotificationServiceImpl implements NotificationService {
         return notificationRepository.findById(notificationId).orElse(null);
     }
 
+    @Override
+    public void markAllAsReadForAccount(Account account) {
+        List<Notification> notifications = notificationRepository.findAllByReceiverAndStatus(account, 0); // 0: chưa đọc
+        for (Notification notification : notifications) {
+            notification.setStatus(1); // 1: đã đọc
+            notificationRepository.save(notification);
+        }
+    }
+
 }

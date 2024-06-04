@@ -16,4 +16,6 @@ public interface NotificationService {
     Notification getNewNotification(Account account);
 
     Notification getNotificationById(long notificationId);
+
+    void markAllAsReadForAccount(Account account);
 }
