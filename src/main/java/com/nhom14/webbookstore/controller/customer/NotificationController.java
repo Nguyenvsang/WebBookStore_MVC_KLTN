@@ -117,8 +117,8 @@ public class NotificationController {
 
     // Trả về danh sách các thông báo cho người dùng hiện tại
     @GetMapping("/viewnotifications")
-    public String viewNotifications(@RequestParam(defaultValue = "0") int page,
-                                               @RequestParam(defaultValue = "10") int size,
+    public String viewNotifications(@RequestParam(value = "page", required = false, defaultValue = "1") Integer currentPage,
+                                    @RequestParam(value = "size", required = false, defaultValue = "10") Integer pageSize,
                                                HttpSession session,
                                                Model model) {
         Account account = (Account) session.getAttribute("account");
@@ -127,7 +127,8 @@ public class NotificationController {
             return "redirect:/customer/loginaccount";
         }
 
-        Pageable pageable = PageRequest.of(page, size);
+        Pageable pageable = PageRequest.of(currentPage - 1, pageSize);
+
         Page<Notification> notifications = notificationService.findAllByAccountReceived(account, pageable);
         Page<NotificationResponseModel> notificationResponseModels = notifications.map(this::convertToNotificationResponseModel);
 
