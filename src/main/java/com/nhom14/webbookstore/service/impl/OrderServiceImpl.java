@@ -1,5 +1,6 @@
 package com.nhom14.webbookstore.service.impl;
 
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -91,8 +92,19 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public Page<Order> getFilteredOrders(Integer orderId, Integer accountId, LocalDate dateOrder, LocalDate expectedDeliveryDate1, LocalDate expectedDeliveryDate2, LocalDate deliveryDate, Double totalPrice, String name, String address, String phoneNumber, String email, Integer status, Double totalPriceMin, Double totalPriceMax, Pageable pageable) {
-		return orderRepository.findWithFilters(orderId, accountId, dateOrder, expectedDeliveryDate1, expectedDeliveryDate2, deliveryDate, totalPrice, name, address, phoneNumber, email, status, totalPriceMin, totalPriceMax, pageable);
+	public Page<Order> getFilteredOrders(Integer accountId, String searchKeyword, LocalDate dateOrder, Integer status, Pageable pageable) {
+		// Chuyển để tìm kiếm theo mã sách
+		Integer searchKeywordAsInteger = null;
+		try {
+			searchKeywordAsInteger = Integer.parseInt(searchKeyword);
+		} catch (NumberFormatException e) {
+			// searchKeyword không phải là một số nguyên, không làm gì cả
+		}
+		if (searchKeywordAsInteger != null) {
+			return orderRepository.findWithFilters(accountId, null, searchKeywordAsInteger, dateOrder, status, pageable);
+		} else {
+			return orderRepository.findWithFilters(accountId, searchKeyword, null, dateOrder, status, pageable);
+		}
 	}
 
 }

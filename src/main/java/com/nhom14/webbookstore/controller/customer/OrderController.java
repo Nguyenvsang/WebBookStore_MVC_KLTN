@@ -473,22 +473,9 @@ public class OrderController {
 	
 	@GetMapping("/vieworders")
 	public String viewOrders(
-            @RequestParam(value = "orderId", required = false) Integer orderId,
-            @RequestParam(value = "accountId", required = false) Integer accountId,
+            @RequestParam(value = "searchKeyword", required = false) String searchKeyword,
             @RequestParam(value = "dateOrderStr", required = false) String dateOrderStr,
-            @RequestParam(value = "expectedDeliveryDate1Str", required = false) String expectedDeliveryDate1Str,
-            @RequestParam(value = "expectedDeliveryDate2Str", required = false) String expectedDeliveryDate2Str,
-            @RequestParam(value = "deliveryDateStr", required = false) String deliveryDateStr,
-            @RequestParam(value = "totalPrice", required = false) Double totalPrice,
-            @RequestParam(value = "name", required = false) String name,
-            @RequestParam(value = "address", required = false) String address,
-            @RequestParam(value = "phoneNumber", required = false) String phoneNumber,
-            @RequestParam(value = "email", required = false) String email,
             @RequestParam(value = "status", required = false) Integer status,
-
-
-            @RequestParam(value = "totalPriceMin", required = false) Double totalPriceMin, // Lọc tổng tiền theo khoảng giá
-            @RequestParam(value = "totalPriceMax", required = false) Double totalPriceMax, // Lọc tổng tiền theo khoảng giá
             @RequestParam(value = "sortOption", required = false, defaultValue = "dateOrder_desc") String sortOption,
             // sortOption: dateOrder_asc (tăng dần), dateOrder_desc
             @RequestParam(value = "page", required = false, defaultValue = "1") Integer currentPage,
@@ -518,32 +505,19 @@ public class OrderController {
 
         // Chuyển đổi chuỗi ngày thành đối tượng LocalDate
         LocalDate dateOrder = parseDate(dateOrderStr, redirectAttributes);
-        LocalDate expectedDeliveryDate1 = parseDate(expectedDeliveryDate1Str, redirectAttributes);
-        LocalDate expectedDeliveryDate2 = parseDate(expectedDeliveryDate2Str, redirectAttributes);
-        LocalDate deliveryDate = parseDate(deliveryDateStr, redirectAttributes);
 
         // Gọi phương thức getFilteredOrders với các tham số tìm kiếm và lọc
-        Page<Order> orders = orderService.getFilteredOrders(orderId, account.getId(), dateOrder, expectedDeliveryDate1, expectedDeliveryDate2, deliveryDate, totalPrice, name, address, phoneNumber, email, status, totalPriceMin, totalPriceMax, pageable);
+        Page<Order> orders = orderService.getFilteredOrders(account.getId(), searchKeyword, dateOrder, status, pageable);
 
 	    // Đặt danh sách đơn hàng vào thuộc tính model để sử dụng trong View
 	    model.addAttribute("orders", orders);
 
         // Thêm các bộ lọc nếu có để dùng cho trang tiếp theo
         Map<String, Object> params = new HashMap<>();
-        params.put("orderId", orderId);
         params.put("accountId", account.getId());
+        params.put("searchKeyword", searchKeyword);
         params.put("dateOrderStr", dateOrderStr);
-        params.put("expectedDeliveryDate1Str", expectedDeliveryDate1Str);
-        params.put("expectedDeliveryDate2Str", expectedDeliveryDate2Str);
-        params.put("deliveryDateStr", deliveryDateStr);
-        params.put("totalPrice", totalPrice);
-        params.put("name", name);
-        params.put("address", address);
-        params.put("phoneNumber", phoneNumber);
-        params.put("email", email);
         params.put("status", status);
-        params.put("totalPriceMin", totalPriceMin);
-        params.put("totalPriceMax", totalPriceMax);
         params.put("sortOption", sortOption);
 
         for (Map.Entry<String, Object> entry : params.entrySet()) {

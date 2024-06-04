@@ -1,5 +1,6 @@
 package com.nhom14.webbookstore.service;
 
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -35,5 +36,5 @@ public interface OrderService {
 	void updateOrder(Order order);
 
 	// Lấy danh sách đơn hàng với các tham số tìm kiếm và lọc, phân trang
-    Page<Order> getFilteredOrders(Integer orderId, Integer accounId, LocalDate dateOrder, LocalDate expectedDeliveryDate1, LocalDate expectedDeliveryDate2, LocalDate deliveryDate, Double totalPrice, String name, String address, String phoneNumber, String email, Integer status, Double totalPriceMin, Double totalPriceMax, Pageable pageable);
+    Page<Order> getFilteredOrders(Integer accounId, String searchKeyword, LocalDate dateOrder, Integer status, Pageable pageable);
 }

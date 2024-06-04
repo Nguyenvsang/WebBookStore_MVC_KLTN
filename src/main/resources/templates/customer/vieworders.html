@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Xem danh sách đơn hàng</title>
+	<!-- Phải thêm popper để không bị lỗi dropdown-menu -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
     <!-- Đường dẫn tới các tệp CSS của Bootstrap -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
@@ -163,7 +165,7 @@
 	</div>
 
 	<!--Nếu không có đơn hàng nào thì chuyển về trang này-->
-	<div class="container"  th:if="${orders.isEmpty()}" style="padding: 0px">
+	<div class="container"  th:if="${orders.isEmpty() && searchKeyword == null && status == null && dateOrderStr == null}" style="padding: 0px">
 		<div class="container-body" style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 0px; height: 350px">
 			<img src="https://res.cloudinary.com/dylwewmt0/image/upload/v1713847596/order/order-empty.png" alt="" style="width: 180px;">
 			<div class="row d-flex align-items-center justify-content-center">
@@ -172,10 +174,118 @@
 		</div>
 	</div>
 
+	<!--Nếu không tìm thấy đơn hàng thì chuyển về trang này-->
+	<div class="container"  th:if="${orders.isEmpty() && (searchKeyword != null || status != null || dateOrderStr != null)}" style="padding: 0px">
+		<div class="container-body" style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 0px; height: 350px">
+			<img src="https://res.cloudinary.com/dylwewmt0/image/upload/v1713847596/order/order-empty.png" alt="" style="width: 180px;">
+			<div class="row d-flex align-items-center justify-content-center">
+				<p style="margin: 0px; color: grey; font-weight: bold; padding-bottom: 30px">Không tìm thấy đơn hàng theo từ khóa</p>
+				<div class="col-02" style="display: flex; align-items:center; justify-content: center; width: 700px; margin: 0px">
+					<div class= "search"
+						 style="display: flex; justify-content: center; border-radius: 50px; background-color: white; align-items: center; width: 700px; height: 40px; border: 1px solid #cecece;
+									transition: box-shadow 0.3s ease; "
+						 onmouseover="this.style.boxShadow='0px 4px 6px rgba(0, 0, 0, 0.1)';"
+						 onmouseout="this.style.boxShadow='none';">
+						<span class="material-symbols-outlined search" style="margin: 10px; color: rgb(2,88,155);">search</span>
+						<form class="form-inline my-2 my-lg-0" th:action="@{/vieworders}" method="GET" style="display: flex; margin: 0px; border-top-right-radius: 50px; border-bottom-right-radius: 50px;">
+							<input class="form-control mr-sm-2" type="search" name="searchKeyword" placeholder="Tìm kiếm theo mã đơn, tên người mua..." style="width: 656px; height: 35px; border: none; outline: none; border-top-right-radius: 50px; border-bottom-right-radius: 50px;">
+						</form>
+					</div>
+				</div>
+
+				<div class="col-02" style="display: flex; align-items:center; justify-content: center; width: 700px; margin: 0px">
+					<form th:action="@{/vieworders}" method="get" class="form-inline">
+						<div class="form-group mx-sm-3 mb-2">
+							<label for="dateOrder" class="sr-only">Tìm theo ngày đặt hàng</label>
+							<input type="date" class="form-control" id="dateOrder2" name="dateOrderStr" placeholder="YYYY-MM-DD" th:value="${dateOrderStr}">
+						</div>
+						<button type="submit" class="btn btn-primary mb-2">Tìm kiếm</button>
+					</form>
+				</div>
+
+				<div class="row-03 d-flex align-items-center" style="padding: 0px 40px; justify-content: space-between; margin: 40px 0px 0px 0px">
+					<div class="col-dropdown d-flex align-items-center" style="height: 70px;">
+						<div class="dropdown-filter">
+							<button class="btn btn-filter-status d-flex align-items-center justify-content-center" type="button" id="statusDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								Lọc theo trạng thái
+								<span class="material-symbols-outlined" style="margin-left: 3px">expand_more</span>
+								<span class="material-symbols-outlined" style="margin-left: 3px">expand_less</span>
+							</button>
+							<div class="dropdown-menu" aria-labelledby="statusDropdown">
+								<a class="dropdown-item" th:href="@{/vieworders}">Tất cả</a>
+								<a class="dropdown-item" th:href="@{/vieworders(status=0, page=1)}">Chờ xác nhận</a>
+								<a class="dropdown-item" th:href="@{/vieworders(status=1, page=1)}">Chờ lấy hàng</a>
+								<a class="dropdown-item" th:href="@{/vieworders(status=2, page=1)}">Đang giao</a>
+								<a class="dropdown-item" th:href="@{/vieworders(status=3, page=1)}">Đã giao</a>
+								<a class="dropdown-item" th:href="@{/vieworders(status=4, page=1)}">Đã hủy đơn</a>
+								<a class="dropdown-item" th:href="@{/vieworders(status=5, page=1)}">Yêu cầu trả hàng</a>
+								<a class="dropdown-item" th:href="@{/vieworders(status=6, page=1)}">Xử lý trả hàng</a>
+								<a class="dropdown-item" th:href="@{/vieworders(status=7, page=1)}">Trả hàng thành công</a>
+								<a class="dropdown-item" th:href="@{/vieworders(status=8, page=1)}">Yêu cầu trả hàng bị từ chối</a>
+								<a class="dropdown-item" th:href="@{/vieworders(status=9, page=1)}">Không nhận hàng</a>
+								<a class="dropdown-item" th:href="@{/vieworders(status=10, page=1)}">Đã nhận hàng</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
     <div class="container" th:if="${!orders.isEmpty()}" style="padding: 0px">
 		<div class="container-body" style="padding: 0px">
 			<div class="col-00">
 				<h6 style="color: #211f7f; align-items: center;  margin: 0px 5px 0px 0px; padding: 20px 0px 0px 20px; font-family: Verdana; font-weight: bold">Đơn hàng của tôi</h6>
+
+				<div class="col-02" style="display: flex; align-items:center; justify-content: center; width: 700px; margin: 0px">
+					<div class= "search"
+						 style="display: flex; justify-content: center; border-radius: 50px; background-color: white; align-items: center; width: 700px; height: 40px; border: 1px solid #cecece;
+									transition: box-shadow 0.3s ease; "
+						 onmouseover="this.style.boxShadow='0px 4px 6px rgba(0, 0, 0, 0.1)';"
+						 onmouseout="this.style.boxShadow='none';">
+						<span class="material-symbols-outlined search" style="margin: 10px; color: rgb(2,88,155);">search</span>
+						<form class="form-inline my-2 my-lg-0" th:action="@{/vieworders}" method="GET" style="display: flex; margin: 0px; border-top-right-radius: 50px; border-bottom-right-radius: 50px;">
+							<input class="form-control mr-sm-2" type="search" name="searchKeyword" placeholder="Tìm kiếm theo mã đơn, tên người mua..." style="width: 656px; height: 35px; border: none; outline: none; border-top-right-radius: 50px; border-bottom-right-radius: 50px;">
+						</form>
+					</div>
+				</div>
+
+				<div class="col-02" style="display: flex; align-items:center; justify-content: center; width: 700px; margin: 0px">
+					<form th:action="@{/vieworders}" method="get" class="form-inline">
+						<div class="form-group mx-sm-3 mb-2">
+							<label for="dateOrder" class="sr-only">Tìm theo ngày đặt hàng</label>
+							<input type="date" class="form-control" id="dateOrder" name="dateOrderStr" placeholder="YYYY-MM-DD" th:value="${dateOrderStr}">
+						</div>
+						<button type="submit" class="btn btn-primary mb-2">Tìm kiếm</button>
+					</form>
+				</div>
+
+				<div class="row-03 d-flex align-items-center" style="padding: 0px 40px; justify-content: space-between; margin: 40px 0px 0px 0px">
+					<div class="col-dropdown d-flex align-items-center" style="height: 70px;">
+						<div class="dropdown-filter">
+							<button class="btn btn-filter-status d-flex align-items-center justify-content-center" type="button" id="statusDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								Lọc theo trạng thái
+								<span class="material-symbols-outlined" style="margin-left: 3px">expand_more</span>
+								<span class="material-symbols-outlined" style="margin-left: 3px">expand_less</span>
+							</button>
+							<div class="dropdown-menu" aria-labelledby="statusDropdown">
+								<a class="dropdown-item" th:href="@{/vieworders}">Tất cả</a>
+								<a class="dropdown-item" th:href="@{/vieworders(status=0, page=1)}">Chờ xác nhận</a>
+								<a class="dropdown-item" th:href="@{/vieworders(status=1, page=1)}">Chờ lấy hàng</a>
+								<a class="dropdown-item" th:href="@{/vieworders(status=2, page=1)}">Đang giao</a>
+								<a class="dropdown-item" th:href="@{/vieworders(status=3, page=1)}">Đã giao</a>
+								<a class="dropdown-item" th:href="@{/vieworders(status=4, page=1)}">Đã hủy đơn</a>
+								<a class="dropdown-item" th:href="@{/vieworders(status=5, page=1)}">Yêu cầu trả hàng</a>
+								<a class="dropdown-item" th:href="@{/vieworders(status=6, page=1)}">Xử lý trả hàng</a>
+								<a class="dropdown-item" th:href="@{/vieworders(status=7, page=1)}">Trả hàng thành công</a>
+								<a class="dropdown-item" th:href="@{/vieworders(status=8, page=1)}">Yêu cầu trả hàng bị từ chối</a>
+								<a class="dropdown-item" th:href="@{/vieworders(status=9, page=1)}">Không nhận hàng</a>
+								<a class="dropdown-item" th:href="@{/vieworders(status=10, page=1)}">Đã nhận hàng</a>
+							</div>
+						</div>
+					</div>
+				</div>
+
 				<div class="next-table only-bottom-border" style="margin-top: 20px">
 					<div class="next-table-inner">
 						<div class="next-table-header" style="height: 50px; border-top: 1px solid #cecece; background-color: #f2f5f6">
@@ -283,14 +393,14 @@
 									<ul class="pagination" style="margin: 0px">
 										<!-- Nút 'Trang trước' -->
 										<li th:if="${orders.hasPrevious()}" class="page-item">
-											<a class="page-link" th:href="@{/vieworders(page=${orders.number}, size=${size}, sort=${sortOption}, orderId=${orderId}, accountId=${accountId})}">
+											<a class="page-link" th:href="@{/vieworders(page=${orders.number}, size=${size}, sortOption=${sortOption}, searchKeyword=${searchKeyword}, dateOrderStr=${dateOrderStr}, status=${status})}">
 												<span class="material-symbols-outlined">navigate_before</span>
 											</a>
 										</li>
 
 										<!-- Trang đầu tiên -->
 										<li class="page-item" th:classappend="${0 == orders.number ? 'active' : ''}">
-											<a th:if="${0 != orders.number}" class="page-link" th:href="@{/vieworders(page=1, size=${size}, sort=${sortOption}, orderId=${orderId}, accountId=${accountId})}" th:text="1"></a>
+											<a th:if="${0 != orders.number}" class="page-link" th:href="@{/vieworders(page=1, size=${size}, sortOption=${sortOption}, searchKeyword=${searchKeyword}, dateOrderStr=${dateOrderStr}, status=${status})}" th:text="1"></a>
 											<span th:if="${0 == orders.number}" class="page-link" th:text="1"></span>
 										</li>
 
@@ -306,7 +416,7 @@
 													<span class="page-link" th:text="${pageNumber + 1}"></span>
 												</th:block>
 												<th:block th:unless="${pageNumber == orders.number}">
-													<a class="page-link" th:href="@{/vieworders(page=${pageNumber + 1}, size=${size}, sort=${sortOption}, orderId=${orderId}, accountId=${accountId})}" th:text="${pageNumber + 1}"></a>
+													<a class="page-link" th:href="@{/vieworders(page=${pageNumber + 1}, size=${size}, sortOption=${sortOption}, searchKeyword=${searchKeyword}, dateOrderStr=${dateOrderStr}, status=${status})}" th:text="${pageNumber + 1}"></a>
 												</th:block>
 											</li>
 										</th:block>
@@ -318,13 +428,13 @@
 
 										<!-- Trang cuối cùng -->
 										<li class="page-item" th:classappend="${orders.totalPages - 1 == orders.number ? 'active' : ''}">
-											<a th:if="${orders.totalPages - 1 != orders.number}" class="page-link" th:href="@{/vieworders(page=${orders.totalPages}, size=${size}, sort=${sortOption}, orderId=${orderId}, accountId=${accountId})}" th:text="${orders.totalPages}"></a>
+											<a th:if="${orders.totalPages - 1 != orders.number}" class="page-link" th:href="@{/vieworders(page=${orders.totalPages}, size=${size}, sortOption=${sortOption}, searchKeyword=${searchKeyword}, dateOrderStr=${dateOrderStr}, status=${status})}" th:text="${orders.totalPages}"></a>
 											<span th:if="${orders.totalPages - 1 == orders.number}" class="page-link" th:text="${orders.totalPages}"></span>
 										</li>
 
 										<!-- Nút 'Trang sau' -->
 										<li th:if="${orders.hasNext()}" class="page-item">
-											<a class="page-link" th:href="@{/vieworders(page=${orders.number + 2}, size=${size}, sort=${sortOption}, orderId=${orderId}, accountId=${accountId})}">
+											<a class="page-link" th:href="@{/vieworders(page=${orders.number + 2}, size=${size}, sortOption=${sortOption}, searchKeyword=${searchKeyword}, dateOrderStr=${dateOrderStr}, status=${status})}">
 												<span class="material-symbols-outlined">navigate_next</span>
 											</a>
 										</li>
