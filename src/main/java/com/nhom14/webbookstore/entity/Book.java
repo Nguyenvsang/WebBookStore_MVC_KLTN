@@ -22,7 +22,7 @@ import lombok.Setter;
 @Entity
 @Table(name = "book")
 public class Book {
-
+	// Sách còn kinh doanh chỉ khi book.status =1 và book.category.status =1
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;

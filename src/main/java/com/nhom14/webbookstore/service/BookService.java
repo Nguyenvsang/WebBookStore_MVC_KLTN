@@ -73,20 +73,20 @@ public interface BookService {
 	Page<Book> getFilteredBooks(Integer status, Integer categoryId, String searchKeyword, Double priceMin, Double priceMax, String publisher, Pageable pageable);
 
 	// Lấy danh sách sách giảm giá
-	Page<Book> getDiscountedBooksPage(Pageable pageable);
+	Page<Book> getActiveDiscountedBooksPage(Pageable pageable);
 
 	// Lấy sách theo danh mục
-	Page<Book> getBooksByCategoryPage(Integer categoryId, Pageable pageable);
+	Page<Book> getActiveBooksByCategoryPage(Integer categoryId, Pageable pageable);
 
 	// Lấy sách theo nhà xuất bản
-	Page<Book> getBooksPublisherPage(String publisher, Pageable pageable);
+	Page<Book> getActiveBooksPublisherPage(String publisher, Pageable pageable);
 
 	// Lấy top sách bán chạy trong 1 tháng vừa qua
-	Page<Book> getTopSellingBooks(LocalDateTime startDate, LocalDateTime endDate, Pageable pageable);
+	Page<Book> getActiveTopSellingBooks(LocalDateTime startDate, LocalDateTime endDate, Pageable pageable);
 
 	// Lấy top sách nổi bật (có đánh giá cao nhất)
-	Page<Book> getHighlightedBooks(Pageable pageable);
+	Page<Book> getActiveHighlightedBooks(Pageable pageable);
 
 	// Lấy top sách mới (mới được nhập trong 1 tháng gần đây)
-	Page<Book> getRecentlyImportedBooks(Pageable pageable);
+	Page<Book> getActiveRecentlyImportedBooks(Pageable pageable);
 }

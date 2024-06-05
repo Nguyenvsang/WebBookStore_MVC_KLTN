@@ -50,6 +50,7 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
 
 	@Query("SELECT b FROM Book b WHERE " +
 			"b.status = 1 and " +
+			"b.category.status = 1 and " + // Sách còn kinh doanh chỉ khi book.status =1 và book.category.status =1
 			"(:categoryId is null or b.category.id = :categoryId) and " +
 			"(:searchKeyword is null or lower(b.name) like lower(concat('%', :searchKeyword,'%'))) and " +
 			"(:priceMin is null or b.sellPrice >= :priceMin) and " +
@@ -80,25 +81,27 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
 										  @Param("publisher") String publisher,
 										  Pageable pageable);
 
-	@Query("SELECT b FROM Book b JOIN b.discounts d WHERE b.status = 1 AND d.endDate > :now")
-	Page<Book> findDiscountedBooks(@Param("now") LocalDateTime now, Pageable pageable);
+	@Query("SELECT b FROM Book b JOIN b.discounts d WHERE b.status = 1 AND b.category.status = 1 AND d.endDate > :now")
+	Page<Book> findActiveDiscountedBooks(@Param("now") LocalDateTime now, Pageable pageable);
 
 	@Query("SELECT oi.book, SUM(oi.quantity) as totalQuantity FROM OrderItem oi " +
-			"WHERE oi.order.isCompleted = 1 AND oi.order.dateOrder BETWEEN :startDate AND :endDate " +
-			"GROUP BY oi.book " +
-			"ORDER BY totalQuantity DESC")
-	Page<Object[]> findTopSellingBooks(@Param("startDate") LocalDateTime startDate,
-									   @Param("endDate") LocalDateTime endDate,
-									   Pageable pageable);
+			"JOIN oi.book b JOIN b.category c WHERE oi.order.isCompleted = 1 AND oi.order.dateOrder BETWEEN :startDate AND :endDate " +
+			"AND b.status = 1 AND c.status = 1 GROUP BY oi.book ORDER BY totalQuantity DESC")
+	Page<Object[]> findActiveTopSellingBooks(@Param("startDate") LocalDateTime startDate,
+											 @Param("endDate") LocalDateTime endDate,
+											 Pageable pageable);
 
 	@Query("SELECT br.book, AVG(br.rating) as averageRating FROM BookReview br " +
-			"WHERE br.isPublished = true " +
-			"GROUP BY br.book " +
-			"ORDER BY averageRating DESC")
-	Page<Object[]> findHighlightedBooks(Pageable pageable);
+			"JOIN br.book b JOIN b.category c WHERE br.isPublished = true AND b.status = 1 AND c.status = 1 " +
+			"GROUP BY br.book ORDER BY averageRating DESC")
+	Page<Object[]> findActiveHighlightedBooks(Pageable pageable);
 
 	@Query("SELECT bi.book FROM BookImport bi " +
-			"WHERE bi.importDate > :oneMonthAgo AND bi.status = 1 " +
+			"JOIN bi.book b JOIN b.category c WHERE bi.importDate > :oneMonthAgo AND bi.status = 1 AND b.status = 1 AND c.status = 1 " +
 			"ORDER BY bi.importDate DESC")
-	Page<Book> findRecentlyImportedBooks(@Param("oneMonthAgo") LocalDateTime oneMonthAgo, Pageable pageable);
+	Page<Book> findActiveRecentlyImportedBooks(@Param("oneMonthAgo") LocalDateTime oneMonthAgo, Pageable pageable);
+
+
+	@Query("SELECT b FROM Book b WHERE b.id = :id AND b.status = 1 AND b.category.status = 1")
+	Book findActiveBookById(@Param("id") int id);
 }

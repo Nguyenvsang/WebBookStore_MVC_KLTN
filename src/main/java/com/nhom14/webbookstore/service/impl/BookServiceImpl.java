@@ -100,7 +100,7 @@ public class BookServiceImpl implements BookService {
 	@Override
 	public Book getActiveBookById(int id) {
 		try {
-	        return bookRepository.findByIdAndStatus(id, 1);
+	        return bookRepository.findActiveBookById(id);
 	    } catch (Exception e) {
 	        e.printStackTrace();
 	    }
@@ -248,38 +248,38 @@ public class BookServiceImpl implements BookService {
 	}
 
 	@Override
-	public Page<Book> getDiscountedBooksPage(Pageable pageable) {
-		return bookRepository.findDiscountedBooks(LocalDateTime.now(), pageable);
+	public Page<Book> getActiveDiscountedBooksPage(Pageable pageable) {
+		return bookRepository.findActiveDiscountedBooks(LocalDateTime.now(), pageable);
 	}
 
 	@Override
-	public Page<Book> getBooksByCategoryPage(Integer categoryId, Pageable pageable) {
+	public Page<Book> getActiveBooksByCategoryPage(Integer categoryId, Pageable pageable) {
 		return bookRepository.findActiveBooksWithFilters(categoryId, null, null, null, null, pageable);
 	}
 
 	@Override
-	public Page<Book> getBooksPublisherPage(String publisher, Pageable pageable) {
+	public Page<Book> getActiveBooksPublisherPage(String publisher, Pageable pageable) {
 		// Sử dụng phương thức findActiveBooksWithFilters đã có trong BookRepository
 		// và truyền null cho các tham số không sử dụng
 		return bookRepository.findActiveBooksWithFilters(null, null, null, null, publisher, pageable);
 	}
 
 	@Override
-	public Page<Book> getTopSellingBooks(LocalDateTime startDate, LocalDateTime endDate, Pageable pageable) {
+	public Page<Book> getActiveTopSellingBooks(LocalDateTime startDate, LocalDateTime endDate, Pageable pageable) {
 		// Chuyển đổi kết quả từ Object[] sang Book và trả về Page<Book>
-		return bookRepository.findTopSellingBooks(startDate, endDate, pageable)
+		return bookRepository.findActiveTopSellingBooks(startDate, endDate, pageable)
 				.map(result -> (Book) result[0]);
 	}
 
 	@Override
-	public Page<Book> getHighlightedBooks(Pageable pageable) {
-		return bookRepository.findHighlightedBooks(pageable)
+	public Page<Book> getActiveHighlightedBooks(Pageable pageable) {
+		return bookRepository.findActiveHighlightedBooks(pageable)
 				.map(result -> (Book) result[0]);
 	}
 
 	@Override
-	public Page<Book> getRecentlyImportedBooks(Pageable pageable) {
+	public Page<Book> getActiveRecentlyImportedBooks(Pageable pageable) {
 		LocalDateTime oneMonthAgo = LocalDateTime.now().minusMonths(1);
-		return bookRepository.findRecentlyImportedBooks(oneMonthAgo, pageable);
+		return bookRepository.findActiveRecentlyImportedBooks(oneMonthAgo, pageable);
 	}
 }

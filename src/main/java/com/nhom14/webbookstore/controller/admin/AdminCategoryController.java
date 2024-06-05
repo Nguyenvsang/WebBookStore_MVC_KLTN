@@ -117,17 +117,9 @@ public class AdminCategoryController {
 	    }
 	    
 	    // Kiểm tra nếu trạng thái mới của danh mục là 0 và đã được lưu thành công vào cơ sở dữ liệu
-        // Thì cập nhật trạng thái của các cuốn sách thuộc danh mục này thành 0
+        // Thì không cập nhật trạng thái của các cuốn sách thuộc danh mục này thành 0
 	    category.setStatus(status);
         categoryService.updateCategory(category);
-	    if (status == 0) {
-            // Cập nhật trạng thái của các cuốn sách thuộc danh mục thành 0
-            List<Book> booksInCategory = bookService.getBooksByCategory(categoryId);
-            for (Book book : booksInCategory) {
-                book.setStatus(status);
-                bookService.updateBook(book);
-            }
-	    }
 	    
 	    return ResponseEntity.ok("success");
 	}
@@ -181,25 +173,9 @@ public class AdminCategoryController {
 	    Category category = categoryService.getCategoryById(categoryId);
 
 	    if (category != null) {
-	        // Kiểm tra nếu trạng thái mới của danh mục là 0 và đã được lưu thành công vào cơ sở dữ liệu
-	        // Thì cập nhật trạng thái của các cuốn sách thuộc danh mục này thành 0
-	        if (status == 0) {
-	            category.setName(categoryName);
-	            category.setStatus(status);
-	            categoryService.updateCategory(category);
-
-	            // Cập nhật trạng thái của các cuốn sách thuộc danh mục thành 0
-	            List<Book> booksInCategory = bookService.getBooksByCategory(categoryId);
-	            for (Book book : booksInCategory) {
-	                book.setStatus(status);
-	                bookService.updateBook(book);
-	            }
-	        } else {
-	            // Nếu trạng thái mới của danh mục không phải là 0, chỉ cập nhật thông tin của danh mục
-	            category.setName(categoryName);
-	            category.setStatus(status);
-	            categoryService.updateCategory(category);
-	        }
+			category.setName(categoryName);
+			category.setStatus(status);
+			categoryService.updateCategory(category);
 
 	        // Hiển thị thông báo cập nhật thành công
 	        redirectAttributes.addAttribute("message", "Cập nhật thành công");
