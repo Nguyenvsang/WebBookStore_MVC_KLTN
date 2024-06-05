@@ -336,11 +336,23 @@
 <!--                        <span th:text="${isPublished != null ? (isPublished == true ? 'Đã được duyệt' : 'Chưa được duyệt') : (isPurchased != null ? (isPurchased == true ? 'Đã mua sách' : 'Chưa mua sách') : 'Tất cả')}" style="margin-left: 3px"></span>-->
                     </button>
                     <div class="dropdown-menu" aria-labelledby="statusDropdown">
-                        <a class="dropdown-item" th:href="@{/managebookreviews(isPublished=${isPublished}, page=${bookReviews.number + 1}, size=${size}, sort=${sort}, rating=${rating}, isPurchased=${isPurchased}, keyword=${keyword})}">Tất cả</a>
-                        <a class="dropdown-item" th:href="@{/managebookreviews(isPublished=false, page=${bookReviews.number + 1}, size=${size}, sort=${sort}, rating=${rating}, isPurchased=${isPurchased}, keyword=${keyword})}">Chưa được duyệt</a>
-                        <a class="dropdown-item" th:href="@{/managebookreviews(isPublished=true, page=${bookReviews.number + 1}, size=${size}, sort=${sort}, rating=${rating}, isPurchased=${isPurchased}, keyword=${keyword})}">Đã được duyệt</a>
-                        <a class="dropdown-item" th:href="@{/managebookreviews(isPurchased=false, page=${bookReviews.number + 1}, size=${size}, sort=${sort}, rating=${rating}, isPublished=${isPublished}, keyword=${keyword})}">Chưa mua sách</a>
-                        <a class="dropdown-item" th:href="@{/managebookreviews(isPurchased=true, page=${bookReviews.number + 1}, size=${size}, sort=${sort}, rating=${rating}, isPublished=${isPublished}, keyword=${keyword})}">Đã mua sách</a>
+                        <a class="dropdown-item" th:href="@{/managebookreviews(page=${bookReviews.number + 1}, size=${size}, sort=${sort})}">Tất cả</a>
+                        <a class="dropdown-item" th:href="@{/managebookreviews(isPublished=false, page=${bookReviews.number + 1}, size=${size}, sort=${sort})}">Chưa được duyệt</a>
+                        <a class="dropdown-item" th:href="@{/managebookreviews(isPublished=true, page=${bookReviews.number + 1}, size=${size}, sort=${sort})}">Đã được duyệt</a>
+                    </div>
+                </div>
+
+                <div class="dropdown-filter">
+                    <button class="btn btn-filter-status d-flex align-items-center justify-content-center" type="button" id="isPurchasedDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Lọc trạng thái
+                        <span class="material-symbols-outlined" style="margin-left: 3px">expand_more</span>
+                        <span class="material-symbols-outlined" style="margin-left: 3px">expand_less</span>
+                        <!--                        <span th:text="${isPublished != null ? (isPublished == true ? 'Đã được duyệt' : 'Chưa được duyệt') : (isPurchased != null ? (isPurchased == true ? 'Đã mua sách' : 'Chưa mua sách') : 'Tất cả')}" style="margin-left: 3px"></span>-->
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="isPurchasedDropdown">
+                        <a class="dropdown-item" th:href="@{/managebookreviews(isPublished=${isPublished}, page=${bookReviews.number + 1}, size=${size}, sort=${sort})}">Tất cả</a>
+                        <a class="dropdown-item" th:href="@{/managebookreviews(isPurchased=false, page=${bookReviews.number + 1}, size=${size}, sort=${sort})}">Chưa mua sách</a>
+                        <a class="dropdown-item" th:href="@{/managebookreviews(isPurchased=true, page=${bookReviews.number + 1}, size=${size}, sort=${sort})}">Đã mua sách</a>
                     </div>
                 </div>
 
