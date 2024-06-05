@@ -2,6 +2,7 @@ package com.nhom14.webbookstore.controller.admin;
 
 import java.io.IOException;
 import java.sql.Date;
+import java.text.ParseException;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Objects;
@@ -442,5 +443,126 @@ public class AdminAccountController {
 		// Hiển thị thông báo thành công
 		redirectAttributes.addAttribute("message", "Thêm mật khẩu thành công.");
 		return "redirect:/managedetailaccount?accountId=" + account.getId();
+	}
+
+	@GetMapping("/addaccount")
+	public String addAccountForm(Model model, HttpSession session) {
+		Account admin = (Account) session.getAttribute("admin");
+
+		// Kiểm tra xem admin đã đăng nhập hay chưa
+		if (admin == null) {
+			// Nếu chưa đăng nhập, chuyển hướng về trang đăng nhập
+			return "redirect:/loginadmin";
+		}
+
+		// Lưu thông tin tài khoản vào model
+		model.addAttribute("account", new Account());
+
+		// Forward đến trang tạo tài khoản
+		return "admin/addaccount";
+	}
+
+	@PostMapping("/addaccount")
+	public String addAccount(@ModelAttribute("account") Account accountParam,
+								@RequestParam("image") MultipartFile image,
+								@RequestParam("dob") String dob,
+								HttpSession session,
+								Model model,
+								RedirectAttributes redirectAttributes) {
+
+		Account admin = (Account) session.getAttribute("admin");
+
+		// Kiểm tra xem admin đã đăng nhập hay chưa
+		if (admin == null) {
+			// Nếu chưa đăng nhập, chuyển hướng về trang đăng nhập
+			return "redirect:/loginadmin";
+		}
+
+		Account newAccount = new Account();
+
+		// Kiểm tra mật khẩu có phải là mật khẩu mạnh không
+		String password = accountParam.getPassword();
+		if(!(password.length() >= 8
+				&& password.matches(".*[A-Z].*")
+				&& password.matches(".*[a-z].*")
+				&& password.matches(".*\\d.*")
+				&& password.matches(".*\\W.*"))) {
+			// Hiển thị thông báo khi mật khẩu yếu
+			redirectAttributes.addAttribute("message", "Mật khẩu không đủ mạnh! Mật khẩu mới phải có ít nhất 8 ký tự và"
+					+ " chứa ít nhất một chữ cái viết hoa, một chữ cái viết thường, một số và một ký tự đặc biệt.");
+			return "redirect:/addaccount";
+		}
+		//BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+		//String hashedPassword = passwordEncoder.encode(password);
+		// Băm mật khẩu sử dụng bcrypt
+		String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
+
+		// Kiểm tra xem username, sdt, email mới có bị trùng với của người khác không
+		Account existingAccount = null;
+		if (accountParam.getUsername() != null) {
+			existingAccount = accountService.findAccountByUsername(accountParam.getUsername());
+			if (existingAccount != null) {
+				redirectAttributes.addAttribute("message", "Tên tài khoản đã tồn tại. Vui lòng nhập giá trị khác.");
+				return "redirect:/addaccount";
+			}
+		}
+
+		if (accountParam.getPhoneNumber() != null) {
+			existingAccount = accountService.findAccountByPhoneNumber(accountParam.getPhoneNumber());
+			if (existingAccount != null) {
+				redirectAttributes.addAttribute("message", "Số điện thoại đã tồn tại. Vui lòng nhập giá trị khác.");
+				return "redirect:/addaccount";
+			}
+		}
+
+		if (accountParam.getEmail() != null) {
+			existingAccount = accountService.findAccountByEmail(accountParam.getEmail());
+			if (existingAccount != null) {
+				redirectAttributes.addAttribute("message", "Email đã tồn tại. Vui lòng nhập giá trị khác.");
+				return "redirect:/viewaccount";
+			}
+		}
+
+		// Thêm thông tin tài khoản
+		newAccount.setUsername(accountParam.getUsername());
+		newAccount.setPassword(hashedPassword); // Lưu mật khẩu đã được mã hóa
+		newAccount.setFirstName(accountParam.getFirstName());
+		newAccount.setLastName(accountParam.getLastName());
+		newAccount.setGender(accountParam.getGender());
+		newAccount.setDateOfBirth(Date.valueOf(dob));
+		newAccount.setAddress(accountParam.getAddress());
+		newAccount.setPhoneNumber(accountParam.getPhoneNumber());
+		newAccount.setEmail(accountParam.getEmail());
+		newAccount.setStatus(accountParam.getStatus());
+		newAccount.setAccountType(accountParam.getAccountType());
+		newAccount.setImg("");
+		accountService.addAccount(newAccount);
+
+		try {
+			if (!image.isEmpty()) {
+				// Tạo public ID cho hình ảnh trên Cloudinary (sử dụng id người dùng)
+				String publicId = "WebBookStoreKLTN/img_account/account_" + newAccount.getId();
+
+				// Tải lên hình ảnh lên Cloudinary và lấy URL
+				String imageUrl = cloudinaryService.uploadImage(image, publicId);
+
+				// Cập nhật URL hình ảnh vào tài khoản
+				newAccount.setImg(imageUrl);
+				accountService.updateAccount(newAccount);
+			}
+
+			// Nếu trùng với admin thì lưu thông tin tài khoản mới vào session
+			if(admin.getId() == newAccount.getId()) {
+				session.setAttribute("admin", newAccount);
+			}
+
+			// Đến trang quản lý tài khoản
+			redirectAttributes.addAttribute("message", "Đã tạo tài khoản thành công!");
+			return "redirect:/manageaccounts";
+		} catch (IOException e) {
+			e.printStackTrace();
+			redirectAttributes.addAttribute("message", "Đã xảy ra lỗi khi tạo tài khoản.");
+			return "redirect:/manageaccounts";
+		}
 	}
 }
