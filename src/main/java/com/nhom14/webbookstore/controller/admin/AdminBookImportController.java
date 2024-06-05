@@ -133,7 +133,6 @@ public class AdminBookImportController {
     @PostMapping("/addbookimport")
     public String addBookImport(@RequestParam("bookId") int bookId,
                                 @RequestParam("quantity") int quantity,
-                                @RequestParam("remainingQuantity") int remainingQuantity,
                                 @RequestParam("importPrice") double importPrice,
                                 @RequestParam("importDate") String importDate,
                                 @RequestParam("importTime") String importTime,
@@ -174,7 +173,7 @@ public class AdminBookImportController {
         BookImport bookImport = new BookImport();
         bookImport.setBook(book);
         bookImport.setQuantity(quantity);
-        bookImport.setRemainingQuantity(remainingQuantity);
+        bookImport.setRemainingQuantity(quantity);
         bookImport.setImportPrice(importPrice);
         bookImport.setImportDate(timestamp);
         bookImport.setStatus(status);
