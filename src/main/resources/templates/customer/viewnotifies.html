@@ -479,7 +479,12 @@
     <div class="form-container" style="background-color: white; padding: 20px; border-radius: 15px; margin: 40px 0px; box-shadow: 0 4px 8px rgb(226, 226, 226);">
             <h6 style="color: #211f7f; align-items: center;  margin: 0px 5px 0px 0px; padding: 0px 0px 20px 20px; font-family: Verdana; font-weight: bold">Thông báo</h6>
 
-        <button id="mark-all-read-btn" onclick="markAllAsRead(this)" class="btn btn-primary">Đánh dấu tất cả là đã đọc</button>
+        <div class="row-01 d-flex align-items-center" style="justify-content: flex-end; padding-right: 20px">
+            <a id="mark-all-read-btn" onclick="markAllAsRead(this)" class="btn btn-detail"
+               onmouseover="this.style.backgroundColor='#5390f5'; this.style.color='white';"
+               onmouseout="this.style.backgroundColor='white'; this.style.color='#5390f5';"
+               style="border-radius: 50px; background-color: white; color: #5390f5;  border: 1px solid #5390f5; width: 170px; height: 40px; margin-bottom: 15px">Đánh dấu tất cả</a>
+        </div>
 
         <th:block th:each="notification : ${notifications.content}">
             <div  onmouseover="this.style.backgroundColor='#f2f8f8';"
