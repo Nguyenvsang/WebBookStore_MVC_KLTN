@@ -228,6 +228,27 @@
 								</span>
 							</div>
 						</div>
+
+						<!--Hiển thị ngày, lý do hủy đơn (nếu có)-->
+						<div th:if="${order.status == 4}">
+							<span class="material-symbols-outlined order">contract_delete</span>
+							<span th:if="${order.infoCancelOrder != null}" th:text="${#temporals.format(order.infoCancelOrder.date.toLocalDateTime(), 'dd/MM/yyyy')}"></span>
+							<p style="margin: 0px 0px 0px; padding: 0 20px; font-weight: bold; color: #f17746;">Đã hủy đơn</p>
+							<p style="margin: 0px 0px 0px; padding: 0 20px; font-weight: bold; color: #f17746;">Lý do:</p>
+							<div th:if="${order.infoCancelOrder != null}">
+									<span th:switch="${order.infoCancelOrder.type}" >
+										<span th:case="0" class="badge-01 ">Đặt nhầm sản phẩm</span>
+										<span th:case="1" class="badge-01 ">Phí vận chuyển cao</span>
+										<span th:case="2" class="badge-01 ">Muốn đổi địa chỉ giao hàng</span>
+										<span th:case="3" class="badge-01 ">Muốn thay đổi sản phẩm</span>
+										<span th:case="4" class="badge-01 ">Nhầm phương thức thanh toán</span>
+										<span th:case="5" class="badge-01 ">Muốn đổi phương thức thanh toán</span>
+										<span th:case="6" class="badge-01 ">Đổi ý, không muốn mua nữa</span>
+									</span>
+							</div>
+							<span th:if="${order.infoCancelOrder.otherType != null || order.infoCancelOrder.otherType != ''}" th:text="${order.infoCancelOrder.otherType}"></span>
+						</div>
+
 						<div class="row-status-order" style="margin-left: 15px">
 							<div class="row-title d-flex align-items-center" style="height: 50px">
 								<h6>Trạng thái thanh toán</h6>

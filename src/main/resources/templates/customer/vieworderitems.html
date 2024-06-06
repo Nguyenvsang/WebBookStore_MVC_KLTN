@@ -335,6 +335,19 @@
 								<span class="material-symbols-outlined order" style="margin-right: 10px; margin-left: 20px">contract_delete</span>
 								<span th:if="${order.infoCancelOrder != null}" th:text="${#temporals.format(order.infoCancelOrder.date.toLocalDateTime(), 'dd/MM/yyyy')}"></span>
 								<p style="margin: 0px 0px 0px; padding: 0 20px; font-weight: bold; color: #f17746;">Đã hủy đơn</p>
+								<p style="margin: 0px 0px 0px; padding: 0 20px; font-weight: bold; color: #f17746;">Lý do:</p>
+								<div th:if="${order.infoCancelOrder != null}" class="col-order d-flex" style="justify-content: flex-end; padding: 0px 20px">
+									<span th:switch="${order.infoCancelOrder.type}" >
+										<span th:case="0" class="badge-01 ">Đặt nhầm sản phẩm</span>
+										<span th:case="1" class="badge-01 ">Phí vận chuyển cao</span>
+										<span th:case="2" class="badge-01 ">Muốn đổi địa chỉ giao hàng</span>
+										<span th:case="3" class="badge-01 ">Muốn thay đổi sản phẩm</span>
+										<span th:case="4" class="badge-01 ">Nhầm phương thức thanh toán</span>
+										<span th:case="5" class="badge-01 ">Muốn đổi phương thức thanh toán</span>
+										<span th:case="6" class="badge-01 ">Đổi ý, không muốn mua nữa</span>
+									</span>
+								</div>
+								<span th:if="${order.infoCancelOrder.otherType != null || order.infoCancelOrder.otherType != ''}" th:text="${order.infoCancelOrder.otherType}"></span>
 							</div>
 							<div th:if="${order.status == 7}" class="notify d-flex align-items-center" role="alert" style="margin-top: 10px">
 								<span class="material-symbols-outlined order" style="margin-right: 10px; margin-left: 20px">task_alt</span>
