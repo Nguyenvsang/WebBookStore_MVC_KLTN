@@ -162,6 +162,26 @@
         .material-symbols-outlined:nth-child(2) {
             display: none; /* Ẩn biểu tượng expand_less */
         }
+
+		.row-add{
+            height: 70px;
+            width: 200px;
+        }
+        .nav-link.add-category {
+            background-color: white;
+            border-radius: 15px;
+            height: 70px;
+            width: 200px;
+            color:#62bf5e;
+            box-shadow: 0px 4px 4px rgba(192, 192, 192, 0.3);
+            font-weight: bold;
+        }
+        .nav-link.add-category:hover {
+            box-shadow: 0px 6px 8px rgba(0, 128, 0, 0.3);
+            background-color:#62bf5e;
+            color: white;
+            font-weight: bold;
+        }
 	</style> 
 </head> 
 <body>
@@ -196,21 +216,6 @@
 				</div>
 			</div>
 
-			<div class="row-03 d-flex align-items-center" style="padding: 0px 40px; justify-content: space-between; margin: 40px 0px 0px 0px">
-				<div class="col-dropdown d-flex align-items-center" style="height: 70px;">
-				</div>
-				<div class="col-add d-flex align-items-center" style="height: 70px;">
-					<div class="col-add">
-						<div class="row-add" style="display: flex;">
-							<a th:href="@{/addaccount}" class="nav-link add-category"
-							   style="font-family: Arial, sans-serif; padding: 0%; display: flex; align-items: center; justify-content: center;">
-								<span class="material-symbols-outlined">add</span>
-								Thêm tài khoản
-							</a>
-						</div>
-					</div>
-				</div>
-			</div>
 
 			<div class="row-03 d-flex align-items-center" style="padding: 0px 40px; justify-content: space-between; margin: 40px 0px 0px 0px">
 				<div class="col-dropdown d-flex align-items-center" style="height: 70px;">
@@ -237,6 +242,17 @@
 							<a class="dropdown-item" th:href="@{/manageaccounts}">Tất cả</a>
 							<a class="dropdown-item" th:href="@{/manageaccounts(type=0)}">Admin</a>
 							<a class="dropdown-item" th:href="@{/manageaccounts(type=1)}">Khách hàng</a>
+						</div>
+					</div>
+				</div>
+				<div class="col-add d-flex align-items-center" style="height: 70px;">
+					<div class="row-add">
+						<div class="row-add" style="display: flex;">
+							<a th:href="@{/addaccount}" class="nav-link add-category"
+							   style="font-family: Arial, sans-serif; padding: 0%; display: flex; align-items: center; justify-content: center;">
+								<span class="material-symbols-outlined">add</span>
+								Thêm tài khoản
+							</a>
 						</div>
 					</div>
 				</div>

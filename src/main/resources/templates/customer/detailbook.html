@@ -421,11 +421,22 @@
     		margin-bottom: 40px;
 		}
 
-		.review-rating {
-			margin: 0 10px;
-			width: calc(100% - 115px);
-			height: 5px;
-			background-color: #e6e6e6;
+		.review-rating{
+			margin: 0px 10px;
+		}
+
+		.review-rating-bar {
+			height: 10px;
+			background-color: #ddd; /* Màu nền của thanh */
+			border-radius: 5px; /* Độ cong của thanh */
+			overflow: hidden; /* Loại bỏ phần nào vượt quá thanh */
+			width: 400px;
+		}
+
+		.review-rating-fill {
+			height: 100%;
+			background-color: #5891c8; /* Màu của phần được tô */
+			width: 400px;
 		}
 
 		.btn-write-review {
@@ -711,51 +722,62 @@
 							<img src="https://res.cloudinary.com/dylwewmt0/image/upload/v1716817984/PHOTO_LIST/Detailbook/02.png" alt="" style="height: 250px; width: 250px">
 						</div>
 						<div class="col-3">
-							<p class="text-center" style="margin: 20px; font-family: 'Museo Moderno', sans-serif; font-size: 14px; color: #3f6ad8; font-weight: 500">Lượt đánh giá cho quyển sách</p>
-							<p class="text-center" style="margin: 20px; font-family: 'Museo Moderno', sans-serif; font-size: 14px; color: #3f6ad8; font-weight: 500" th:text="'(' + (${totalReviews} != null ? ${totalReviews} : 0) + ' Đánh giá)'"></p>
+							<p class="text-center" style="font-weight: bold; margin: 10px; font-family: 'Museo Moderno', sans-serif; font-size: 14px; color: grey;">Lượt đánh giá cho quyển sách</p>
+							<p class="text-center" style="margin: 10px; font-family: 'Museo Moderno', sans-serif; font-size: 20px; color: #5891c8; font-weight: bold" th:text="'(' + (${totalReviews} != null ? ${totalReviews} : 0) + ' Đánh giá)'"></p>
 						</div>
 						<div class="col-6" style="display-direction: column; align-items: center; justify-content: center">
 							<div class="row-review" style="display-direction: column; align-items: center; justify-content: center">
 								<!-- 5 stars -->
-								<div style="display: flex; align-items: center">
+								<div style="display: flex; align-items: center; color: #5b5a7a; font-weight: bold; margin: 5px 0px">
 									<span>5 sao</span>
-									<div class="review-rating">
-										<div th:style="'width:' + (${star5Percentage} != null ? ${star5Percentage} : 0) + '%;'"></div>
+									<div class="review-rating" >
+										<div class="review-rating-bar">
+											<div class="review-rating-fill" th:style="'width:' + (${star5Percentage} != null ? ${star5Percentage} : 0) + '%;'"></div>
+										</div>
 									</div>
 									<span th:text="(${star5Percentage} != null ? ${star5Percentage} : 0) + '%'"></span>
 								</div>
 								<!-- 4 stars -->
-								<div style="display: flex; align-items: center">
+								<div style="display: flex; align-items: center; color: #5b5a7a; font-weight: bold; margin: 5px 0px">
 									<span>4 sao</span>
 									<div class="review-rating">
-										<div th:style="'width:' + (${star4Percentage} != null ? ${star4Percentage} : 0) + '%;'"></div>
+										<div class="review-rating-bar">
+											<div class="review-rating-fill" th:style="'width:' + (${star4Percentage} != null ? ${star4Percentage} : 0) + '%;'"></div>
+										</div>
 									</div>
 									<span th:text="(${star4Percentage} != null ? ${star4Percentage} : 0) + '%'"></span>
 								</div>
 								<!-- 3 stars -->
-								<div style="display: flex; align-items: center">
+								<div style="display: flex; align-items: center; color: #5b5a7a; font-weight: bold; margin: 5px 0px">
 									<span>3 sao</span>
 									<div class="review-rating">
-										<div th:style="'width:' + (${star3Percentage} != null ? ${star3Percentage} : 0) + '%;'"></div>
+										<div class="review-rating-bar">
+											<div class="review-rating-fill" th:style="'width:' + (${star3Percentage} != null ? ${star3Percentage} : 0) + '%;'"></div>
+										</div>
 									</div>
 									<span th:text="(${star3Percentage} != null ? ${star3Percentage} : 0) + '%'"></span>
 								</div>
 								<!-- 2 stars -->
-								<div style="display: flex; align-items: center">
+								<div style="display: flex; align-items: center; color: #5b5a7a; font-weight: bold; margin: 5px 0px">
 									<span>2 sao</span>
 									<div class="review-rating">
-										<div th:style="'width:' + (${star2Percentage} != null ? ${star2Percentage} : 0) + '%;'"></div>
+										<div class="review-rating-bar">
+											<div class="review-rating-fill" th:style="'width:' + (${star2Percentage} != null ? ${star2Percentage} : 0) + '%;'"></div>
+										</div>
 									</div>
 									<span th:text="(${star2Percentage} != null ? ${star2Percentage} : 0) + '%'"></span>
 								</div>
 								<!-- 1 star -->
-								<div style="display: flex; align-items: center">
+								<div style="display: flex; align-items: center; color: #5b5a7a; font-weight: bold; margin: 5px 0px">
 									<span>1 sao</span>
 									<div class="review-rating">
-										<div th:style="'width:' + (${star1Percentage} != null ? ${star1Percentage} : 0) + '%;'"></div>
+										<div class="review-rating-bar">
+											<div class="review-rating-fill" th:style="'width:' + (${star1Percentage} != null ? ${star1Percentage} : 0) + '%;'"></div>
+										</div>
 									</div>
 									<span th:text="(${star1Percentage} != null ? ${star1Percentage} : 0) + '%'"></span>
 								</div>
+
 							</div>
 						</div>
 					</div>
@@ -769,46 +791,62 @@
 							<img src="https://res.cloudinary.com/dylwewmt0/image/upload/v1716817984/PHOTO_LIST/Detailbook/02.png" alt="" style="height: 250px; width: 250px">
 						</div>
 						<div class="col-3">
-							<p class="text-center" style="margin: 20px; font-family: 'Museo Moderno', sans-serif; font-size: 14px; color: #3f6ad8; font-weight: 500">Lượt đánh giá cho quyển sách</p>
-							<p class="text-center" style="margin: 20px; font-family: 'Museo Moderno', sans-serif; font-size: 14px; color: #3f6ad8; font-weight: 500">(Đánh giá)</p>
+							<p class="text-center" style="font-weight: bold; margin: 10px; font-family: 'Museo Moderno', sans-serif; font-size: 14px; color: grey;">Lượt đánh giá cho quyển sách</p>
+							<p class="text-center" style="margin: 10px; font-family: 'Museo Moderno', sans-serif; font-size: 20px; color: #5891c8; font-weight: bold" th:text="'(' + (${totalReviews} != null ? ${totalReviews} : 0) + ' Đánh giá)'"></p>
 						</div>
 						<div class="col-6" style="display-direction: column; align-items: center; justify-content: center">
 							<div class="row-review" style="display-direction: column; align-items: center; justify-content: center">
-								<div style="display: flex; align-items: center">
+								<!-- 5 stars -->
+								<div style="display: flex; align-items: center; color: #5b5a7a; font-weight: bold; margin: 5px 0px">
 									<span>5 sao</span>
-									<div class="review-rating">
-										<div style="width: 0%;"></div>
+									<div class="review-rating" >
+										<div class="review-rating-bar">
+											<div class="review-rating-fill" th:style="'width:' + (${star5Percentage} != null ? ${star5Percentage} : 0) + '%;'"></div>
+										</div>
 									</div>
-									<span>0%</span>
+									<span th:text="(${star5Percentage} != null ? ${star5Percentage} : 0) + '%'"></span>
 								</div>
-								<div style="display: flex; align-items: center">
+								<!-- 4 stars -->
+								<div style="display: flex; align-items: center; color: #5b5a7a; font-weight: bold; margin: 5px 0px">
 									<span>4 sao</span>
 									<div class="review-rating">
-										<div style="width: 0%;"></div>
+										<div class="review-rating-bar">
+											<div class="review-rating-fill" th:style="'width:' + (${star4Percentage} != null ? ${star4Percentage} : 0) + '%;'"></div>
+										</div>
 									</div>
-									<span>0%</span>
+									<span th:text="(${star4Percentage} != null ? ${star4Percentage} : 0) + '%'"></span>
 								</div>
-								<div style="display: flex; align-items: center">
+								<!-- 3 stars -->
+								<div style="display: flex; align-items: center; color: #5b5a7a; font-weight: bold; margin: 5px 0px">
 									<span>3 sao</span>
 									<div class="review-rating">
-										<div style="width: 0%;"></div>
+										<div class="review-rating-bar">
+											<div class="review-rating-fill" th:style="'width:' + (${star3Percentage} != null ? ${star3Percentage} : 0) + '%;'"></div>
+										</div>
 									</div>
-									<span>0%</span>
+									<span th:text="(${star3Percentage} != null ? ${star3Percentage} : 0) + '%'"></span>
 								</div>
-								<div style="display: flex; align-items: center">
+								<!-- 2 stars -->
+								<div style="display: flex; align-items: center; color: #5b5a7a; font-weight: bold; margin: 5px 0px">
 									<span>2 sao</span>
 									<div class="review-rating">
-										<div style="width: 0%;"></div>
+										<div class="review-rating-bar">
+											<div class="review-rating-fill" th:style="'width:' + (${star2Percentage} != null ? ${star2Percentage} : 0) + '%;'"></div>
+										</div>
 									</div>
-									<span>0%</span>
+									<span th:text="(${star2Percentage} != null ? ${star2Percentage} : 0) + '%'"></span>
 								</div>
-								<div style="display: flex; align-items: center">
+								<!-- 1 star -->
+								<div style="display: flex; align-items: center; color: #5b5a7a; font-weight: bold; margin: 5px 0px">
 									<span>1 sao</span>
 									<div class="review-rating">
-										<div style="width: 0%;"></div>
+										<div class="review-rating-bar">
+											<div class="review-rating-fill" th:style="'width:' + (${star1Percentage} != null ? ${star1Percentage} : 0) + '%;'"></div>
+										</div>
 									</div>
-									<span>0%</span>
+									<span th:text="(${star1Percentage} != null ? ${star1Percentage} : 0) + '%'"></span>
 								</div>
+
 							</div>
 
 						</div>
@@ -873,46 +911,62 @@
 							<img src="https://res.cloudinary.com/dylwewmt0/image/upload/v1716817984/PHOTO_LIST/Detailbook/02.png" alt="" style="height: 250px; width: 250px">
 						</div>
 						<div class="col-3">
-							<p class="text-center" style="margin: 20px; font-family: 'Museo Moderno', sans-serif; font-size: 14px; color: #3f6ad8; font-weight: 500">Lượt đánh giá cho quyển sách</p>
-							<p class="text-center" style="margin: 20px; font-family: 'Museo Moderno', sans-serif; font-size: 14px; color: #3f6ad8; font-weight: 500">(Đánh giá)</p>
+							<p class="text-center" style="font-weight: bold; margin: 10px; font-family: 'Museo Moderno', sans-serif; font-size: 14px; color: grey;">Lượt đánh giá cho quyển sách</p>
+							<p class="text-center" style="margin: 10px; font-family: 'Museo Moderno', sans-serif; font-size: 20px; color: #5891c8; font-weight: bold" th:text="'(' + (${totalReviews} != null ? ${totalReviews} : 0) + ' Đánh giá)'"></p>
 						</div>
 						<div class="col-6" style="display-direction: column; align-items: center; justify-content: center">
 							<div class="row-review" style="display-direction: column; align-items: center; justify-content: center">
-								<div style="display: flex; align-items: center">
+								<!-- 5 stars -->
+								<div style="display: flex; align-items: center; color: #5b5a7a; font-weight: bold; margin: 5px 0px">
 									<span>5 sao</span>
-									<div class="review-rating">
-										<div style="width: 0%;"></div>
+									<div class="review-rating" >
+										<div class="review-rating-bar">
+											<div class="review-rating-fill" th:style="'width:' + (${star5Percentage} != null ? ${star5Percentage} : 0) + '%;'"></div>
+										</div>
 									</div>
-									<span>0%</span>
+									<span th:text="(${star5Percentage} != null ? ${star5Percentage} : 0) + '%'"></span>
 								</div>
-								<div style="display: flex; align-items: center">
+								<!-- 4 stars -->
+								<div style="display: flex; align-items: center; color: #5b5a7a; font-weight: bold; margin: 5px 0px">
 									<span>4 sao</span>
 									<div class="review-rating">
-										<div style="width: 0%;"></div>
+										<div class="review-rating-bar">
+											<div class="review-rating-fill" th:style="'width:' + (${star4Percentage} != null ? ${star4Percentage} : 0) + '%;'"></div>
+										</div>
 									</div>
-									<span>0%</span>
+									<span th:text="(${star4Percentage} != null ? ${star4Percentage} : 0) + '%'"></span>
 								</div>
-								<div style="display: flex; align-items: center">
+								<!-- 3 stars -->
+								<div style="display: flex; align-items: center; color: #5b5a7a; font-weight: bold; margin: 5px 0px">
 									<span>3 sao</span>
 									<div class="review-rating">
-										<div style="width: 0%;"></div>
+										<div class="review-rating-bar">
+											<div class="review-rating-fill" th:style="'width:' + (${star3Percentage} != null ? ${star3Percentage} : 0) + '%;'"></div>
+										</div>
 									</div>
-									<span>0%</span>
+									<span th:text="(${star3Percentage} != null ? ${star3Percentage} : 0) + '%'"></span>
 								</div>
-								<div style="display: flex; align-items: center">
+								<!-- 2 stars -->
+								<div style="display: flex; align-items: center; color: #5b5a7a; font-weight: bold; margin: 5px 0px">
 									<span>2 sao</span>
 									<div class="review-rating">
-										<div style="width: 0%;"></div>
+										<div class="review-rating-bar">
+											<div class="review-rating-fill" th:style="'width:' + (${star2Percentage} != null ? ${star2Percentage} : 0) + '%;'"></div>
+										</div>
 									</div>
-									<span>0%</span>
+									<span th:text="(${star2Percentage} != null ? ${star2Percentage} : 0) + '%'"></span>
 								</div>
-								<div style="display: flex; align-items: center">
+								<!-- 1 star -->
+								<div style="display: flex; align-items: center; color: #5b5a7a; font-weight: bold; margin: 5px 0px">
 									<span>1 sao</span>
 									<div class="review-rating">
-										<div style="width: 0%;"></div>
+										<div class="review-rating-bar">
+											<div class="review-rating-fill" th:style="'width:' + (${star1Percentage} != null ? ${star1Percentage} : 0) + '%;'"></div>
+										</div>
 									</div>
-									<span>0%</span>
+									<span th:text="(${star1Percentage} != null ? ${star1Percentage} : 0) + '%'"></span>
 								</div>
+
 							</div>
 
 						</div>

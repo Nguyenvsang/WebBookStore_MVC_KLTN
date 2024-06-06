@@ -146,6 +146,56 @@
 		.btn-close-popup:hover {
 			color: white;
 		}
+
+		.btn-search{
+			color: #5390f5;
+			border-radius: 50px;
+			border: 1px solid #5390f5;
+			background-color: white;
+			font-weight: bold;
+			width: 180px;
+		}
+		.btn-search:hover {
+			color: white;
+			border-radius: 50px;
+			border: 1px solid #5390f5;
+			background-color: #5390f5;
+			font-weight: bold;
+		}
+
+		.btn.btn-filter-status{
+            border: 1px solid #e5edf4;
+            height: 70px;
+            width: 220px;
+            margin-right: 30px;
+            box-shadow: 0px 0px 4px rgba(192, 192, 192, 0.3);
+            color: grey;
+            border-radius: 15px;
+            font-weight: bold;
+        }
+
+        .btn.btn-filter-status:hover, .btn.btn-filter-status:focus{
+            box-shadow: 0px 0px 8px rgba(70, 130, 180, 0.5);
+            border: none;
+            color: white;
+            background-color: #3f6ad8;
+            border-radius: 15px;
+            font-weight: bold;
+        }
+
+        .btn.btn-filter-status:active{
+            background-color: #3f6ad8;
+            border-radius: 15px;
+            font-weight: bold;
+        }
+
+        .material-symbols-outlined:nth-child(1) {
+            display: inline; /* Hiển thị biểu tượng expand_more */
+        }
+
+        .material-symbols-outlined:nth-child(2) {
+            display: none; /* Ẩn biểu tượng expand_less */
+        }
 	</style>
 </head>
 <body>
@@ -176,34 +226,34 @@
 
 	<!--Nếu không tìm thấy đơn hàng thì chuyển về trang này-->
 	<div class="container"  th:if="${orders.isEmpty() && (searchKeyword != null || status != null || dateOrderStr != null)}" style="padding: 0px">
-		<div class="container-body" style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 0px; height: 350px">
-			<img src="https://res.cloudinary.com/dylwewmt0/image/upload/v1713847596/order/order-empty.png" alt="" style="width: 180px;">
-			<div class="row d-flex align-items-center justify-content-center">
-				<p style="margin: 0px; color: grey; font-weight: bold; padding-bottom: 30px">Không tìm thấy đơn hàng theo từ khóa</p>
-				<div class="col-02" style="display: flex; align-items:center; justify-content: center; width: 700px; margin: 0px">
-					<div class= "search"
-						 style="display: flex; justify-content: center; border-radius: 50px; background-color: white; align-items: center; width: 700px; height: 40px; border: 1px solid #cecece;
+		<div class="container-body" style="padding: 0px">
+			<div class="col-00">
+				<h6 style="color: #211f7f; align-items: center;  margin: 0px 5px 0px 0px; padding: 20px 0px 0px 20px; font-family: Verdana; font-weight: bold">Đơn hàng của tôi</h6>
+				<div class="row-search d-flex align-items-center justify-content-center" style="margin-top: 20px">
+					<div class="col-8" style="display: flex; align-items:center; justify-content: center; width: 720px; margin: 0px">
+						<div class= "search"
+							 style="display: flex; justify-content: center; border-radius: 50px; background-color: white; align-items: center; width: 720px; height: 40px; border: 1px solid #cecece;
 									transition: box-shadow 0.3s ease; "
-						 onmouseover="this.style.boxShadow='0px 4px 6px rgba(0, 0, 0, 0.1)';"
-						 onmouseout="this.style.boxShadow='none';">
-						<span class="material-symbols-outlined search" style="margin: 10px; color: rgb(2,88,155);">search</span>
-						<form class="form-inline my-2 my-lg-0" th:action="@{/vieworders}" method="GET" style="display: flex; margin: 0px; border-top-right-radius: 50px; border-bottom-right-radius: 50px;">
-							<input class="form-control mr-sm-2" type="search" name="searchKeyword" placeholder="Tìm kiếm theo mã đơn, tên người mua..." style="width: 656px; height: 35px; border: none; outline: none; border-top-right-radius: 50px; border-bottom-right-radius: 50px;">
+							 onmouseover="this.style.boxShadow='0px 4px 6px rgba(0, 0, 0, 0.1)';"
+							 onmouseout="this.style.boxShadow='none';">
+							<span class="material-symbols-outlined search" style="margin: 10px; color: rgb(2,88,155);">search</span>
+							<form class="form-inline my-2 my-lg-0" th:action="@{/vieworders}" method="GET" style="display: flex; margin: 0px; border-top-right-radius: 50px; border-bottom-right-radius: 50px;">
+								<input class="form-control mr-sm-2" type="search" name="searchKeyword" placeholder="Tìm kiếm theo mã đơn, tên người mua..." style="width: 676px; height: 35px; border: none; outline: none; border-top-right-radius: 50px; border-bottom-right-radius: 50px;">
+							</form>
+						</div>
+					</div>
+					<div class="col-4" style="padding: 0px; display: flex; align-items:center; justify-content: center; width: 700px; margin: 0px">
+						<form th:action="@{/vieworders}" method="get" class="form-inline">
+							<div class="form-group">
+								<label for="dateOrder" class="sr-only">Tìm theo ngày đặt hàng</label>
+								<input type="date" class="form-control" id="dateOrder" name="dateOrderStr" placeholder="YYYY-MM-DD" th:value="${dateOrderStr}" style="border-radius: 50px; border: 1px solid #cecece; width: 150px; color: grey;">
+							</div>
+							<button type="submit" class="btn btn-search" style="margin-left: 10px">Tìm kiếm</button>
 						</form>
 					</div>
 				</div>
 
-				<div class="col-02" style="display: flex; align-items:center; justify-content: center; width: 700px; margin: 0px">
-					<form th:action="@{/vieworders}" method="get" class="form-inline">
-						<div class="form-group mx-sm-3 mb-2">
-							<label for="dateOrder" class="sr-only">Tìm theo ngày đặt hàng</label>
-							<input type="date" class="form-control" id="dateOrder2" name="dateOrderStr" placeholder="YYYY-MM-DD" th:value="${dateOrderStr}">
-						</div>
-						<button type="submit" class="btn btn-primary mb-2">Tìm kiếm</button>
-					</form>
-				</div>
-
-				<div class="row-03 d-flex align-items-center" style="padding: 0px 40px; justify-content: space-between; margin: 40px 0px 0px 0px">
+				<div class="row-03 d-flex align-items-center" style="padding: 0px 20px; justify-content: space-between; margin: 30px 0px 30px 0px">
 					<div class="col-dropdown d-flex align-items-center" style="height: 70px;">
 						<div class="dropdown-filter">
 							<button class="btn btn-filter-status d-flex align-items-center justify-content-center" type="button" id="statusDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -228,6 +278,12 @@
 						</div>
 					</div>
 				</div>
+				<div class="row-no d-flex align-items-center justify-content-center" style="margin: 0px 20px; padding-top: 30px; border-top: 1px solid #cecece">
+					<p style="margin: 0px; color: grey; font-weight: bold; padding-bottom: 10px">Không tìm thấy đơn hàng theo từ khóa</p>
+				</div>
+				<div class="row-no d-flex align-items-center justify-content-center">
+					<img src="https://res.cloudinary.com/dylwewmt0/image/upload/v1713847596/order/order-empty.png" alt="" style="width: 180px;">
+				</div>
 			</div>
 		</div>
 	</div>
@@ -237,30 +293,31 @@
 			<div class="col-00">
 				<h6 style="color: #211f7f; align-items: center;  margin: 0px 5px 0px 0px; padding: 20px 0px 0px 20px; font-family: Verdana; font-weight: bold">Đơn hàng của tôi</h6>
 
-				<div class="col-02" style="display: flex; align-items:center; justify-content: center; width: 700px; margin: 0px">
-					<div class= "search"
-						 style="display: flex; justify-content: center; border-radius: 50px; background-color: white; align-items: center; width: 700px; height: 40px; border: 1px solid #cecece;
+				<div class="row-search d-flex align-items-center justify-content-center" style="margin-top: 20px">
+					<div class="col-8" style="display: flex; align-items:center; justify-content: center; width: 720px; margin: 0px">
+						<div class= "search"
+							 style="display: flex; justify-content: center; border-radius: 50px; background-color: white; align-items: center; width: 720px; height: 40px; border: 1px solid #cecece;
 									transition: box-shadow 0.3s ease; "
-						 onmouseover="this.style.boxShadow='0px 4px 6px rgba(0, 0, 0, 0.1)';"
-						 onmouseout="this.style.boxShadow='none';">
-						<span class="material-symbols-outlined search" style="margin: 10px; color: rgb(2,88,155);">search</span>
-						<form class="form-inline my-2 my-lg-0" th:action="@{/vieworders}" method="GET" style="display: flex; margin: 0px; border-top-right-radius: 50px; border-bottom-right-radius: 50px;">
-							<input class="form-control mr-sm-2" type="search" name="searchKeyword" placeholder="Tìm kiếm theo mã đơn, tên người mua..." style="width: 656px; height: 35px; border: none; outline: none; border-top-right-radius: 50px; border-bottom-right-radius: 50px;">
+							 onmouseover="this.style.boxShadow='0px 4px 6px rgba(0, 0, 0, 0.1)';"
+							 onmouseout="this.style.boxShadow='none';">
+							<span class="material-symbols-outlined search" style="margin: 10px; color: rgb(2,88,155);">search</span>
+							<form class="form-inline my-2 my-lg-0" th:action="@{/vieworders}" method="GET" style="display: flex; margin: 0px; border-top-right-radius: 50px; border-bottom-right-radius: 50px;">
+								<input class="form-control mr-sm-2" type="search" name="searchKeyword" placeholder="Tìm kiếm theo mã đơn, tên người mua..." style="width: 676px; height: 35px; border: none; outline: none; border-top-right-radius: 50px; border-bottom-right-radius: 50px;">
+							</form>
+						</div>
+					</div>
+					<div class="col-4" style="padding: 0px; display: flex; align-items:center; justify-content: center; width: 700px; margin: 0px">
+						<form th:action="@{/vieworders}" method="get" class="form-inline">
+							<div class="form-group">
+								<label for="dateOrder" class="sr-only">Tìm theo ngày đặt hàng</label>
+								<input type="date" class="form-control" id="dateOrder" name="dateOrderStr" placeholder="YYYY-MM-DD" th:value="${dateOrderStr}" style="border-radius: 50px; border: 1px solid #cecece; width: 150px; color: grey;">
+							</div>
+							<button type="submit" class="btn btn-search" style="margin-left: 10px">Tìm kiếm</button>
 						</form>
 					</div>
 				</div>
 
-				<div class="col-02" style="display: flex; align-items:center; justify-content: center; width: 700px; margin: 0px">
-					<form th:action="@{/vieworders}" method="get" class="form-inline">
-						<div class="form-group mx-sm-3 mb-2">
-							<label for="dateOrder" class="sr-only">Tìm theo ngày đặt hàng</label>
-							<input type="date" class="form-control" id="dateOrder" name="dateOrderStr" placeholder="YYYY-MM-DD" th:value="${dateOrderStr}">
-						</div>
-						<button type="submit" class="btn btn-primary mb-2">Tìm kiếm</button>
-					</form>
-				</div>
-
-				<div class="row-03 d-flex align-items-center" style="padding: 0px 40px; justify-content: space-between; margin: 40px 0px 0px 0px">
+				<div class="row-03 d-flex align-items-center" style="padding: 0px 20px; justify-content: space-between; margin: 30px 0px 30px 0px">
 					<div class="col-dropdown d-flex align-items-center" style="height: 70px;">
 						<div class="dropdown-filter">
 							<button class="btn btn-filter-status d-flex align-items-center justify-content-center" type="button" id="statusDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -463,6 +520,29 @@
             document.getElementById("popup").style.display = "block";
             document.getElementById("overlay").style.display = "block";
         }
+	</script>
+	<script>
+		['statusDropdown'].forEach(function(id) {
+            var dropdown = document.getElementById(id);
+            var expandMore = dropdown.querySelector('.material-symbols-outlined:nth-child(1)');
+            var expandLess = dropdown.querySelector('.material-symbols-outlined:nth-child(2)');
+
+            dropdown.addEventListener('click', function() {
+                if (expandMore.style.display === 'none') {
+                    expandMore.style.display = 'inline';
+                    expandLess.style.display = 'none';
+                } else {
+                    expandMore.style.display = 'none';
+                    expandLess.style.display = 'inline';
+                }
+            });
+
+            dropdown.addEventListener('blur', function() {
+                expandMore.style.display = 'inline';
+                expandLess.style.display = 'none';
+            });
+        });
+
 	</script>
 </body>
 </html>
