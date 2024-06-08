@@ -425,7 +425,7 @@
 								</colgroup>
 								<tbody>
 									<tr th:each="order : ${orders.content}" style="border-top: 1px solid #cecece; height: 115px" onmouseover="this.style.backgroundColor='#f2f5f6';" onmouseout="this.style.backgroundColor='transparent';">
-										<td rowspan="1" class="next-table-header-node first" th:text="${order.id}" style="padding: 10px 20px;"></td>
+										<td rowspan="1" class="next-table-header-node first" th:text="${order.id}" style="text-align: center; padding: 10px 20px;"></td>
 										<td rowspan="1" class="next-table-header-node " th:text="${#temporals.format(order.dateOrder.toLocalDateTime(), 'dd/MM/yyyy')}" style="padding: 10px 20px; text-align: center"></td>
 										<td rowspan="1" class="next-table-header-node " style="padding: 10px 20px; text-align: center">
 											<img th:src="${order.orderitems[0].book.bookImages[0].path}" width="60px">

@@ -316,14 +316,157 @@
 			border: 1px solid #5b5a7a;
 			font-weight: bold;
 		}
+
+		/* Style cho pop up */
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+            z-index: 9999;
+            height: auto;
+        }
+
+        /* Style cho lớp phủ */
+        .coating {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 9999;
+        }
+
+		.btn-close-popup {
+			border: none;
+			border-radius: 10px;
+			margin: 15px;
+			background-color: #3f6ad8;
+			color: white;
+			font-weight: bold;
+			width: 50px;
+			height: 35px;
+		}
+		.btn-close-popup:hover {
+			color: white;
+		}
+
+		/* Tạo không gian cho checkbox gốc */
+		.Checkbox {
+			width: 24px;
+			height: 24px;
+			margin: 10px;
+			position: relative;
+			cursor: pointer;
+			-webkit-appearance: none;
+			-moz-appearance: none;
+			appearance: none;
+			border: 2px solid #cecece;
+			border-radius: 4px;
+			background-color: white;
+			transition: all 0.3s ease;
+			box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+		}
+
+		/* Style cho trạng thái đã chọn */
+		.Checkbox:checked {
+			background-color: #538abe;
+			border-color: #538abe;
+		}
+
+		/* Tạo dấu tích khi checkbox được chọn */
+		.Checkbox:checked::after {
+			content: '';
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			width: 6px;
+			height: 15px;
+			border: solid white;
+			border-width: 0 3px 3px 0;
+			transform: translate(-50%, -50%) rotate(45deg);
+		}
+
+		/* Style khi hover và active */
+		.Checkbox:hover {
+			border-color: #538abe;
+			box-shadow: 0 0px 8px rgba(0, 0, 0, 0.2);
+		}
+
+		.Checkbox:active {
+			border-color: #1f366e;
+			box-shadow: 0 0px 4px rgba(0, 0, 0, 0.2);
+		}
+
+		/* Tạo không gian cho checkbox gốc */
+		.itemCheckbox {
+			width: 24px;
+			height: 24px;
+			margin: 10px;
+			position: relative;
+			cursor: pointer;
+			-webkit-appearance: none;
+			-moz-appearance: none;
+			appearance: none;
+			border: 2px solid #cecece;
+			border-radius: 4px;
+			background-color: white;
+			transition: all 0.3s ease;
+			box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+		}
+
+		/* Style cho trạng thái đã chọn */
+		.itemCheckbox:checked {
+			background-color: #538abe;
+			border-color: #538abe;
+		}
+
+		/* Tạo dấu tích khi checkbox được chọn */
+		.itemCheckbox:checked::after {
+			content: '';
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			width: 6px;
+			height: 15px;
+			border: solid white;
+			border-width: 0 3px 3px 0;
+			transform: translate(-50%, -50%) rotate(45deg);
+		}
+
+		/* Style khi hover và active */
+		.itemCheckbox:hover {
+			border-color: #538abe;
+			box-shadow: 0 0px 8px rgba(0, 0, 0, 0.2);
+		}
+
+		.itemCheckbox:active {
+			border-color: #1f366e;
+			box-shadow: 0 0px 4px rgba(0, 0, 0, 0.2);
+		}
 	</style>
 </head>
 <body>
 <div th:replace="~{layout/header :: header}"></div>
+
+<!-- Lớp phủ -->
+<div class="coating" id="overlay"></div>
+
 <!-- Hiển thị thông báo nếu có -->
-<div th:if="${param.message}" class="alert" id="myAlert02"
-	 th:classappend="${#strings.containsIgnoreCase(param.message, 'thành công') ? 'alert-success' : 'alert-danger'}">
-	<span th:text="${param.message}" style="font-weight: bold;justify-content: center; display: flex;"></span>
+<div th:if="${param.message}" class="popup" id="popup">
+	<div class="row-announce" style="text-align: center">
+		<span style="color: #5b5a7a; font-weight: bold; display: flex; justify-content: center" th:text="${param.message}"></span>
+	</div>
+	<div class="row-close d-flex align-items-center justify-content-center">
+		<button class="btn btn-close-popup" onclick="closePopup()">Ok</button>
+	</div>
 </div>
 
 <!-- Hiển thị thông báo kiểu model nếu có (dùng khi giỏ hàng trống) -->
@@ -375,7 +518,7 @@
 									<tr>
 										<th rowspan="1" class="next-table-header-node first" style="padding: 10px 20px;">
 											<div class="next-table-cell-wrapper">
-												<input type="checkbox" id="checkAll" style="width: 20px; height: 20px; margin: 4px 10px 4px 10px;">
+												<input class="Checkbox" type="checkbox" id="checkAll" style="width: 20px; height: 20px; margin: 4px 10px 4px 10px;">
 											</div>
 										</th>
 										<th rowspan="1" class="next-table-header-node " style="padding: 10px 0px;">
@@ -626,7 +769,7 @@
 						<tr>
 							<td rowspan="1" class="next-table-header-node first" style="padding: 20px 0px; ">
 								<div class="row-all d-flex align-items-center">
-									<input type="checkbox" id="check-All" style="width: 20px; height: 20px; margin-right: 20px; margin-bottom: 0px">
+									<input class="Checkbox" type="checkbox" id="check-All" style="width: 20px; height: 20px; margin-right: 20px; margin-bottom: 0px">
 									<h6 style="margin: 0px 20px 0px 0px;">Chọn tất cả</h6>
 								</div>
 							</td>
@@ -1082,27 +1225,68 @@
             return;
         }
 
-        var alertBox = document.createElement('div');
-        alertBox.className = 'alert ' + alertType;
-        alertBox.id = 'myAlert02';
-        alertBox.style.fontWeight = 'bold';
-        alertBox.style.justifyContent = 'center';
-        alertBox.style.display = 'flex';
+       var alertBox = document.createElement('div');
+		alertBox.className = 'alert ' + alertType;
+		alertBox.id = 'myAlert02';
+		alertBox.style.position = 'fixed';
+		alertBox.style.top = '50%';
+		alertBox.style.left = '50%';
+		alertBox.style.transform = 'translate(-50%, -50%)';
+		alertBox.style.backgroundColor = 'white';
+		alertBox.style.padding = '20px';
+		alertBox.style.borderRadius = '15px';
+		alertBox.style.boxShadow = '0px 0px 10px rgba(0, 0, 0, 0.2)';
+		alertBox.style.zIndex = '99999';
+		alertBox.style.display = 'flex';
+		alertBox.style.justifyContent = 'center';
+		alertBox.style.alignItems = 'center';
+		alertBox.style.flexDirection = 'column';
+		alertBox.style.fontWeight = 'bold';
+		alertBox.style.color = '#5b5a7a';
+		alertBox.style.border = 'white';
 
-        var alertText = document.createElement('span');
-        alertText.textContent = message;
+		var alertText = document.createElement('span');
+			alertText.textContent = message;
+			alertText.style.marginBottom = '15px';
+			alertBox.appendChild(alertText);
 
-        alertBox.appendChild(alertText);
+		// Thêm nút đóng
+		var closeButton = document.createElement('button');
+		closeButton.className = 'btn-close-popup';
+		closeButton.textContent = 'OK';
+		closeButton.style.border = 'none';
+		closeButton.style.borderRadius = '10px';
+		closeButton.style.backgroundColor = '#3f6ad8';
+		closeButton.style.color = 'white';
+		closeButton.style.fontWeight = 'bold';
+		closeButton.style.width = '50px';
+		closeButton.style.height = '35px';
+		closeButton.onclick = function() {
+			document.body.removeChild(alertBox);
+			document.body.removeChild(overlay);
+		};
 
-        // Tìm phần tử header và chèn thông báo ngay sau nó
-        var header = document.getElementsByTagName('header')[0];
-        header.parentNode.insertBefore(alertBox, header.nextSibling);
+		alertBox.appendChild(closeButton);
 
-        // Thông báo sẽ tự động biến mất sau 10 giây
-        setTimeout(function() {
-            alertBox.remove();
-        }, 10000);
-    }
+		// Tạo lớp phủ
+		var overlay = document.createElement('div');
+		overlay.className = 'overlay';
+		overlay.style.position = 'fixed';
+		overlay.style.top = '0';
+		overlay.style.left = '0';
+		overlay.style.width = '100%';
+		overlay.style.height = '100%';
+		overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
+		overlay.style.zIndex = '99999';
+		overlay.onclick = function() {
+			document.body.removeChild(alertBox);
+			document.body.removeChild(overlay);
+		};
+		// Chèn thông báo và lớp phủ vào body
+		document.body.appendChild(overlay);
+		document.body.appendChild(alertBox);
+	}
+
 </script>
 
 <!-- Xử lý xóa các món hàng đang được tick chọn (xóa bất đồng bộ)-->
@@ -1356,10 +1540,19 @@
             cancelVoucherApplication();
         });
     });
+</script>
 
+<script>
+	function closePopup() {
+        document.getElementById("popup").style.display = "none";
+        document.getElementById("overlay").style.display = "none";
+    }
 
-
-
+    // Hiển thị pop up và lớp phủ khi load trang
+    if (document.getElementById("popup")) {
+        document.getElementById("popup").style.display = "block";
+        document.getElementById("overlay").style.display = "block";
+    }
 </script>
 
 <div th:replace="~{layout/footer :: footer}"></div>
