@@ -493,6 +493,18 @@
 		.btn-close-popup:hover {
 			color: white;
 		}
+
+		.form-control-reviews {
+            width: 467px; /* Chiều rộng cố định */
+            height: 200px; /* Chiều cao cố định */
+            resize: none; /* Ngăn chặn kéo dài */
+            padding: 10px; /* Khoảng cách giữa viền và nội dung */
+            border-radius: 15px; /* Bo góc */
+            border: 1px solid #cecece; /* Viền */
+            font-size: 16px; /* Kích thước chữ */
+            box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.1); /* Tạo bóng đổ để nhìn đẹp hơn */
+        }
+
 	</style>
 	
 </head>
@@ -735,7 +747,7 @@
 											<div class="review-rating-fill" th:style="'width:' + (${star5Percentage} != null ? ${star5Percentage} : 0) + '%;'"></div>
 										</div>
 									</div>
-									<span th:text="(${star5Percentage} != null ? ${star5Percentage} : 0) + '%'"></span>
+									<span id="star5Percentage" th:text="(${star5Percentage} != null ? ${star5Percentage} : 0) + '%'"></span>
 								</div>
 								<!-- 4 stars -->
 								<div style="display: flex; align-items: center; color: #5b5a7a; font-weight: bold; margin: 5px 0px">
@@ -745,7 +757,7 @@
 											<div class="review-rating-fill" th:style="'width:' + (${star4Percentage} != null ? ${star4Percentage} : 0) + '%;'"></div>
 										</div>
 									</div>
-									<span th:text="(${star4Percentage} != null ? ${star4Percentage} : 0) + '%'"></span>
+									<span id="star4Percentage" th:text="(${star4Percentage} != null ? ${star4Percentage} : 0) + '%'"></span>
 								</div>
 								<!-- 3 stars -->
 								<div style="display: flex; align-items: center; color: #5b5a7a; font-weight: bold; margin: 5px 0px">
@@ -755,7 +767,7 @@
 											<div class="review-rating-fill" th:style="'width:' + (${star3Percentage} != null ? ${star3Percentage} : 0) + '%;'"></div>
 										</div>
 									</div>
-									<span th:text="(${star3Percentage} != null ? ${star3Percentage} : 0) + '%'"></span>
+									<span id="star3Percentage" th:text="(${star3Percentage} != null ? ${star3Percentage} : 0) + '%'"></span>
 								</div>
 								<!-- 2 stars -->
 								<div style="display: flex; align-items: center; color: #5b5a7a; font-weight: bold; margin: 5px 0px">
@@ -765,7 +777,7 @@
 											<div class="review-rating-fill" th:style="'width:' + (${star2Percentage} != null ? ${star2Percentage} : 0) + '%;'"></div>
 										</div>
 									</div>
-									<span th:text="(${star2Percentage} != null ? ${star2Percentage} : 0) + '%'"></span>
+									<span id="star2Percentage" th:text="(${star2Percentage} != null ? ${star2Percentage} : 0) + '%'"></span>
 								</div>
 								<!-- 1 star -->
 								<div style="display: flex; align-items: center; color: #5b5a7a; font-weight: bold; margin: 5px 0px">
@@ -775,7 +787,7 @@
 											<div class="review-rating-fill" th:style="'width:' + (${star1Percentage} != null ? ${star1Percentage} : 0) + '%;'"></div>
 										</div>
 									</div>
-									<span th:text="(${star1Percentage} != null ? ${star1Percentage} : 0) + '%'"></span>
+									<span id="star1Percentage" th:text="(${star1Percentage} != null ? ${star1Percentage} : 0) + '%'"></span>
 								</div>
 
 							</div>
@@ -804,7 +816,7 @@
 											<div class="review-rating-fill" th:style="'width:' + (${star5Percentage} != null ? ${star5Percentage} : 0) + '%;'"></div>
 										</div>
 									</div>
-									<span th:text="(${star5Percentage} != null ? ${star5Percentage} : 0) + '%'"></span>
+									<span id="star55Percentage" th:text="(${star5Percentage} != null ? ${star5Percentage} : 0) + '%'"></span>
 								</div>
 								<!-- 4 stars -->
 								<div style="display: flex; align-items: center; color: #5b5a7a; font-weight: bold; margin: 5px 0px">
@@ -814,7 +826,7 @@
 											<div class="review-rating-fill" th:style="'width:' + (${star4Percentage} != null ? ${star4Percentage} : 0) + '%;'"></div>
 										</div>
 									</div>
-									<span th:text="(${star4Percentage} != null ? ${star4Percentage} : 0) + '%'"></span>
+									<span id="star44Percentage" th:text="(${star4Percentage} != null ? ${star4Percentage} : 0) + '%'"></span>
 								</div>
 								<!-- 3 stars -->
 								<div style="display: flex; align-items: center; color: #5b5a7a; font-weight: bold; margin: 5px 0px">
@@ -824,7 +836,7 @@
 											<div class="review-rating-fill" th:style="'width:' + (${star3Percentage} != null ? ${star3Percentage} : 0) + '%;'"></div>
 										</div>
 									</div>
-									<span th:text="(${star3Percentage} != null ? ${star3Percentage} : 0) + '%'"></span>
+									<span id="star33Percentage" th:text="(${star3Percentage} != null ? ${star3Percentage} : 0) + '%'"></span>
 								</div>
 								<!-- 2 stars -->
 								<div style="display: flex; align-items: center; color: #5b5a7a; font-weight: bold; margin: 5px 0px">
@@ -834,7 +846,7 @@
 											<div class="review-rating-fill" th:style="'width:' + (${star2Percentage} != null ? ${star2Percentage} : 0) + '%;'"></div>
 										</div>
 									</div>
-									<span th:text="(${star2Percentage} != null ? ${star2Percentage} : 0) + '%'"></span>
+									<span id="star22Percentage" th:text="(${star2Percentage} != null ? ${star2Percentage} : 0) + '%'"></span>
 								</div>
 								<!-- 1 star -->
 								<div style="display: flex; align-items: center; color: #5b5a7a; font-weight: bold; margin: 5px 0px">
@@ -844,7 +856,7 @@
 											<div class="review-rating-fill" th:style="'width:' + (${star1Percentage} != null ? ${star1Percentage} : 0) + '%;'"></div>
 										</div>
 									</div>
-									<span th:text="(${star1Percentage} != null ? ${star1Percentage} : 0) + '%'"></span>
+									<span id="star11Percentage" th:text="(${star1Percentage} != null ? ${star1Percentage} : 0) + '%'"></span>
 								</div>
 
 							</div>
@@ -924,7 +936,7 @@
 											<div class="review-rating-fill" th:style="'width:' + (${star5Percentage} != null ? ${star5Percentage} : 0) + '%;'"></div>
 										</div>
 									</div>
-									<span th:text="(${star5Percentage} != null ? ${star5Percentage} : 0) + '%'"></span>
+									<span id="star555Percentage" th:text="(${star5Percentage} != null ? ${star5Percentage} : 0) + '%'"></span>
 								</div>
 								<!-- 4 stars -->
 								<div style="display: flex; align-items: center; color: #5b5a7a; font-weight: bold; margin: 5px 0px">
@@ -934,7 +946,7 @@
 											<div class="review-rating-fill" th:style="'width:' + (${star4Percentage} != null ? ${star4Percentage} : 0) + '%;'"></div>
 										</div>
 									</div>
-									<span th:text="(${star4Percentage} != null ? ${star4Percentage} : 0) + '%'"></span>
+									<span id="star444Percentage" th:text="(${star4Percentage} != null ? ${star4Percentage} : 0) + '%'"></span>
 								</div>
 								<!-- 3 stars -->
 								<div style="display: flex; align-items: center; color: #5b5a7a; font-weight: bold; margin: 5px 0px">
@@ -944,7 +956,7 @@
 											<div class="review-rating-fill" th:style="'width:' + (${star3Percentage} != null ? ${star3Percentage} : 0) + '%;'"></div>
 										</div>
 									</div>
-									<span th:text="(${star3Percentage} != null ? ${star3Percentage} : 0) + '%'"></span>
+									<span id="star333Percentage" th:text="(${star3Percentage} != null ? ${star3Percentage} : 0) + '%'"></span>
 								</div>
 								<!-- 2 stars -->
 								<div style="display: flex; align-items: center; color: #5b5a7a; font-weight: bold; margin: 5px 0px">
@@ -954,7 +966,7 @@
 											<div class="review-rating-fill" th:style="'width:' + (${star2Percentage} != null ? ${star2Percentage} : 0) + '%;'"></div>
 										</div>
 									</div>
-									<span th:text="(${star2Percentage} != null ? ${star2Percentage} : 0) + '%'"></span>
+									<span id="star222Percentage" th:text="(${star2Percentage} != null ? ${star2Percentage} : 0) + '%'"></span>
 								</div>
 								<!-- 1 star -->
 								<div style="display: flex; align-items: center; color: #5b5a7a; font-weight: bold; margin: 5px 0px">
@@ -964,7 +976,7 @@
 											<div class="review-rating-fill" th:style="'width:' + (${star1Percentage} != null ? ${star1Percentage} : 0) + '%;'"></div>
 										</div>
 									</div>
-									<span th:text="(${star1Percentage} != null ? ${star1Percentage} : 0) + '%'"></span>
+									<span id="star111Percentage" th:text="(${star1Percentage} != null ? ${star1Percentage} : 0) + '%'"></span>
 								</div>
 
 							</div>
@@ -1005,8 +1017,8 @@
 						<!-- Modal -->
 						<div class="modal fade" id="editReviewModal" tabindex="-1" role="dialog" aria-labelledby="editReviewModalLabel" aria-hidden="true">
 							<div class="modal-dialog" style="border-radius: 15px; display: flex; justify-content: center; align-items: center; height: 90vh;" role="document">
-								<div class="modal-content">
-									<div class="modal-header">
+								<div class="modal-content" style="border-radius: 15px">
+									<div class="modal-header" style="border-bottom: 1px solid white;">
 										<h5 class="modal-title" id="editReviewModalLabel" style="color: #211f7f; margin: 0px">Chỉnh sửa đánh giá</h5>
 										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 											<span aria-hidden="true">×</span>
@@ -1021,20 +1033,29 @@
 												<fieldset id="edit-review-rating">
 													<legend class="col-form-label">Đánh giá:</legend>
 													<div class="rating">
-														<input type="radio" id="edit-star5" name="rating" value="5" th:checked="${loggedInUserReview.rating == 5}" required /><label for="edit-star5" title="5 sao">☆</label>
-														<input type="radio" id="edit-star4" name="rating" value="4" th:checked="${loggedInUserReview.rating == 4}" /><label for="edit-star4" title="4 sao">☆</label>
-														<input type="radio" id="edit-star3" name="rating" value="3" th:checked="${loggedInUserReview.rating == 3}" /><label for="edit-star3" title="3 sao">☆</label>
-														<input type="radio" id="edit-star2" name="rating" value="2" th:checked="${loggedInUserReview.rating == 2}" /><label for="edit-star2" title="2 sao">☆</label>
-														<input type="radio" id="edit-star1" name="rating" value="1" th:checked="${loggedInUserReview.rating == 1}" /><label for="edit-star1" title="1 sao">☆</label>
+														<input type="radio" id="edit-star5" name="rating" value="5" th:checked="${loggedInUserReview.rating == 5}" required />
+														<label for="edit-star5" title="5 sao">☆</label>
+
+														<input type="radio" id="edit-star4" name="rating" value="4" th:checked="${loggedInUserReview.rating == 4}" />
+														<label for="edit-star4" title="4 sao">☆</label>
+
+														<input type="radio" id="edit-star3" name="rating" value="3" th:checked="${loggedInUserReview.rating == 3}" />
+														<label for="edit-star3" title="3 sao">☆</label>
+
+														<input type="radio" id="edit-star2" name="rating" value="2" th:checked="${loggedInUserReview.rating == 2}" />
+														<label for="edit-star2" title="2 sao">☆</label>
+
+														<input type="radio" id="edit-star1" name="rating" value="1" th:checked="${loggedInUserReview.rating == 1}" />
+														<label for="edit-star1" title="1 sao">☆</label>
 													</div>
 												</fieldset>
 											</div>
 
 											<div class="form-group">
 												<label for="edit-review-comment" class="col-form-label">Bình luận:</label>
-												<textarea class="form-control" id="edit-review-comment" name="comment" th:text="${loggedInUserReview.comment}" maxlength="500" required></textarea>
+												<textarea class="form-control-reviews" id="edit-review-comment" name="comment" th:text="${loggedInUserReview.comment}" maxlength="500" required></textarea>
 											</div>
-											<div class="modal-footer">
+											<div class="modal-footer" style="border-top: 1px solid white;">
 												<button type="button" class="btn btn-secondary" data-dismiss="modal" style="border-radius: 10px">Đóng</button>
 												<!-- Thay đổi type của nút Lưu đánh giá thành submit để gửi form -->
 												<button type="submit" class="btn btn-primary" style="border-radius: 10px">Lưu đánh giá</button>
@@ -1545,6 +1566,27 @@
                 alertBox.remove();
             }, 10000);
         }
+	</script>
+
+	<script>
+		document.addEventListener("DOMContentLoaded", function() {
+            var ids = ["star5Percentage", "star4Percentage", "star3Percentage", "star2Percentage", "star1Percentage",
+            			"star55Percentage", "star44Percentage", "star33Percentage", "star22Percentage", "star11Percentage",
+            			"star555Percentage", "star444Percentage", "star333Percentage", "star222Percentage", "star111Percentage"];
+
+            ids.forEach(function(id) {
+                var percentageElement = document.getElementById(id);
+                if (percentageElement) {
+                    var percentageText = percentageElement.textContent || percentageElement.innerText;
+                    var percentageValue = parseFloat(percentageText);
+
+                    if (!isNaN(percentageValue)) {
+                        var roundedPercentage = Math.round(percentageValue);
+                        percentageElement.textContent = roundedPercentage + '%';
+                    }
+                }
+            });
+        });
 	</script>
 
 	<div th:replace="~{layout/footer :: footer}"></div>

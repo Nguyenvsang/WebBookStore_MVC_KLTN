@@ -210,7 +210,7 @@
         .btn.btn-filter-status{
             border: none;
             height: 70px;
-            width: 220px;
+            width: 200px;
             margin-right: 30px;
             box-shadow: 0px 4px 4px rgba(192, 192, 192, 0.3);
             color: grey;
@@ -344,7 +344,7 @@
 
                 <div class="dropdown-filter">
                     <button class="btn btn-filter-status d-flex align-items-center justify-content-center" type="button" id="isPurchasedDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Lọc trạng thái
+                        Lọc trạng thái mua
                         <span class="material-symbols-outlined" style="margin-left: 3px">expand_more</span>
                         <span class="material-symbols-outlined" style="margin-left: 3px">expand_less</span>
                         <!--                        <span th:text="${isPublished != null ? (isPublished == true ? 'Đã được duyệt' : 'Chưa được duyệt') : (isPurchased != null ? (isPurchased == true ? 'Đã mua sách' : 'Chưa mua sách') : 'Tất cả')}" style="margin-left: 3px"></span>-->
@@ -376,7 +376,7 @@
             <div class="col-add d-flex align-items-center" style="height: 70px;">
                 <button id="deleteSelectedReviews" class="btn btn-review-delete">Xóa đánh giá đã chọn</button>
                 <!-- Thêm nút "Duyệt các đánh giá đã chọn" -->
-                <button id="approveSelectedReviews" class="btn btn-review-approve">Duyệt đánh giá đã chọn</button>
+                <button id="approveSelectedReviews" class="btn btn-review-approve" style="margin: 0px">Duyệt đánh giá đã chọn</button>
             </div>
         </div>
 
@@ -783,7 +783,7 @@
 
 
 
-    ['statusDropdown', 'ratingDropdown'].forEach(function(id) {
+    ['statusDropdown', 'ratingDropdown', 'isPurchasedDropdown'].forEach(function(id) {
         var dropdown = document.getElementById(id);
         var expandMore = dropdown.querySelector('.material-symbols-outlined:nth-child(1)');
         var expandLess = dropdown.querySelector('.material-symbols-outlined:nth-child(2)');
