@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Xem chi tiết đơn hàng</title>
-    <!-- Đường dẫn tới các tệp CSS của Bootstrap -->
-    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
-    <style>
-		
+	<meta charset="UTF-8">
+	<title>Xem chi tiết đơn hàng</title>
+	<!-- Đường dẫn tới các tệp CSS của Bootstrap -->
+	<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+	<style>
+
 		body { background-color: #f8f9fa  }
 
 
@@ -222,23 +222,23 @@
 	</style>
 </head>
 <body>
-	<div th:replace="~{layout/header :: header}"></div>
-    <div class="container main" style="background-color: white; padding: 20px">
-		<div class="container-body" style="padding: 0px">
-			<div class="row-cart align-items-center">
-				<div class="col-00" style="display: flex; align-items: center;">
-					<a th:href="${session.previousUrl}" class="before" style="align-items: center; display: flex; text-decoration: none;">
-						<span class="material-symbols-outlined back">arrow_back_ios</span>
-					</a>
-					<h6 style="color: #211f7f; align-items: center;  margin: 0px 5px 0px 0px; font-family: Verdana; font-weight: bold">Chi tiết đơn hàng</h6>
+<div th:replace="~{layout/header :: header}"></div>
+<div class="container main" style="background-color: white; padding: 20px">
+	<div class="container-body" style="padding: 0px">
+		<div class="row-cart align-items-center">
+			<div class="col-00" style="display: flex; align-items: center;">
+				<a th:href="${session.previousUrl}" class="before" style="align-items: center; display: flex; text-decoration: none;">
+					<span class="material-symbols-outlined back">arrow_back_ios</span>
+				</a>
+				<h6 style="color: #211f7f; align-items: center;  margin: 0px 5px 0px 0px; font-family: Verdana; font-weight: bold">Chi tiết đơn hàng</h6>
+			</div>
+			<div class="row-order d-flex align-items-center" style="justify-content: flex-end; height: 50px; border-bottom: 1px solid #cecece;">
+				<div class="col-order d-flex" style="justify-content: flex-end; font-size: 20px; padding: 0px 20px;">
+					<p style="margin: 0px 5px 0px 0px; color: #f17746; font-weight: bold">MÃ ĐƠN HÀNG:</p>
+					<span th:text="${order.id}" class="align-middle text-center" style="color: #f17746; font-weight: bold"> </span>
 				</div>
-				<div class="row-order d-flex align-items-center" style="justify-content: flex-end; height: 50px; border-bottom: 1px solid #cecece;">
-					<div class="col-order d-flex" style="justify-content: flex-end; font-size: 20px; padding: 0px 20px;">
-						<p style="margin: 0px 5px 0px 0px; color: #f17746; font-weight: bold">MÃ ĐƠN HÀNG:</p>
-						<span th:text="${order.id}" class="align-middle text-center" style="color: #f17746; font-weight: bold"> </span>
-					</div>
-					<div style="border-left: 2px solid #a2abb4; height: 20px;"></div>
-					<div class="col-order d-flex" style="justify-content: flex-end; padding: 0px 20px">
+				<div style="border-left: 2px solid #a2abb4; height: 20px;"></div>
+				<div class="col-order d-flex" style="justify-content: flex-end; padding: 0px 20px">
 						<span th:switch="${order.status}" >
 							<span th:case="0" class="badge-01 ">CHỜ XÁC NHẬN</span>
 							<span th:case="1" class="badge-01 ">CHỜ LẤY HÀNG</span>
@@ -253,90 +253,90 @@
 							<span th:case="10" class="badge-01 ">ĐÃ NHẬN HÀNG</span>
 							<span th:case="*" >Trạng thái không hợp lệ</span>
 						</span>
-					</div>
 				</div>
-				<div th:if="${order.status == 10}" class="row-order align-items-center">
-					<div th:if="${order.status == 10}" class="alert alert-info d-flex" style="font-weight: bold;justify-content: center; display: flex; color: rgb(0,162,206)">
-						Bạn đã xác nhận rằng ĐÃ NHẬN HÀNG
-					</div>
-					<p style="color: green; margin-top: 15px; font-weight: bold; ">Cảm ơn bạn đã mua sắm tại KNOWLEDGE YOUNG!</p>
+			</div>
+			<div th:if="${order.status == 10}" class="row-order align-items-center">
+				<div th:if="${order.status == 10}" class="alert alert-info d-flex" style="font-weight: bold;justify-content: center; display: flex; color: rgb(0,162,206)">
+					Bạn đã xác nhận rằng ĐÃ NHẬN HÀNG
 				</div>
+				<p style="color: green; margin-top: 15px; font-weight: bold; ">Cảm ơn bạn đã mua sắm tại KNOWLEDGE YOUNG!</p>
+			</div>
 
-				<div th:if="${order.status == 3 || order.status == 10 && daysBetween <= 15}">
-					<div class="alert confirm d-flex align-items-center" role="alert" style="color: #fe6502; font-weight: bold; margin-bottom: 20px">
-						<span class="material-symbols-outlined" style="margin-right: 10px">notification_important</span>
-						<span th:if="${lastReturnDate != null}" th:text="'Bạn có thể yêu cầu trả hàng đến hết ngày ' + ${#temporals.format(lastReturnDate.toLocalDateTime(), 'dd/MM/yyyy')} + ' , sau ngày đó bạn không thể yêu cầu trả hàng được nữa!' "></span>
+			<div th:if="${(order.status == 3 || order.status == 10) && daysBetween <= 15}">
+				<div class="alert confirm d-flex align-items-center" role="alert" style="color: #fe6502; font-weight: bold; margin-bottom: 20px">
+					<span class="material-symbols-outlined" style="margin-right: 10px">notification_important</span>
+					<span th:if="${lastReturnDate != null}" th:text="'Bạn có thể yêu cầu trả hàng đến hết ngày ' + ${#temporals.format(lastReturnDate.toLocalDateTime(), 'dd/MM/yyyy')} + ' , sau ngày đó bạn không thể yêu cầu trả hàng được nữa!' "></span>
+				</div>
+			</div>
+
+			<div th:if="${order.paymentStatus.status == 5}">
+				<div class="alert confirm d-flex align-items-center" role="alert" style="color: #fe6502; font-weight: bold; margin-bottom: 20px">
+					<span class="material-symbols-outlined" style="margin-right: 10px">notification_important</span>
+					<span th:text=" 'Vui lòng thanh toán lại càng sớm càng tốt. Chỉ khi đã thanh toán, đơn hàng của bạn mới được xử lý!' "></span>
+				</div>
+			</div>
+
+			<!-- Hiển thị thông báo nếu có -->
+			<div th:if="${param.message}" class="alert"
+				 th:classappend="${#strings.containsIgnoreCase(param.message, 'thành công') ? 'alert-success' : 'alert-danger'}">
+				<span th:text="${param.message}"></span>
+			</div>
+
+			<div th:if="${order.status == 3 && daysBetween <= 15}">
+				<div class="row d-flex align-items-center justify-content-center">
+					<h6 style="color: #3448c5; margin: 0px 0px">Nếu bạn đã nhận hàng vui lòng nhấn vào nút Đã nhận hàng nhé! Sau đó bạn vẫn có quyền trả hàng</h6>
+				</div>
+			</div>
+
+			<div class="row-title d-flex align-items-center" style="height: 50px">
+				<h6>Địa chỉ nhận hàng</h6>
+			</div>
+			<div class="row-info d-flex align-items-center" style="padding: 0px 0px 20px 0px;">
+				<div class="col-01 center-content align-items-center justify-content-center" style="width: 330px;  border-right: 1px solid #cecece; padding: 0px 10px 0px 0px">
+					<div class="row-name d-flex align-items-center" style="margin-bottom: 10px">
+						<span class="material-symbols-outlined order" style="margin-right: 5px;">person_2</span>
+						<hr style="flex-grow: 1; border-top: 1px solid ; margin: 0px 2px 0px 2px; color: #a2abb4;">
+						<div th:text="${order.name}" class="name" style="width: 88%; margin-left: 5px;"></div>
+					</div>
+					<div class="row-name d-flex align-items-center" style="margin-bottom: 10px">
+						<span class="material-symbols-outlined order" style="margin-right: 5px;">call</span>
+						<hr style="flex-grow: 1; border-top: 1px solid ; margin: 0px 2px 0px 2px; color: #a2abb4;">
+						<div th:text="${order.phoneNumber}" class="phone-number" style="width: 88%; margin-left: 5px;"></div>
+					</div>
+					<div class="row-name d-flex align-items-center" style="margin-bottom: 10px">
+						<span class="material-symbols-outlined order" style="margin-right: 5px;">mail</span>
+						<hr style="flex-grow: 1; border-top: 1px solid ; margin: 0px 2px 0px 2px; color: #a2abb4;">
+						<div th:text="${order.email}" class="email" style="width: 88%; margin-left: 5px;"></div>
+					</div>
+					<div class="row-name d-flex align-items-center">
+						<span class="material-symbols-outlined order" style="margin-right: 5px;">location_on</span>
+						<hr style="flex-grow: 1; border-top: 1px solid ; margin: 0px 2px 0px 2px; color: #a2abb4;">
+						<div th:text="${order.address}" class="location" style="width: 88%; margin-left: 5px;"></div>
 					</div>
 				</div>
-
-				<div th:if="${order.paymentStatus.status == 5}">
-					<div class="alert confirm d-flex align-items-center" role="alert" style="color: #fe6502; font-weight: bold; margin-bottom: 20px">
-						<span class="material-symbols-outlined" style="margin-right: 10px">notification_important</span>
-						<span th:text=" 'Vui lòng thanh toán lại càng sớm càng tốt. Chỉ khi đã thanh toán, đơn hàng của bạn mới được xử lý!' "></span>
+				<div class="col-02 center-content align-items-center justify-content-center" style="width: 530px">
+					<div class="row-date d-flex align-items-center">
+						<span class="material-symbols-outlined order" style="margin-right: 10px; margin-left: 20px">order_approve</span>
+						<div th:text="${#temporals.format(order.dateOrder.toLocalDateTime(), 'dd/MM/yyyy')}" class="align-middle text-center"></div>
+						<p style="margin: 0px 0px 0px; padding: 0 20px; font-weight: bold; color: grey;">Đặt hàng thành công</p>
 					</div>
-				</div>
-
-				<!-- Hiển thị thông báo nếu có -->
-				<div th:if="${param.message}" class="alert"
-					 th:classappend="${#strings.containsIgnoreCase(param.message, 'thành công') ? 'alert-success' : 'alert-danger'}">
-					<span th:text="${param.message}"></span>
-				</div>
-
-				<div th:if="${order.status == 3 && daysBetween <= 15}">
-					<div class="row d-flex align-items-center justify-content-center">
-						<h6 style="color: #3448c5; margin: 0px 0px">Nếu bạn đã nhận hàng vui lòng nhấn vào nút Đã nhận hàng nhé! Sau đó bạn vẫn có quyền trả hàng</h6>
-					</div>
-				</div>
-
-				<div class="row-title d-flex align-items-center" style="height: 50px">
-					<h6>Địa chỉ nhận hàng</h6>
-				</div>
-				<div class="row-info d-flex align-items-center" style="padding: 0px 0px 20px 0px;">
-					<div class="col-01 center-content align-items-center justify-content-center" style="width: 330px;  border-right: 1px solid #cecece; padding: 0px 10px 0px 0px">
-						<div class="row-name d-flex align-items-center" style="margin-bottom: 10px">
-							<span class="material-symbols-outlined order" style="margin-right: 5px;">person_2</span>
-							<hr style="flex-grow: 1; border-top: 1px solid ; margin: 0px 2px 0px 2px; color: #a2abb4;">
-							<div th:text="${order.name}" class="name" style="width: 88%; margin-left: 5px;"></div>
+					<div class="row-delivery align-items-center">
+						<div th:if="${order.status == 0 || order.status == 1 || order.status == 2}" class="date d-flex align-items-center" role="alert" style="margin-top: 10px">
+							<span class="material-symbols-outlined order" style="margin-right: 10px; margin-left: 20px">hourglass_top</span>
+							<span th:text="${#temporals.format(order.expectedDeliveryDate1.toLocalDateTime(), 'dd/MM/yyyy')} + ' - ' + ${#temporals.format(order.expectedDeliveryDate2.toLocalDateTime(), 'dd/MM/yyyy')}"></span>
+							<p style="margin: 0px 0px 0px; padding: 0 20px; font-weight: bold; color: #5cbcd5;">Ngày giao hàng dự kiến</p>
 						</div>
-						<div class="row-name d-flex align-items-center" style="margin-bottom: 10px">
-							<span class="material-symbols-outlined order" style="margin-right: 5px;">call</span>
-							<hr style="flex-grow: 1; border-top: 1px solid ; margin: 0px 2px 0px 2px; color: #a2abb4;">
-							<div th:text="${order.phoneNumber}" class="phone-number" style="width: 88%; margin-left: 5px;"></div>
+						<div th:if="${order.deliveryDate != null && order.status != 4 && order.status != 1 && order.status !=2 && order.status != 0}" class="date d-flex align-items-center" role="alert" style="margin-top: 10px">
+							<span class="material-symbols-outlined order" style="margin-right: 10px; margin-left: 20px">hourglass_bottom</span>
+							<span th:text="${#temporals.format(order.deliveryDate.toLocalDateTime(), 'dd/MM/yyyy')}"></span>
+							<p style="margin: 0px 0px 0px; padding: 0 20px; font-weight: bold; color: green;">Ngày giao hàng</p>
 						</div>
-						<div class="row-name d-flex align-items-center" style="margin-bottom: 10px">
-							<span class="material-symbols-outlined order" style="margin-right: 5px;">mail</span>
-							<hr style="flex-grow: 1; border-top: 1px solid ; margin: 0px 2px 0px 2px; color: #a2abb4;">
-							<div th:text="${order.email}" class="email" style="width: 88%; margin-left: 5px;"></div>
-						</div>
-						<div class="row-name d-flex align-items-center">
-							<span class="material-symbols-outlined order" style="margin-right: 5px;">location_on</span>
-							<hr style="flex-grow: 1; border-top: 1px solid ; margin: 0px 2px 0px 2px; color: #a2abb4;">
-							<div th:text="${order.address}" class="location" style="width: 88%; margin-left: 5px;"></div>
-						</div>
-					</div>
-					<div class="col-02 center-content align-items-center justify-content-center" style="width: 530px">
-						<div class="row-date d-flex align-items-center">
-							<span class="material-symbols-outlined order" style="margin-right: 10px; margin-left: 20px">order_approve</span>
-							<div th:text="${#temporals.format(order.dateOrder.toLocalDateTime(), 'dd/MM/yyyy')}" class="align-middle text-center"></div>
-							<p style="margin: 0px 0px 0px; padding: 0 20px; font-weight: bold; color: grey;">Đặt hàng thành công</p>
-						</div>
-						<div class="row-delivery align-items-center">
-							<div th:if="${order.status == 0 || order.status == 1 || order.status == 2}" class="date d-flex align-items-center" role="alert" style="margin-top: 10px">
-								<span class="material-symbols-outlined order" style="margin-right: 10px; margin-left: 20px">hourglass_top</span>
-								<span th:text="${#temporals.format(order.expectedDeliveryDate1.toLocalDateTime(), 'dd/MM/yyyy')} + ' - ' + ${#temporals.format(order.expectedDeliveryDate2.toLocalDateTime(), 'dd/MM/yyyy')}"></span>
-								<p style="margin: 0px 0px 0px; padding: 0 20px; font-weight: bold; color: #5cbcd5;">Ngày giao hàng dự kiến</p>
-							</div>
-							<div th:if="${order.deliveryDate != null && order.status != 4 && order.status != 1 && order.status !=2 && order.status != 0}" class="date d-flex align-items-center" role="alert" style="margin-top: 10px">
-								<span class="material-symbols-outlined order" style="margin-right: 10px; margin-left: 20px">hourglass_bottom</span>
-								<span th:text="${#temporals.format(order.deliveryDate.toLocalDateTime(), 'dd/MM/yyyy')}"></span>
-								<p style="margin: 0px 0px 0px; padding: 0 20px; font-weight: bold; color: green;">Ngày giao hàng</p>
-							</div>
-							<div th:if="${order.status == 4}" class="notify d-flex align-items-center" role="alert" style="margin-top: 10px">
-								<span class="material-symbols-outlined order" style="margin-right: 10px; margin-left: 20px">contract_delete</span>
-								<span th:if="${order.infoCancelOrder != null}" th:text="${#temporals.format(order.infoCancelOrder.date.toLocalDateTime(), 'dd/MM/yyyy')}"></span>
-								<p style="margin: 0px 0px 0px; padding: 0 20px; font-weight: bold; color: #f17746;">Đã hủy đơn</p>
-								<p style="margin: 0px 0px 0px; padding: 0 20px; font-weight: bold; color: #f17746;">Lý do:</p>
-								<div th:if="${order.infoCancelOrder != null}" class="col-order d-flex" style="justify-content: flex-end; padding: 0px 20px">
+						<div th:if="${order.status == 4}" class="notify d-flex align-items-center" role="alert" style="margin-top: 10px">
+							<span class="material-symbols-outlined order" style="margin-right: 10px; margin-left: 20px">contract_delete</span>
+							<span th:if="${order.infoCancelOrder != null}" th:text="${#temporals.format(order.infoCancelOrder.date.toLocalDateTime(), 'dd/MM/yyyy')}"></span>
+							<p style="margin: 0px 0px 0px; padding: 0 20px; font-weight: bold; color: #f17746;">Đã hủy đơn</p>
+							<p style="margin: 0px 0px 0px; padding: 0 20px; font-weight: bold; color: #f17746;">Lý do:</p>
+							<div th:if="${order.infoCancelOrder != null}" class="col-order d-flex" style="justify-content: flex-end; padding: 0px 20px">
 									<span th:switch="${order.infoCancelOrder.type}" >
 										<span th:case="0" class="badge-01 ">Đặt nhầm sản phẩm</span>
 										<span th:case="1" class="badge-01 ">Phí vận chuyển cao</span>
@@ -346,59 +346,59 @@
 										<span th:case="5" class="badge-01 ">Muốn đổi phương thức thanh toán</span>
 										<span th:case="6" class="badge-01 ">Đổi ý, không muốn mua nữa</span>
 									</span>
-								</div>
-								<span th:if="${order.infoCancelOrder.otherType != null || order.infoCancelOrder.otherType != ''}" th:text="${order.infoCancelOrder.otherType}"></span>
 							</div>
-							<div th:if="${order.status == 7}" class="notify d-flex align-items-center" role="alert" style="margin-top: 10px">
-								<span class="material-symbols-outlined order" style="margin-right: 10px; margin-left: 20px">task_alt</span>
-								<span th:if="${order.infoReturnOrder.returnDate != null}" th:text="${#temporals.format(order.infoReturnOrder.returnDate.toLocalDateTime(), 'dd/MM/yyyy')}"></span>
-								<p style="margin: 0px 0px 0px; padding: 0 20px; font-weight: bold; color: green;">Trả hàng thành công</p>
-							</div>
+							<span th:if="${order.infoCancelOrder.otherType != null || order.infoCancelOrder.otherType != ''}" th:text="${order.infoCancelOrder.otherType}"></span>
+						</div>
+						<div th:if="${order.status == 7}" class="notify d-flex align-items-center" role="alert" style="margin-top: 10px">
+							<span class="material-symbols-outlined order" style="margin-right: 10px; margin-left: 20px">task_alt</span>
+							<span th:if="${order.infoReturnOrder.returnDate != null}" th:text="${#temporals.format(order.infoReturnOrder.returnDate.toLocalDateTime(), 'dd/MM/yyyy')}"></span>
+							<p style="margin: 0px 0px 0px; padding: 0 20px; font-weight: bold; color: green;">Trả hàng thành công</p>
 						</div>
 					</div>
-					<div class="col-03 center-content" style="width: 240px; align-items: flex-end; justify-content: flex-end">
-						<div class="row-operation" style="display: flex; justify-content: flex-end; align-items: flex-end;">
-							<a th:if="${order.paymentStatus.status == 5}" class="btn btn-destroy" th:href="@{/createvnpaypayment(orderId=${order.id})}" style="font-weight: bold">Thanh toán lại</a>
-						</div>
-						<div class="row-operation" style="display: flex; justify-content: flex-end; align-items: flex-end; margin-top: 20px">
-							<a th:if="${order.status == 0}" class="btn btn-destroy" th:href="@{/cancelorder(orderId=${order.id})}" style="font-weight: bold">Hủy đơn</a>
-							<a th:if="${order.status == 3 || order.status == 10 && daysBetween <= 15}" class="btn btn-return" th:href="@{/returnorder(orderId=${order.id})}" style="font-weight: bold">Trả hàng</a>
-							<span th:if="${order.status != 0 && !(order.status == 3 && daysBetween <= 15)}"></span>
-						</div>
-						<form th:action="@{/receivedorder}" th:if="${order.status == 3}" method="post" style="display: flex; justify-content: flex-end; align-items: flex-end; margin-top: 20px">
-							<input type="hidden" name="orderId" th:value="${order.id}" />
-							<button type="submit" class="btn btn-receive" style="font-weight: bold">Đã nhận hàng</button>
-						</form>
+				</div>
+				<div class="col-03 center-content" style="width: 240px; align-items: flex-end; justify-content: flex-end">
+					<div class="row-operation" style="display: flex; justify-content: flex-end; align-items: flex-end;">
+						<a th:if="${order.paymentStatus.status == 5}" class="btn btn-destroy" th:href="@{/createvnpaypayment(orderId=${order.id})}" style="font-weight: bold">Thanh toán lại</a>
 					</div>
+					<div class="row-operation" style="display: flex; justify-content: flex-end; align-items: flex-end; margin-top: 20px">
+						<a th:if="${order.status == 0}" class="btn btn-destroy" th:href="@{/cancelorder(orderId=${order.id})}" style="font-weight: bold">Hủy đơn</a>
+						<a th:if="${(order.status == 3 || order.status == 10) && daysBetween <= 15}" class="btn btn-return" th:href="@{/returnorder(orderId=${order.id})}" style="font-weight: bold">Trả hàng</a>
+						<span th:if="${order.status != 0 && !(order.status == 3 && daysBetween <= 15)}"></span>
+					</div>
+					<form th:action="@{/receivedorder}" th:if="${order.status == 3 && daysBetween <= 15}" method="post" style="display: flex; justify-content: flex-end; align-items: flex-end; margin-top: 20px">
+						<input type="hidden" name="orderId" th:value="${order.id}" />
+						<button type="submit" class="btn btn-receive" style="font-weight: bold">Đã nhận hàng</button>
+					</form>
 				</div>
+			</div>
 
-				<div class="TWLNg9">
-					<div class="qJkRlY"></div>
-				</div>
+			<div class="TWLNg9">
+				<div class="qJkRlY"></div>
+			</div>
 
-				<div class="next-table-body">
-					<table>
-						<colgroup style="width: 1100px;">
-							<col style="width: 10%;">
-							<col style="width: 40%;">
-							<col style="width: 20%;">
-							<col style="width: 30%;">
-						</colgroup>
-						<tbody>
-						<tr th:each="orderItem : ${orderItems}" onmouseover="this.style.backgroundColor='#f2f5f6';" onmouseout="this.style.backgroundColor='transparent';" style="border-top: 1px solid #cecece;">
-							<td rowspan="1" class="next-table-header-node first" style="padding: 20px 20px;">
-								<img th:src="${orderItem.book.bookImages[0].path}" width="70px">
-							</td>
-							<td rowspan="1" class="next-table-header-node " th:text="${orderItem.book.name}" style="padding: 10px 20px;"></td>
-							<td rowspan="1" class="next-table-header-node " th:text="${orderItem.quantity}" style="padding: 10px 20px; text-align: center;"></td>
-							<td rowspan="1" class="next-table-header-node last" th:text="${#numbers.formatInteger(orderItem.totalPrice, 0, 'POINT')+ ' đ'}" style="text-align: right; padding: 10px 20px; color: orangered; font-weight: bold;"></td>
-						</tr>
-						</tbody>
-					</table>
-				</div>
+			<div class="next-table-body">
+				<table>
+					<colgroup style="width: 1100px;">
+						<col style="width: 10%;">
+						<col style="width: 40%;">
+						<col style="width: 20%;">
+						<col style="width: 30%;">
+					</colgroup>
+					<tbody>
+					<tr th:each="orderItem : ${orderItems}" onmouseover="this.style.backgroundColor='#f2f5f6';" onmouseout="this.style.backgroundColor='transparent';" style="border-top: 1px solid #cecece;">
+						<td rowspan="1" class="next-table-header-node first" style="padding: 20px 20px;">
+							<img th:src="${orderItem.book.bookImages[0].path}" width="70px">
+						</td>
+						<td rowspan="1" class="next-table-header-node " th:text="${orderItem.book.name}" style="padding: 10px 20px;"></td>
+						<td rowspan="1" class="next-table-header-node " th:text="${orderItem.quantity}" style="padding: 10px 20px; text-align: center;"></td>
+						<td rowspan="1" class="next-table-header-node last" th:text="${#numbers.formatInteger(orderItem.totalPrice, 0, 'POINT')+ ' đ'}" style="text-align: right; padding: 10px 20px; color: orangered; font-weight: bold;"></td>
+					</tr>
+					</tbody>
+				</table>
+			</div>
 
-				<div class="row-pay d-flex align-items-center" style="padding: 0px 0px 20px 0px; width: 100%; border-top: 1px solid #cecece; padding: 20px 0px">
-					<div class="col-payment" style="display: flex; padding: 0px 20px; width: 65%">
+			<div class="row-pay d-flex align-items-center" style="padding: 0px 0px 20px 0px; width: 100%; border-top: 1px solid #cecece; padding: 20px 0px">
+				<div class="col-payment" style="display: flex; padding: 0px 20px; width: 65%">
 						<span th:switch="${order.paymentStatus.paymentMethod}" style="display: flex; align-items: center">
 							<span class="material-symbols-outlined" style="color: #5390f5; margin-right: 10px; font-weight: bold">paid</span>
 							<span style="margin: 0px 20px 0px 0px; color: #5390f5;  font-weight: bold">Phương thức: </span>
@@ -411,21 +411,21 @@
 								Thanh toán qua VNPAY
 							</span>
 						</span>
-					</div>
-
-					<div class="col-04" style="width: 20%; display: flex; justify-content: flex-end; align-items: flex-end;">
-						<h6 style="margin: 0px 0px 0px">Tổng thanh toán:</h6>
-					</div>
-					<div class="col-05" style="width: 15%; display: flex; justify-content: flex-end; align-items: flex-end; padding: 0px 20px">
-						<p th:text="${#numbers.formatInteger(order.totalPrice, 0, 'POINT') + ' đ'}" class="align-middle text-center" style="color: orangered; font-weight: bold; margin: 0px 0px 0px"></p>
-					</div>
 				</div>
 
-				<div class="row-status-pay d-flex align-items-center" style="padding: 0px 0px 20px 0px; width: 100%; border-top: 1px solid #cecece; padding: 20px 0px">
-<!--					<div class="col-04" style="display: flex; justify-content: flex-end; align-items: flex-end;">-->
-<!--						<p >Trạng thái</p>-->
-<!--					</div>-->
-					<div class="col-05" style="display: flex; padding: 0px 20px;">
+				<div class="col-04" style="width: 20%; display: flex; justify-content: flex-end; align-items: flex-end;">
+					<h6 style="margin: 0px 0px 0px">Tổng thanh toán:</h6>
+				</div>
+				<div class="col-05" style="width: 15%; display: flex; justify-content: flex-end; align-items: flex-end; padding: 0px 20px">
+					<p th:text="${#numbers.formatInteger(order.totalPrice, 0, 'POINT') + ' đ'}" class="align-middle text-center" style="color: orangered; font-weight: bold; margin: 0px 0px 0px"></p>
+				</div>
+			</div>
+
+			<div class="row-status-pay d-flex align-items-center" style="padding: 0px 0px 20px 0px; width: 100%; border-top: 1px solid #cecece; padding: 20px 0px">
+				<!--					<div class="col-04" style="display: flex; justify-content: flex-end; align-items: flex-end;">-->
+				<!--						<p >Trạng thái</p>-->
+				<!--					</div>-->
+				<div class="col-05" style="display: flex; padding: 0px 20px;">
 						<span th:if="${order.status != 4}" th:switch="${order.paymentStatus.status}" style="display: flex; align-items: center">
 							<span class="material-symbols-outlined" style="color: grey; margin-right: 10px; font-weight: bold">price_check</span>
 							<span style="color: grey; margin-right: 20px; font-weight: bold">Trạng thái</span>
@@ -439,23 +439,23 @@
 								<span class="material-symbols-outlined" style="margin-right: 5px">task_alt</span>Không cần thanh toán</span>
 							<span th:case="5" class="badge warning" style="color:rgb(0,162,206); font-weight: bold; border: 2px solid rgb(0,162,206); border-radius: 50px; height: 30px">Chờ thanh toán lại</span>
 						</span>
-					</div>
+				</div>
 
-				</div>
-				<div th:if="${order.isCompleted != 0 || order.status == 4 || order.status == 7 || order.status == 10}" class="row-order align-items-center" style="padding-bottom: 20px">
-					<form th:action="@{/repurchase}" method="post" style="display: flex; justify-content: center; align-items: flex-end;">
-						<input type="hidden" name="orderId" th:value="${order.id}" />
-						<button type="submit" class="btn btn-receive" style="font-weight: bold;">Mua lại</button>
-					</form>
-				</div>
+			</div>
+			<div th:if="${order.isCompleted != 0 || order.status == 4 || order.status == 7 || order.status == 10}" class="row-order align-items-center" style="padding-bottom: 20px">
+				<form th:action="@{/repurchase}" method="post" style="display: flex; justify-content: center; align-items: flex-end;">
+					<input type="hidden" name="orderId" th:value="${order.id}" />
+					<button type="submit" class="btn btn-receive" style="font-weight: bold;">Mua lại</button>
+				</form>
 			</div>
 		</div>
-        
-    </div>
-    <div th:replace="~{layout/footer :: footer}"></div>
-    <!-- Thêm các tệp tin JavaScript -->
-    <script th:src="@{/js/jquery-3.4.1.slim.min.js}"></script>
-    <script th:src="@{/js/popper.min.js}"></script>
-    <script th:src="@{/js/bootstrap.min.js}"></script>
+	</div>
+
+</div>
+<div th:replace="~{layout/footer :: footer}"></div>
+<!-- Thêm các tệp tin JavaScript -->
+<script th:src="@{/js/jquery-3.4.1.slim.min.js}"></script>
+<script th:src="@{/js/popper.min.js}"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
 </body>
 </html>
