@@ -33,6 +33,9 @@ public class Voucher {
     @Column(name = "discount_percent", columnDefinition = "INT")
     private int discountPercent;
 
+    @Column(name = "max_discount_amount", columnDefinition = "DOUBLE")
+    private double maxDiscountAmount; // Giảm tối đa (theo discountPercent)
+
     @Column(name = "amount_discount", columnDefinition = "DOUBLE")
     private double amountDiscount;
 

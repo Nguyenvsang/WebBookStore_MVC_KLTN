@@ -889,6 +889,9 @@
 										<p class="card-text" th:if="${voucher.discountPercent != -1}" style="font-size: 1em; color: #7A7E7F; font-family: 'Nunito Sans' !important; margin-bottom: 8px">
 											Giảm: <span id="voucherDiscountPercent" class="voucherDiscountPercent" th:text="${voucher.discountPercent} + '%'"></span>
 										</p>
+										<p class="card-text" th:if="${voucher.maxDiscountAmount != -1}" style="font-size: 1em; color: #7A7E7F; font-family: 'Nunito Sans' !important; margin-bottom: 8px">
+											(Tối đa: <span id="voucherMaxDiscountAmount" class="voucherMaxDiscountAmount" th:text="${#numbers.formatInteger(voucher.maxDiscountAmount, 0, 'POINT')} + ' đ)'"></span>
+										</p>
 										<p class="card-text" th:if="${voucher.amountDiscount != -1}" style="font-size: 1em; color: #7A7E7F; font-family: 'Nunito Sans' !important; margin-bottom: 8px">
 											Giảm: <span class="voucherAmountDiscount" th:text="${#numbers.formatInteger(voucher.amountDiscount, 0, 'POINT')} + ' đ'"></span>
 										</p>
@@ -900,7 +903,11 @@
 										</p>
 									</div>
 									<div class="col-1" style="padding-right: 0px">
-										<input style="width: 15px; height: 15px" type="radio" name="voucherId" th:value="${voucher.id}" th:data-id="${voucher.id}" th:data-percent="${voucher.discountPercent}" th:data-amount="${voucher.amountDiscount}" th:data-minvalue="${voucher.minimumOrderValue}">
+										<input style="width: 15px; height: 15px" type="radio" name="voucherId" th:value="${voucher.id}" th:data-id="${voucher.id}"
+											   th:data-percent="${voucher.discountPercent}"
+											   th:data-amount="${voucher.amountDiscount}"
+											   th:data-minvalue="${voucher.minimumOrderValue}"
+											   th:data-maxamount="${voucher.maxDiscountAmount}">
 									</div>
 								</div>
 							</div>
@@ -1455,9 +1462,11 @@
         if (category == '' && minimumOrderValue <= totalpricecart) {
             var discountPercent = parseFloat($('input[name="voucherId"]:checked').data('percent'));
             var amountDiscount = parseFloat($('input[name="voucherId"]:checked').data('amount'));
+            var maxDiscountAmount = parseFloat($('input[name="voucherId"]:checked').data('maxamount'));
 
             // Hiển thị giá trị discountPercent và amountDiscount lên console
             console.log('Phần trăm giảm giá: ' + discountPercent);
+            console.log('Giảm tối đa: ' + maxDiscountAmount);
             console.log('Số tiền giảm giá: ' + amountDiscount);
 
             // Tính toán giá đã giảm
@@ -1465,7 +1474,12 @@
             // Giá trị được giảm giá từ voucher
             var voucherDiscount = 0;
             if (discountPercent != -1) {
-                voucherDiscount = totalpricecart * discountPercent / 100;
+            	if (maxDiscountAmount != -1) {
+                    	voucherDiscount = maxDiscountAmount;
+                }
+            	if (voucherDiscount >= (totalpricecart * discountPercent / 100)) {
+                	voucherDiscount = totalpricecart * discountPercent / 100;
+                }
                 discountedPrice -= voucherDiscount;
             } else if (amountDiscount != -1) {
                 voucherDiscount = amountDiscount;
@@ -1513,6 +1527,7 @@
             if (totalCategoryValue >= minimumOrderValue) {
                 var discountPercent = parseFloat($('input[name="voucherId"]:checked').data('percent'));
                 var amountDiscount = parseFloat($('input[name="voucherId"]:checked').data('amount'));
+                var maxDiscountAmount = parseFloat($('input[name="voucherId"]:checked').data('maxamount'));
 
                 // Tính toán giá đã giảm dựa trên tổng giá trị các mặt hàng thuộc về danh mục
                 var discountedPrice = totalpricecart;
@@ -1520,7 +1535,12 @@
                 var voucherDiscount = 0;
                 if (discountPercent != -1) {
                     // Nếu là % thì giá cuối cùng = tổng giá giỏ hàng - totalCategoryValue * discountPercent / 100
-                    voucherDiscount = totalCategoryValue * discountPercent / 100;
+                    if (maxDiscountAmount != -1) {
+                    	voucherDiscount = maxDiscountAmount;
+                    }
+            		if (voucherDiscount >= (totalCategoryValue * discountPercent / 100)) {
+                		voucherDiscount = totalCategoryValue * discountPercent / 100
+                	}
                     discountedPrice -= voucherDiscount;
                 } else if (amountDiscount != -1) {
                     // Nếu nó là số tiền mặt thì lấy luôn giá cuối cùng = tổng giá giỏ hàng - amount

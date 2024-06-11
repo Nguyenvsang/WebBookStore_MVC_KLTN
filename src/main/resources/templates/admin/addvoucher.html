@@ -194,7 +194,7 @@
                         </div>
 
                         <div class="row-01 d-flex align-items-center" style="margin: 15px 0px">
-                            <div class="col-6" style="padding: 0px 10px 0px 0px">
+                            <div class="col-3" style="padding: 0px 10px 0px 0px">
                                 <div class="form-group">
                                     <label for="minimumOrderValue">Giá trị đơn hàng tối thiểu:</label>
                                     <input type="number" class="form-control" id="minimumOrderValue" name="minimumOrderValue" min="1000" step="0.01" required style="border-radius: 50px;" />
@@ -203,13 +203,19 @@
                             <div class="col-3" style="padding: 0px 10px 0px 10px">
                                 <div class="form-group">
                                     <label for="discountPercent">Tỷ lệ % giảm giá:</label>
-                                    <input type="number" class="form-control" id="discountPercent" name="discountPercent" min="1" max="100" step="1" placeholder="ví dụ: 10, 15,..." style="border-radius: 50px;" />
+                                    <input type="number" class="form-control" id="discountPercent" name="discountPercent" min="1" max="100" step="1" placeholder="ví dụ: 10, 15,..." required style="border-radius: 50px;" />
+                                </div>
+                            </div>
+                            <div class="col-3" style="padding: 0px 0px 0px 10px">
+                                <div class="form-group">
+                                    <label for="maxDiscountAmount">Tối đa:</label>
+                                    <input type="number" class="form-control" id="maxDiscountAmount" name="maxDiscountAmount" min="1000" step="0.01" placeholder="ví dụ: 10000, 20000,..." required style="border-radius: 50px;" />
                                 </div>
                             </div>
                             <div class="col-3" style="padding: 0px 0px 0px 10px">
                                 <div class="form-group">
                                     <label for="amountDiscount">Số tiền giảm giá:</label>
-                                    <input type="number" class="form-control" id="amountDiscount" name="amountDiscount" min="1000" step="0.01" placeholder="ví dụ: 10000, 20000,..." style="border-radius: 50px;" />
+                                    <input type="number" class="form-control" id="amountDiscount" name="amountDiscount" min="1000" step="0.01" placeholder="ví dụ: 10000, 20000,..." required style="border-radius: 50px;" />
                                 </div>
                             </div>
                         </div>
@@ -246,11 +252,19 @@
             }
         };
 
-        // Lắng nghe sự kiện nhập vào trên discountPercent và amountDiscount
+        // Lắng nghe sự kiện nhập vào trên discountPercent, maxDiscountAmount và amountDiscount
         document.getElementById('discountPercent').addEventListener('input', function() {
             if (this.value !== '') {
                 document.getElementById('amountDiscount').disabled = true;
-            } else {
+            } else if (document.getElementById('maxDiscountAmount').value === '') {
+                document.getElementById('amountDiscount').disabled = false;
+            }
+        });
+
+        document.getElementById('maxDiscountAmount').addEventListener('input', function() {
+            if (this.value !== '') {
+                document.getElementById('amountDiscount').disabled = true;
+            } else if (document.getElementById('discountPercent').value === '') {
                 document.getElementById('amountDiscount').disabled = false;
             }
         });
@@ -258,10 +272,13 @@
         document.getElementById('amountDiscount').addEventListener('input', function() {
             if (this.value !== '') {
                 document.getElementById('discountPercent').disabled = true;
+                document.getElementById('maxDiscountAmount').disabled = true;
             } else {
                 document.getElementById('discountPercent').disabled = false;
+                document.getElementById('maxDiscountAmount').disabled = false;
             }
         });
+
     </script>
 
     <script>
@@ -275,6 +292,26 @@
             document.getElementById("popup").style.display = "block";
             document.getElementById("overlay").style.display = "block";
         }
+
+        function validateForm() {
+            var discountPercent = document.getElementById('discountPercent').value;
+            var maxDiscountAmount = document.getElementById('maxDiscountAmount').value;
+            var amountDiscount = document.getElementById('amountDiscount').value;
+
+            if ((discountPercent === '' && maxDiscountAmount === '') && amountDiscount === '') {
+                // Cập nhật nội dung của popup-message
+                document.getElementById('popup-message').textContent = 'Bạn phải nhập vào hai cặp ô Tỷ lệ % giảm giá và Tối đa hoặc ô Số tiền giảm giá.';
+
+                // Hiển thị popup
+                document.getElementById('popup').style.display = 'block';
+                document.getElementById('overlay').style.display = 'block';
+
+                return false;
+            }
+
+            return true;
+        }
+
     </script>
 
 </body>

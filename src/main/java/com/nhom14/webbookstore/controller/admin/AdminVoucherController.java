@@ -182,6 +182,7 @@ public class AdminVoucherController {
                              @RequestParam("code") String code,
                              @RequestParam("quantity") int quantity,
                              @RequestParam(value = "discountPercent", required = false) Integer discountPercent,
+                             @RequestParam(value = "maxDiscountAmount", required = false) Double maxDiscountAmount,
                              @RequestParam(value = "amountDiscount", required = false) Double amountDiscount,
                              @RequestParam("minimumOrderValue") double minimumOrderValue,
                              @RequestParam("status") int status,
@@ -206,7 +207,7 @@ public class AdminVoucherController {
         Timestamp startTimestamp = convertToTimestamp(startDate, startTime);
         Timestamp endTimestamp = convertToTimestamp(endDate, endTime);
 
-        Voucher voucher = createVoucher(code, quantity, discountPercent, amountDiscount, minimumOrderValue, status, startTimestamp, endTimestamp, categoryId);
+        Voucher voucher = createVoucher(code, quantity, discountPercent, maxDiscountAmount, amountDiscount, minimumOrderValue, status, startTimestamp, endTimestamp, categoryId);
 
         voucherService.saveVoucher(voucher);
         redirectAttributes.addAttribute("message", "Đã thêm thành công!");
@@ -244,16 +245,18 @@ public class AdminVoucherController {
         return Timestamp.valueOf(localDateTime);
     }
 
-    private Voucher createVoucher(String code, int quantity, Integer discountPercent, Double amountDiscount, double minimumOrderValue, int status, Timestamp startTimestamp, Timestamp endTimestamp, Integer categoryId) {
+    private Voucher createVoucher(String code, int quantity, Integer discountPercent, Double maxDiscountAmount, Double amountDiscount, double minimumOrderValue, int status, Timestamp startTimestamp, Timestamp endTimestamp, Integer categoryId) {
         Voucher voucher = new Voucher();
         voucher.setCode(code);
         voucher.setQuantity(quantity);
         voucher.setRemainingQuantity(quantity);
-        // Gán giá trị ban đầu cho cả 3
+        // Gán giá trị ban đầu cho cả 4
         voucher.setDiscountPercent(-1);
+        voucher.setMaxDiscountAmount(-1);
         voucher.setAmountDiscount(-1);
         voucher.setCategory(null);
         if (discountPercent != null) voucher.setDiscountPercent(discountPercent);
+        if (maxDiscountAmount != null) voucher.setMaxDiscountAmount(maxDiscountAmount);
         if (amountDiscount != null) voucher.setAmountDiscount(amountDiscount);
         voucher.setMinimumOrderValue(minimumOrderValue);
         voucher.setStatus(status);
@@ -309,6 +312,7 @@ public class AdminVoucherController {
                                 @RequestParam("quantity") int quantity,
                                 @RequestParam(value = "remainingQuantity", required = false) Integer remainingQuantity,
                                 @RequestParam(value = "discountPercent", required = false) Integer discountPercent,
+                                @RequestParam(value = "maxDiscountAmount", required = false) Double maxDiscountAmount,
                                 @RequestParam(value = "amountDiscount", required = false) Double amountDiscount,
                                 @RequestParam("minimumOrderValue") double minimumOrderValue,
                                 @RequestParam("status") int status,
@@ -340,17 +344,18 @@ public class AdminVoucherController {
         Timestamp startTimestamp = convertToTimestamp(startDate, startTime);
         Timestamp endTimestamp = convertToTimestamp(endDate, endTime);
         
-        voucherService.saveVoucher(updateVoucher(voucher, code, quantity, remainingQuantity, discountPercent, amountDiscount, minimumOrderValue, status, startTimestamp, endTimestamp, categoryId));
+        voucherService.saveVoucher(updateVoucher(voucher, code, quantity, remainingQuantity, discountPercent, maxDiscountAmount, amountDiscount, minimumOrderValue, status, startTimestamp, endTimestamp, categoryId));
         redirectAttributes.addAttribute("message", "Đã cập nhật thành công!");
         redirectAttributes.addAttribute("voucherId", voucherId);
         return "redirect:/updatevoucher";
     }
 
-    private Voucher updateVoucher(Voucher voucher, String code, Integer quantity, Integer remainingQuantity, Integer discountPercent, Double amountDiscount, Double minimumOrderValue, Integer status, Timestamp startTimestamp, Timestamp endTimestamp, Integer categoryId) {
+    private Voucher updateVoucher(Voucher voucher, String code, Integer quantity, Integer remainingQuantity, Integer discountPercent, Double maxDiscountAmount, Double amountDiscount, Double minimumOrderValue, Integer status, Timestamp startTimestamp, Timestamp endTimestamp, Integer categoryId) {
         voucher.setCode(code);
         voucher.setQuantity(quantity);
         if (remainingQuantity != null) voucher.setRemainingQuantity(remainingQuantity);
         if (discountPercent != null) voucher.setDiscountPercent(discountPercent);
+        if (maxDiscountAmount != null) voucher.setMaxDiscountAmount(maxDiscountAmount);
         if (amountDiscount != null) voucher.setAmountDiscount(amountDiscount);
         voucher.setMinimumOrderValue(minimumOrderValue);
         voucher.setStatus(status);

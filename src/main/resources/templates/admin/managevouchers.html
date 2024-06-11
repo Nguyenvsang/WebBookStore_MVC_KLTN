@@ -337,10 +337,11 @@
                         <div class="next-table-header-inner">
                             <table>
                                 <colgroup style="width: 1020px">
-                                    <col style="width: 15%;">
                                     <col style="width: 10%;">
                                     <col style="width: 10%;">
-                                    <col style="width: 15%;">
+                                    <col style="width: 10%;">
+                                    <col style="width: 10%;">
+                                    <col style="width: 10%;">
                                     <col style="width: 15%;">
                                     <col style="width: 10%;">
                                     <col style="width: 10%;">
@@ -356,10 +357,14 @@
                                         <div class="next-table-cell-wrapper">Giảm giá (%)</div>
                                     </th>
                                     <th rowspan="1" class="next-table-header-node " style="text-align: center; padding: 0px 10px">
+                                        <div class="next-table-cell-wrapper">Tối đa</div>
+                                    </th>
+                                    <th rowspan="1" class="next-table-header-node " style="text-align: center; padding: 0px 10px">
                                         <div class="next-table-cell-wrapper">Giá giảm (đ)</div>
                                     </th>
                                     <th rowspan="1" class="next-table-header-node " style="text-align: center; padding: 0px 10px">
                                         <div class="next-table-cell-wrapper">Đơn hàng tối thiểu (đ)</div>
+                                    </th>
                                     <th rowspan="1" class="next-table-header-node " style="text-align: center; padding: 0px 10px">
                                         <div class="next-table-cell-wrapper">Phạm vi áp dụng</div>
                                     </th>
@@ -384,10 +389,11 @@
                     <div class="next-table-body">
                         <table>
                             <colgroup style="width: 1020px;">
-                                <col style="width: 15%;">
                                 <col style="width: 10%;">
                                 <col style="width: 10%;">
-                                <col style="width: 15%;">
+                                <col style="width: 10%;">
+                                <col style="width: 10%;">
+                                <col style="width: 10%;">
                                 <col style="width: 15%;">
                                 <col style="width: 10%;">
                                 <col style="width: 10%;">
@@ -402,6 +408,11 @@
                                 <td rowspan="1" class="next-table-header-node" style="padding: 10px 0px; text-align: center;">
                                     <span th:if="${voucher.discountPercent != -1}" th:text="${voucher.discountPercent}"></span>
                                     <span th:if="${voucher.discountPercent == -1}" th:text="''"></span>
+                                </td>
+
+                                <td rowspan="1" class="next-table-header-node" style="padding: 10px 0px; text-align: center;">
+                                    <span th:if="${voucher.maxDiscountAmount != -1}" th:text="${#numbers.formatInteger(voucher.maxDiscountAmount, 0, 'POINT')} + ' đ'"></span>
+                                    <span th:if="${voucher.maxDiscountAmount == -1}" th:text="''"></span>
                                 </td>
 
                                 <td rowspan="1" class="next-table-header-node" style="padding: 10px 0px; text-align: center;">

@@ -160,11 +160,15 @@
                             <div class="col-3" style="padding: 0px 10px 0px 0px">
                                 <div class="form-group" th:if="${voucher.discountPercent != -1}">
                                     <label for="discountPercent" >Tỷ lệ % giảm giá:</label>
-                                    <input type="number" class="form-control" id="discountPercent" name="discountPercent" th:value="${voucher.discountPercent}" min="1" max="100" step="1" placeholder="ví dụ: 10, 15, 20" style="border-radius: 50px;" />
+                                    <input type="number" class="form-control" id="discountPercent" name="discountPercent" th:value="${voucher.discountPercent}" min="1" max="100" step="1" placeholder="ví dụ: 10, 15, 20" required style="border-radius: 50px;" />
+                                </div>
+                                <div class="form-group" th:if="${voucher.maxDiscountAmount != -1}">
+                                    <label for="maxDiscountAmount">Tối đa:</label>
+                                    <input type="number" class="form-control" id="maxDiscountAmount" name="maxDiscountAmount" th:value="${voucher.maxDiscountAmount}" min="1000" step="0.01" placeholder="ví dụ: 10000, 20000,..." required style="border-radius: 50px;" />
                                 </div>
                                 <div class="form-group" th:if="${voucher.amountDiscount != -1}">
                                     <label for="amountDiscount" >Số tiền giảm giá:</label>
-                                    <input type="number" class="form-control" id="amountDiscount" name="amountDiscount" th:value="${voucher.amountDiscount}" min="1000" step="0.01" placeholder="ví dụ: 10000, 20000, 30000" style="border-radius: 50px;" />
+                                    <input type="number" class="form-control" id="amountDiscount" name="amountDiscount" th:value="${voucher.amountDiscount}" min="1000" step="0.01" placeholder="ví dụ: 10000, 20000, 30000" required style="border-radius: 50px;" />
                                 </div>
                             </div>
                             <div class="col-3" style="padding: 0px 10px 0px 10px">

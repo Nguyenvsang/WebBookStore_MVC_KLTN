@@ -404,7 +404,12 @@ public class OrderController {
             // Kiểm tra xem voucher (mọi sách) có thể áp dụng cho đơn hàng hay không
             if (selectedVoucher.getCategory() == null && selectedVoucher.getMinimumOrderValue() <= totalAmount) {
                 if (selectedVoucher.getDiscountPercent() != -1) {
-                    voucherDiscount = totalAmount * selectedVoucher.getDiscountPercent() / 100;
+                    if (selectedVoucher.getMaxDiscountAmount() != -1) {
+                        voucherDiscount = selectedVoucher.getMaxDiscountAmount();
+                    }
+                    if (voucherDiscount >= (totalAmount * selectedVoucher.getDiscountPercent() / 100)) {
+                        voucherDiscount = totalAmount * selectedVoucher.getDiscountPercent() / 100;
+                    }
                     discountedPriceByVoucher -= voucherDiscount;
                 } else if (selectedVoucher.getAmountDiscount() != -1) {
                     voucherDiscount = selectedVoucher.getAmountDiscount();
@@ -431,7 +436,12 @@ public class OrderController {
                     // Tính toán giá đã giảm dựa trên tổng giá trị các mặt hàng thuộc về danh mục
                     if (selectedVoucher.getDiscountPercent() != -1) {
                         // Nếu là % thì giá cuối cùng = tổng giá giỏ hàng - totalCategoryValue * discountPercent / 100
-                        voucherDiscount = totalCategoryValue * selectedVoucher.getDiscountPercent() / 100;
+                        if (selectedVoucher.getMaxDiscountAmount() != -1) {
+                            voucherDiscount = selectedVoucher.getMaxDiscountAmount();
+                        }
+                        if (voucherDiscount >= (totalCategoryValue * selectedVoucher.getDiscountPercent() / 100)) {
+                            voucherDiscount = totalCategoryValue * selectedVoucher.getDiscountPercent() / 100;
+                        }
                         discountedPriceByVoucher -= voucherDiscount;
                     } else if (selectedVoucher.getAmountDiscount() != -1) {
                         // Nếu nó là số tiền mặt thì lấy luôn giá cuối cùng = tổng giá giỏ hàng - amount
