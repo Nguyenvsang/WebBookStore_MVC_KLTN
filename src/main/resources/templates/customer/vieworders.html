@@ -403,6 +403,7 @@
 									<td rowspan="1" class="next-table-header-node " th:text="${#temporals.format(order.dateOrder.toLocalDateTime(), 'dd/MM/yyyy')}" style="padding: 10px 10px; text-align: center"></td>
 									<td rowspan="1" class="next-table-header-node " style="padding: 10px 20px; text-align: center;">
 										<img th:src="${order.orderitems[0].book.bookImages[0].path}" width="70px" style="display: block; margin: auto;">
+
 									</td>
 									<td rowspan="1" class="next-table-header-node" style="padding: 10px 10px; text-align: center">
 										<span th:switch="${order.status}" class="d-flex align-items-center justify-content-center">

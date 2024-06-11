@@ -276,6 +276,24 @@
 		  max-height: 400px; /* Chiều cao tối đa của thẻ div */
 		}
 
+		.modal-body::-webkit-scrollbar {
+            width: 10px; /* Độ rộng của thanh cuộn */
+        }
+
+        .modal-body::-webkit-scrollbar-track {
+            background: #f1f1f1; /* Màu nền của thanh cuộn */
+            border-radius: 10px;
+        }
+
+        .modal-body::-webkit-scrollbar-thumb {
+            background: #79a7d5; /* Màu của thanh cuộn */
+            border-radius: 10px; /* Bo tròn cho phần thanh cuộn */
+        }
+
+        .modal-body::-webkit-scrollbar-thumb:hover {
+            background: #5591c5; /* Màu của thanh cuộn khi di chuột qua */
+        }
+
 		.modal-dialog {
 			display: flex;
 			justify-content: center;
@@ -450,6 +468,17 @@
 		.itemCheckbox:active {
 			border-color: #1f366e;
 			box-shadow: 0 0px 4px rgba(0, 0, 0, 0.2);
+		}
+
+		.btn-primary {
+			background-color: #538abe;
+			font-weight: bold;
+			color: white;
+		}
+		.btn-primary:hover {
+			background-color: #365e94;
+			font-weight: bold;
+			color: white;
 		}
 	</style>
 </head>
@@ -826,8 +855,8 @@
 		<div class="modal-content"  style="border-radius: 15px">
 			<div class="modal-header" style="border-bottom: 1px solid white;">
 				<div class="row-title d-flex">
-					<span class="material-symbols-outlined" style="color: #211f7f; margin: 0px; padding-right: 5px">redeem</span>
-					<h6 class="modal-title" id="voucherModalLabel" style="color: #211f7f;">Chọn Voucher</h6>
+					<span class="material-symbols-outlined" style="color: #365e94; margin: 0px; padding-right: 5px">redeem</span>
+					<h6 class="modal-title" id="voucherModalLabel" style="color: #365e94;">Chọn Voucher</h6>
 				</div>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
@@ -843,9 +872,8 @@
 								<div class="row-voucher d-flex justify-content-center">
 									<div class="col-3 " style="padding-left: 0px; flex-direction: column; justify-content: center">
 										<img src="https://res.cloudinary.com/dylwewmt0/image/upload/v1717093858/PHOTO_LIST/Vouchers/discount.png" alt="Knowledge Young" style="width: 100px;">
-										<input style="width: 15px; height: 15px" type="radio" name="voucherId" th:value="${voucher.id}" th:data-id="${voucher.id}" th:data-percent="${voucher.discountPercent}" th:data-amount="${voucher.amountDiscount}" th:data-minvalue="${voucher.minimumOrderValue}">
 									</div>
-									<div class="col-9" style="padding-right: 0px">
+									<div class="col-8" style="padding-right: 0px">
 										<p class="card-text" style="margin-bottom: 8px">
 											<span id="voucherCode" class="voucherCode" th:text="${voucher.code}" style="color: #f17746; font-weight: bold"></span>
 										</p>
@@ -871,6 +899,9 @@
 											Hạn sử dụng: <span class="voucherEndDate" th:text="${#temporals.format(voucher.endDate.toLocalDateTime(), 'dd/MM/yyyy HH:mm:ss')}"></span>
 										</p>
 									</div>
+									<div class="col-1" style="padding-right: 0px">
+										<input style="width: 15px; height: 15px" type="radio" name="voucherId" th:value="${voucher.id}" th:data-id="${voucher.id}" th:data-percent="${voucher.discountPercent}" th:data-amount="${voucher.amountDiscount}" th:data-minvalue="${voucher.minimumOrderValue}">
+									</div>
 								</div>
 							</div>
 						</div>
@@ -878,7 +909,7 @@
 				</form>
 			</div>
 			<div class="modal-footer" style="border-top: 1px solid white;">
-				<button type="button" class="btn btn-secondary" data-dismiss="modal" style="border-radius: 15px">Đóng</button>
+				<button type="button" class="btn btn-secondary" data-dismiss="modal" style="border-radius: 15px; font-weight: bold">Đóng</button>
 				<button type="button" class="btn btn-primary" id="selectVoucherConfirm" style="border-radius: 15px">Áp dụng Voucher</button>
 			</div>
 		</div>

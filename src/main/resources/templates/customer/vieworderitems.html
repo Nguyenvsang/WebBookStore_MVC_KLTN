@@ -219,6 +219,11 @@
 			padding 5px;
 		}
 
+		.badge-02{
+			color: #5b5a7a;
+			font-weight: bold;
+		}
+
 	</style>
 </head>
 <body>
@@ -335,16 +340,18 @@
 							<span class="material-symbols-outlined order" style="margin-right: 10px; margin-left: 20px">contract_delete</span>
 							<span th:if="${order.infoCancelOrder != null}" th:text="${#temporals.format(order.infoCancelOrder.date.toLocalDateTime(), 'dd/MM/yyyy')}"></span>
 							<p style="margin: 0px 0px 0px; padding: 0 20px; font-weight: bold; color: #f17746;">Đã hủy đơn</p>
-							<p style="margin: 0px 0px 0px; padding: 0 20px; font-weight: bold; color: #f17746;">Lý do:</p>
-							<div th:if="${order.infoCancelOrder != null}" class="col-order d-flex" style="justify-content: flex-end; padding: 0px 20px">
-									<span th:switch="${order.infoCancelOrder.type}" >
-										<span th:case="0" class="badge-01 ">Đặt nhầm sản phẩm</span>
-										<span th:case="1" class="badge-01 ">Phí vận chuyển cao</span>
-										<span th:case="2" class="badge-01 ">Muốn đổi địa chỉ giao hàng</span>
-										<span th:case="3" class="badge-01 ">Muốn thay đổi sản phẩm</span>
-										<span th:case="4" class="badge-01 ">Nhầm phương thức thanh toán</span>
-										<span th:case="5" class="badge-01 ">Muốn đổi phương thức thanh toán</span>
-										<span th:case="6" class="badge-01 ">Đổi ý, không muốn mua nữa</span>
+						</div>
+						<div th:if="${order.status == 4}" class="notify d-flex align-items-center" role="alert" style="margin-top: 10px">
+							<p style="margin: 0px 0px 0px; padding: 0 20px; font-weight: bold; color: #538abe">Lý do:</p>
+							<div th:if="${order.infoCancelOrder != null}" class="col-order d-flex" style="justify-content: flex-end;">
+									<span th:switch="${order.infoCancelOrder.type}" style="padding: 5px 8px; background-color: #d9e1f7; border-radius: 10px">
+										<span th:case="0" class="badge-02 ">Đặt nhầm sản phẩm</span>
+										<span th:case="1" class="badge-02 ">Phí vận chuyển cao</span>
+										<span th:case="2" class="badge-02 ">Muốn đổi địa chỉ giao hàng</span>
+										<span th:case="3" class="badge-02 ">Muốn thay đổi sản phẩm</span>
+										<span th:case="4" class="badge-02 ">Nhầm phương thức thanh toán</span>
+										<span th:case="5" class="badge-02 ">Muốn đổi phương thức thanh toán</span>
+										<span th:case="6" class="badge-02 ">Đổi ý, không muốn mua nữa</span>
 									</span>
 							</div>
 							<span th:if="${order.infoCancelOrder.otherType != null || order.infoCancelOrder.otherType != ''}" th:text="${order.infoCancelOrder.otherType}"></span>
