@@ -212,6 +212,11 @@
             color: white;
         }
 
+        .voucher-code {
+            word-wrap: break-word; /* Đảm bảo từ sẽ xuống dòng nếu quá dài */
+            word-break: break-all; /* Đảm bảo từ sẽ xuống dòng nếu không có dấu cách */
+        }
+
     </style>
 </head>
 <body>
@@ -403,7 +408,7 @@
                             <tbody>
                             <tr th:each="voucher : ${vouchers}" onmouseover="this.style.backgroundColor='#e0f3ff';" onmouseout="this.style.backgroundColor='transparent';">
 
-                                <td rowspan="1" class="next-table-header-node" style="padding: 10px 10px; text-align: center" th:text="${voucher.code}"></td>
+                                <td rowspan="1" class="next-table-header-node voucher-code" style="padding: 10px 10px; text-align: center" th:text="${voucher.code}"></td>
 
                                 <td rowspan="1" class="next-table-header-node" style="padding: 10px 0px; text-align: center;">
                                     <span th:if="${voucher.discountPercent != -1}" th:text="${voucher.discountPercent}"></span>

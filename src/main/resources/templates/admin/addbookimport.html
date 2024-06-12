@@ -99,6 +99,96 @@
 			color: white;
 		}
 
+        /* Bo tròn góc dưới trái và phải cho dropdown của select2 */
+        .select2-dropdown.select2-dropdown--below {
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+            border: 1px solid #cecece;
+        }
+
+        /* Tạo hiệu ứng thanh cuộn */
+        .select2-results__options::-webkit-scrollbar {
+            width: 10px; /* Độ rộng của thanh cuộn */
+        }
+
+        .select2-results__options::-webkit-scrollbar-track {
+            background: #f1f1f1; /* Màu nền của thanh cuộn */
+            border-radius: 10px;
+        }
+
+        .select2-results__options::-webkit-scrollbar-thumb {
+            background: #79a7d5; /* Màu của thanh cuộn */
+            border-radius: 10px; /* Bo tròn cho phần thanh cuộn */
+        }
+
+        .select2-results__options::-webkit-scrollbar-thumb:hover {
+            background: #5591c5; /* Màu của thanh cuộn khi di chuột qua */
+        }
+
+        .select2-selection__choice__display{
+            background-color: #e8f0fe;
+            border: none;
+        }
+        .select2-selection__choice__remove{
+            background-color: #e8f0fe;
+            border: none;
+        }
+
+        .select2-container .select2-selection--multiple .select2-selection__rendered {
+            display: flex;
+        }
+        .select2-selection.select2-selection--multiple {
+            border-radius: 10px;
+            border: 1px solid #cecece;
+            height: 38px;
+            padding: 0px;
+        }
+
+        .select2-selection.select2-selection--multiple:focus {
+            border-radius: 10px;
+            border: 1px solid #cecece;
+            height: 38px;
+            padding: 0px;
+        }
+
+        .select2.select2-container.select2-container--default.select2-container--below {
+            height: 38px;
+            border-radius: 50px;
+        }
+
+        .selection{
+            height: 38px;
+        }
+
+        .select2-selection__rendered{
+            margin: 0px;
+            height: 38px;
+
+        }
+
+        .select2-search__field{
+            padding-bottom: 10px
+        }
+        .select2-selection.select2-selection--single{
+            height: 38px;
+            border-radius: 10px;
+            border: 1px solid #cecece;
+        }
+
+        .select2-selection__placeholder{
+            display: flex;
+            align-items: center;
+        }
+
+        .select2-search__field{
+            border-radius: 50px;
+            height: 38px;
+            border: 1px solid #cecece;
+        }
+
+        .select2-search.select2-search--dropdown{
+            padding: 10px 10px;
+        }
     </style>
 </head>
 <body>
@@ -137,44 +227,18 @@
                 <div class="frame-body">
                     <form id="addBookImportForm" th:action="@{/addbookimport}" method="post">
                         <div class="row-01 d-flex align-items-center">
-                            <div class="form-group">
-                                <label for="bookId">Sách:</label>
-                                <select class="form-control" id="bookId" name="bookId" required style="border-radius: 50px;">
-                                    <option value="">-- Chọn sách --</option>
-                                    <option th:each="book : ${allBooks}" th:value="${book.id}" th:text="${book.name}"></option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="row-01 d-flex align-items-center" style="margin-top: 15px">
-                            <div class="col-4" style="padding: 0px 15px 0px 0px; ">
+                            <div class="col-12" style="padding: 0px">
                                 <div class="form-group">
-                                    <label for="quantity" >Số lượng:</label>
-                                    <input type="number" class="form-control" id="quantity" name="quantity" min="0" required style="border-radius: 50px;" />
-                                </div>
-                            </div>
-                            <div class="col-4" style="padding: 0px;">
-                                <div class="form-group">
-                                    <label for="importPrice" >Giá nhập:</label>
-                                    <input type="number" class="form-control" id="importPrice" name="importPrice" min="0" required style="border-radius: 50px;" />
+                                    <label for="bookId">Sách:</label>
+                                    <select class="form-control" id="bookId" name="bookId" required style="border-radius: 50px;">
+                                        <option value="">-- Chọn sách --</option>
+                                        <option th:each="book : ${allBooks}" th:value="${book.id}" th:text="${book.name}"></option>
+                                    </select>
                                 </div>
                             </div>
                         </div>
-                        <div class="row-01 d-flex align-items-center" style="margin: 15px 0px 15px 0px">
-                            <div class="col-4" style="padding: 0px 15px 0px 0px; ">
-                                <!-- Ô input cho ngày -->
-                                <div class="form-group">
-                                    <label for="importDate">Ngày nhập:</label>
-                                    <input type="date" class="form-control" id="importDate" name="importDate" style="border-radius: 50px;" required />
-                                </div>
-                            </div>
-                            <div class="col-4" style="padding: 0px 15px 0px 0px; ">
-                                <!-- Ô input cho giờ -->
-                                <div class="form-group">
-                                    <label for="importTime">Giờ nhập:</label>
-                                    <input type="time" class="form-control" id="importTime" name="importTime" style="border-radius: 50px;" required />
-                                </div>
-                            </div>
-                            <div class="col-4" style="padding: 0px">
+                        <div class="row-01 d-flex align-items-center">
+                            <div class="col-12" style="padding: 0px">
                                 <div class="form-group">
                                     <label for="status">Trạng thái:</label>
                                     <select class="form-control" id="status" name="status" style="border-radius: 50px;" required>
@@ -182,6 +246,36 @@
                                         <option value="1">Đang bán</option>
                                         <option value="2">Chưa bán</option>
                                     </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row-01 d-flex align-items-center" style="margin-top: 15px">
+                            <div class="col-6" style="padding: 0px 10px 0px 0px; ">
+                                <div class="form-group">
+                                    <label for="quantity" >Số lượng:</label>
+                                    <input type="number" class="form-control" id="quantity" name="quantity" min="0" required style="border-radius: 50px;" />
+                                </div>
+                            </div>
+                            <div class="col-6" style="padding: 0px 0px 0px 10px;">
+                                <div class="form-group">
+                                    <label for="importPrice" >Giá nhập:</label>
+                                    <input type="number" class="form-control" id="importPrice" name="importPrice" min="0" required style="border-radius: 50px;" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row-01 d-flex align-items-center" style="margin: 15px 0px 15px 0px">
+                            <div class="col-6" style="padding: 0px 10px 0px 0px; ">
+                                <!-- Ô input cho ngày -->
+                                <div class="form-group">
+                                    <label for="importDate">Ngày nhập:</label>
+                                    <input type="date" class="form-control" id="importDate" name="importDate" style="border-radius: 50px;" required />
+                                </div>
+                            </div>
+                            <div class="col-6" style="padding: 0px 0px 0px 10px; ">
+                                <!-- Ô input cho giờ -->
+                                <div class="form-group">
+                                    <label for="importTime">Giờ nhập:</label>
+                                    <input type="time" class="form-control" id="importTime" name="importTime" style="border-radius: 50px;" required />
                                 </div>
                             </div>
                         </div>

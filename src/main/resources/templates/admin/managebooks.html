@@ -88,12 +88,16 @@
 		border-bottom-right-radius: 15px;
 	}
 	.bg-green {
-		background-color: rgb(98,191,94);
+		background-color: #36aa00;
 		color: white;
+		font-weight: bold;
+		font-size: 13px;
 	}
 	.bg-red {
-		background-color: rgb(241,56,71);
-		color: white;		
+		background-color: #dc3545;
+		color: white;
+		font-weight: bold;
+		font-size: 13px;
 	}
 	
 		.container-main {
@@ -384,11 +388,11 @@
 
 									<td rowspan="1" class="next-table-header-node" style="padding: 10px 0px; text-align: center;" th:text="${book.category.name}"></td>
 
-									<td rowspan="1" class="next-table-header-node" style="padding: 10px 0px; text-align: center;">
+									<td rowspan="1" class="next-table-header-node" style="padding: 10px 10px; text-align: center;">
 										<form>
 											<input type="hidden" name="bookId" th:value="${book.id}">
 											<select name="status" onchange="this.className = (this.value == 1 ? 'bg-green' : 'bg-red')" th:class="${book.status eq 1 ? 'bg-green' : 'bg-red'}"
-													style="border: 1px solid rgb(192, 192, 192); border-radius: 10px;">
+													style="border: none; border-radius: 5px; padding: 0px 0px 3px 8px">
 												<option value="1" th:selected="${book.status eq 1}">Đang kinh doanh</option>
 												<option value="0" th:selected="${book.status eq 0}">Ngừng kinh doanh</option>
 											</select>

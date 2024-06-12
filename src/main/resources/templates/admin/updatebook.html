@@ -120,6 +120,95 @@
 		.btn-primary:active {
 			background-color: rgb(1,50,100);
 		}
+
+		/* Bo tròn góc dưới trái và phải cho dropdown của select2 */
+        .select2-dropdown.select2-dropdown--below {
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+            border: 1px solid #cecece;
+        }
+
+        /* Tạo hiệu ứng thanh cuộn */
+        .select2-results__options::-webkit-scrollbar {
+            width: 10px; /* Độ rộng của thanh cuộn */
+        }
+
+        .select2-results__options::-webkit-scrollbar-track {
+            background: #f1f1f1; /* Màu nền của thanh cuộn */
+            border-radius: 10px;
+        }
+
+        .select2-results__options::-webkit-scrollbar-thumb {
+            background: #79a7d5; /* Màu của thanh cuộn */
+            border-radius: 10px; /* Bo tròn cho phần thanh cuộn */
+        }
+
+        .select2-results__options::-webkit-scrollbar-thumb:hover {
+            background: #5591c5; /* Màu của thanh cuộn khi di chuột qua */
+        }
+
+        .select2-selection__choice__display{
+            background-color: #e8f0fe;
+            border: none;
+        }
+        .select2-selection__choice__remove{
+            background-color: #e8f0fe;
+            border: none;
+        }
+
+        .select2-container .select2-selection--multiple .select2-selection__rendered {
+            display: flex;
+        }
+        .select2-selection.select2-selection--multiple {
+            border-radius: 10px;
+            border: 1px solid #cecece;
+            height: 38px;
+            padding: 0px;
+        }
+
+        .select2-selection.select2-selection--multiple:focus {
+            border-radius: 10px;
+            border: 1px solid #cecece;
+            height: 38px;
+            padding: 0px;
+        }
+
+        .select2.select2-container.select2-container--default.select2-container--below {
+            height: 38px;
+            border-radius: 50px;
+        }
+
+        .selection{
+            height: 38px;
+        }
+
+        .select2-selection__rendered{
+            margin: 0px
+        }
+
+        .select2-search__field{
+            padding-bottom: 10px
+        }
+
+
+		/* Tạo hiệu ứng thanh cuộn */
+        .form-control::-webkit-scrollbar {
+            width: 10px; /* Độ rộng của thanh cuộn */
+        }
+
+        .form-control::-webkit-scrollbar-track {
+            background: #f1f1f1; /* Màu nền của thanh cuộn */
+            border-radius: 10px;
+        }
+
+        .form-control::-webkit-scrollbar-thumb {
+            background: #79a7d5; /* Màu của thanh cuộn */
+            border-radius: 10px; /* Bo tròn cho phần thanh cuộn */
+        }
+
+        .form-control::-webkit-scrollbar-thumb:hover {
+            background: #5591c5; /* Màu của thanh cuộn khi di chuột qua */
+        }
     </style>
 
 
@@ -162,6 +251,7 @@
             }
         }
 	</script>
+
 
 </head>
 <body>
@@ -272,12 +362,12 @@
 							</div>
 							<div class="col-5" style="padding-right: 0px; margin-top: 15px">
 								<div class="form-group">
-									<label for="detail" >Chi tiết</label>
-									<textarea style="border-radius: 10px; resize: none;" class="form-control" id="detail" name="detail" rows="7" required th:field="*{detail}"></textarea>
+									<label for="bookDetail" >Chi tiết</label>
+									<textarea style="border-radius: 10px; resize: none;" class="form-control" id="bookDetail" name="detail" rows="7" required th:field="*{detail}"></textarea>
 								</div>
 								<div class="form-group">
 									<label for="description" >Giới thiệu sách</label>
-									<textarea style="border-radius: 10px; resize: none;" class="form-control" id="description" name="description" rows="10" required th:field="*{description}"></textarea>
+									<textarea style="border-radius: 10px; resize: none;" class="form-control" id="description" name="description" rows="7" required th:field="*{description}"></textarea>
 								</div>
 							</div>
 						</div>
@@ -354,6 +444,14 @@
 	<!-- Select2 JS -->
 	<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <!--<div th:replace="~{admin/footeradmin :: footer}"></div>-->
+
+	<!--Chỉ cho 1 khoảng cách sau mỗi thông tin của phần chi tiết sách-->
+	<script>
+		document.addEventListener("DOMContentLoaded", function() {
+            var preElement = document.getElementById("bookDetail");
+            preElement.innerHTML = preElement.innerHTML.replace(/:\s*/g, ": ");
+        });
+	</script>
 
 	<script>
 		function closePopup() {

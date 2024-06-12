@@ -198,6 +198,96 @@
             font-weight: bold;
         }
 
+        /* Bo tròn góc dưới trái và phải cho dropdown của select2 */
+        .select2-dropdown.select2-dropdown--below {
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+            border: 1px solid #cecece;
+        }
+
+        /* Tạo hiệu ứng thanh cuộn */
+        .select2-results__options::-webkit-scrollbar {
+            width: 10px; /* Độ rộng của thanh cuộn */
+        }
+
+        .select2-results__options::-webkit-scrollbar-track {
+            background: #f1f1f1; /* Màu nền của thanh cuộn */
+            border-radius: 10px;
+        }
+
+        .select2-results__options::-webkit-scrollbar-thumb {
+            background: #79a7d5; /* Màu của thanh cuộn */
+            border-radius: 10px; /* Bo tròn cho phần thanh cuộn */
+        }
+
+        .select2-results__options::-webkit-scrollbar-thumb:hover {
+            background: #5591c5; /* Màu của thanh cuộn khi di chuột qua */
+        }
+
+        .select2-selection__choice__display{
+            background-color: #e8f0fe;
+            border: none;
+        }
+        .select2-selection__choice__remove{
+            background-color: #e8f0fe;
+            border: none;
+        }
+
+        .select2-container .select2-selection--multiple .select2-selection__rendered {
+            display: flex;
+        }
+        .select2-selection.select2-selection--multiple {
+            border-radius: 10px;
+            border: 1px solid #cecece;
+            height: 38px;
+            padding: 0px;
+        }
+
+        .select2-selection.select2-selection--multiple:focus {
+            border-radius: 10px;
+            border: 1px solid #cecece;
+            height: 38px;
+            padding: 0px;
+        }
+
+        .select2.select2-container.select2-container--default.select2-container--below {
+            height: 38px;
+            border-radius: 50px;
+        }
+
+        .selection{
+            height: 38px;
+        }
+
+        .select2-selection__rendered{
+            margin: 0px;
+            height: 38px;
+            width: 100%;
+        }
+
+        .select2-search__field{
+            padding-bottom: 10px
+        }
+        .select2-selection.select2-selection--single{
+            height: 38px;
+            border-radius: 10px;
+            border: none;
+        }
+
+        .select2-selection__placeholder{
+            display: flex;
+            align-items: center;
+        }
+
+        .select2-search__field{
+            border-radius: 50px;
+            height: 38px;
+            border: none;
+        }
+
+        .select2-search.select2-search--dropdown{
+            padding: 10px 10px;
+        }
     </style>
 </head>
 <body>
@@ -236,13 +326,7 @@
         <div class="row-03 d-flex align-items-center" style="padding: 0px 40px; justify-content: space-between; margin: 40px 0px 0px 0px">
             <div class="col-dropdown d-flex align-items-center" style="height: 70px;">
 
-                <div class="dropdown-filter">
-                    <label for="bookSelect">Chọn sách:</label>
-                    <select class="form-control" id="bookSelect" name="bookSelect" style="width: 100%; border-radius: 10px;">
-                        <option value="">Tất cả</option>
-                        <option th:each="book : ${allBooks}" th:value="@{/managebookprices(bookId=${book.id}, status=${status}, sortOption=${sortOption})}" th:text="${book.name}"></option>
-                    </select>
-                </div>
+
 
                 <div class="dropdown-filter">
                     <button class="btn btn-filter-status d-flex align-items-center justify-content-center" type="button" id="optionDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -271,6 +355,17 @@
             </div>
         </div>
 
+        <div class="row-03 d-flex align-items-center" style="padding: 0px 40px; justify-content: space-between; margin: 40px 0px 0px 0px">
+            <div class="col-12 d-flex align-items-center" style="height: 90px; padding: 10px; background-color: #d8e9f5; border-radius: 15px;">
+                <div class="dropdown-filter d-flex align-items-center" style="width: 100%">
+                    <label for="bookSelect" style="width: 100px; color: #538abe; font-weight: bold">Chọn sách:</label>
+                    <select class="form-control" id="bookSelect" name="bookSelect" style="width: 100%; border-radius: 10px;">
+                        <option value="">Tất cả</option>
+                        <option th:each="book : ${allBooks}" th:value="@{/managebookprices(bookId=${book.id}, status=${status}, sortOption=${sortOption})}" th:text="${book.name}"></option>
+                    </select>
+                </div>
+            </div>
+        </div>
 
         <div class="container-main" style="background-color: white;">
 
