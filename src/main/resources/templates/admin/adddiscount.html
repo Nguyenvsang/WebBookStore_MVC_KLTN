@@ -5,6 +5,8 @@
     <title>Thêm đợt giảm giá</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <!-- Select2 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <style>
         body { background-color: #f2fbff  }
         th, td { text-align: center; }
@@ -116,7 +118,7 @@
                     </div>
                 </div>
                 <div class="frame-body">
-                    <form th:action="@{/adddiscount}" method="post">
+                    <form  id="addDiscountForm" th:action="@{/adddiscount}" method="post">
 
                         <div class="row-01 d-flex align-items-center" style="margin: 15px 0px">
                             <div class="form-group" style="width: 908.8px">
@@ -129,8 +131,8 @@
                         </div>
                         <div class="row-01 d-flex align-items-center" style="margin: 15px 0px">
                             <div class="form-group">
-                                <label for="bookId" >Sách:</label>
-                                <select class="form-control" id="bookId" name="bookId" required style="border-radius: 50px;">
+                                <label for="bookIds">Sách:</label>
+                                <select multiple class="form-control" id="bookIds" name="bookIds" required style="border-radius: 50px;">
                                     <option value="">-- Chọn sách --</option>
                                     <option th:each="book : ${allBooks}" th:value="${book.id}">
                                         <span th:text="${book.id} + ' - '"></span>
@@ -198,34 +200,11 @@
     </div>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-<script>
-    // Khi người dùng thay đổi lựa chọn trong danh sách dropdown sách
-    document.getElementById('bookId').addEventListener('change', function() {
-        // Nếu người dùng chọn một cuốn sách cụ thể
-        if (this.value !== "") {
-            // Vô hiệu hóa danh sách dropdown danh mục
-            document.getElementById('categoryId').disabled = true;
-        } else {
-            // Nếu không, kích hoạt lại danh sách dropdown danh mục
-            document.getElementById('categoryId').disabled = false;
-        }
-    });
-
-    // Tương tự, khi người dùng thay đổi lựa chọn trong danh sách dropdown danh mục
-    document.getElementById('categoryId').addEventListener('change', function() {
-        // Nếu người dùng chọn một danh mục cụ thể
-        if (this.value !== "") {
-            // Vô hiệu hóa danh sách dropdown sách
-            document.getElementById('bookId').disabled = true;
-        } else {
-            // Nếu không, kích hoạt lại danh sách dropdown sách
-            document.getElementById('bookId').disabled = false;
-        }
-    });
-</script>
-
+<!-- Select2 JS -->
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>
     function closePopup() {
         document.getElementById("popup").style.display = "none";
@@ -237,6 +216,43 @@
         document.getElementById("popup").style.display = "block";
         document.getElementById("overlay").style.display = "block";
     }
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#bookIds').select2({
+            placeholder: "Chọn sách",
+            allowClear: true
+        });
+
+        $('#addDiscountForm').on('submit', function() {
+            var $submitButton = $('.btn-create');
+            $submitButton.prop('disabled', true);
+            $submitButton.text('Đang xử lý ...');
+        });
+
+        // Khi người dùng thay đổi lựa chọn trong danh sách dropdown sách
+        $('#bookIds').on('change', function() {
+            if ($(this).val().length > 0) {
+                // Vô hiệu hóa danh sách dropdown danh mục
+                $('#categoryId').prop('disabled', true);
+            } else {
+                // Kích hoạt lại danh sách dropdown danh mục
+                $('#categoryId').prop('disabled', false);
+            }
+        });
+
+        // Khi người dùng thay đổi lựa chọn trong danh sách dropdown danh mục
+        $('#categoryId').on('change', function() {
+            if ($(this).val() !== "") {
+                // Vô hiệu hóa danh sách dropdown sách
+                $('#bookIds').prop('disabled', true);
+            } else {
+                // Kích hoạt lại danh sách dropdown sách
+                $('#bookIds').prop('disabled', false);
+            }
+        });
+    });
 </script>
 <!--<div th:replace="~{admin/footeradmin :: footer}"></div>-->
 </body>

@@ -150,7 +150,7 @@ public class AdminDiscountController {
     }
 
     @PostMapping("/adddiscount")
-    public String addDiscount(@RequestParam(value = "bookId", required = false) Integer bookId,
+    public String addDiscount(@RequestParam(value = "bookIds", required = false) List<Integer> bookIds,
                               @RequestParam(value = "categoryId", required = false) Integer categoryId,
                               @RequestParam("discountPercent") int discountPercent,
                               @RequestParam("startDate") String startDate,
@@ -159,7 +159,6 @@ public class AdminDiscountController {
                               @RequestParam("endTime") String endTime,
                               @RequestParam("status") int status,
                               RedirectAttributes redirectAttributes,
-                              Model model,
                               HttpSession session) {
         Account admin = (Account) session.getAttribute("admin");
 
@@ -185,11 +184,13 @@ public class AdminDiscountController {
         Timestamp endTimestamp = Timestamp.valueOf(endLocalDateTime);
 
         // Lấy sách
-        if (bookId != null) {
-            Book book = bookService.getBookById(bookId);
-            String redirectUrl = addDiscountForBook(book, discountPercent, startTimestamp, endTimestamp, status, redirectAttributes);
-            if (redirectUrl != null) {
-                return redirectUrl;
+        if (bookIds != null && !bookIds.isEmpty()) {
+            for (Integer bookId : bookIds) {
+                Book book = bookService.getBookById(bookId);
+                String redirectUrl = addDiscountForBook(book, discountPercent, startTimestamp, endTimestamp, status, redirectAttributes);
+                if (redirectUrl != null) {
+                    return redirectUrl;
+                }
             }
         }
 
@@ -202,7 +203,6 @@ public class AdminDiscountController {
                 }
             }
         }
-
 
         // sau khi lưu thành công
         redirectAttributes.addAttribute("message", "Đã thêm thành công!");
