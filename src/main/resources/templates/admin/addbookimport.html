@@ -5,6 +5,8 @@
     <title>Thêm đợt nhập sách</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <!-- Select2 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <style>
         body { background-color: #f2fbff  }
         th, td { text-align: center; }
@@ -133,11 +135,12 @@
                     </div>
                 </div>
                 <div class="frame-body">
-                    <form th:action="@{/addbookimport}" method="post">
+                    <form id="addBookImportForm" th:action="@{/addbookimport}" method="post">
                         <div class="row-01 d-flex align-items-center">
                             <div class="form-group">
-                                <label for="bookId" >Sách:</label>
-                                <select class="form-control" id="bookId" name="bookId" style="border-radius: 50px;">
+                                <label for="bookId">Sách:</label>
+                                <select class="form-control" id="bookId" name="bookId" required style="border-radius: 50px;">
+                                    <option value="">-- Chọn sách --</option>
                                     <option th:each="book : ${allBooks}" th:value="${book.id}" th:text="${book.name}"></option>
                                 </select>
                             </div>
@@ -190,8 +193,11 @@
             </div>
         </div>
     </div>
-<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<!-- Select2 JS -->
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <!--<div th:replace="~{admin/footeradmin :: footer}"></div>-->
 
 <script>
@@ -205,6 +211,21 @@
         document.getElementById("popup").style.display = "block";
         document.getElementById("overlay").style.display = "block";
     }
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#bookId').select2({
+            placeholder: "-- Chọn sách --",
+            allowClear: true
+        });
+    });
+
+    $('#addBookImportForm').on('submit', function() {
+        var $submitButton = $('.btn-create');
+        $submitButton.prop('disabled', true);
+        $submitButton.text('Đang xử lý ...');
+    });
 </script>
 
 </body>

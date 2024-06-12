@@ -118,7 +118,7 @@
                     </div>
                 </div>
                 <div class="frame-body">
-                    <form  id="addDiscountForm" th:action="@{/adddiscount}" method="post">
+                    <form id="addDiscountForm" th:action="@{/adddiscount}" method="post">
 
                         <div class="row-01 d-flex align-items-center" style="margin: 15px 0px">
                             <div class="form-group" style="width: 908.8px">
@@ -133,7 +133,6 @@
                             <div class="form-group">
                                 <label for="bookIds">Sách:</label>
                                 <select multiple class="form-control" id="bookIds" name="bookIds" required style="border-radius: 50px;">
-                                    <option value="">-- Chọn sách --</option>
                                     <option th:each="book : ${allBooks}" th:value="${book.id}">
                                         <span th:text="${book.id} + ' - '"></span>
                                         <span th:if="${book.currentDiscount != null}" th:text="'(Đã giảm) '"></span>
