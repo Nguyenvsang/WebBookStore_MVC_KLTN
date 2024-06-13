@@ -245,8 +245,8 @@
 					<div class="col-4" style="padding: 0px; display: flex; align-items:center; justify-content: center; width: 700px; margin: 0px">
 						<form th:action="@{/vieworders}" method="get" class="form-inline">
 							<div class="form-group">
-								<label for="dateOrder" class="sr-only">Tìm theo ngày đặt hàng</label>
-								<input type="date" class="form-control" id="dateOrder" name="dateOrderStr" placeholder="YYYY-MM-DD" th:value="${dateOrderStr}" style="border-radius: 50px; border: 1px solid #cecece; width: 150px; color: grey;">
+								<label for="dateOrder1" class="sr-only">Tìm theo ngày đặt hàng</label>
+								<input type="date" class="form-control" id="dateOrder1" name="dateOrderStr" placeholder="YYYY-MM-DD" th:value="${dateOrderStr}" style="border-radius: 50px; border: 1px solid #cecece; width: 150px; color: grey;">
 							</div>
 							<button type="submit" class="btn btn-search" style="margin-left: 10px">Tìm kiếm</button>
 						</form>
@@ -256,12 +256,12 @@
 				<div class="row-03 d-flex align-items-center" style="padding: 0px 20px; justify-content: space-between; margin: 30px 0px 30px 0px">
 					<div class="col-dropdown d-flex align-items-center" style="height: 70px;">
 						<div class="dropdown-filter">
-							<button class="btn btn-filter-status d-flex align-items-center justify-content-center" type="button" id="statusDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							<button class="btn btn-filter-status d-flex align-items-center justify-content-center" type="button" id="statusDropdown1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 								Lọc theo trạng thái
 								<span class="material-symbols-outlined" style="margin-left: 3px">expand_more</span>
 								<span class="material-symbols-outlined" style="margin-left: 3px">expand_less</span>
 							</button>
-							<div class="dropdown-menu" aria-labelledby="statusDropdown">
+							<div class="dropdown-menu" aria-labelledby="statusDropdown1">
 								<a class="dropdown-item" th:href="@{/vieworders}">Tất cả</a>
 								<a class="dropdown-item" th:href="@{/vieworders(status=0, page=1)}">Chờ xác nhận</a>
 								<a class="dropdown-item" th:href="@{/vieworders(status=1, page=1)}">Chờ lấy hàng</a>
@@ -309,8 +309,8 @@
 					<div class="col-4" style="padding: 0px; display: flex; align-items:center; justify-content: center; width: 700px; margin: 0px">
 						<form th:action="@{/vieworders}" method="get" class="form-inline">
 							<div class="form-group">
-								<label for="dateOrder" class="sr-only">Tìm theo ngày đặt hàng</label>
-								<input type="date" class="form-control" id="dateOrder" name="dateOrderStr" placeholder="YYYY-MM-DD" th:value="${dateOrderStr}" style="border-radius: 50px; border: 1px solid #cecece; width: 150px; color: grey;">
+								<label for="dateOrder2" class="sr-only">Tìm theo ngày đặt hàng</label>
+								<input type="date" class="form-control" id="dateOrder2" name="dateOrderStr" placeholder="YYYY-MM-DD" th:value="${dateOrderStr}" style="border-radius: 50px; border: 1px solid #cecece; width: 150px; color: grey;">
 							</div>
 							<button type="submit" class="btn btn-search" style="margin-left: 10px">Tìm kiếm</button>
 						</form>
@@ -320,12 +320,12 @@
 				<div class="row-03 d-flex align-items-center" style="padding: 0px 20px; justify-content: space-between; margin: 30px 0px 30px 0px">
 					<div class="col-dropdown d-flex align-items-center" style="height: 70px;">
 						<div class="dropdown-filter">
-							<button class="btn btn-filter-status d-flex align-items-center justify-content-center" type="button" id="statusDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							<button class="btn btn-filter-status d-flex align-items-center justify-content-center" type="button" id="statusDropdown2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 								Lọc theo trạng thái
 								<span class="material-symbols-outlined" style="margin-left: 3px">expand_more</span>
 								<span class="material-symbols-outlined" style="margin-left: 3px">expand_less</span>
 							</button>
-							<div class="dropdown-menu" aria-labelledby="statusDropdown">
+							<div class="dropdown-menu" aria-labelledby="statusDropdown2">
 								<a class="dropdown-item" th:href="@{/vieworders}">Tất cả</a>
 								<a class="dropdown-item" th:href="@{/vieworders(status=0, page=1)}">Chờ xác nhận</a>
 								<a class="dropdown-item" th:href="@{/vieworders(status=1, page=1)}">Chờ lấy hàng</a>
@@ -403,7 +403,8 @@
 									<td rowspan="1" class="next-table-header-node " th:text="${#temporals.format(order.dateOrder.toLocalDateTime(), 'dd/MM/yyyy')}" style="padding: 10px 10px; text-align: center"></td>
 									<td rowspan="1" class="next-table-header-node " style="padding: 10px 20px; text-align: center;">
 										<img th:src="${order.orderitems[0].book.bookImages[0].path}" width="70px" style="display: block; margin: auto;">
-
+										<!--Nếu có nhiều hơn 1 quyển sách-->
+										<span th:if="${order.orderitems.size() > 1}" th:text=" '+' + ${order.orderitems.size() - 1}"></span>
 									</td>
 									<td rowspan="1" class="next-table-header-node" style="padding: 10px 10px; text-align: center">
 										<span th:switch="${order.status}" class="d-flex align-items-center justify-content-center">
