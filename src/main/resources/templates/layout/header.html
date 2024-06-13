@@ -237,14 +237,14 @@
 						</div>
 
 						<div class="col-02" style="display: flex; align-items:center; justify-content: center; width: 700px; margin: 0px">
-							<div class= "search"
-								 style="display: flex; justify-content: center; border-radius: 50px; background-color: white; align-items: center; width: 700px; height: 40px; border: 1px solid #cecece;
-									transition: box-shadow 0.3s ease; "
+							<div class="search"
+								 style="display: flex; justify-content: center; border-radius: 50px; background-color: white; align-items: center; width: 700px; height: 40px; border: 1px solid #cecece; transition: box-shadow 0.3s ease;"
 								 onmouseover="this.style.boxShadow='0px 4px 6px rgba(0, 0, 0, 0.1)';"
 								 onmouseout="this.style.boxShadow='none';">
 								<span class="material-symbols-outlined search" style="margin: 10px; color: rgb(2,88,155);">search</span>
 								<form class="form-inline my-2 my-lg-0" th:action="@{/viewbooks}" method="GET" style="display: flex; margin: 0px; border-top-right-radius: 50px; border-bottom-right-radius: 50px;">
-									<input class="form-control mr-sm-2" type="search" name="searchKeyword" placeholder="Tìm kiếm theo tên sách, tác giả..." style="width: 656px; height: 35px; border: none; outline: none; border-top-right-radius: 50px; border-bottom-right-radius: 50px;">
+									<input class="form-control mr-sm-2" type="search" name="searchKeyword" placeholder="Tìm kiếm theo tên sách, tác giả..." style="width: 656px; height: 35px; border: none; outline: none; border-top-right-radius: 50px; border-bottom-right-radius: 50px;"
+										   th:attr="value=${#strings.isEmpty(searchKeyword) ? '' : searchKeyword}">
 								</form>
 							</div>
 						</div>
