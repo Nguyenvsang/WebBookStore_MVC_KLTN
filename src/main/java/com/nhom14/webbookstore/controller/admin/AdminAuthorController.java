@@ -2,6 +2,7 @@ package com.nhom14.webbookstore.controller.admin;
 
 import java.util.List;
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -81,8 +82,9 @@ public class AdminAuthorController {
 	}
 	
 	@GetMapping("/addauthor")
-	public String showAddAuthorForm(Model model, 
-			HttpSession session) {
+	public String showAddAuthorForm(Model model,
+									HttpSession session,
+									HttpServletRequest request) {
 		Account admin = (Account) session.getAttribute("admin");
 
 	    // Kiểm tra xem người dùng đã đăng nhập hay chưa
@@ -90,6 +92,16 @@ public class AdminAuthorController {
 	        // Nếu chưa đăng nhập, chuyển hướng về trang đăng nhập
 	        return "redirect:/loginadmin";
 	    }
+
+		// Lưu URL trang trước đó vào session
+		String referer = request.getHeader("Referer");
+		String currentUrl = request.getRequestURL().toString();
+
+		// Kiểm tra xem referer có khác với URL hiện tại hay không (tránh trường hợp 1 trang lặp lại)
+		// và có chứa cụm "/manageauthors" hoặc "/addbook"(tránh trường hợp vượt quá kiểm soát)
+		if (referer != null && !referer.equals(currentUrl) && (referer.contains("/manageauthors") || referer.contains("/addbook"))) {
+			session.setAttribute("previousUrl", referer);
+		}
 		return "admin/addauthor";
 	}
 	
