@@ -332,13 +332,13 @@
 									<div class="col-6" style="padding: 0px 10px 0px 0px">
 										<div class="form-group">
 											<label for="costPrice">Giá nhập:</label>
-											<input type="number" class="form-control" id="costPrice" name="costPrice" th:field="*{costPrice}" style="border-radius: 50px;" required>
+											<input type="number" class="form-control" id="costPrice" name="costPrice" th:field="*{costPrice}" min="0" style="border-radius: 50px;" required>
 										</div>
 									</div>
 									<div class="col-6" style="padding: 0px 0px 0px 10px">
 										<div class="form-group">
 											<label for="sellPrice">Giá bán:</label>
-											<input type="number" class="form-control" id="sellPrice" name="sellPrice" th:field="*{sellPrice}" style="border-radius: 50px;" required>
+											<input type="number" class="form-control" id="sellPrice" name="sellPrice" th:field="*{sellPrice}" min="0" style="border-radius: 50px;" required>
 										</div>
 									</div>
 								</div>
@@ -367,7 +367,7 @@
 								</div>
 								<div class="form-group">
 									<label for="description" >Giới thiệu sách</label>
-									<textarea style="border-radius: 10px; resize: none;" class="form-control" id="description" name="description" rows="7" required th:field="*{description}"></textarea>
+									<textarea style="border-radius: 10px; resize: none; text-align: justify;" class="form-control" id="description" name="description" rows="7" required th:field="*{description}"></textarea>
 								</div>
 							</div>
 						</div>
@@ -375,56 +375,64 @@
 						<div class="row-02" style="padding: 30px; margin-top: 20px; border-top: 1px solid #cecece">
 							<div class="col-3" style="flex-direction: column">
 								<p>Ảnh 1</p>
-								<div class="form-group d-flex justify-content-center" style="height: 230px">
-									<img id="currentImage1" th:src="${book.bookImages[0].path + '?v=' + randomNumber}" alt="Book Image 1" width="150" style="border-radius: 10px;">
-								</div>
-								<div class="form-group d-flex justify-content-center">
-									<label for="image1" style="color: rgb(2,88,155);"></label>
-									<input type="file" class="form-control-file" id="image1" name="image1" accept="image/*" onchange="loadFile1(event)" style="display: none;">
-									<div class="row-button" style="width: 150px">
-										<button type="button" class="btn btn-primary d-flex justify-content-center" onclick="document.getElementById('image1').click()" style="width: 100%">Chọn ảnh</button>
+								<div class="frame-01" style="display: flex; flex-direction: column; justify-content: space-between; height: 100%;">
+									<div class="form-group d-flex justify-content-center" style="height: auto; margin: 0px">
+										<img id="currentImage1" th:src="${book.bookImages[0].path + '?v=' + randomNumber}" alt="Book Image 1" width="150" style="border-radius: 10px;">
+									</div>
+									<div class="form-group d-flex justify-content-center">
+										<label for="image1" style="color: rgb(2,88,155);"></label>
+										<input type="file" class="form-control-file" id="image1" name="image1" accept="image/*" onchange="loadFile1(event)" style="display: none;">
+										<div class="row-button" style="width: 150px">
+											<button type="button" class="btn btn-primary d-flex justify-content-center" onclick="document.getElementById('image1').click()" style="width: 100%">Chọn ảnh</button>
+										</div>
 									</div>
 								</div>
 							</div>
 
 							<div class="col-3" style="flex-direction: column">
 								<p>Ảnh 2</p>
-								<div class="form-group d-flex justify-content-center" style="height: 230px">
-									<img id="currentImage2" th:src="${book.bookImages[1].path + '?v=' + randomNumber}" alt="Book Image 2" width="150" style="border-radius: 10px;">
-								</div>
-								<div class="form-group d-flex justify-content-center">
-									<label for="image2" style="color: rgb(2,88,155);"></label>
-									<input type="file" class="form-control-file" id="image2" name="image2" accept="image/*" onchange="loadFile2(event)" style="display: none;">
-									<div class="row-button" style="width: 150px">
-										<button type="button" class="btn btn-primary d-flex justify-content-center" onclick="document.getElementById('image2').click()" style="width: 100%">Chọn ảnh</button>
+								<div class="frame-01" style="display: flex; flex-direction: column; justify-content: space-between; height: 100%;">
+									<div class="form-group d-flex justify-content-center" style="height: auto; margin: 0px">
+										<img id="currentImage2" th:src="${book.bookImages[1].path + '?v=' + randomNumber}" alt="Book Image 2" width="150" style="border-radius: 10px;">
+									</div>
+									<div class="form-group d-flex justify-content-center">
+										<label for="image2" style="color: rgb(2,88,155);"></label>
+										<input type="file" class="form-control-file" id="image2" name="image2" accept="image/*" onchange="loadFile2(event)" style="display: none;">
+										<div class="row-button" style="width: 150px">
+											<button type="button" class="btn btn-primary d-flex justify-content-center" onclick="document.getElementById('image2').click()" style="width: 100%">Chọn ảnh</button>
+										</div>
 									</div>
 								</div>
 							</div>
 
 							<div class="col-3" style="flex-direction: column">
 								<p>Ảnh 3</p>
-								<div class="form-group d-flex justify-content-center" style="height: 230px">
-									<img id="currentImage3" th:src="${book.bookImages[2].path + '?v=' + randomNumber}" alt="Book Image 3" width="150" style="border-radius: 10px;">
-								</div>
-								<div class="form-group d-flex justify-content-center">
-									<label for="image3" style="color: rgb(2,88,155);"></label>
-									<input type="file" class="form-control-file" id="image3" name="image3" accept="image/*" onchange="loadFile3(event)" style="display: none;">
-									<div class="row-button" style="width: 150px">
-										<button type="button" class="btn btn-primary d-flex justify-content-center" onclick="document.getElementById('image3').click()" style="width: 100%">Chọn ảnh</button>
+								<div class="frame-01" style="display: flex; flex-direction: column; justify-content: space-between; height: 100%;">
+									<div class="form-group d-flex justify-content-center" style="height: auto; margin: 0px">
+										<img id="currentImage3" th:src="${book.bookImages[2].path + '?v=' + randomNumber}" alt="Book Image 3" width="150" style="border-radius: 10px;">
+									</div>
+									<div class="form-group d-flex justify-content-center">
+										<label for="image3" style="color: rgb(2,88,155);"></label>
+										<input type="file" class="form-control-file" id="image3" name="image3" accept="image/*" onchange="loadFile3(event)" style="display: none;">
+										<div class="row-button" style="width: 150px">
+											<button type="button" class="btn btn-primary d-flex justify-content-center" onclick="document.getElementById('image3').click()" style="width: 100%">Chọn ảnh</button>
+										</div>
 									</div>
 								</div>
 							</div>
 
 							<div class="col-3" style="flex-direction: column">
 								<p>Ảnh 4</p>
-								<div class="form-group d-flex justify-content-center" style="height: 230px">
-									<img id="currentImage4" th:src="${book.bookImages[3].path + '?v=' + randomNumber}" alt="Book Image 4" width="150" style="border-radius: 10px;">
-								</div>
-								<div class="form-group d-flex justify-content-center">
-									<label for="image4" style="color: rgb(2,88,155);"></label>
-									<input type="file" class="form-control-file" id="image4" name="image4" accept="image/*" onchange="loadFile4(event)" style="display: none;">
-									<div class="row-button" style="width: 150px">
-										<button type="button" class="btn btn-primary d-flex justify-content-center" onclick="document.getElementById('image4').click()" style="width: 100%">Chọn ảnh</button>
+								<div class="frame-01" style="display: flex; flex-direction: column; justify-content: space-between; height: 100%;">
+									<div class="form-group d-flex justify-content-center" style="height: auto; margin: 0px">
+										<img id="currentImage4" th:src="${book.bookImages[3].path + '?v=' + randomNumber}" alt="Book Image 4" width="150" style="border-radius: 10px;">
+									</div>
+									<div class="form-group d-flex justify-content-center">
+										<label for="image4" style="color: rgb(2,88,155);"></label>
+										<input type="file" class="form-control-file" id="image4" name="image4" accept="image/*" onchange="loadFile4(event)" style="display: none;">
+										<div class="row-button" style="width: 150px">
+											<button type="button" class="btn btn-primary d-flex justify-content-center" onclick="document.getElementById('image4').click()" style="width: 100%">Chọn ảnh</button>
+										</div>
 									</div>
 								</div>
 							</div>
@@ -482,5 +490,6 @@
             $submitButton.text('Đang xử lý ...');
         });
 	</script>
+
 </body>
 </html>
