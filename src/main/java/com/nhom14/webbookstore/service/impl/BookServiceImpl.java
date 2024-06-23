@@ -13,10 +13,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import com.nhom14.webbookstore.entity.Book;
@@ -217,16 +214,37 @@ public class BookServiceImpl implements BookService {
 
 	@Override
 	public Page<Book> getFilteredActiveBooks(Integer categoryId, String searchKeyword, Double priceMin, Double priceMax, String publisher, Pageable pageable) {
-		// Nếu searchKeyword không null, tìm kiếm theo tên tác giả
+		List<Book> combinedBooks = new ArrayList<>();
+
+		// Find books by author name if searchKeyword is provided
 		if (searchKeyword != null && !searchKeyword.isEmpty()) {
-			Page<Book> books = bookRepository.findByAuthorName(searchKeyword, pageable);
-			if (books.hasContent()) {
-				return books;
+			Page<Book> booksByAuthor = bookRepository.findByAuthorName(searchKeyword, pageable);
+			if (booksByAuthor.hasContent()) {
+				combinedBooks.addAll(booksByAuthor.getContent());
 			}
 		}
 
-		// Nếu searchKeyword null hoặc không tìm thấy sách theo tên tác giả, tìm kiếm theo các bộ lọc khác
-		return bookRepository.findActiveBooksWithFilters(categoryId, searchKeyword, priceMin, priceMax, publisher, pageable);
+		// Find books with other filters
+		Page<Book> booksWithFilters = bookRepository.findActiveBooksWithFilters(categoryId, searchKeyword, priceMin, priceMax, publisher, pageable);
+		if (booksWithFilters.hasContent()) {
+			// Add all books from filters and remove duplicates
+			for (Book book : booksWithFilters.getContent()) {
+				if (!combinedBooks.contains(book)) {
+					combinedBooks.add(book);
+				}
+			}
+		}
+
+		// Convert the combined list back to a page
+		// You'll need to implement a method to convert a list to a page based on the pageable object
+		return listToPage(combinedBooks, pageable);
+	}
+
+	// Example method to convert a list to a page
+	private Page<Book> listToPage(List<Book> list, Pageable pageable) {
+		int start = (int)pageable.getOffset();
+		int end = Math.min((start + pageable.getPageSize()), list.size());
+		return new PageImpl<>(list.subList(start, end), pageable, list.size());
 	}
 
 	@Override
