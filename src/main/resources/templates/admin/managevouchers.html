@@ -415,17 +415,17 @@
                                     <span th:if="${voucher.discountPercent == -1}" th:text="''"></span>
                                 </td>
 
-                                <td rowspan="1" class="next-table-header-node" style="padding: 10px 0px; text-align: center;">
+                                <td rowspan="1" class="next-table-header-node" style="padding: 10px 10px 10px 0px; text-align: center;">
                                     <span th:if="${voucher.maxDiscountAmount != -1}" th:text="${#numbers.formatInteger(voucher.maxDiscountAmount, 0, 'POINT')} + ' đ'"></span>
                                     <span th:if="${voucher.maxDiscountAmount == -1}" th:text="''"></span>
                                 </td>
 
-                                <td rowspan="1" class="next-table-header-node" style="padding: 10px 0px; text-align: center;">
+                                <td rowspan="1" class="next-table-header-node" style="padding: 10px 10px 10px 0px; text-align: center;">
                                     <span th:if="${voucher.amountDiscount != -1}" th:text="${#numbers.formatInteger(voucher.amountDiscount, 0, 'POINT')} + ' đ'"></span>
                                     <span th:if="${voucher.amountDiscount == -1}" th:text="''"></span>
                                 </td>
 
-                                <td rowspan="1" class="next-table-header-node" style="color: orangered; padding: 10px 0px; text-align: center;" th:text="${#numbers.formatInteger(voucher.minimumOrderValue, 0, 'POINT')} + ' đ'"></td>
+                                <td rowspan="1" class="next-table-header-node" style="color: orangered; padding: 10px 20px 10px 0px; text-align: right;" th:text="${#numbers.formatInteger(voucher.minimumOrderValue, 0, 'POINT')} + ' đ'"></td>
 
                                 <td rowspan="1" class="next-table-header-node" style="padding: 10px 0px; text-align: center;">
                                     <span th:switch="${voucher.voucherScope}">
@@ -456,10 +456,25 @@
                             </tbody>
                         </table>
                     </div>
+                    <div class="next-table-body" th:if="${vouchers.totalPages == 0}">
+                        <table style="width: 100%;">
+                            <colgroup>
+                                <col style="width: 100%;">
+                            </colgroup>
+                            <tbody>
+                            <tr>
+                                <td class="next-table-header-node first" style="padding: 20px; text-align: center; width: 100%; color: grey; font-weight: bold">
+                                    <img src="https://res.cloudinary.com/dylwewmt0/image/upload/v1719162143/PHOTO_LIST/Admin/NotFound/NotFound.png" alt="Knowledge Young" style="width: 100px; margin-bottom: 10px">
+                                    <p style="margin: 0px; font-family: Helvetica;">Không tìm thấy</p>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="row-pagination d-flex align-items-center justify-content-center">
+        <div th:if="${#lists.size(vouchers) > 0 && vouchers.totalPages > 1}" class="row-pagination d-flex align-items-center justify-content-center">
             <!-- Thêm phần tử phân trang tại đây -->
             <div class="frame-number d-flex align-items-center">
                 <div th:if="${vouchers.totalPages > 1}">

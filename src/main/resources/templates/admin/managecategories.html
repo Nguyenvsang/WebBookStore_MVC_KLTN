@@ -314,37 +314,25 @@
 								</tbody>
 							</table>
 						</div>
+						<div class="next-table-body" th:if="${totalPages == 0}">
+							<table style="width: 100%;">
+								<colgroup>
+									<col style="width: 100%;">
+								</colgroup>
+								<tbody>
+								<tr>
+									<td class="next-table-header-node first" style="padding: 20px; text-align: center; width: 100%; color: grey; font-weight: bold">
+										<img src="https://res.cloudinary.com/dylwewmt0/image/upload/v1719162143/PHOTO_LIST/Admin/NotFound/NotFound.png" alt="Knowledge Young" style="width: 100px; margin-bottom: 10px">
+										<p style="margin: 0px; font-family: Helvetica;">Không tìm thấy</p>
+									</td>
+								</tr>
+								</tbody>
+							</table>
+						</div>
 					</div>
 				</div>
-
-<!--				<table class="table table-striped table-bordered mt-3">-->
-<!--					<thead class="thead-title">-->
-<!--						<tr style="color: rgb(2,88,155);">-->
-<!--							<th scope="col" class="align-middle text-center">Mã danh mục</th>-->
-<!--							<th scope="col" class="align-middle text-center">Tên danh mục</th>-->
-<!--							<th scope="col" class="align-middle text-center">Trạng thái</th>-->
-<!--							<th scope="col" class="align-middle text-center">Sửa</th>-->
-<!--						</tr>-->
-<!--					</thead>-->
-<!--					<tbody>-->
-<!--						<tr th:each="category : ${categories}">-->
-<!--							<td class="align-middle text-center" th:text="${category.id}"></td>-->
-<!--							<td class="align-middle text-center" th:text="${category.name}"></td>-->
-<!--							<td>-->
-<!--								<span th:if="${category.status == 0}" class="badge badge-stop" style="background-color: rgb(241,56,71); color: white;">Ngừng kinh doanh</span>-->
-<!--								<span th:if="${category.status == 1}" class="badge badge-info">Đang kinh doanh</span>-->
-<!--								<span th:unless="${category.status == 0 || category.status == 1}">Trạng thái không hợp lệ</span>-->
-<!--							</td>-->
-<!--							<td class="align-middle text-center">-->
-<!--								<a th:href="@{/updatecategory(categoryId=${category.id})}" class="btn btn-edit">-->
-<!--									<span class="material-symbols-outlined">edit</span>-->
-<!--								</a>-->
-<!--							</td>-->
-<!--						</tr>-->
-<!--					</tbody>-->
-<!--				</table>-->
 			</div>
-			<div class="row-pagination d-flex align-items-center justify-content-center">
+			<div th:if="${totalPages > 1}" class="row-pagination d-flex align-items-center justify-content-center">
 				<!-- Thêm phần tử phân trang tại đây -->
 				<div class="frame-number d-flex align-items-center">
 					<div th:if="${totalPages > 1}">
