@@ -21,14 +21,16 @@ public interface BookReviewRepository extends JpaRepository<BookReview, Integer>
     BookReview findByAccountAndBook(Account account, Book book);
 
     @Query("SELECT br FROM BookReview br WHERE " +
+            "(:searchKeywordAsInteger is null or br.id = :searchKeywordAsInteger) and " +
             "(:rating is null or br.rating = :rating) and " +
             "(:isPurchased is null or br.isPurchased = :isPurchased) and " +
             "(:isPublished is null or br.isPublished = :isPublished) and " +
-            "(:keyword is null or lower(br.comment) like lower(concat('%', :keyword,'%')))")
+            "(:searchKeyword is null or lower(br.comment) like lower(concat('%', :searchKeyword,'%')) or lower(br.book.name) like lower(concat('%', :searchKeyword,'%')) or lower(br.account.username) like lower(concat('%', :searchKeyword,'%')))")
     Page<BookReview> findWithFilters(@Param("rating") Integer rating,
                                      @Param("isPurchased") Boolean isPurchased,
                                      @Param("isPublished") Boolean isPublished,
-                                     @Param("keyword") String keyword,
+                                     @Param("searchKeyword") String searchKeyword,
+                                     @Param("searchKeywordAsInteger") Integer searchKeywordAsInteger,
                                      Pageable pageable);
 
 }

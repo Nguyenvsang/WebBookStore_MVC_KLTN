@@ -43,7 +43,7 @@ public class AdminBookReviewController {
             @RequestParam(value = "rating", required = false) Integer rating,
             @RequestParam(value = "isPurchased", required = false) Boolean isPurchased,
             @RequestParam(value = "isPublished", required = false) Boolean isPublished,
-            @RequestParam(value = "keyword", required = false) String keyword,
+            @RequestParam(value = "searchKeyword", required = false) String searchKeyword,
             Model model,
             HttpSession session) {
 
@@ -57,7 +57,7 @@ public class AdminBookReviewController {
 
         Sort sortOrder = sort.equals("asc") ? Sort.by("datePosted").ascending() : Sort.by("datePosted").descending();
         Pageable pageable = PageRequest.of(currentPage - 1, pageSize, sortOrder);
-        Page<BookReview> bookReviewPage = bookReviewService.getFilteredBookReviews(rating, isPurchased, isPublished, keyword, pageable);
+        Page<BookReview> bookReviewPage = bookReviewService.getFilteredBookReviews(rating, isPurchased, isPublished, searchKeyword, pageable);
         // Tổng số tất cả các đánh giá
         long totalAllBookReviews = bookReviewService.getAllBookReviews().size();
 
@@ -70,7 +70,7 @@ public class AdminBookReviewController {
         params.put("rating", rating);
         params.put("isPurchased", isPurchased);
         params.put("isPublished", isPublished);
-        params.put("keyword", keyword);
+        params.put("searchKeyword", searchKeyword);
 
         for (Map.Entry<String, Object> entry : params.entrySet()) {
             if (entry.getValue() != null) {

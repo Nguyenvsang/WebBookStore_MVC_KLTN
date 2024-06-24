@@ -58,8 +58,24 @@ public class BookReviewServiceImpl implements BookReviewService {
         bookReviewRepository.delete(review);
     }
 
-    public Page<BookReview> getFilteredBookReviews(Integer rating, Boolean isPurchased, Boolean isPublished, String keyword, Pageable pageable) {
-        return bookReviewRepository.findWithFilters(rating, isPurchased, isPublished, keyword, pageable);
+    public Page<BookReview> getFilteredBookReviews(Integer rating, Boolean isPurchased, Boolean isPublished, String searchKeyword, Pageable pageable) {
+        // Chuyển để tìm kiếm theo mã sách
+        Integer searchKeywordAsInteger = null;
+        try {
+            searchKeywordAsInteger = Integer.parseInt(searchKeyword);
+        } catch (NumberFormatException e) {
+            // searchKeyword không phải là một số nguyên, không làm gì cả
+        }
+
+        if (searchKeywordAsInteger != null) {
+            return bookReviewRepository.findWithFilters(rating, isPurchased, isPublished, null, searchKeywordAsInteger, pageable);
+        } else {
+            return bookReviewRepository.findWithFilters(rating, isPurchased, isPublished, searchKeyword, null, pageable);
+        }
+        // Không tìm thấy sẽ trả về một đối tượng Page<BookReview> rỗng
+        // nghĩa là .getTotalElements() = 0
+
+        //return bookReviewRepository.findWithFilters(rating, isPurchased, isPublished, keyword, pageable);
     }
 
     @Override

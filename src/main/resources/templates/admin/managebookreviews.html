@@ -310,8 +310,8 @@
             <div class="col-08 d-flex align-items-center justify-content-center" style="width: 70%">
                 <form class="form-inline" method="GET" th:action="@{/managebookreviews}">
                     <div class="row-search" style="background-color: white; border: none; border-radius: 50px; ">
-                        <input style="border: none; width: 730px; padding: 0px 0px 0px 15px; border-top-left-radius: 50px; border-bottom-left-radius: 50px" class="form-control" type="text" name="search"
-                               th:placeholder="${search != null ? ('Tìm kiếm từ khóa: ' + search) : 'Tìm kiếm từ khóa'}">
+                        <input style="border: none; width: 730px; padding: 0px 0px 0px 15px; border-top-left-radius: 50px; border-bottom-left-radius: 50px" class="form-control" type="text" name="searchKeyword"
+                               th:placeholder="${searchKeyword != null ? ('Tìm kiếm từ khóa: ' + searchKeyword) : 'Tìm kiếm từ khóa theo id, tên sách, username...'}">
                         <button style="border-top-right-radius: 50px; border-bottom-right-radius: 50px" class="btn btn-search" type="submit">
                             <span class="material-symbols-outlined" style="color: #dbdbdb">search</span>
                         </button>
@@ -364,12 +364,12 @@
 <!--                        <span th:text="${rating != null ? (rating + ' sao') : 'Tất cả'}" style="margin-left: 3px"></span>-->
                     </button>
                     <div class="dropdown-menu" aria-labelledby="ratingDropdown">
-                        <a class="dropdown-item" th:href="@{/managebookreviews(rating=${rating}, page=${bookReviews.number + 1}, size=${size}, sort=${sort}, isPurchased=${isPurchased}, isPublished=${isPublished}, keyword=${keyword})}">Tất cả</a>
-                        <a class="dropdown-item" th:href="@{/managebookreviews(rating=1, page=${bookReviews.number + 1}, size=${size}, sort=${sort}, isPurchased=${isPurchased}, isPublished=${isPublished}, keyword=${keyword})}">1 sao</a>
-                        <a class="dropdown-item" th:href="@{/managebookreviews(rating=2, page=${bookReviews.number + 1}, size=${size}, sort=${sort}, isPurchased=${isPurchased}, isPublished=${isPublished}, keyword=${keyword})}">2 sao</a>
-                        <a class="dropdown-item" th:href="@{/managebookreviews(rating=3, page=${bookReviews.number + 1}, size=${size}, sort=${sort}, isPurchased=${isPurchased}, isPublished=${isPublished}, keyword=${keyword})}">3 sao</a>
-                        <a class="dropdown-item" th:href="@{/managebookreviews(rating=4, page=${bookReviews.number + 1}, size=${size}, sort=${sort}, isPurchased=${isPurchased}, isPublished=${isPublished}, keyword=${keyword})}">4 sao</a>
-                        <a class="dropdown-item" th:href="@{/managebookreviews(rating=5, page=${bookReviews.number + 1}, size=${size}, sort=${sort}, isPurchased=${isPurchased}, isPublished=${isPublished}, keyword=${keyword})}">5 sao</a>
+                        <a class="dropdown-item" th:href="@{/managebookreviews(rating=${rating}, page=${bookReviews.number + 1}, size=${size}, sort=${sort}, isPurchased=${isPurchased}, isPublished=${isPublished}, searchKeyword=${searchKeyword})}">Tất cả</a>
+                        <a class="dropdown-item" th:href="@{/managebookreviews(rating=1, page=${bookReviews.number + 1}, size=${size}, sort=${sort}, isPurchased=${isPurchased}, isPublished=${isPublished}, searchKeyword=${searchKeyword})}">1 sao</a>
+                        <a class="dropdown-item" th:href="@{/managebookreviews(rating=2, page=${bookReviews.number + 1}, size=${size}, sort=${sort}, isPurchased=${isPurchased}, isPublished=${isPublished}, searchKeyword=${searchKeyword})}">2 sao</a>
+                        <a class="dropdown-item" th:href="@{/managebookreviews(rating=3, page=${bookReviews.number + 1}, size=${size}, sort=${sort}, isPurchased=${isPurchased}, isPublished=${isPublished}, searchKeyword=${searchKeyword})}">3 sao</a>
+                        <a class="dropdown-item" th:href="@{/managebookreviews(rating=4, page=${bookReviews.number + 1}, size=${size}, sort=${sort}, isPurchased=${isPurchased}, isPublished=${isPublished}, searchKeyword=${searchKeyword})}">4 sao</a>
+                        <a class="dropdown-item" th:href="@{/managebookreviews(rating=5, page=${bookReviews.number + 1}, size=${size}, sort=${sort}, isPurchased=${isPurchased}, isPublished=${isPublished}, searchKeyword=${searchKeyword})}">5 sao</a>
                     </div>
                 </div>
             </div>
@@ -519,7 +519,7 @@
                 <div th:if="${bookReviews.totalPages > 1}">
                     <ul class="pagination" style="margin: 0px">
                         <li th:if="${bookReviews.hasPrevious()}" class="page-item">
-                            <a class="page-link" th:href="@{/managebookreviews(page=${bookReviews.number}, size=${size}, sort=${sort}, rating=${rating}, isPurchased=${isPurchased}, isPublished=${isPublished}, keyword=${keyword})}">
+                            <a class="page-link" th:href="@{/managebookreviews(page=${bookReviews.number}, size=${size}, sort=${sort}, rating=${rating}, isPurchased=${isPurchased}, isPublished=${isPublished}, searchKeyword=${searchKeyword})}">
                                 <span class="material-symbols-outlined">navigate_before</span>
                             </a>
                         </li>
@@ -530,13 +530,13 @@
                                     <span class="page-link" th:text="${pageNumber + 1}"></span>
                                 </th:block>
                                 <th:block th:unless="${pageNumber == bookReviews.number}">
-                                    <a class="page-link" th:inline="text" th:href="@{/managebookreviews(page=${pageNumber + 1}, size=${size}, sort=${sort}, rating=${rating}, isPurchased=${isPurchased}, isPublished=${isPublished}, keyword=${keyword})}" th:text="${pageNumber + 1}"></a>
+                                    <a class="page-link" th:inline="text" th:href="@{/managebookreviews(page=${pageNumber + 1}, size=${size}, sort=${sort}, rating=${rating}, isPurchased=${isPurchased}, isPublished=${isPublished}, searchKeyword=${searchKeyword})}" th:text="${pageNumber + 1}"></a>
                                 </th:block>
                             </li>
                         </th:block>
 
                         <li th:if="${bookReviews.hasNext()}" class="page-item">
-                            <a class="page-link" th:href="@{/managebookreviews(page=${bookReviews.number + 2}, size=${size}, sort=${sort}, rating=${rating}, isPurchased=${isPurchased}, isPublished=${isPublished}, keyword=${keyword})}">
+                            <a class="page-link" th:href="@{/managebookreviews(page=${bookReviews.number + 2}, size=${size}, sort=${sort}, rating=${rating}, isPurchased=${isPurchased}, isPublished=${isPublished}, searchKeyword=${searchKeyword})}">
                                 <span class="material-symbols-outlined">navigate_next</span>
                             </a>
                         </li>

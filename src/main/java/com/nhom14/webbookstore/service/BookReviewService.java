@@ -22,7 +22,7 @@ public interface BookReviewService {
 
     void delete(BookReview review);
 
-    Page<BookReview> getFilteredBookReviews(Integer rating, Boolean isPurchased, Boolean isPublished, String keyword, Pageable pageable);
+    Page<BookReview> getFilteredBookReviews(Integer rating, Boolean isPurchased, Boolean isPublished, String searchKeyword, Pageable pageable);
 
     List<BookReview> getAllBookReviews();
 }
