@@ -426,7 +426,7 @@
 
                                 <td rowspan="1" class="next-table-header-node" style="padding: 10px 0px; text-align: center" th:text="${bookPrice.book.id}"></td>
 
-                                <td rowspan="1" class="next-table-header-node" style="padding: 10px 10px; text-align: left;">
+                                <td rowspan="1" class="next-table-header-node" style="padding: 10px 10px; text-align: justify;">
                                     <span th:if="${#strings.length(bookPrice.book.name) > 100}" th:text="${#strings.substring(bookPrice.book.name, 0, 100) + '...'}"></span>
                                     <span th:if="${#strings.length(bookPrice.book.name) <= 100}" th:text="${bookPrice.book.name}"></span>
                                 </td>
@@ -473,42 +473,74 @@
                             </a>
                         </li>
 
-                        <!-- Trang đầu tiên -->
-                        <li class="page-item" th:classappend="${0 == bookPrices.number ? 'active' : ''}">
-                            <a th:if="${0 != bookPrices.number}" class="page-link" th:href="@{/managebookprices(page=1, size=${size}, sortOption=${sortOption}, bookId=${bookId}, searchKeyword=${searchKeyword})}" th:text="1"></a>
-                            <span th:if="${0 == bookPrices.number}" class="page-link" th:text="1"></span>
-                        </li>
+                        <!-- Trường hợp tổng số trang nhỏ hơn hoặc bằng 5 -->
+                        <th:block th:if="${bookPrices.totalPages <= 5}">
+                            <th:block th:each="pageNumber : ${#numbers.sequence(1, bookPrices.totalPages)}">
+                                <li class="page-item" th:classappend="${pageNumber - 1 == bookPrices.number ? 'active' : ''}">
+                                    <th:block th:if="${pageNumber - 1 == bookPrices.number}">
+                                        <span class="page-link" th:text="${pageNumber}"></span>
+                                    </th:block>
+                                    <th:block th:unless="${pageNumber - 1 == bookPrices.number}">
+                                        <a class="page-link" th:href="@{/managebookprices(page=${pageNumber}, size=${size}, sortOption=${sortOption}, bookId=${bookId}, searchKeyword=${searchKeyword})}" th:text="${pageNumber}"></a>
+                                    </th:block>
+                                </li>
+                            </th:block>
+                        </th:block>
 
-                        <!-- Dấu '...' nếu cần -->
-                        <li class="page-item" th:if="${bookPrices.number > 2}">
-                            <span class="page-link">...</span>
-                        </li>
+                        <!-- Trường hợp tổng số trang lớn hơn 5 -->
+                        <th:block th:if="${bookPrices.totalPages > 5}">
+                            <!-- Trang đầu tiên -->
+                            <li class="page-item" th:classappend="${1 == bookPrices.number + 1 ? 'active' : ''}">
+                                <a th:if="${1 != bookPrices.number + 1}" class="page-link" th:href="@{/managebookprices(page=1, size=${size}, sortOption=${sortOption}, bookId=${bookId}, searchKeyword=${searchKeyword})}" th:text="1"></a>
+                                <span th:if="${1 == bookPrices.number + 1}" class="page-link" th:text="1"></span>
+                            </li>
 
-                        <!-- Các trang xung quanh trang hiện tại -->
-                        <th:block th:each="pageNumber : ${#numbers.sequence(bookPrices.number - 2 > 1 ? bookPrices.number - 2 : 1, bookPrices.number + 2 < bookPrices.totalPages - 2 ? bookPrices.number + 2 : bookPrices.totalPages - 2)}">
-                            <li class="page-item" th:classappend="${pageNumber == bookPrices.number ? 'active' : ''}">
-                                <th:block th:if="${pageNumber == bookPrices.number}">
-                                    <span class="page-link" th:text="${pageNumber + 1}"></span>
+                            <!-- Dấu '...' nếu cần -->
+                            <li class="page-item" th:if="${bookPrices.number + 1 > 4}">
+                                <span class="page-link">...</span>
+                            </li>
+
+                            <!-- Các trang xung quanh trang hiện tại -->
+                            <th:block th:if="${bookPrices.number + 1 <= 4}">
+                                <th:block th:each="pageNumber : ${#numbers.sequence(2, bookPrices.number + 3 < bookPrices.totalPages ? bookPrices.number + 3 : bookPrices.totalPages - 1)}">
+                                    <li class="page-item" th:classappend="${pageNumber - 1 == bookPrices.number ? 'active' : ''}">
+                                        <th:block th:if="${pageNumber - 1 == bookPrices.number}">
+                                            <span class="page-link" th:text="${pageNumber}"></span>
+                                        </th:block>
+                                        <th:block th:unless="${pageNumber - 1 == bookPrices.number}">
+                                            <a class="page-link" th:href="@{/managebookprices(page=${pageNumber}, size=${size}, sortOption=${sortOption}, bookId=${bookId}, searchKeyword=${searchKeyword})}" th:text="${pageNumber}"></a>
+                                        </th:block>
+                                    </li>
                                 </th:block>
-                                <th:block th:unless="${pageNumber == bookPrices.number}">
-                                    <a class="page-link" th:href="@{/managebookprices(page=${pageNumber + 1}, size=${size}, sortOption=${sortOption}, bookId=${bookId}, searchKeyword=${searchKeyword})}" th:text="${pageNumber + 1}"></a>
+                            </th:block>
+
+                            <th:block th:if="${bookPrices.number + 1 > 4}">
+                                <th:block th:each="pageNumber : ${#numbers.sequence(bookPrices.number - 1 > 1 ? bookPrices.number : 2, bookPrices.number + 3 < bookPrices.totalPages ? bookPrices.number + 3 : bookPrices.totalPages - 1)}">
+                                    <li class="page-item" th:classappend="${pageNumber - 1 == bookPrices.number ? 'active' : ''}">
+                                        <th:block th:if="${pageNumber - 1 == bookPrices.number}">
+                                            <span class="page-link" th:text="${pageNumber}"></span>
+                                        </th:block>
+                                        <th:block th:unless="${pageNumber - 1 == bookPrices.number}">
+                                            <a class="page-link" th:href="@{/managebookprices(page=${pageNumber}, size=${size}, sortOption=${sortOption}, bookId=${bookId}, searchKeyword=${searchKeyword})}" th:text="${pageNumber}"></a>
+                                        </th:block>
+                                    </li>
                                 </th:block>
+                            </th:block>
+
+                            <!-- Dấu '...' nếu cần -->
+                            <li class="page-item" th:if="${bookPrices.number + 1 < bookPrices.totalPages - 3}">
+                                <span class="page-link">...</span>
+                            </li>
+
+                            <!-- Trang cuối cùng -->
+                            <li class="page-item" th:classappend="${bookPrices.totalPages == bookPrices.number + 1 ? 'active' : ''}">
+                                <a th:if="${bookPrices.totalPages != bookPrices.number + 1}" class="page-link" th:href="@{/managebookprices(page=${bookPrices.totalPages}, size=${size}, sortOption=${sortOption}, bookId=${bookId}, searchKeyword=${searchKeyword})}" th:text="${bookPrices.totalPages}"></a>
+                                <span th:if="${bookPrices.totalPages == bookPrices.number + 1}" class="page-link" th:text="${bookPrices.totalPages}"></span>
                             </li>
                         </th:block>
 
-                        <!-- Dấu '...' nếu cần -->
-                        <li class="page-item" th:if="${bookPrices.number < bookPrices.totalPages - 3}">
-                            <span class="page-link">...</span>
-                        </li>
-
-                        <!-- Trang cuối cùng -->
-                        <li class="page-item" th:classappend="${bookPrices.totalPages - 1 == bookPrices.number ? 'active' : ''}">
-                            <a th:if="${bookPrices.totalPages - 1 != bookPrices.number}" class="page-link" th:href="@{/managebookprices(page=${bookPrices.totalPages}, size=${size}, sortOption=${sortOption}, bookId=${bookId}, searchKeyword=${searchKeyword})}" th:text="${bookPrices.totalPages}"></a>
-                            <span th:if="${bookPrices.totalPages - 1 == bookPrices.number}" class="page-link" th:text="${bookPrices.totalPages}"></span>
-                        </li>
-
                         <!-- Nút 'Trang sau' -->
-                        <li th:if="${bookPrices.hasNext()}" class="page-item">
+                        <li th:if="${bookPrices.number + 1 < bookPrices.totalPages}" class="page-item">
                             <a class="page-link" th:href="@{/managebookprices(page=${bookPrices.number + 2}, size=${size}, sortOption=${sortOption}, bookId=${bookId}, searchKeyword=${searchKeyword})}">
                                 <span class="material-symbols-outlined">navigate_next</span>
                             </a>

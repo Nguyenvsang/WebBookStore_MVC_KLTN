@@ -479,24 +479,81 @@
             <div class="frame-number d-flex align-items-center">
                 <div th:if="${vouchers.totalPages > 1}">
                     <ul class="pagination" style="margin: 0px">
-                        <li th:if="${vouchers.hasPrevious()}" class="page-item">
+                        <!-- Nút 'Trang trước' -->
+                        <li th:if="${vouchers.number + 1 > 1}" class="page-item">
                             <a class="page-link" th:href="@{/managevouchers(page=${vouchers.number}, size=${size}, sortOption=${sortOption}, categoryId=${categoryId}, searchKeyword=${searchKeyword}, status=${status}, scope=${scope})}">
                                 <span class="material-symbols-outlined">navigate_before</span>
                             </a>
                         </li>
 
-                        <th:block th:each="pageNumber : ${#numbers.sequence(0, vouchers.totalPages - 1)}">
-                            <li class="page-item" th:classappend="${pageNumber == vouchers.number ? 'active' : ''}">
-                                <th:block th:if="${pageNumber == vouchers.number}">
-                                    <span class="page-link" th:text="${pageNumber + 1}"></span>
+                        <!-- Trường hợp tổng số trang nhỏ hơn hoặc bằng 5 -->
+                        <th:block th:if="${vouchers.totalPages <= 5}">
+                            <th:block th:each="pageNumber : ${#numbers.sequence(1, vouchers.totalPages)}">
+                                <li class="page-item" th:classappend="${pageNumber == vouchers.number + 1 ? 'active' : ''}">
+                                    <th:block th:if="${pageNumber == vouchers.number + 1}">
+                                        <span class="page-link" th:text="${pageNumber}"></span>
+                                    </th:block>
+                                    <th:block th:unless="${pageNumber == vouchers.number + 1}">
+                                        <a class="page-link" th:href="@{/managevouchers(page=${pageNumber}, size=${size}, sortOption=${sortOption}, categoryId=${categoryId}, searchKeyword=${searchKeyword}, status=${status}, scope=${scope})}" th:text="${pageNumber}"></a>
+                                    </th:block>
+                                </li>
+                            </th:block>
+                        </th:block>
+
+                        <!-- Trường hợp tổng số trang lớn hơn 5 -->
+                        <th:block th:if="${vouchers.totalPages > 5}">
+                            <!-- Trang đầu tiên -->
+                            <li class="page-item" th:classappend="${1 == vouchers.number + 1 ? 'active' : ''}">
+                                <a th:if="${1 != vouchers.number + 1}" class="page-link" th:href="@{/managevouchers(page=1, size=${size}, sortOption=${sortOption}, categoryId=${categoryId}, searchKeyword=${searchKeyword}, status=${status}, scope=${scope})}" th:text="1"></a>
+                                <span th:if="${1 == vouchers.number + 1}" class="page-link" th:text="1"></span>
+                            </li>
+
+                            <!-- Dấu '...' nếu cần -->
+                            <li class="page-item" th:if="${vouchers.number + 1 > 4}">
+                                <span class="page-link">...</span>
+                            </li>
+
+                            <!-- Các trang xung quanh trang hiện tại -->
+                            <th:block th:if="${vouchers.number + 1 <= 4}">
+                                <th:block th:each="pageNumber : ${#numbers.sequence(2, vouchers.number + 3 < vouchers.totalPages ? vouchers.number + 3 : vouchers.totalPages - 1)}">
+                                    <li class="page-item" th:classappend="${pageNumber == vouchers.number + 1 ? 'active' : ''}">
+                                        <th:block th:if="${pageNumber == vouchers.number + 1}">
+                                            <span class="page-link" th:text="${pageNumber}"></span>
+                                        </th:block>
+                                        <th:block th:unless="${pageNumber == vouchers.number + 1}">
+                                            <a class="page-link" th:href="@{/managevouchers(page=${pageNumber}, size=${size}, sortOption=${sortOption}, categoryId=${categoryId}, searchKeyword=${searchKeyword}, status=${status}, scope=${scope})}" th:text="${pageNumber}"></a>
+                                        </th:block>
+                                    </li>
                                 </th:block>
-                                <th:block th:unless="${pageNumber == vouchers.number}">
-                                    <a class="page-link" th:href="@{/managevouchers(page=${pageNumber + 1}, size=${size}, sortOption=${sortOption}, categoryId=${categoryId}, searchKeyword=${searchKeyword}, status=${status}, scope=${scope})}" th:text="${pageNumber + 1}"></a>
+                            </th:block>
+
+                            <th:block th:if="${vouchers.number + 1 > 4}">
+                                <th:block th:each="pageNumber : ${#numbers.sequence(vouchers.number - 1 > 1 ? vouchers.number : 2, vouchers.number + 3 < vouchers.totalPages ? vouchers.number + 3 : vouchers.totalPages - 1)}">
+                                    <li class="page-item" th:classappend="${pageNumber == vouchers.number + 1 ? 'active' : ''}">
+                                        <th:block th:if="${pageNumber == vouchers.number + 1}">
+                                            <span class="page-link" th:text="${pageNumber}"></span>
+                                        </th:block>
+                                        <th:block th:unless="${pageNumber == vouchers.number + 1}">
+                                            <a class="page-link" th:href="@{/managevouchers(page=${pageNumber}, size=${size}, sortOption=${sortOption}, categoryId=${categoryId}, searchKeyword=${searchKeyword}, status=${status}, scope=${scope})}" th:text="${pageNumber}"></a>
+                                        </th:block>
+                                    </li>
                                 </th:block>
+                            </th:block>
+
+                            <!-- Dấu '...' nếu cần -->
+                            <li class="page-item" th:if="${vouchers.number + 1 < vouchers.totalPages - 3}">
+                                <span class="page-link">...</span>
+                            </li>
+
+                            <!-- Trang cuối cùng -->
+                            <li class="page-item" th:classappend="${vouchers.totalPages == vouchers.number + 1 ? 'active' : ''}">
+                                <a th:if="${vouchers.totalPages != vouchers.number + 1}" class="page-link" th:href="@{/managevouchers(page=${vouchers.totalPages}, size=${size}, sortOption=${sortOption}, categoryId=${categoryId}, searchKeyword=${searchKeyword}, status=${status}, scope=${scope})}" th:text="${vouchers.totalPages}"></a>
+                                <span th:if="${vouchers.totalPages == vouchers.number + 1}" class="page-link" th:text="${vouchers.totalPages}"></span>
                             </li>
                         </th:block>
 
-                        <li th:if="${vouchers.hasNext()}" class="page-item">
+                        <!-- Nút 'Trang sau' -->
+                        <li th:if="${vouchers.number + 1 < vouchers.totalPages}" class="page-item">
                             <a class="page-link" th:href="@{/managevouchers(page=${vouchers.number + 2}, size=${size}, sortOption=${sortOption}, categoryId=${categoryId}, searchKeyword=${searchKeyword}, status=${status}, scope=${scope})}">
                                 <span class="material-symbols-outlined">navigate_next</span>
                             </a>
@@ -504,6 +561,7 @@
                     </ul>
                 </div>
             </div>
+
         </div>
     </div>
 </div>

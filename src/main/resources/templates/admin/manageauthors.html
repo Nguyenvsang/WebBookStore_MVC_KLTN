@@ -245,7 +245,9 @@
 
 									<td rowspan="1" class="next-table-header-node" style="padding: 20px 20px; text-align: center" th:text="${author.name}"></td>
 
-									<td rowspan="1" class="next-table-header-node" style="padding: 10px 20px; text-align: center;" th:text="${author.bio}"></td>
+									<td rowspan="1" class="next-table-header-node" style="padding: 10px 20px; text-align: justify;"
+										th:text="${#strings.length(author.bio) > 100 ? #strings.substring(author.bio, 0, 100) + '...' : author.bio}">
+									</td>
 
 									<td rowspan="1" class="next-table-header-node last" style="padding: 10px 20px; text-align: center" >
 										<a th:href="@{/managedetailauthor(authorId=${author.id})}" class="btn btn-detail">
@@ -286,20 +288,9 @@
 								</a>
 							</li>
 
-							<!-- Trang đầu tiên -->
-							<li class="page-item" th:classappend="${1 == currentPage ? 'active' : ''}">
-								<a th:if="${1 != currentPage}" class="page-link" th:href="@{/manageauthors(page=1)}" th:text="1"></a>
-								<span th:if="${1 == currentPage}" class="page-link" th:text="1"></span>
-							</li>
-
-							<!-- Dấu '...' nếu cần -->
-							<li class="page-item" th:if="${currentPage > 4}">
-								<span class="page-link">...</span>
-							</li>
-
-							<!-- Các trang xung quanh trang hiện tại -->
-							<th:block th:if="${currentPage <= 4}">
-								<th:block th:each="pageNumber : ${#numbers.sequence(2, currentPage + 2 < totalPages ? currentPage + 2 : totalPages - 1)}">
+							<!-- Trường hợp tổng số trang nhỏ hơn hoặc bằng 5 -->
+							<th:block th:if="${totalPages <= 5}">
+								<th:block th:each="pageNumber : ${#numbers.sequence(1, totalPages)}">
 									<li class="page-item" th:classappend="${pageNumber == currentPage ? 'active' : ''}">
 										<th:block th:if="${pageNumber == currentPage}">
 											<span class="page-link" th:text="${pageNumber}"></span>
@@ -311,29 +302,57 @@
 								</th:block>
 							</th:block>
 
-							<th:block th:if="${currentPage > 4}">
-								<th:block th:each="pageNumber : ${#numbers.sequence(currentPage - 2 > 1 ? currentPage - 2 : 2, currentPage + 2 < totalPages ? currentPage + 2 : totalPages - 1)}">
-									<li class="page-item" th:classappend="${pageNumber == currentPage ? 'active' : ''}">
-										<th:block th:if="${pageNumber == currentPage}">
-											<span class="page-link" th:text="${pageNumber}"></span>
-										</th:block>
-										<th:block th:unless="${pageNumber == currentPage}">
-											<a class="page-link" th:href="@{/manageauthors(page=${pageNumber})}" th:text="${pageNumber}"></a>
-										</th:block>
-									</li>
+							<!-- Trường hợp tổng số trang lớn hơn 5 -->
+							<th:block th:if="${totalPages > 5}">
+								<!-- Trang đầu tiên -->
+								<li class="page-item" th:classappend="${1 == currentPage ? 'active' : ''}">
+									<a th:if="${1 != currentPage}" class="page-link" th:href="@{/manageauthors(page=1)}" th:text="1"></a>
+									<span th:if="${1 == currentPage}" class="page-link" th:text="1"></span>
+								</li>
+
+								<!-- Dấu '...' nếu cần -->
+								<li class="page-item" th:if="${currentPage > 4}">
+									<span class="page-link">...</span>
+								</li>
+
+								<!-- Các trang xung quanh trang hiện tại -->
+								<th:block th:if="${currentPage <= 4}">
+									<th:block th:each="pageNumber : ${#numbers.sequence(2, currentPage + 2 < totalPages ? currentPage + 2 : totalPages - 1)}">
+										<li class="page-item" th:classappend="${pageNumber == currentPage ? 'active' : ''}">
+											<th:block th:if="${pageNumber == currentPage}">
+												<span class="page-link" th:text="${pageNumber}"></span>
+											</th:block>
+											<th:block th:unless="${pageNumber == currentPage}">
+												<a class="page-link" th:href="@{/manageauthors(page=${pageNumber})}" th:text="${pageNumber}"></a>
+											</th:block>
+										</li>
+									</th:block>
 								</th:block>
+
+								<th:block th:if="${currentPage > 4}">
+									<th:block th:each="pageNumber : ${#numbers.sequence(currentPage - 2 > 1 ? currentPage - 2 : 2, currentPage + 2 < totalPages ? currentPage + 2 : totalPages - 1)}">
+										<li class="page-item" th:classappend="${pageNumber == currentPage ? 'active' : ''}">
+											<th:block th:if="${pageNumber == currentPage}">
+												<span class="page-link" th:text="${pageNumber}"></span>
+											</th:block>
+											<th:block th:unless="${pageNumber == currentPage}">
+												<a class="page-link" th:href="@{/manageauthors(page=${pageNumber})}" th:text="${pageNumber}"></a>
+											</th:block>
+										</li>
+									</th:block>
+								</th:block>
+
+								<!-- Dấu '...' nếu cần -->
+								<li class="page-item" th:if="${currentPage < totalPages - 3}">
+									<span class="page-link">...</span>
+								</li>
+
+								<!-- Trang cuối cùng -->
+								<li class="page-item" th:classappend="${totalPages == currentPage ? 'active' : ''}">
+									<a th:if="${totalPages != currentPage}" class="page-link" th:href="@{/manageauthors(page=${totalPages})}" th:text="${totalPages}"></a>
+									<span th:if="${totalPages == currentPage}" class="page-link" th:text="${totalPages}"></span>
+								</li>
 							</th:block>
-
-							<!-- Dấu '...' nếu cần -->
-							<li class="page-item" th:if="${currentPage < totalPages - 3}">
-								<span class="page-link">...</span>
-							</li>
-
-							<!-- Trang cuối cùng -->
-							<li class="page-item" th:classappend="${totalPages == currentPage ? 'active' : ''}">
-								<a th:if="${totalPages != currentPage}" class="page-link" th:href="@{/manageauthors(page=${totalPages})}" th:text="${totalPages}"></a>
-								<span th:if="${totalPages == currentPage}" class="page-link" th:text="${totalPages}"></span>
-							</li>
 
 							<!-- Nút 'Trang sau' -->
 							<li th:if="${currentPage < totalPages}" class="page-item">
@@ -344,12 +363,10 @@
 						</ul>
 					</div>
 				</div>
-
 			</div>
 
-
 		</div>
-    </div>
+	</div>
     <!--<div th:replace="~{admin/footeradmin :: footer}"></div>-->
     <!-- Thêm các tệp tin JavaScript -->
     <script th:src="@{/js/jquery-3.4.1.slim.min.js}"></script>

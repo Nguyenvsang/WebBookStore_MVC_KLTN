@@ -369,39 +369,71 @@
 								</a>
 							</li>
 
-							<!-- Trang đầu tiên -->
-							<li class="page-item" th:classappend="${1 == currentPage ? 'active' : ''}">
-								<a th:if="${1 != currentPage}" class="page-link" th:href="@{/manageorders(page=1)}" th:text="1"></a>
-								<span th:if="${1 == currentPage}" class="page-link" th:text="1"></span>
-							</li>
-
-							<!-- Dấu '...' nếu cần -->
-							<li class="page-item" th:if="${currentPage > 3}">
-								<span class="page-link">...</span>
-							</li>
-
-							<!-- Các trang xung quanh trang hiện tại -->
-							<th:block th:each="pageNumber : ${#numbers.sequence(currentPage - 2 > 1 ? currentPage - 2 : 2, currentPage + 2 < totalPages ? currentPage + 2 : totalPages - 1)}">
-								<li class="page-item" th:classappend="${pageNumber == currentPage ? 'active' : ''}">
-									<th:block th:if="${pageNumber == currentPage}">
-										<span class="page-link" th:text="${pageNumber}"></span>
-									</th:block>
-									<th:block th:unless="${pageNumber == currentPage}">
-										<a class="page-link" th:href="@{/manageorders(page=${pageNumber})}" th:text="${pageNumber}"></a>
-									</th:block>
-								</li>
+							<!-- Trường hợp tổng số trang nhỏ hơn hoặc bằng 5 -->
+							<th:block th:if="${totalPages <= 5}">
+								<th:block th:each="pageNumber : ${#numbers.sequence(1, totalPages)}">
+									<li class="page-item" th:classappend="${pageNumber == currentPage ? 'active' : ''}">
+										<th:block th:if="${pageNumber == currentPage}">
+											<span class="page-link" th:text="${pageNumber}"></span>
+										</th:block>
+										<th:block th:unless="${pageNumber == currentPage}">
+											<a class="page-link" th:href="@{/manageorders(page=${pageNumber})}" th:text="${pageNumber}"></a>
+										</th:block>
+									</li>
+								</th:block>
 							</th:block>
 
-							<!-- Dấu '...' nếu cần -->
-							<li class="page-item" th:if="${currentPage < totalPages - 2}">
-								<span class="page-link">...</span>
-							</li>
+							<!-- Trường hợp tổng số trang lớn hơn 5 -->
+							<th:block th:if="${totalPages > 5}">
+								<!-- Trang đầu tiên -->
+								<li class="page-item" th:classappend="${1 == currentPage ? 'active' : ''}">
+									<a th:if="${1 != currentPage}" class="page-link" th:href="@{/manageorders(page=1)}" th:text="1"></a>
+									<span th:if="${1 == currentPage}" class="page-link" th:text="1"></span>
+								</li>
 
-							<!-- Trang cuối cùng -->
-							<li class="page-item" th:classappend="${totalPages == currentPage ? 'active' : ''}">
-								<a th:if="${totalPages != currentPage}" class="page-link" th:href="@{/manageorders(page=${totalPages})}" th:text="${totalPages}"></a>
-								<span th:if="${totalPages == currentPage}" class="page-link" th:text="${totalPages}"></span>
-							</li>
+								<!-- Dấu '...' nếu cần -->
+								<li class="page-item" th:if="${currentPage > 4}">
+									<span class="page-link">...</span>
+								</li>
+
+								<!-- Các trang xung quanh trang hiện tại -->
+								<th:block th:if="${currentPage <= 4}">
+									<th:block th:each="pageNumber : ${#numbers.sequence(2, currentPage + 2 < totalPages ? currentPage + 2 : totalPages - 1)}">
+										<li class="page-item" th:classappend="${pageNumber == currentPage ? 'active' : ''}">
+											<th:block th:if="${pageNumber == currentPage}">
+												<span class="page-link" th:text="${pageNumber}"></span>
+											</th:block>
+											<th:block th:unless="${pageNumber == currentPage}">
+												<a class="page-link" th:href="@{/manageorders(page=${pageNumber})}" th:text="${pageNumber}"></a>
+											</th:block>
+										</li>
+									</th:block>
+								</th:block>
+
+								<th:block th:if="${currentPage > 4}">
+									<th:block th:each="pageNumber : ${#numbers.sequence(currentPage - 2 > 1 ? currentPage - 2 : 2, currentPage + 2 < totalPages ? currentPage + 2 : totalPages - 1)}">
+										<li class="page-item" th:classappend="${pageNumber == currentPage ? 'active' : ''}">
+											<th:block th:if="${pageNumber == currentPage}">
+												<span class="page-link" th:text="${pageNumber}"></span>
+											</th:block>
+											<th:block th:unless="${pageNumber == currentPage}">
+												<a class="page-link" th:href="@{/manageorders(page=${pageNumber})}" th:text="${pageNumber}"></a>
+											</th:block>
+										</li>
+									</th:block>
+								</th:block>
+
+								<!-- Dấu '...' nếu cần -->
+								<li class="page-item" th:if="${currentPage < totalPages - 3}">
+									<span class="page-link">...</span>
+								</li>
+
+								<!-- Trang cuối cùng -->
+								<li class="page-item" th:classappend="${totalPages == currentPage ? 'active' : ''}">
+									<a th:if="${totalPages != currentPage}" class="page-link" th:href="@{/manageorders(page=${totalPages})}" th:text="${totalPages}"></a>
+									<span th:if="${totalPages == currentPage}" class="page-link" th:text="${totalPages}"></span>
+								</li>
+							</th:block>
 
 							<!-- Nút 'Trang sau' -->
 							<li th:if="${currentPage < totalPages}" class="page-item">
@@ -412,6 +444,7 @@
 						</ul>
 					</div>
 				</div>
+
 			</div>
 
 		</div>

@@ -462,7 +462,7 @@
 
                                 <td rowspan="1" class="next-table-header-node" style="padding: 10px 0px; text-align: center" th:text="${bookImport.book.id}"></td>
 
-                                <td rowspan="1" class="next-table-header-node" style="padding: 10px 10px; text-align: left;">
+                                <td rowspan="1" class="next-table-header-node" style="padding: 10px 10px; text-align: justify;">
                                     <span th:if="${#strings.length(bookImport.book.name) > 100}" th:text="${#strings.substring(bookImport.book.name, 0, 100) + '...'}"></span>
                                     <span th:if="${#strings.length(bookImport.book.name) <= 100}" th:text="${bookImport.book.name}"></span>
                                 </td>
@@ -518,48 +518,80 @@
                 <div th:if="${bookImports.totalPages > 1}">
                     <ul class="pagination" style="margin: 0px">
                         <!-- Nút 'Trang trước' -->
-                        <li th:if="${bookImports.hasPrevious()}" class="page-item">
+                        <li th:if="${bookImports.number > 0}" class="page-item">
                             <a class="page-link" th:href="@{/managebookimports(page=${bookImports.number}, size=${size}, sortOption=${sortOption}, bookId=${bookId}, searchKeyword=${searchKeyword}, status=${status})}">
                                 <span class="material-symbols-outlined">navigate_before</span>
                             </a>
                         </li>
 
-                        <!-- Trang đầu tiên -->
-                        <li class="page-item" th:classappend="${0 == bookImports.number ? 'active' : ''}">
-                            <a th:if="${0 != bookImports.number}" class="page-link" th:href="@{/managebookimports(page=1, size=${size}, sortOption=${sortOption}, bookId=${bookId}, searchKeyword=${searchKeyword}, status=${status})}" th:text="1"></a>
-                            <span th:if="${0 == bookImports.number}" class="page-link" th:text="1"></span>
-                        </li>
+                        <!-- Trường hợp tổng số trang nhỏ hơn hoặc bằng 5 -->
+                        <th:block th:if="${bookImports.totalPages <= 5}">
+                            <th:block th:each="pageNumber : ${#numbers.sequence(1, bookImports.totalPages)}">
+                                <li class="page-item" th:classappend="${pageNumber - 1 == bookImports.number ? 'active' : ''}">
+                                    <th:block th:if="${pageNumber - 1 == bookImports.number}">
+                                        <span class="page-link" th:text="${pageNumber}"></span>
+                                    </th:block>
+                                    <th:block th:unless="${pageNumber - 1 == bookImports.number}">
+                                        <a class="page-link" th:href="@{/managebookimports(page=${pageNumber}, size=${size}, sortOption=${sortOption}, bookId=${bookId}, searchKeyword=${searchKeyword}, status=${status})}" th:text="${pageNumber}"></a>
+                                    </th:block>
+                                </li>
+                            </th:block>
+                        </th:block>
 
-                        <!-- Dấu '...' nếu cần -->
-                        <li class="page-item" th:if="${bookImports.number > 2}">
-                            <span class="page-link">...</span>
-                        </li>
+                        <!-- Trường hợp tổng số trang lớn hơn 5 -->
+                        <th:block th:if="${bookImports.totalPages > 5}">
+                            <!-- Trang đầu tiên -->
+                            <li class="page-item" th:classappend="${1 == bookImports.number + 1 ? 'active' : ''}">
+                                <a th:if="${1 != bookImports.number + 1}" class="page-link" th:href="@{/managebookimports(page=1, size=${size}, sortOption=${sortOption}, bookId=${bookId}, searchKeyword=${searchKeyword}, status=${status})}" th:text="1"></a>
+                                <span th:if="${1 == bookImports.number + 1}" class="page-link" th:text="1"></span>
+                            </li>
 
-                        <!-- Các trang xung quanh trang hiện tại -->
-                        <th:block th:each="pageNumber : ${#numbers.sequence(bookImports.number - 2 > 1 ? bookImports.number - 2 : 1, bookImports.number + 2 < bookImports.totalPages - 2 ? bookImports.number + 2 : bookImports.totalPages - 2)}">
-                            <li class="page-item" th:classappend="${pageNumber == bookImports.number ? 'active' : ''}">
-                                <th:block th:if="${pageNumber == bookImports.number}">
-                                    <span class="page-link" th:text="${pageNumber + 1}"></span>
+                            <!-- Dấu '...' nếu cần -->
+                            <li class="page-item" th:if="${bookImports.number + 1 > 4}">
+                                <span class="page-link">...</span>
+                            </li>
+
+                            <!-- Các trang xung quanh trang hiện tại -->
+                            <th:block th:if="${bookImports.number + 1 <= 4}">
+                                <th:block th:each="pageNumber : ${#numbers.sequence(2, bookImports.number + 3 < bookImports.totalPages ? bookImports.number + 3 : bookImports.totalPages - 1)}">
+                                    <li class="page-item" th:classappend="${pageNumber - 1 == bookImports.number ? 'active' : ''}">
+                                        <th:block th:if="${pageNumber - 1 == bookImports.number}">
+                                            <span class="page-link" th:text="${pageNumber}"></span>
+                                        </th:block>
+                                        <th:block th:unless="${pageNumber - 1 == bookImports.number}">
+                                            <a class="page-link" th:href="@{/managebookimports(page=${pageNumber}, size=${size}, sortOption=${sortOption}, bookId=${bookId}, searchKeyword=${searchKeyword}, status=${status})}" th:text="${pageNumber}"></a>
+                                        </th:block>
+                                    </li>
                                 </th:block>
-                                <th:block th:unless="${pageNumber == bookImports.number}">
-                                    <a class="page-link" th:href="@{/managebookimports(page=${pageNumber + 1}, size=${size}, sortOption=${sortOption}, bookId=${bookId}, searchKeyword=${searchKeyword}, status=${status})}" th:text="${pageNumber + 1}"></a>
+                            </th:block>
+
+                            <th:block th:if="${bookImports.number + 1 > 4}">
+                                <th:block th:each="pageNumber : ${#numbers.sequence(bookImports.number - 1 > 1 ? bookImports.number : 2, bookImports.number + 3 < bookImports.totalPages ? bookImports.number + 3 : bookImports.totalPages - 1)}">
+                                    <li class="page-item" th:classappend="${pageNumber - 1 == bookImports.number ? 'active' : ''}">
+                                        <th:block th:if="${pageNumber - 1 == bookImports.number}">
+                                            <span class="page-link" th:text="${pageNumber}"></span>
+                                        </th:block>
+                                        <th:block th:unless="${pageNumber - 1 == bookImports.number}">
+                                            <a class="page-link" th:href="@{/managebookimports(page=${pageNumber}, size=${size}, sortOption=${sortOption}, bookId=${bookId}, searchKeyword=${searchKeyword}, status=${status})}" th:text="${pageNumber}"></a>
+                                        </th:block>
+                                    </li>
                                 </th:block>
+                            </th:block>
+
+                            <!-- Dấu '...' nếu cần -->
+                            <li class="page-item" th:if="${bookImports.number + 1 < bookImports.totalPages - 3}">
+                                <span class="page-link">...</span>
+                            </li>
+
+                            <!-- Trang cuối cùng -->
+                            <li class="page-item" th:classappend="${bookImports.totalPages == bookImports.number + 1 ? 'active' : ''}">
+                                <a th:if="${bookImports.totalPages != bookImports.number + 1}" class="page-link" th:href="@{/managebookimports(page=${bookImports.totalPages}, size=${size}, sortOption=${sortOption}, bookId=${bookId}, searchKeyword=${searchKeyword}, status=${status})}" th:text="${bookImports.totalPages}"></a>
+                                <span th:if="${bookImports.totalPages == bookImports.number + 1}" class="page-link" th:text="${bookImports.totalPages}"></span>
                             </li>
                         </th:block>
 
-                        <!-- Dấu '...' nếu cần -->
-                        <li class="page-item" th:if="${bookImports.number < bookImports.totalPages - 3}">
-                            <span class="page-link">...</span>
-                        </li>
-
-                        <!-- Trang cuối cùng -->
-                        <li class="page-item" th:classappend="${bookImports.totalPages - 1 == bookImports.number ? 'active' : ''}">
-                            <a th:if="${bookImports.totalPages - 1 != bookImports.number}" class="page-link" th:href="@{/managebookimports(page=${bookImports.totalPages}, size=${size}, sortOption=${sortOption}, bookId=${bookId}, searchKeyword=${searchKeyword}, status=${status})}" th:text="${bookImports.totalPages}"></a>
-                            <span th:if="${bookImports.totalPages - 1 == bookImports.number}" class="page-link" th:text="${bookImports.totalPages}"></span>
-                        </li>
-
                         <!-- Nút 'Trang sau' -->
-                        <li th:if="${bookImports.hasNext()}" class="page-item">
+                        <li th:if="${bookImports.number + 1 < bookImports.totalPages}" class="page-item">
                             <a class="page-link" th:href="@{/managebookimports(page=${bookImports.number + 2}, size=${size}, sortOption=${sortOption}, bookId=${bookId}, searchKeyword=${searchKeyword}, status=${status})}">
                                 <span class="material-symbols-outlined">navigate_next</span>
                             </a>
@@ -567,6 +599,7 @@
                     </ul>
                 </div>
             </div>
+
         </div>
 
     </div>
