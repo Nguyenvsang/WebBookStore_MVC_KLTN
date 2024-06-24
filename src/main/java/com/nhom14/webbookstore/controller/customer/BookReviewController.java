@@ -1,10 +1,7 @@
 package com.nhom14.webbookstore.controller.customer;
 
 import com.nhom14.webbookstore.entity.*;
-import com.nhom14.webbookstore.service.BookReviewService;
-import com.nhom14.webbookstore.service.BookService;
-import com.nhom14.webbookstore.service.OrderItemService;
-import com.nhom14.webbookstore.service.OrderService;
+import com.nhom14.webbookstore.service.*;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,16 +20,20 @@ public class BookReviewController {
     private BookService bookService;
     private OrderService orderService;
     private OrderItemService orderItemService;
+    private NotificationService notificationService;
+    private AccountService accountService;
 
     @Autowired
     public BookReviewController(BookReviewService bookReviewService, BookService bookService,
                                 OrderService orderService,
-                                OrderItemService orderItemService) {
+                                OrderItemService orderItemService, NotificationService notificationService, AccountService accountService) {
         super();
         this.bookReviewService = bookReviewService;
         this.bookService = bookService;
         this.orderService = orderService;
         this.orderItemService = orderItemService;
+        this.notificationService = notificationService;
+        this.accountService = accountService;
     }
 
     @PostMapping("/addreviewbook")
@@ -67,20 +68,6 @@ public class BookReviewController {
                 break;
             }
         }
-//
-//        // Nếu người dùng chưa mua cuốn sách này nhưng lại khẳng định đã mua
-//        if (isPurchased && !hasPurchased) {
-//            String message = "Bạn chưa mua cuốn sách này. Vui lòng kiểm tra lại.";
-//            redirectAttributes.addAttribute("message", message);
-//            return "redirect:/detailbook/" + bookId;
-//        }
-//
-//        // Nếu người dùng đã mua cuốn sách này nhưng lại không khẳng định đã mua
-//        if (!isPurchased && hasPurchased) {
-//            String message = "Bạn đã mua cuốn sách này. Vui lòng kiểm tra lại.";
-//            redirectAttributes.addAttribute("message", message);
-//            return "redirect:/detailbook/" + bookId;
-//        }
 
         // Tạo một đánh giá mới
         BookReview review = new BookReview();
@@ -94,6 +81,20 @@ public class BookReviewController {
 
         // Lưu đánh giá vào cơ sở dữ liệu
         bookReviewService.save(review);
+
+        // Thông báo có đánh giá mới cho Admin
+        Notification notification = new Notification();
+        String content = "Sách mã " + book.getId() + " nhận được 1 đánh giá mới từ người dùng " + account.getUsername();
+        notification.setContent(content);
+        notification.setStatus(0);// Chưa đọc
+        notification.setType(1); // :Loại thông báo về đánh giá sách
+        notification.setReferredId(review.getId());
+        // Lấy một admin còn hoạt động
+        Account admin = accountService.getOneActiveAdmin();
+        notification.setReceiver(admin);
+        notification.setTriggerUser(account);
+        notification.setSentTime(new Timestamp(System.currentTimeMillis()));
+        notification = notificationService.save(notification);
 
         // Chuyển hướng người dùng đến trang chi tiết sách
         String message = "Cảm ơn bạn đã đánh giá, đánh giá của bạn đã được lưu thành công và sẽ được đăng sau khi chúng tôi xét duyệt!";
@@ -129,19 +130,6 @@ public class BookReviewController {
         }
 
         boolean hasPurchased = review.isPurchased();
-        // Nếu người dùng chưa mua cuốn sách này nhưng lại khẳng định đã mua
-//        if (isPurchased && !hasPurchased) {
-//            String message = "Bạn chưa mua cuốn sách này. Vui lòng kiểm tra lại.";
-//            redirectAttributes.addAttribute("message", message);
-//            return "redirect:/detailbook/" + bookId;
-//        }
-//
-//        // Nếu người dùng đã mua cuốn sách này nhưng lại không khẳng định đã mua
-//        if (!isPurchased && hasPurchased) {
-//            String message = "Bạn đã mua cuốn sách này. Vui lòng kiểm tra lại.";
-//            redirectAttributes.addAttribute("message", message);
-//            return "redirect:/detailbook/" + bookId;
-//        }
 
         // Cập nhật đánh giá
         review.setRating(rating);
@@ -152,6 +140,20 @@ public class BookReviewController {
 
         // Lưu đánh giá vào cơ sở dữ liệu
         bookReviewService.save(review);
+
+        // Thông báo có đánh giá mới cho Admin
+        Notification notification = new Notification();
+        String content = "Sách mã " + book.getId() + " nhận được chỉnh sửa đánh giá từ người dùng " + account.getUsername();
+        notification.setContent(content);
+        notification.setStatus(0);// Chưa đọc
+        notification.setType(1); // :Loại thông báo về đánh giá sách
+        notification.setReferredId(review.getId());
+        // Lấy một admin còn hoạt động
+        Account admin = accountService.getOneActiveAdmin();
+        notification.setReceiver(admin);
+        notification.setTriggerUser(account);
+        notification.setSentTime(new Timestamp(System.currentTimeMillis()));
+        notification = notificationService.save(notification);
 
         // Chuyển hướng người dùng đến trang chi tiết sách
         String message = "Đánh giá của bạn đã được cập nhật thành công! Và sẽ được hiển thị sau khi chúng tôi xét duyệt";
