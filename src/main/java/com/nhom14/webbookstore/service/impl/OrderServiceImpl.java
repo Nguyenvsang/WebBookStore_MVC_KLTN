@@ -50,7 +50,8 @@ public class OrderServiceImpl implements OrderService {
 
 	@Override
 	public List<Order> getAllOrders() {
-		return orderRepository.findAll(); // Nếu không có order sẽ trả về empty list
+		return orderRepository.findAllByOrderByDateOrderDesc(); // Sắp xếp theo ngày giảm dần
+		// Nếu không có order sẽ trả về empty list
 	}
 
 	@Override

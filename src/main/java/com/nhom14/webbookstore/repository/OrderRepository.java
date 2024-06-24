@@ -36,4 +36,6 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
 								@Param("status") Integer status,
 								Pageable pageable);
 
+	List<Order> findAllByOrderByDateOrderDesc();
+
 }
