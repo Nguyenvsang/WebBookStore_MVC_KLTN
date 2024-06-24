@@ -7,6 +7,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Objects;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -82,77 +83,72 @@ public class AdminAccountController {
         session.invalidate();
         return "redirect:/loginadmin";
 	}
-	
+
 	@GetMapping("/manageaccounts")
 	public String manageAccounts(@RequestParam(value = "type", required = false) Integer type,
-			@RequestParam(value = "status", required = false) Integer status,
-			@RequestParam(value = "search", required = false) String searchKeyword,
-			@RequestParam(value = "page", required = false, defaultValue = "1") Integer currentPage,
-			Model model,
-		    HttpSession session) {
-		
+								 @RequestParam(value = "status", required = false) Integer status,
+								 @RequestParam(value = "search", required = false) String searchKeyword,
+								 @RequestParam(value = "page", required = false, defaultValue = "1") Integer currentPage,
+								 Model model,
+								 HttpSession session) {
+
 		Account admin = (Account) session.getAttribute("admin");
 
-	    // Kiểm tra xem admin đã đăng nhập hay chưa
-	    if (admin == null) {
-	        // Nếu chưa đăng nhập, chuyển hướng về trang đăng nhập
-	        return "redirect:/loginadmin";
-	    }
-	    
-	    // Lấy danh sách tài khoản theo trạng thái hoặc tất cả tài khoản
-        List<Account> accounts;
-        int totalAccounts;
-        
-        // Số danh mục hiển thị trên mỗi trang	
-        int recordsPerPage = 10;
-        int start;
-        int end;
-        int totalPages;
-        
-        if (status == null || (status == -1)) {
-        	accounts = accountService.getAllAccounts();
-        } else {
-        	accounts = accountService.getAccountsByStatus(status);
-        }
-
-		if (type == null || (type == -1)) {
-			accounts = accountService.getAllAccounts();
-		} else {
-			accounts = accountService.getAccountsByAccountType(type);
+		// Kiểm tra xem admin đã đăng nhập hay chưa
+		if (admin == null) {
+			// Nếu chưa đăng nhập, chuyển hướng về trang đăng nhập
+			return "redirect:/loginadmin";
 		}
-        
-        if (searchKeyword != null && !searchKeyword.isEmpty()) {
-        	accounts = accountService.searchAccountsByKeyword(accounts, searchKeyword);
-        }
-        
-        // Lấy tổng số lượng tài khoản
-        totalAccounts = accounts.size();
-        
-        // Tính toán vị trí bắt đầu và kết thúc của tài khoản trên trang hiện tại
-        start = (currentPage - 1) * recordsPerPage;
-        end = Math.min(start + recordsPerPage, totalAccounts);
-        
-        // Lấy danh sách tài khoản trên trang hiện tại
-        List<Account> accountsOnPage = accounts.subList(start, end);
-        
-        // Tính toán số trang
-        totalPages = (int) Math.ceil((double) totalAccounts / recordsPerPage);
-        
-        // Tổng số tất cả các tài khoản
-        int totalAllAccounts = accountService.getAllAccounts().size();
+
+		// Lấy danh sách tài khoản theo trạng thái và loại hoặc tất cả tài khoản
+		List<Account> accounts = accountService.getAllAccounts();
+
+		if (status != null && status != -1) {
+			accounts = accounts.stream()
+					.filter(account -> account.getStatus() == status)
+					.collect(Collectors.toList());
+		}
+
+		if (type != null && type != -1) {
+			accounts = accounts.stream()
+					.filter(account -> account.getAccountType() == type)
+					.collect(Collectors.toList());
+		}
+
+		if (searchKeyword != null && !searchKeyword.isEmpty()) {
+			accounts = accountService.searchAccountsByKeyword(accounts, searchKeyword);
+		}
+
+		// Lấy tổng số lượng tài khoản
+		int totalAccounts = accounts.size();
+
+		// Số danh mục hiển thị trên mỗi trang
+		int recordsPerPage = 10;
+		int start = (currentPage - 1) * recordsPerPage;
+		int end = Math.min(start + recordsPerPage, totalAccounts);
+
+		// Lấy danh sách tài khoản trên trang hiện tại
+		List<Account> accountsOnPage = accounts.subList(start, end);
+
+		// Tính toán số trang
+		int totalPages = (int) Math.ceil((double) totalAccounts / recordsPerPage);
+
+		// Tổng số tất cả các tài khoản
+		int totalAllAccounts = accountService.getAllAccounts().size();
 
 		model.addAttribute("type", type);
 		model.addAttribute("status", status);
 		model.addAttribute("search", searchKeyword);
-        model.addAttribute("accounts", accountsOnPage);
-        model.addAttribute("totalAccounts", totalAccounts);
-        model.addAttribute("totalPages", totalPages);
-        model.addAttribute("currentPage", currentPage);
-        model.addAttribute("totalAllAccounts", totalAllAccounts);
-        
-        return "admin/manageaccounts";
+		model.addAttribute("accounts", accountsOnPage);
+		model.addAttribute("totalAccounts", totalAccounts);
+		model.addAttribute("totalPages", totalPages);
+		model.addAttribute("currentPage", currentPage);
+		model.addAttribute("totalAllAccounts", totalAllAccounts);
+
+		return "admin/manageaccounts";
 	}
-	
+
+
 	@GetMapping("/managedetailaccount")
 	public String manageDetailAccount(@RequestParam("accountId") Integer accountId,
 			Model model,
