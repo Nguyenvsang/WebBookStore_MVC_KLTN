@@ -120,4 +120,13 @@ public class AccountServiceImpl implements AccountService {
 		return accountRepository.findByAccountType(type);
 	}
 
+	@Override
+	public Account getOneActiveAdmin() {
+		List<Account> admins = accountRepository.findByAccountTypeAndStatus(0, 1); // admin: 0, active: 1
+		if (!admins.isEmpty()) {
+			return admins.get(0); // Trả về admin đầu tiên trong danh sách
+		}
+		return null; // Hoặc xử lý khi không có admin nào hoạt động
+	}
+
 }

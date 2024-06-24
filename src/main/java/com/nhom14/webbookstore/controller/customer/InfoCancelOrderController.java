@@ -1,12 +1,7 @@
 package com.nhom14.webbookstore.controller.customer;
 
-import com.nhom14.webbookstore.entity.Account;
-import com.nhom14.webbookstore.entity.InfoCancelOrder;
-import com.nhom14.webbookstore.entity.Order;
-import com.nhom14.webbookstore.entity.PaymentStatus;
-import com.nhom14.webbookstore.service.InfoCancelOrderService;
-import com.nhom14.webbookstore.service.OrderService;
-import com.nhom14.webbookstore.service.PaymentStatusService;
+import com.nhom14.webbookstore.entity.*;
+import com.nhom14.webbookstore.service.*;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,13 +18,17 @@ public class InfoCancelOrderController {
     private InfoCancelOrderService infoCancelOrderService;
     private OrderService orderService;
     private PaymentStatusService paymentStatusService;
+    private NotificationService notificationService;
+    private AccountService accountService;
 
     @Autowired
 
-    public InfoCancelOrderController(InfoCancelOrderService infoCancelOrderService, OrderService orderService, PaymentStatusService paymentStatusService) {
+    public InfoCancelOrderController(InfoCancelOrderService infoCancelOrderService, OrderService orderService, PaymentStatusService paymentStatusService, NotificationService notificationService, AccountService accountService) {
         this.infoCancelOrderService = infoCancelOrderService;
         this.orderService = orderService;
         this.paymentStatusService = paymentStatusService;
+        this.notificationService = notificationService;
+        this.accountService = accountService;
     }
 
     @GetMapping("/cancelorder")
@@ -92,6 +91,20 @@ public class InfoCancelOrderController {
         }
         // Lưu vào CSDL
         paymentStatusService.updatePaymentStatus(paymentStatus);
+
+        // Thông báo hủy đơn cho Admin
+        Notification notification = new Notification();
+        String content = "Đơn hàng mã " + orderId + " đã được hủy bởi " + account.getUsername();
+        notification.setContent(content);
+        notification.setStatus(0);// Chưa đọc
+        notification.setType(0); // :Loại thông báo về order
+        notification.setReferredId(orderId);
+        // Lấy một admin còn hoạt động
+        Account admin = accountService.getOneActiveAdmin();
+        notification.setReceiver(admin);
+        notification.setTriggerUser(account);
+        notification.setSentTime(new Timestamp(System.currentTimeMillis()));
+        notification = notificationService.save(notification);
 
         redirectAttributes.addAttribute("message", "Đã hủy đơn thành công!");
         redirectAttributes.addAttribute("orderId", order.getId());

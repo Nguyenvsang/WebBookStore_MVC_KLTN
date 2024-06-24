@@ -39,4 +39,7 @@ public interface AccountService {
 	Account findAccountByEmail(String email);
 
 	List<Account> getAccountsByAccountType(int type);
+
+	// Thêm phương thức để lấy một admin còn hoạt động
+	Account getOneActiveAdmin();
 }

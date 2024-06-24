@@ -31,6 +31,8 @@ public class InfoReturnOrderController {
     private ImgReturnOrderService imgReturnOrderService;
     private VideoReturnOrderService videoReturnOrderService;
     private AccountAddressService accountAddressService;
+    private NotificationService notificationService;
+    private AccountService accountService;
 
     @Autowired
     public InfoReturnOrderController(InfoReturnOrderService infoReturnOrderService,
@@ -38,7 +40,7 @@ public class InfoReturnOrderController {
                                      PaymentStatusService paymentStatusService,
                                      CloudinaryService cloudinaryService,
                                      ImgReturnOrderService imgReturnOrderService,
-                                     VideoReturnOrderService videoReturnOrderService, AccountAddressService accountAddressService) {
+                                     VideoReturnOrderService videoReturnOrderService, AccountAddressService accountAddressService, NotificationService notificationService, AccountService accountService) {
         this.infoReturnOrderService = infoReturnOrderService;
         this.orderService = orderService;
         this.paymentStatusService = paymentStatusService;
@@ -46,6 +48,8 @@ public class InfoReturnOrderController {
         this.imgReturnOrderService = imgReturnOrderService;
         this.videoReturnOrderService = videoReturnOrderService;
         this.accountAddressService = accountAddressService;
+        this.notificationService = notificationService;
+        this.accountService = accountService;
     }
 
     @GetMapping("/returnorder")
@@ -168,6 +172,20 @@ public class InfoReturnOrderController {
         }
         // Nếu không bị lỗi thì tiếp tục thực hiện các lệnh dưới
         // Còn PaymentStatus sẽ được đặt là Đã hoàn tiền nếu Admin đặt trạng thái đơn hàng này thành Trả hàng thành công
+        // Thông báo yêu cầu trả hàng cho Admin
+        Notification notification = new Notification();
+        String content = "Đơn hàng mã " + orderId + " được yêu cầu trả hàng bởi " + account.getUsername();
+        notification.setContent(content);
+        notification.setStatus(0);// Chưa đọc
+        notification.setType(0); // :Loại thông báo về order
+        notification.setReferredId(orderId);
+        // Lấy một admin còn hoạt động
+        Account admin = accountService.getOneActiveAdmin();
+        notification.setReceiver(admin);
+        notification.setTriggerUser(account);
+        notification.setSentTime(new Timestamp(System.currentTimeMillis()));
+        notification = notificationService.save(notification);
+
         redirectAttributes.addAttribute("message", "Đã gửi yêu cầu trả hàng thành công! Vui lòng đợi chúng tôi liên hệ lại!");
         redirectAttributes.addAttribute("orderId", order.getId());
         return "redirect:/vieworderitems";

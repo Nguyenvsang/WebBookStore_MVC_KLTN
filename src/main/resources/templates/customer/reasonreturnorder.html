@@ -320,7 +320,7 @@
                 <p style="margin: 0px 5px 0px 0px; color: #f17746; font-weight: bold">MÃ ĐƠN HÀNG:</p>
                 <span class="align-middle text-center" style="color: #f17746; font-weight: bold">[[${order.id}]]</span>
             </div>
-            <form th:action="@{/returnorder(orderId=${order.id})}" method="post" enctype="multipart/form-data" style="margin-top: 10px">
+            <form id="reasonForm" th:action="@{/returnorder(orderId=${order.id})}" method="post" enctype="multipart/form-data" style="margin-top: 10px">
                 <div class="row d-flex align-items-center justify-content-center" style="width: 870px; margin-left: 0px">
                     <div class="col-01 align-items-center" style="width: 33.3%">
                         <div class="form-check">
@@ -779,6 +779,14 @@
         });
     });
 
+</script>
+
+<script type="text/javascript">
+    $('#reasonForm').on('submit', function() {
+        var $submitButton = $('.btn-order');
+        $submitButton.prop('disabled', true);
+        $submitButton.text('Đang xử lý ...');
+    });
 </script>
 
 </body>

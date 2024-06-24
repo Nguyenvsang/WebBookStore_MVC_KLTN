@@ -74,4 +74,18 @@ public class NotificationServiceImpl implements NotificationService {
         }
     }
 
+    @Override
+    public Page<Notification> findAllByAdminReceivers(Pageable pageable) {
+        return notificationRepository.findAllByAdminReceivers(pageable);
+    }
+
+    @Override
+    public void markAllAsReadForAdmins() {
+        List<Notification> notifications = notificationRepository.findAllUnreadByAdminReceivers();
+        for (Notification notification : notifications) {
+            notification.setStatus(1);
+            notificationRepository.save(notification);
+        }
+    }
+
 }

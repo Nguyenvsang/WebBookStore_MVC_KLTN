@@ -63,6 +63,8 @@ public class OrderController {
     private ModelMapper modelMapper;
     private VoucherService voucherService;
     private VoucherInfoService voucherInfoService;
+    private NotificationService notificationService;
+    private AccountService accountService;
 
 	@Autowired
 	public OrderController(OrderService orderService,
@@ -70,7 +72,7 @@ public class OrderController {
                            CartService cartService,
                            CartItemService cartItemService,
                            BookService bookService,
-                           PaymentStatusService paymentStatusService, RevenueService revenueService, ProfitService profitService, BookImportService bookImportService, AccountAddressService accountAddressService, DiscountService discountService, ModelMapper modelMapper, VoucherService voucherService, VoucherInfoService voucherInfoService) {
+                           PaymentStatusService paymentStatusService, RevenueService revenueService, ProfitService profitService, BookImportService bookImportService, AccountAddressService accountAddressService, DiscountService discountService, ModelMapper modelMapper, VoucherService voucherService, VoucherInfoService voucherInfoService, NotificationService notificationService, AccountService accountService) {
 		super();
 		this.orderService = orderService;
 		this.orderItemService = orderItemService;
@@ -86,6 +88,8 @@ public class OrderController {
         this.modelMapper = modelMapper;
         this.voucherService = voucherService;
         this.voucherInfoService = voucherInfoService;
+        this.notificationService = notificationService;
+        this.accountService = accountService;
     }
 
     @GetMapping("/shippinginformation")
@@ -384,7 +388,19 @@ public class OrderController {
             redirectAttributes.addAttribute("orderId", lastOrder.getId());
             return "redirect:/createvnpaypayment";
         } else {
-            // Nếu không, chuyển hướng đến trang xác nhận đơn hàng
+            // Nếu không, tạo thông báo, chuyển hướng đến trang xác nhận đơn hàng
+            Notification notification = new Notification();
+            String content = "Đơn hàng mã " + lastOrder.getId() + " vừa mới được đặt bởi " + account.getUsername();
+            notification.setContent(content);
+            notification.setStatus(0);// Chưa đọc
+            notification.setType(0); // :Loại thông báo về order
+            notification.setReferredId(lastOrder.getId());
+            // Lấy một admin còn hoạt động
+            Account admin = accountService.getOneActiveAdmin();
+            notification.setReceiver(admin);
+            notification.setTriggerUser(account);
+            notification.setSentTime(new Timestamp(System.currentTimeMillis()));
+            notification = notificationService.save(notification);
             redirectAttributes.addAttribute("orderId", lastOrder.getId());
             return "redirect:/orderconfirmation";
         }
@@ -792,6 +808,20 @@ public class OrderController {
 
         // Lưu vào CSDL
         orderService.updateOrder(order);
+
+        // Thông báo cho admin
+        Notification notification = new Notification();
+        String content = "Đơn hàng mã " + orderId + " được xác nhận là đã nhận hàng bởi " + account.getUsername();
+        notification.setContent(content);
+        notification.setStatus(0);// Chưa đọc
+        notification.setType(0); // :Loại thông báo về order
+        notification.setReferredId(orderId);
+        // Lấy một admin còn hoạt động
+        Account admin = accountService.getOneActiveAdmin();
+        notification.setReceiver(admin);
+        notification.setTriggerUser(account);
+        notification.setSentTime(new Timestamp(System.currentTimeMillis()));
+        notification = notificationService.save(notification);
 
         // Chuyển đến trang xem chi tiết đơn hàng
 

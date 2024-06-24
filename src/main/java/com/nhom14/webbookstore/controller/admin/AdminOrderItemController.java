@@ -86,8 +86,8 @@ public class AdminOrderItemController {
 		String currentUrl = request.getRequestURL().toString();
 
 		// Kiểm tra xem referer có khác với URL hiện tại hay không (tránh trường hợp 1 trang lặp lại)
-		// và có chứa cụm "/manageorders" (tránh trường hợp vượt quá kiểm soát)
-		if (referer != null && !referer.equals(currentUrl) && (referer.contains("/manageorders"))) {
+		// và có chứa cụm "/manageorders" hoặc "/adminnotifications" (tránh trường hợp vượt quá kiểm soát)
+		if (referer != null && !referer.equals(currentUrl) && (referer.contains("/manageorders") || referer.contains("/adminnotifications"))) {
 			session.setAttribute("previousUrl", referer);
 		}
 

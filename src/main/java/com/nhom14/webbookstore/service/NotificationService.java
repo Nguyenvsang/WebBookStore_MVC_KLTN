@@ -18,4 +18,9 @@ public interface NotificationService {
     Notification getNotificationById(long notificationId);
 
     void markAllAsReadForAccount(Account account);
+
+    Page<Notification> findAllByAdminReceivers(Pageable pageable);
+
+    // Đánh dấu tất cả thông báo cho admin là đã đọc
+    void markAllAsReadForAdmins();
 }
