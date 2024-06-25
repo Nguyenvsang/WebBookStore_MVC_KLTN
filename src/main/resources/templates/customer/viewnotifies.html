@@ -449,6 +449,9 @@
             background-color: #5390f5;
             color: white;
         }
+        .btn-tick {
+            cursor: default; /* Để ngăn người dùng nhấp chuột */
+        }
     </style>
 </head>
 <!--Phần Chat Box -->
@@ -493,7 +496,15 @@
                 <div class="card-body">
                     <div class="row-announce d-flex align-items-center" style="width: 100%; ">
                         <div class="col-10 d-flex" style="width: 90%; padding: 0px 20px 0px 0px">
-                            <img src="https://res.cloudinary.com/dylwewmt0/image/upload/v1717046493/PHOTO_LIST/Notifications/01.png" alt="Knowledge Young" style="width:50px;">
+                            <div class="notification-container" style="position: relative; display: inline-block;">
+                                <!-- Chấm tròn đánh dấu đã đọc -->
+                                <span th:if="${notification.status == 0}" th:id="'mark-as-read-' + ${notification.id}"
+                                      class="btn btn-tick"
+                                      style="padding: 0px; width: 10px; height: 10px; background-color: #5390f5; border-radius: 50%; display: inline-block; position: absolute; top: 0; left: 0;">
+                                    </span>
+                                <!-- Ảnh -->
+                                <img src="https://res.cloudinary.com/dylwewmt0/image/upload/v1717046493/PHOTO_LIST/Notifications/01.png" alt="Knowledge Young" style="width: 50px;">
+                            </div>
                             <div class="row-01">
                                 <span th:text="${#temporals.format(notification.sentTime.toLocalDateTime(), 'dd/MM/yyyy')}" style="color: grey; font-family: 'Museo Moderno', sans-serif;"></span>
                                 <p class="card-text" th:text="${notification.content}" style="font-family: 'Museo Moderno', sans-serif;">Nội dung thông báo</p>
@@ -519,15 +530,15 @@
                                style="border-radius: 50px; background-color: white; color: #5390f5; border: 1px solid #5390f5; width: 170px; height: 40px">
                                 Xem chi tiết
                             </a>
-                            <div class="row-tick" style=" display-direction: column">
-                                <!-- Nút đánh dấu đã đọc -->
-                                <a th:if="${notification.status == 0}" href="#" th:id="'mark-as-read-' + ${notification.id}" class="btn btn-tick" th:onclick="'markNotifyAsRead(' + ${notification.id} + ', event)'"
-                                   onmouseover="this.style.backgroundColor='#5390f5'; this.style.color='white';"
-                                   onmouseout="this.style.backgroundColor='white'; this.style.color='#5390f5';"
-                                   style="border-radius: 50px; margin-top: 15px; background-color: white; color: #5390f5; border: 1px solid #5390f5; width: 170px; height: 40px">
-                                    Đánh dấu đã đọc
-                                </a>
-                            </div>
+<!--                            <div class="row-tick" style=" display-direction: column">-->
+<!--                                &lt;!&ndash; Nút đánh dấu đã đọc &ndash;&gt;-->
+<!--                                <a th:if="${notification.status == 0}" href="#" th:id="'mark-as-read-' + ${notification.id}" class="btn btn-tick" th:onclick="'markNotifyAsRead(' + ${notification.id} + ', event)'"-->
+<!--                                   onmouseover="this.style.backgroundColor='#5390f5'; this.style.color='white';"-->
+<!--                                   onmouseout="this.style.backgroundColor='white'; this.style.color='#5390f5';"-->
+<!--                                   style="border-radius: 50px; margin-top: 15px; background-color: white; color: #5390f5; border: 1px solid #5390f5; width: 170px; height: 40px">-->
+<!--                                    Đánh dấu đã đọc-->
+<!--                                </a>-->
+<!--                            </div>-->
                         </div>
                     </div>
                 </div>
