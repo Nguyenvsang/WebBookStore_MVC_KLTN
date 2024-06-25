@@ -362,7 +362,7 @@
                                     <col style="width: 30%;">
                                 </colgroup>
                                 <tbody>
-                                <tr>
+                                <tr style="font-family: nunito-sans, sans-serif, Helvetica, Arial; color: #302776">
                                     <th rowspan="1" class="next-table-header-node first" style="text-align: center">
                                         <div class="next-table-cell-wrapper">Mã doanh thu</div>
                                     </th>
@@ -390,7 +390,7 @@
                                 <col style="width: 30%;">
                             </colgroup>
                             <tbody>
-                            <tr th:each="revenue : ${revenues.content}" th:id="'revenue-' + ${revenue.id}" onmouseover="this.style.backgroundColor='#e0f3ff';" onmouseout="this.style.backgroundColor='transparent';">
+                            <tr th:each="revenue : ${revenues.content}" th:id="'revenue-' + ${revenue.id}" onmouseover="this.style.backgroundColor='#e0f3ff';" onmouseout="this.style.backgroundColor='transparent';" style="font-family: nunito-sans, sans-serif, Helvetica, Arial;">
 
                                 <td rowspan="1" class="next-table-header-node first " style="padding: 20px 10px;" th:text="${revenue.id}"></td>
 

@@ -408,7 +408,7 @@
                                     <col style="width: 5%;">
                                 </colgroup>
                                 <tbody>
-                                <tr>
+                                <tr style="font-family: nunito-sans, sans-serif, Helvetica, Arial; color: #302776">
                                     <th rowspan="1" class="next-table-header-node first" style="text-align: center">
                                         <div class="next-table-cell-wrapper">Mã nhập</div>
                                     </th>
@@ -456,7 +456,7 @@
                                 <col style="width: 5%;">
                             </colgroup>
                             <tbody>
-                            <tr th:each="bookImport : ${bookImports}" onmouseover="this.style.backgroundColor='#e0f3ff';" onmouseout="this.style.backgroundColor='transparent';">
+                            <tr th:each="bookImport : ${bookImports}" onmouseover="this.style.backgroundColor='#e0f3ff';" onmouseout="this.style.backgroundColor='transparent';" style="font-family: nunito-sans, sans-serif, Helvetica, Arial;">
 
                                 <td rowspan="1" class="next-table-header-node first " style="padding: 10px 0px;" th:text="${bookImport.id}"></td>
 
@@ -476,7 +476,7 @@
                                 <td rowspan="1" class="next-table-header-node" style="padding: 10px 0px; text-align: center;" th:text="${#temporals.format(bookImport.importDate.toLocalDateTime(), 'dd/MM/yyyy HH:mm:ss')}"></td>
 
                                 <td rowspan="1" class="next-table-header-node" style="padding: 10px 0px; text-align: center;">
-                                    <span th:switch="${bookImport.status}">
+                                    <span th:switch="${bookImport.status}" style="padding-bottom: 3px;">
                                         <span th:case="0" class="badge badge-danger">Ngừng bán</span>
                                         <span th:case="1" class="badge badge-success">Đang bán</span>
                                         <span th:case="2" class="badge badge-warning">Chưa bán</span>

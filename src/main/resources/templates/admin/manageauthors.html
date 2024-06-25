@@ -211,7 +211,7 @@
 										<col style="width: 15%;">
 									</colgroup>
 									<tbody>
-									<tr>
+									<tr style="font-family: nunito-sans, sans-serif, Helvetica, Arial; color: #302776">
 										<th rowspan="1" class="next-table-header-node first" style="padding: 10px 20px;">
 											<div class="next-table-cell-wrapper">Mã</div>
 										</th>
@@ -241,11 +241,11 @@
 								<tbody>
 								<tr th:each="author : ${authors}"  onmouseover="this.style.backgroundColor='#e0f3ff';" onmouseout="this.style.backgroundColor='transparent';">
 
-									<td rowspan="1" class="next-table-header-node first " style="padding: 20px 20px;" th:text="${author.id}"></td>
+									<td rowspan="1" class="next-table-header-node first " style="font-family: nunito-sans, sans-serif, Helvetica, Arial; padding: 20px 20px;" th:text="${author.id}"></td>
 
-									<td rowspan="1" class="next-table-header-node" style="padding: 20px 20px; text-align: center" th:text="${author.name}"></td>
+									<td rowspan="1" class="next-table-header-node" style="font-family: nunito-sans, sans-serif, Helvetica, Arial; padding: 20px 20px; text-align: center" th:text="${author.name}"></td>
 
-									<td rowspan="1" class="next-table-header-node" style="padding: 10px 20px; text-align: justify;"
+									<td rowspan="1" class="next-table-header-node" style="font-family: nunito-sans, sans-serif, Helvetica, Arial; padding: 10px 20px; text-align: justify;"
 										th:text="${#strings.length(author.bio) > 100 ? #strings.substring(author.bio, 0, 100) + '...' : author.bio}">
 									</td>
 

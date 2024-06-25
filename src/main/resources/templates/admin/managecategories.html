@@ -265,7 +265,7 @@
 										<col style="width: 15%;">
 									</colgroup>
 									<tbody>
-									<tr>
+									<tr style="font-family: nunito-sans, sans-serif, Helvetica, Arial; color: #302776">
 										<th rowspan="1" class="next-table-header-node first" style="padding: 10px 20px;">
 											<div class="next-table-cell-wrapper">Mã danh mục</div>
 										</th>
@@ -293,7 +293,7 @@
 									<col style="width: 15%;">
 								</colgroup>
 								<tbody>
-								<tr th:each="category : ${categories}"  onmouseover="this.style.backgroundColor='#e0f3ff';" onmouseout="this.style.backgroundColor='transparent';">
+								<tr th:each="category : ${categories}"  onmouseover="this.style.backgroundColor='#e0f3ff';" onmouseout="this.style.backgroundColor='transparent';" style="font-family: nunito-sans, sans-serif, Helvetica, Arial;">
 
 									<td rowspan="1" class="next-table-header-node first " style="padding: 20px 20px;" th:text="${category.id}"></td>
 

@@ -15,6 +15,7 @@
             color: rgb(2,88,155);
         }
         .container-body {
+            margin: 20px 0px;
             border-radius: 20px;
             padding: 20px;
             box-shadow: 0 8px 10px rgb(226, 226, 226);
@@ -90,7 +91,7 @@
             <div th:replace="~{admin/sidebar :: sidebar}"></div>
         </div>
 
-        <div class="col-08" style="width: 83%; display: flex; justify-content: center; align-items: center; height: 90vh;">
+        <div class="col-08" style="width: 83%; display: flex; justify-content: center; align-items: center;">
             <!-- Lớp phủ -->
             <div class="overlay" id="overlay"></div>
 
@@ -114,7 +115,7 @@
                 </div>
                 <div class="frame-body">
                     <form th:action="@{/updatevoucher}" method="post">
-                        <div class="row-01 d-flex align-items-center" style="margin-top: 15px">
+                        <div class="row-01 d-flex align-items-center" style="margin-top: 15px; font-family: nunito-sans, sans-serif, Helvetica, Arial;">
                             <div class="col-6" style="padding: 0px 10px 0px 0px">
                                 <!-- Id voucher -->
                                 <div class="form-group">
@@ -129,7 +130,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row-01 d-flex align-items-center" style="margin-top: 15px">
+                        <div class="row-01 d-flex align-items-center" style="margin-top: 15px; font-family: nunito-sans, sans-serif, Helvetica, Arial;">
                             <div class="col-3" style="padding: 0px 10px 0px 0px">
                                 <div class="form-group">
                                     <label for="quantity" >Số lượng:</label>
@@ -156,7 +157,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row-01 d-flex align-items-center" style="margin-top: 15px">
+                        <div class="row-01 d-flex align-items-center" style="margin-top: ; font-family: nunito-sans, sans-serif, Helvetica, Arial;">
                             <div class="col-3" style="padding: 0px 10px 0px 0px">
                                 <div class="form-group" th:if="${voucher.discountPercent != -1}">
                                     <label for="discountPercent" >Tỷ lệ % giảm giá:</label>
@@ -190,7 +191,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row-01 d-flex align-items-center" style="margin: 15px 0px">
+                        <div class="row-01 d-flex align-items-center" style="margin: 15px 0px; font-family: nunito-sans, sans-serif, Helvetica, Arial;">
                             <div class="col-3" style="padding: 0px 10px 0px 0px">
                                 <!-- Ngày bắt đầu -->
                                 <div class="form-group">

@@ -432,7 +432,7 @@
                                     <col style="width: 8%;">
                                 </colgroup>
                                 <tbody>
-                                <tr>
+                                <tr style="font-family: nunito-sans, sans-serif, Helvetica, Arial; color: #302776">
                                     <th rowspan="1" class="next-table-header-node first" style="text-align: center">
                                         <div class="next-table-cell-wrapper">Chọn</div>
                                     </th>
@@ -484,7 +484,7 @@
                                 <col style="width: 8%;">
                             </colgroup>
                             <tbody>
-                            <tr th:each="review : ${bookReviews.content}" th:id="'review-' + ${review.id}" onmouseover="this.style.backgroundColor='#e0f3ff';" onmouseout="this.style.backgroundColor='transparent';">
+                            <tr th:each="review : ${bookReviews.content}" th:id="'review-' + ${review.id}" onmouseover="this.style.backgroundColor='#e0f3ff';" onmouseout="this.style.backgroundColor='transparent';" style="font-family: nunito-sans, sans-serif, Helvetica, Arial;">
 
                                 <td rowspan="1" class="next-table-header-node first " style="padding: 10px 0px;">
                                     <input style="width: 20px; height: 20px" type="checkbox" class="review-checkbox" th:value="${review.id}">
@@ -643,7 +643,7 @@
         <div class="row-close d-flex align-items-center" style="justify-content: flex-end">
             <span class="close" style="padding: 0px 0px 8px 0px">×</span>
         </div>
-        <p id="fullComment" class="content-reviews" style="text-align: justify; padding: 0px 8px"></p>
+        <p id="fullComment" class="content-reviews" style="font-family: nunito-sans, sans-serif, Helvetica, Arial; text-align: justify; padding: 0px 8px"></p>
     </div>
 </div>
 <!-- Thêm các tệp tin JavaScript -->

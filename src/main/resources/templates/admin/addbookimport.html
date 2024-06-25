@@ -228,7 +228,7 @@
                     <form id="addBookImportForm" th:action="@{/addbookimport}" method="post">
                         <div class="row-01 d-flex align-items-center">
                             <div class="col-12" style="padding: 0px">
-                                <div class="form-group">
+                                <div class="form-group" style="font-family: nunito-sans, sans-serif, Helvetica, Arial;">
                                     <label for="bookId">Sách:</label>
                                     <select class="form-control" id="bookId" name="bookId" required style="border-radius: 50px;">
                                         <option value="">-- Chọn sách --</option>
@@ -239,7 +239,7 @@
                         </div>
                         <div class="row-01 d-flex align-items-center">
                             <div class="col-12" style="padding: 0px">
-                                <div class="form-group">
+                                <div class="form-group" style="font-family: nunito-sans, sans-serif, Helvetica, Arial;">
                                     <label for="status">Trạng thái:</label>
                                     <select class="form-control" id="status" name="status" style="border-radius: 50px;" required>
                                         <option value="" disabled selected>Chọn</option>
@@ -251,13 +251,13 @@
                         </div>
                         <div class="row-01 d-flex align-items-center" style="margin-top: 15px">
                             <div class="col-6" style="padding: 0px 10px 0px 0px; ">
-                                <div class="form-group">
+                                <div class="form-group" style="font-family: nunito-sans, sans-serif, Helvetica, Arial;">
                                     <label for="quantity" >Số lượng:</label>
                                     <input type="number" class="form-control" id="quantity" name="quantity" min="0" required style="border-radius: 50px;" />
                                 </div>
                             </div>
                             <div class="col-6" style="padding: 0px 0px 0px 10px;">
-                                <div class="form-group">
+                                <div class="form-group" style="font-family: nunito-sans, sans-serif, Helvetica, Arial;">
                                     <label for="importPrice" >Giá nhập:</label>
                                     <input type="number" class="form-control" id="importPrice" name="importPrice" min="0" required style="border-radius: 50px;" />
                                 </div>
@@ -266,14 +266,14 @@
                         <div class="row-01 d-flex align-items-center" style="margin: 15px 0px 15px 0px">
                             <div class="col-6" style="padding: 0px 10px 0px 0px; ">
                                 <!-- Ô input cho ngày -->
-                                <div class="form-group">
+                                <div class="form-group" style="font-family: nunito-sans, sans-serif, Helvetica, Arial;">
                                     <label for="importDate">Ngày nhập:</label>
                                     <input type="date" class="form-control" id="importDate" name="importDate" style="border-radius: 50px;" required />
                                 </div>
                             </div>
                             <div class="col-6" style="padding: 0px 0px 0px 10px; ">
                                 <!-- Ô input cho giờ -->
-                                <div class="form-group">
+                                <div class="form-group" style="font-family: nunito-sans, sans-serif, Helvetica, Arial;">
                                     <label for="importTime">Giờ nhập:</label>
                                     <input type="time" class="form-control" id="importTime" name="importTime" style="border-radius: 50px;" required />
                                 </div>

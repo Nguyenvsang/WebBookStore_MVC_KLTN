@@ -338,7 +338,7 @@
             <div class="next-table only-bottom-border">
                 <div class="next-table-inner">
                     <div class="next-table-header d-flex align-items-center"
-                         style="height: 60px; background-color: #d9e1f7; border-top-left-radius: 15px; border-top-right-radius: 15px">
+                         style="height: 70px; background-color: #d9e1f7; border-top-left-radius: 15px; border-top-right-radius: 15px">
                         <div class="next-table-header-inner">
                             <table>
                                 <colgroup style="width: 1020px">
@@ -354,7 +354,7 @@
                                     <col style="width: 5%;">
                                 </colgroup>
                                 <tbody>
-                                <tr>
+                                <tr style="font-family: nunito-sans, sans-serif, Helvetica, Arial; color: #302776">
                                     <th rowspan="1" class="next-table-header-node first" style="text-align: center; padding: 0px 10px">
                                         <div class="next-table-cell-wrapper">Mã code</div>
                                     </th>
@@ -406,7 +406,7 @@
                                 <col style="width: 5%;">
                             </colgroup>
                             <tbody>
-                            <tr th:each="voucher : ${vouchers}" onmouseover="this.style.backgroundColor='#e0f3ff';" onmouseout="this.style.backgroundColor='transparent';">
+                            <tr th:each="voucher : ${vouchers}" onmouseover="this.style.backgroundColor='#e0f3ff';" onmouseout="this.style.backgroundColor='transparent';" style="font-family: nunito-sans, sans-serif, Helvetica, Arial;">
 
                                 <td rowspan="1" class="next-table-header-node voucher-code" style="padding: 10px 10px; text-align: center" th:text="${voucher.code}"></td>
 
@@ -415,12 +415,12 @@
                                     <span th:if="${voucher.discountPercent == -1}" th:text="''"></span>
                                 </td>
 
-                                <td rowspan="1" class="next-table-header-node" style="padding: 10px 10px 10px 0px; text-align: center;">
+                                <td rowspan="1" class="next-table-header-node" style="padding: 10px 20px 10px 0px; text-align: right;">
                                     <span th:if="${voucher.maxDiscountAmount != -1}" th:text="${#numbers.formatInteger(voucher.maxDiscountAmount, 0, 'POINT')} + ' đ'"></span>
                                     <span th:if="${voucher.maxDiscountAmount == -1}" th:text="''"></span>
                                 </td>
 
-                                <td rowspan="1" class="next-table-header-node" style="padding: 10px 10px 10px 0px; text-align: center;">
+                                <td rowspan="1" class="next-table-header-node" style="padding: 10px 20px 10px 0px; text-align: right;">
                                     <span th:if="${voucher.amountDiscount != -1}" th:text="${#numbers.formatInteger(voucher.amountDiscount, 0, 'POINT')} + ' đ'"></span>
                                     <span th:if="${voucher.amountDiscount == -1}" th:text="''"></span>
                                 </td>

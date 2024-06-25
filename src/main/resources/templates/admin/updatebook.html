@@ -288,7 +288,7 @@
 				<div class="frame-body">
 					<form id="updateBookForm" th:action="@{/updatebook}" th:object="${book}" method="POST" enctype="multipart/form-data">
 						<div class="row-content d-flex">
-							<div class="col-7" style="padding-left: 0px">
+							<div class="col-7" style="padding-left: 0px; font-family: nunito-sans, sans-serif, Helvetica, Arial;">
 								<div class="row-01 d-flex align-items-center" style="margin-top: 15px">
 									<div class="col-6" style="padding: 0px 10px 0px 0px">
 										<div class="form-group">
@@ -360,7 +360,7 @@
 									</div>
 								</div>
 							</div>
-							<div class="col-5" style="padding-right: 0px; margin-top: 15px">
+							<div class="col-5" style="padding-right: 0px; margin-top: 15px; font-family: nunito-sans, sans-serif, Helvetica, Arial;">
 								<div class="form-group">
 									<label for="bookDetail" >Chi tiết</label>
 									<textarea style="border-radius: 10px; resize: none;" class="form-control" id="bookDetail" name="detail" rows="7" required th:field="*{detail}"></textarea>
@@ -372,11 +372,13 @@
 							</div>
 						</div>
 
-						<div class="row-02" style="padding: 30px; margin-top: 20px; border-top: 1px solid #cecece">
+						<div class="row-02" style="padding: 30px; margin-top: 20px; border-top: 1px solid #cecece; font-family: nunito-sans, sans-serif, Helvetica, Arial;">
 							<div class="col-3" style="flex-direction: column">
-								<p>Ảnh 1</p>
-								<div class="frame-01" style="display: flex; flex-direction: column; justify-content: space-between; height: 100%;">
-									<div class="form-group d-flex justify-content-center" style="height: auto; margin: 0px">
+								<div class="row-img d-flex justify-content-center">
+									<p style="text-center">Ảnh 1</p>
+								</div>
+								<div class="frame-01" style="display: flex; flex-direction: column; justify-content: space-between; height: 100%; border: 1px solid #cecece; border-radius: 10px;">
+									<div class="form-group d-flex justify-content-center" style="margin-top: 16px; height: auto;  border-radius: 10px">
 										<img id="currentImage1" th:src="${book.bookImages[0].path + '?v=' + randomNumber}" alt="Book Image 1" width="150" style="border-radius: 10px;">
 									</div>
 									<div class="form-group d-flex justify-content-center">
@@ -390,9 +392,11 @@
 							</div>
 
 							<div class="col-3" style="flex-direction: column">
-								<p>Ảnh 2</p>
-								<div class="frame-01" style="display: flex; flex-direction: column; justify-content: space-between; height: 100%;">
-									<div class="form-group d-flex justify-content-center" style="height: auto; margin: 0px">
+								<div class="row-img d-flex justify-content-center">
+									<p style="text-center">Ảnh 2</p>
+								</div>
+								<div class="frame-01" style="display: flex; flex-direction: column; justify-content: space-between; height: 100%; border: 1px solid #cecece; border-radius: 10px;">
+									<div class="form-group d-flex justify-content-center" style="height: auto; margin-top: 16px;  border-radius: 10px">
 										<img id="currentImage2" th:src="${book.bookImages[1].path + '?v=' + randomNumber}" alt="Book Image 2" width="150" style="border-radius: 10px;">
 									</div>
 									<div class="form-group d-flex justify-content-center">
@@ -406,9 +410,11 @@
 							</div>
 
 							<div class="col-3" style="flex-direction: column">
-								<p>Ảnh 3</p>
-								<div class="frame-01" style="display: flex; flex-direction: column; justify-content: space-between; height: 100%;">
-									<div class="form-group d-flex justify-content-center" style="height: auto; margin: 0px">
+								<div class="row-img d-flex justify-content-center">
+									<p style="text-center">Ảnh 3</p>
+								</div>
+								<div class="frame-01" style="display: flex; flex-direction: column; justify-content: space-between; height: 100%; border: 1px solid #cecece; border-radius: 10px;">
+									<div class="form-group d-flex justify-content-center" style="height: auto; margin-top: 16px;  border-radius: 10px">
 										<img id="currentImage3" th:src="${book.bookImages[2].path + '?v=' + randomNumber}" alt="Book Image 3" width="150" style="border-radius: 10px;">
 									</div>
 									<div class="form-group d-flex justify-content-center">
@@ -422,9 +428,11 @@
 							</div>
 
 							<div class="col-3" style="flex-direction: column">
-								<p>Ảnh 4</p>
-								<div class="frame-01" style="display: flex; flex-direction: column; justify-content: space-between; height: 100%;">
-									<div class="form-group d-flex justify-content-center" style="height: auto; margin: 0px">
+								<div class="row-img d-flex justify-content-center">
+									<p style="text-center">Ảnh 4</p>
+								</div>
+								<div class="frame-01" style="display: flex; flex-direction: column; justify-content: space-between; height: 100%; border: 1px solid #cecece; border-radius: 10px;">
+									<div class="form-group d-flex justify-content-center" style="height: auto; margin-top: 16px;  border-radius: 10px">
 										<img id="currentImage4" th:src="${book.bookImages[3].path + '?v=' + randomNumber}" alt="Book Image 4" width="150" style="border-radius: 10px;">
 									</div>
 									<div class="form-group d-flex justify-content-center">
@@ -439,7 +447,7 @@
 						</div>
 
 						<div class="text-center">
-							<button type="submit" class="btn btn-save" style="width: 180px">Lưu</button>
+							<button type="submit" class="btn btn-save" style="width: 180px; margin-top: 50px">Lưu</button>
 						</div>
 					</form>
 				</div>

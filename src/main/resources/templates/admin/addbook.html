@@ -213,6 +213,20 @@
             background: #5591c5; /* Màu của thanh cuộn khi di chuột qua */
         }
 
+		.nav-link.add-category {
+			background-color: white;
+			border-radius: 15px;
+			color: #62bf5e;
+			box-shadow: 0px 0px 6px rgba(192, 192, 192, 0.3);
+			font-weight: bold;
+		}
+		.nav-link.add-category:hover {
+			box-shadow: 0px 0px 8px rgba(0, 128, 0, 0.3);
+			background-color:#62bf5e;
+			color: white;
+			font-weight: bold;
+		}
+
     </style>
     <script>
 	var loadFile1 = function(event) {
@@ -285,7 +299,7 @@
 				<div class="frame-body" style="padding-top: 20px">
 					<form id="addBookForm" th:action="@{/addbook}" method="POST" enctype="multipart/form-data">
 						<div class="row-content d-flex">
-							<div class="col-7" style="padding-left: 0px">
+							<div class="col-7" style="padding-left: 0px; font-family: nunito-sans, sans-serif, Helvetica, Arial;">
 								<div class="form-group">
 									<label for="name" >Tên sách:</label>
 									<input type="text" class="form-control" style="border-radius: 50px;" id="name" name="name" required>
@@ -307,14 +321,14 @@
 									</div>
 								</div>
 
-								<div class="row-03 d-flex align-items-center" style="padding: 0px 40px; justify-content: space-between; margin: 40px 0px 0px 0px">
-									<div class="col-dropdown d-flex align-items-center" style="height: 70px;">
+								<div class="row-03 d-flex align-items-center" style="padding: 0px; justify-content: space-between; margin: 40px 0px 0px 0px">
+									<div class="col-dropdown d-flex align-items-center">
 									</div>
-									<div class="col-add d-flex align-items-center" style="height: 70px;">
+									<div class="col-add d-flex align-items-center">
 										<div class="col-add">
 											<div class="row-add" style="display: flex;">
 												<a th:href="@{/addauthor}" class="nav-link add-category"
-												   style="font-family: Arial, sans-serif; padding: 0%; display: flex; align-items: center; justify-content: center;">
+												   style="font-family: Arial, sans-serif; padding: 5px 10px 5px 8px; display: flex; align-items: center; justify-content: center;">
 													<span class="material-symbols-outlined">add</span>
 													Thêm tác giả
 												</a>
@@ -363,25 +377,27 @@
 									</div>
 								</div>
 							</div>
-							<div class="col-5" style="padding-right: 0px">
+							<div class="col-5" style="padding-right: 0px; font-family: nunito-sans, sans-serif, Helvetica, Arial;">
 								<div class="form-group">
 									<label for="detail" >Chi tiết</label>
 									<textarea class="form-control"  style="border-radius: 10px; resize: none;" id="detail" name="detail" rows="7" required></textarea>
 								</div>
-								<div class="form-group">
+								<div class="form-group" style="margin: 25px 0px 0px 0px">
 									<label for="description" >Giới thiệu sách</label>
-									<textarea class="form-control" style="border-radius: 10px; resize: none;" id="description" name="description" rows="7" required></textarea>
+									<textarea class="form-control" style="border-radius: 10px; resize: none;" id="description" name="description" rows="9" required></textarea>
 								</div>
 							</div>
 						</div>
 
-						<div class="row-img d-flex" style="padding: 30px; margin-top: 20px; border-top: 1px solid #cecece">
+						<div class="row-img d-flex" style="padding: 30px; margin-top: 20px; border-top: 1px solid #cecece; font-family: nunito-sans, sans-serif, Helvetica, Arial;">
 							<div class="col-3">
-								<p style="text-center">Ảnh 1</p>
-								<div class="frame-01" style="display: flex; flex-direction: column; justify-content: space-between; height: 100%;">
-									<div class="form-group d-flex justify-content-center" style="margin: 0px">
-										<div style="display: flex; justify-content: center; align-items: center; margin-top: 20px">
-											<img id="output1" width="150"/>
+								<div class="row-img d-flex justify-content-center">
+									<p style="text-center">Ảnh 1</p>
+								</div>
+								<div class="frame-01" style="display: flex; flex-direction: column; justify-content: space-between; height: 100%; border: 1px solid #cecece; border-radius: 10px;">
+									<div class="form-group d-flex justify-content-center" style="margin-top: 16px;">
+										<div style="display: flex; justify-content: center; align-items: center;  border-radius: 10px">
+											<img id="output1" width="150" style=" border-radius: 10px"/>
 										</div>
 									</div>
 									<div class="form-group d-flex justify-content-center">
@@ -394,11 +410,13 @@
 								</div>
 							</div>
 							<div class="col-3">
-								<p style="text-center">Ảnh 2</p>
-								<div class="frame-01" style="display: flex; flex-direction: column; justify-content: space-between; height: 100%;">
-									<div class="form-group d-flex justify-content-center" style="margin: 0px">
-										<div style="display: flex; justify-content: center; align-items: center; margin-top: 20px">
-											<img id="output2" width="150"/>
+								<div class="row-img d-flex justify-content-center">
+									<p style="text-center">Ảnh 2</p>
+								</div>
+								<div class="frame-01" style="display: flex; flex-direction: column; justify-content: space-between; height: 100%; border: 1px solid #cecece; border-radius: 10px;">
+									<div class="form-group d-flex justify-content-center" style="margin-top: 16px;">
+										<div style="display: flex; justify-content: center; align-items: center;  border-radius: 10px">
+											<img id="output2" width="150" style=" border-radius: 10px"/>
 										</div>
 									</div>
 									<div class="form-group d-flex justify-content-center">
@@ -411,11 +429,13 @@
 								</div>
 							</div>
 							<div class="col-3">
-								<p style="text-center">Ảnh 3</p>
-								<div class="frame-01" style="display: flex; flex-direction: column; justify-content: space-between; height: 100%;">
-									<div class="form-group d-flex justify-content-center" style="margin: 0px">
-										<div style="display: flex; justify-content: center; align-items: center; margin-top: 20px">
-											<img id="output3" width="150"/>
+								<div class="row-img d-flex justify-content-center">
+									<p style="text-center">Ảnh 3</p>
+								</div>
+								<div class="frame-01" style="display: flex; flex-direction: column; justify-content: space-between; height: 100%; border: 1px solid #cecece; border-radius: 10px;">
+									<div class="form-group d-flex justify-content-center" style="margin-top: 16px;">
+										<div style="display: flex; justify-content: center; align-items: center;  border-radius: 10px">
+											<img id="output3" width="150" style=" border-radius: 10px"/>
 										</div>
 									</div>
 									<div class="form-group d-flex justify-content-center">
@@ -428,11 +448,13 @@
 								</div>
 							</div>
 							<div class="col-3">
-								<p style="text-center">Ảnh 4</p>
-								<div class="frame-01" style="display: flex; flex-direction: column; justify-content: space-between; height: 100%;">
-									<div class="form-group d-flex justify-content-center" style="margin: 0px">
-										<div style="display: flex; justify-content: center; align-items: center; margin-top: 20px">
-											<img id="output4" width="150"/>
+								<div class="row-img d-flex justify-content-center">
+									<p style="text-center">Ảnh 4</p>
+								</div>
+								<div class="frame-01" style="display: flex; flex-direction: column; justify-content: space-between; height: 100%; border: 1px solid #cecece; border-radius: 10px;">
+									<div class="form-group d-flex justify-content-center" style="margin-top: 16px;">
+										<div style="display: flex; justify-content: center; align-items: center; border-radius: 10px">
+											<img id="output4" width="150" style=" border-radius: 10px"/>
 										</div>
 									</div>
 									<div class="form-group d-flex justify-content-center">
@@ -447,7 +469,7 @@
 						</div>
 
 						<div class="text-center">
-							<button type="submit" class="btn btn-save" style="width: 180px">Lưu</button>
+							<button type="submit" class="btn btn-save" style="width: 180px; margin-top: 50px">Lưu</button>
 						</div>
 					</form>
 				</div>

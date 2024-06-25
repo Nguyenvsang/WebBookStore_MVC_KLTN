@@ -87,6 +87,24 @@
 			color: white;
 		}
 
+		/* Tạo hiệu ứng thanh cuộn */
+        .form-control::-webkit-scrollbar {
+            width: 10px; /* Độ rộng của thanh cuộn */
+        }
+
+        .form-control::-webkit-scrollbar-track {
+            background: #f1f1f1; /* Màu nền của thanh cuộn */
+            border-radius: 10px;
+        }
+
+        .form-control::-webkit-scrollbar-thumb {
+            background: #79a7d5; /* Màu của thanh cuộn */
+            border-radius: 10px; /* Bo tròn cho phần thanh cuộn */
+        }
+
+        .form-control::-webkit-scrollbar-thumb:hover {
+            background: #5591c5; /* Màu của thanh cuộn khi di chuột qua */
+        }
 	</style>   
 </head>
 <body>
@@ -124,14 +142,14 @@
 
 					<form th:action="@{/addauthor}" method="post" style="margin-top: 20px">
 
-						<div class="form-group">
+						<div class="form-group" style="font-family: nunito-sans, sans-serif, Helvetica, Arial;">
 							<label for="name" >Tên tác giả:</label>
 							<input type="text" class="form-control" id="name" name="name" required style="border-radius: 50px;">
 						</div>
 
-						<div class="form-group">
-							<label for="name">Tiểu sử:</label>
-							<input type="text" class="form-control" id="bio" name="bio" required style="border-radius: 50px;">
+						<div class="form-group" style="font-family: nunito-sans, sans-serif, Helvetica, Arial;">
+							<label for="bio">Tiểu sử:</label>
+							<textarea class="form-control" id="bio" name="bio" required style="height: 200px; border-radius: 10px; padding-right: 6px; resize: none;"></textarea>
 						</div>
 
 						<div class="text-center">

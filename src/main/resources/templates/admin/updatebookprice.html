@@ -121,7 +121,7 @@
                 </div>
                 <div class="frame-body">
                     <form th:action="@{/updatebookprice}" method="post">
-                        <div class="row-01 d-flex align-items-center" style="margin-top: 15px">
+                        <div class="row-01 d-flex align-items-center" style="margin-top: 15px; font-family: nunito-sans, sans-serif, Helvetica, Arial;">
                             <div class="col-6" style="padding: 0px 10px 0px 0px">
                                 <!-- Mã giá bán -->
                                 <div class="form-group">
@@ -138,7 +138,7 @@
                             </div>
                         </div>
                         <!-- Giá bán -->
-                        <div class="form-group" style="margin: 15px 0px 15px 10px">
+                        <div class="form-group" style="margin: 0px; font-family: nunito-sans, sans-serif, Helvetica, Arial;">
                             <label for="sellPrice" >Giá bán:</label>
                             <input type="number" class="form-control" id="sellPrice" name="sellPrice" th:value="${#numbers.formatInteger(bookPrice.sellPrice, 0, 'POINT')}" min="0" required style="border-radius: 50px;" />
                         </div>

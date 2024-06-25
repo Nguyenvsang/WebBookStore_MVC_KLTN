@@ -127,6 +127,16 @@
 			border: 1px solid #211f7f;
 		}
 
+		.TWLNg9 {
+			padding: 3px 0;
+		}
+		.qJkRlY {
+			background-image: repeating-linear-gradient(45deg,#6fa6d6,#6fa6d6 33px,transparent 0,transparent 41px,#a4a1d3 0,#a4a1d3  74px,transparent 0,transparent 82px);
+			background-position-x: -1.875rem;
+			background-size: 7.25rem .1875rem;
+			height: .1875rem;
+			width: 100%
+		}
 	</style>
 </head>
 <body>
@@ -146,7 +156,7 @@
 						<a th:href="@{/managebooks}" class="before" style="align-items: center; display: flex; text-decoration: none;">
 							<span class="material-symbols-outlined back">arrow_back_ios</span>
 						</a>
-						<h5 style="color: #211f7f; align-items: center;  margin: 0px 5px 0px 0px">Thông tin sách</h5>
+						<h6 style="color: #3f6ad8; align-items: center;  margin: 0px 5px 0px 0px; font-family: Verdana; font-weight: bold">Thông tin sách</h6>
 					</div>
 				</div>
 				<div class="frame-02 d-flex" >
@@ -167,7 +177,7 @@
 							<div class="card-body" style="padding: 0px">
 								<h4 class="card-title" th:text="${book.name}" style="margin-left: 15px;"></h4>
 								<div class="row-main" style="padding: 0px 0px 10px">
-									<div class="col" style="padding: 0px;">
+									<div class="col" style="padding: 0px; font-family: nunito-sans, sans-serif, Helvetica, Arial;">
 										<div class="row-one" style="display: flex; justify-content: center; align-items: center; padding: 20px 0px 10px">
 											<div class="col">
 												<p class="card-text" style="display: flex; justify-content: left; align-items: center; font-family: Helvetica;">Tác giả:</p>
@@ -205,9 +215,9 @@
 										<p class="card-text" style="margin-left: 15px; font-size: 30px; font-weight: bold;text-align: left; color: orangered;"><span th:text="${#numbers.formatInteger(book.sellPrice, 0, 'POINT')}" ></span> đ</p>
 									</div>
 								</div>
-								<th:block th:switch="${book.status}">
-									<div th:case="1" class="text-center alert alert-success"  style="border-radius: 10px; margin-top: 20px; color: #105d2f; font-weight: bold" role="alert">Đang kinh doanh</div>
-									<div th:case="0" class="text-center alert alert-danger" style="border-radius: 10px; margin-top: 20px; color: #b80101; font-weight: bold" role="alert">Ngừng kinh doanh</div>
+								<th:block th:switch="${book.status}" >
+									<div th:case="1" class="text-center alert alert-success"  style="color: #302776; font-family: nunito-sans, sans-serif, Helvetica, Arial; border-radius: 10px; margin-top: 20px; color: #105d2f; font-weight: bold" role="alert">Đang kinh doanh</div>
+									<div th:case="0" class="text-center alert alert-danger" style="color: #302776; font-family: nunito-sans, sans-serif, Helvetica, Arial; border-radius: 10px; margin-top: 20px; color: #b80101; font-weight: bold" role="alert">Ngừng kinh doanh</div>
 								</th:block>
 							</div>
 						</div>
@@ -216,19 +226,26 @@
 				<div class="row-content d-flex" style="padding-bottom: 20px;">
 					<div class="col-8" style="font-family: Arial; padding: 0px 20px 0px 0px;">
 						<p class="card-text text-description" style="margin-bottom: 10px; color: #5390f5; font-weight: bold">Giới thiệu sách:</p>
-						<div class="description" style="height: 9em; overflow: hidden;">
+						<div class="description" id="description" style="height: auto; overflow: hidden;">
 							<p class="card-text content" th:text="${book.description}" style="text-align: justify;"></p>
 						</div>
-						<div style="display: flex; justify-content: center; align-items: center;">
-							<button id="readMore" style="display: none; border-radius: 50px; background-color: white; color: #5390f5; margin-top: 20px; border: 1px solid #5390f5; width: 200px; height: 40px">Xem thêm</button>
-							<button id="readLess" style="display: none; border-radius: 50px; background-color: white; color: #5390f5; margin-top: 20px; border: 1px solid #5390f5; width: 200px; height: 40px">Rút gọn</button>
-						</div>
 					</div>
-					<div class="col-4" style="padding: 0px 0px 0px 20px">
+					<div class="col-4" style="padding: 0px 0px 0px 20px;">
 						<p class="card-text" style="color: #5390f5; font-size: 20px; margin-bottom: 10px; font-weight: bold">Chi tiết:</p>
 						<pre class="card-text" id="bookDetail" th:text="${book.detail}" style="font-size: 16px; font-family: Arial; white-space: pre-wrap;"></pre>
 					</div>
 				</div>
+				<div class="row-content d-flex justify-content-center" style="padding-bottom: 30px;">
+					<div style="flex-direction: column; justify-content: center; align-items: center;">
+						<button id="readMore" style="border-radius: 50px; background-color: white; color: #5390f5; border: 1px solid #5390f5; width: 200px; height: 40px;">Xem thêm</button>
+						<button id="readLess" style="display: none; border-radius: 50px; background-color: white; color: #5390f5; border: 1px solid #5390f5; width: 200px; height: 40px;">Rút gọn</button>
+					</div>
+				</div>
+
+				<div class="TWLNg9">
+					<div class="qJkRlY"></div>
+				</div>
+
 				<div class="row-edit d-flex justify-content-center align-items-center;" style="padding: 15px">
 					<form th:action="@{/addtocart}" method="post">
 						<div class="d-flex flex-grow-1">
@@ -257,7 +274,7 @@
 										<col style="width: 5%;">
 									</colgroup>
 									<tbody>
-									<tr>
+									<tr style="font-family: nunito-sans, sans-serif, Helvetica, Arial; color: #302776;">
 										<th rowspan="1" class="next-table-header-node first" style="text-align: center">
 											<div class="next-table-cell-wrapper">Mã nhập</div>
 										</th>
@@ -305,7 +322,7 @@
 									<col style="width: 5%;">
 								</colgroup>
 								<tbody>
-								<tr th:each="bookImport : ${bookImports}" onmouseover="this.style.backgroundColor='#e0f3ff';" onmouseout="this.style.backgroundColor='transparent';">
+								<tr th:each="bookImport : ${bookImports}" onmouseover="this.style.backgroundColor='#e0f3ff';" onmouseout="this.style.backgroundColor='transparent';" style="font-family: nunito-sans, sans-serif, Helvetica, Arial;">
 
 									<td rowspan="1" class="next-table-header-node first " style="text-align: center; padding: 10px 0px;" th:text="${bookImport.id}"></td>
 
@@ -357,24 +374,40 @@
     });
 </script>
 <script>
-	window.onload = function() {
-        var content = document.querySelector('.description');
-        var readMoreButton = document.getElementById('readMore');
-        var readLessButton = document.getElementById('readLess');
-        if (content.scrollHeight > content.clientHeight) {
-            readMoreButton.style.display = 'block';
-        }
-        readMoreButton.onclick = function() {
-            content.style.height = 'auto';
-            readMoreButton.style.display = 'none';
-            readLessButton.style.display = 'block';
-        }
-        readLessButton.onclick = function() {
-            content.style.height = '9em';
-            readLessButton.style.display = 'none';
-            readMoreButton.style.display = 'block';
-        }
-    }
+	document.addEventListener('DOMContentLoaded', function() {
+		var description = document.getElementById('description');
+		var bookDetail = document.getElementById('bookDetail');
+		var readMore = document.getElementById('readMore');
+		var readLess = document.getElementById('readLess');
+
+		// Lấy chiều cao ban đầu của phần description
+		var descriptionHeight = description.offsetHeight;
+		var bookDetailHeight = bookDetail.offsetHeight;
+
+		// So sánh chiều cao của description và bookDetail
+		if (descriptionHeight <= bookDetailHeight) {
+			readMore.style.display = 'none';
+			readLess.style.display = 'none';
+			description.style.height = 'auto';  // Hiển thị toàn bộ nội dung nếu không cần nút "Xem thêm"
+		} else {
+			// Ban đầu đặt chiều cao của description bằng với bookDetail
+			description.style.height = bookDetailHeight + 'px';
+
+			// Sự kiện khi nhấn nút "Xem thêm"
+			readMore.addEventListener('click', function() {
+				description.style.height = 'auto';
+				readMore.style.display = 'none';
+				readLess.style.display = 'block';
+			});
+
+			// Sự kiện khi nhấn nút "Rút gọn"
+			readLess.addEventListener('click', function() {
+				description.style.height = bookDetailHeight + 'px';
+				readMore.style.display = 'block';
+				readLess.style.display = 'none';
+			});
+		}
+	});
 </script>
 
 <script>

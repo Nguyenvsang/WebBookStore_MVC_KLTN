@@ -140,16 +140,16 @@
 					</div>
 					<div class="col-00" style="width: 50px; display: flex; align-items: center; justify-content: center; border: 1px solid #3f6ad8; padding: 8px; border-radius: 10px">
 						<p class="card-text d-flex align-items-center" style="justify-content: center; color: #3f6ad8; font-weight: 500; font-family: Calibri;">
-							<span th:text="${author.id}" style="font-family: Calibri;"></span>
+							<span th:text="${author.id}" style="font-family: nunito-sans, sans-serif, Helvetica, Arial;"></span>
 						</p>
 					</div>
 				</div>
-				<p class="card-title" style="margin-top: 15px">Tên tác giả:
+				<p class="card-title" style="margin-top: 15px; font-family: nunito-sans, sans-serif, Helvetica, Arial;">Tên tác giả:
 					<span th:text="${author.name}" ></span>
 				</p>
-				<p class="card-text">Tiểu sử:</p>
-				<div class="form-control" style="border-radius: 10px; height: 200px; padding-right: 0px">
-					<pre class="text" th:text="${author.bio}" style="font-family: Helvetica; height: 185px; white-space: pre-wrap; text-align: justify; margin: 0px; padding-right: 10px"></pre>
+				<p class="card-text" style="font-family: nunito-sans, sans-serif, Helvetica, Arial;">Tiểu sử:</p>
+				<div class="form-control" style="margin-bottom: 15px; border-radius: 10px; height: 200px; padding-right: 0px">
+					<pre class="text" th:text="${author.bio}" style="font-size: 1rem; font-family: nunito-sans, sans-serif, Helvetica, Arial; height: 185px; white-space: pre-wrap; text-align: justify; margin: 0px; padding-right: 10px"></pre>
 				</div>
 
 				<div class="d-flex flex-grow-1 justify-content-center" >

@@ -132,14 +132,14 @@
             <div class="frame-body">
                 <form th:action="@{/updatebookimport}" method="post">
                     <div class="row-01 d-flex align-items-center" style="margin-top: 15px">
-                        <div class="col-6" style="padding: 0px 10px 0px 0px">
+                        <div class="col-6" style="padding: 0px 10px 0px 0px; font-family: nunito-sans, sans-serif, Helvetica, Arial;">
                             <!-- Mã nhập -->
                             <div class="form-group">
                                 <label for="importId" >Mã nhập:</label>
                                 <input type="text" class="form-control" id="importId" name="importId" th:value="${bookImport.id}" readonly style="border-radius: 50px;" />
                             </div>
                         </div>
-                        <div class="col-6" style="padding: 0px 0px 0px 10px">
+                        <div class="col-6" style="padding: 0px 0px 0px 10px; font-family: nunito-sans, sans-serif, Helvetica, Arial;">
                             <!-- Mã sách -->
                             <div class="form-group">
                                 <label for="bookId" >Mã sách:</label>
@@ -149,21 +149,21 @@
                     </div>
 
                     <div class="row-01 d-flex align-items-center" style="margin-top: 15px">
-                        <div class="col-4" style="padding: 0px 10px 0px 0px">
+                        <div class="col-4" style="padding: 0px 10px 0px 0px; font-family: nunito-sans, sans-serif, Helvetica, Arial;">
                             <!-- Số lượng -->
                             <div class="form-group">
                                 <label for="quantity" >Số lượng:</label>
                                 <input type="number" class="form-control" id="quantity" name="quantity" th:value="${bookImport.quantity}" min="0" required style="border-radius: 50px;" />
                             </div>
                         </div>
-                        <div class="col-4" style="padding: 0px 10px 0px 10px">
+                        <div class="col-4" style="padding: 0px 10px 0px 10px; font-family: nunito-sans, sans-serif, Helvetica, Arial;">
                             <!-- Số lượng còn lại -->
                             <div class="form-group">
                                 <label for="remainingQuantity" >Số lượng còn lại:</label>
                                 <input type="number" class="form-control" id="remainingQuantity" name="remainingQuantity" th:value="${bookImport.remainingQuantity}" min="0" required style="border-radius: 50px;" />
                             </div>
                         </div>
-                        <div class="col-4" style="padding: 0px 0px 0px 10px">
+                        <div class="col-4" style="padding: 0px 0px 0px 10px; font-family: nunito-sans, sans-serif, Helvetica, Arial;">
                             <!-- Giá nhập -->
                             <div class="form-group">
                                 <label for="importPrice" >Giá nhập:</label>
@@ -172,7 +172,7 @@
                         </div>
                     </div>
 
-                    <div class="row-01 d-flex align-items-center" style="margin: 15px 0px">
+                    <div class="row-01 d-flex align-items-center" style="margin: 15px 0px; font-family: nunito-sans, sans-serif, Helvetica, Arial;">
                         <div class="col-4" style="padding: 0px 10px 0px 0px">
                             <!-- Ngày nhập -->
                             <div class="form-group">
