@@ -48,20 +48,24 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
 			"LOWER(a.name) LIKE LOWER(CONCAT('%', :authorName, '%'))")
 	Page<Book> findByAuthorName(@Param("authorName") String authorName, Pageable pageable);
 
-	@Query("SELECT b FROM Book b WHERE " +
-			"b.status = 1 and " +
-			"b.category.status = 1 and " + // Sách còn kinh doanh chỉ khi book.status =1 và book.category.status =1
+	// Sách còn kinh doanh chỉ khi book.status =1 và book.category.status =1
+	@Query("SELECT b FROM Book b " +
+			"JOIN b.bookAuthors ba JOIN ba.author a " +
+			"WHERE b.status = 1 and b.category.status = 1 and " +
 			"(:categoryId is null or b.category.id = :categoryId) and " +
-			"(:searchKeyword is null or lower(b.name) like lower(concat('%', :searchKeyword,'%'))) and " +
+			"(:searchKeyword is null or " +
+			"lower(b.name) like lower(concat('%', :searchKeyword, '%')) or " +
+			"lower(a.name) like lower(concat('%', :searchKeyword, '%')) or " +
+			"lower(b.publisher) like lower(concat('%', :searchKeyword, '%'))) and " +
 			"(:priceMin is null or b.sellPrice >= :priceMin) and " +
 			"(:priceMax is null or b.sellPrice <= :priceMax) and " +
-			"(:publisher is null or lower(b.publisher) like lower(concat('%', :publisher,'%')))")
+			"(:publisher is null or lower(b.publisher) like lower(concat('%', :publisher, '%')))")
 	Page<Book> findActiveBooksWithFilters(@Param("categoryId") Integer categoryId,
-							   @Param("searchKeyword") String searchKeyword,
-							   @Param("priceMin") Double priceMin,
-							   @Param("priceMax") Double priceMax,
-							   @Param("publisher") String publisher,
-							   Pageable pageable);
+										  @Param("searchKeyword") String searchKeyword,
+										  @Param("priceMin") Double priceMin,
+										  @Param("priceMax") Double priceMax,
+										  @Param("publisher") String publisher,
+										  Pageable pageable);
 
 
 	@Query("SELECT b FROM Book b WHERE " +
