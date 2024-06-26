@@ -123,6 +123,16 @@
 		.btn-close-popup:hover {
 			color: white;
 		}
+
+		.row-status-order{
+			padding: 10px;
+			border-radius: 15px;
+			background-color: #f2f5f6;
+			height: 90px;
+			align-items: center;
+		}
+
+
 	</style>
 </head>
 <body>
@@ -208,10 +218,10 @@
 					</div>
 					<div class="col-3" style="font-family: nunito-sans, sans-serif, Helvetica, Arial;">
 						<div class="row-status-order" style="margin-left: 15px; margin-bottom: 20px; font-family: nunito-sans, sans-serif, Helvetica, Arial;">
-							<div class="row-title d-flex align-items-center" style="height: 50px">
-								<h6>Trạng thái đơn hàng</h6>
+							<div class="row-title d-flex align-items-center justify-content-center">
+								<h6 style="margin: 0px; padding: 8px">Trạng thái đơn hàng</h6>
 							</div>
-							<div class="col-order d-flex" style="justify-content: center; padding: 0px">
+							<div class="col-order d-flex" style="justify-content: center; padding: 0px 0px 8px 0px">
 								<span th:switch="${order.status}" >
 									<span th:case="0" class="badge-01 ">CHỜ XÁC NHẬN</span>
 									<span th:case="1" class="badge-01 ">CHỜ LẤY HÀNG</span>
@@ -250,10 +260,10 @@
 						</div>
 
 						<div class="row-status-order" style="margin-left: 15px; font-family: nunito-sans, sans-serif, Helvetica, Arial;">
-							<div class="row-title d-flex align-items-center" style="height: 50px">
-								<h6>Trạng thái thanh toán</h6>
+							<div class="row-title d-flex align-items-center justify-content-center">
+								<h6 style="margin: 0px; padding: 8px">Trạng thái thanh toán</h6>
 							</div>
-							<div class="col-order d-flex" style="justify-content: center; padding: 0px 20px">
+							<div class="col-order d-flex" style="justify-content: center; padding: 0px 20px 8px 20px">
 								<span th:switch="${order.paymentStatus.status}">
 									<span th:case="0" class="badge badge-primary">Chưa thanh toán</span>
 									<span th:case="1" class="badge badge-success">Đã thanh toán</span>
@@ -273,12 +283,12 @@
 				</div>
 				<div class="row-info d-flex " style="padding: 20px 0px 30px 0px; background-color: #f2fbff; margin-top: 15px; border-radius: 15px">
 					<div class="col-4">
-						<div class="row-title d-flex align-items-center" style="height: 50px; ">
+						<div class="row-title d-flex align-items-center " style="height: 50px; ">
 							<h6 style="color: #3f6ad8; font-family: nunito-sans, sans-serif, Helvetica, Arial;">Chọn trạng thái đơn hàng</h6>
 						</div>
 						<div class="col-order d-flex" style="justify-content: center;">
 							<span>
-								<form method="POST" th:action="@{/updateorderstatus}" style="border-radius: 10px;">
+								<form class="select-status" method="POST" th:action="@{/updateorderstatus}" style="border-radius: 10px;">
 									<input type="hidden" name="orderId" th:value="${order.id}">
 										<select class="form-control" name="status" onchange="this.form.submit()" style="font-family: nunito-sans, sans-serif, Helvetica, Arial; border-radius: 50px; width: 250px; border: none; box-shadow: 0px 0px 8px rgb(226, 226, 226);">
 											<option value="0" th:selected="${order.status == 0}">Chờ xác nhận</option>
@@ -303,7 +313,7 @@
 						</div>
 						<div class="col-order d-flex" style="justify-content: center;">
 							<span>
-							<form method="POST" th:action="@{/updatepaymentstatus}" style="border-radius: 10px;">
+							<form  class="select-status" method="POST" th:action="@{/updatepaymentstatus}" style="border-radius: 10px;">
 								<input type="hidden" name="orderId" th:value="${order.id}">
 										<select class="form-control" name="paymentstatus" onchange="this.form.submit()" style="font-family: nunito-sans, sans-serif, Helvetica, Arial; border-radius: 50px; width: 250px; border: none; box-shadow: 0px 0px 8px rgb(226, 226, 226);">
 											<option value="0" th:selected="${order.paymentStatus.status == 0}">Chưa thanh toán</option>
@@ -323,7 +333,7 @@
 						</div>
 						<div class="col-order d-flex" style="justify-content: center;">
 							<span>
-								<form method="POST" th:action="@{/updateiscompleted}" style="border-radius: 10px;">
+								<form  class="select-status" method="POST" th:action="@{/updateiscompleted}" style="border-radius: 10px;">
 									<input type="hidden" name="orderId" th:value="${order.id}">
 									<select class="form-control" name="iscompleted" onchange="this.form.submit()" style="font-family: nunito-sans, sans-serif, Helvetica, Arial; border-radius: 50px; width: 250px; border: none; box-shadow: 0px 0px 8px rgb(226, 226, 226);">
 										<option value="0" th:selected="${order.isCompleted == 0}">Chưa hoàn thành</option>

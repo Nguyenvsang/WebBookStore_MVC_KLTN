@@ -508,7 +508,13 @@
 
                                 <td rowspan="1" class="next-table-header-node" style="padding: 10px 20px; text-align: justify;" th:text="${review.book.name}"></td>
 
-                                <td rowspan="1" class="next-table-header-node" style="padding: 10px 0px; text-align: center;" th:text="${review.rating}"></td>
+                                <td rowspan="1" class="next-table-header-node d-flex justify-content-center" style="padding: 10px 0px; text-align: center;">
+                                    <span th:text="${review.rating}"></span>
+                                    <div class="img-star d-flex justify-content-center">
+                                        <img src="https://res.cloudinary.com/dylwewmt0/image/upload/v1719417494/PHOTO_LIST/Admin/star/star.png" style="width: 20px;">
+                                    </div>
+                                </td>
+
 
                                 <td rowspan="1" class="next-table-header-node" style="padding: 10px 20px; text-align: justify;">
                                     <span class="comment" th:attr="data-full-comment=${review.comment}" th:text="${#strings.length(review.comment) > 70} ? ${#strings.substring(review.comment, 0, 70) + '...'} : ${review.comment}">
