@@ -137,6 +137,10 @@
 			height: .1875rem;
 			width: 100%
 		}
+
+		.author-name {
+            margin-right: 10px; /* khoảng cách giữa các tác giả */
+        }
 	</style>
 </head>
 <body>
@@ -178,12 +182,15 @@
 								<h4 class="card-title" th:text="${book.name}" style="margin-left: 15px;"></h4>
 								<div class="row-main" style="padding: 0px 0px 10px">
 									<div class="col" style="padding: 0px; font-family: nunito-sans, sans-serif, Helvetica, Arial;">
-										<div class="row-one" style="display: flex; justify-content: center; align-items: center; padding: 20px 0px 10px">
-											<div class="col">
-												<p class="card-text" style="display: flex; justify-content: left; align-items: center; font-family: Helvetica;">Tác giả:</p>
+										<div class="row-one" style="display: flex; align-items: center; padding: 20px 0px 10px">
+											<div class="col-author" style="padding: 0px 15px">
+												<p class="card-text" style="width: 256px; display: flex; justify-content: left; align-items: center; font-family: Helvetica;">Tác giả:</p>
 											</div>
-											<div class="col-author" style="width: 284px; display: flex; justify-content: left; align-items: center;">
-												<span th:each="bookauthor : ${book.bookAuthors}" th:text="${bookauthor.author.name}"></span>
+											<div class="col-author">
+												<span th:each="bookauthor, iterStat : ${book.bookAuthors}">
+													<span th:text="${bookauthor.author.name}" class="author-name" style="margin: 0px"></span>
+													<span th:if="${!iterStat.last}" >,</span>
+												</span>
 											</div>
 										</div>
 

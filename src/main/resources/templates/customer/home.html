@@ -1103,14 +1103,17 @@
                                     <h6 class="product-name-no-ellipsis">
                                         <a th:href="@{/detailbook/{id} (id=${topSellingBook.id})}" th:text="${topSellingBook.name}" style="font-size: 20px; color: #5b5a7a; font-weight: bold"></a>
                                     </h6>
-                                    <h6 class="product-name-no-ellipsis">
-                                        <span>Tác giả: </span>
-                                        <span th:each="bookauthor : ${topSellingBook.bookAuthors}" th:text="${bookauthor.author.name}"></span>
-                                    </h6>
-                                    <h6 class="product-name-no-ellipsis">
-                                        <span>Nhà xuất bản: </span>
-                                        <span th:text="${topSellingBook.publisher}"></span>
-                                    </h6>
+                                    <div class="product-name-no-ellipsis d-flex align-items-center">
+                                        <h6 style="color: grey; margin: 0px; padding-right: 8px">Tác giả: </h6>
+                                        <span th:each="bookauthor, iterStat : ${topSellingBook.bookAuthors}">
+                                            <span th:if="${!iterStat.first}">, </span> <!-- Thêm dấu phẩy và khoảng trắng nếu không phải là tác giả đầu tiên -->
+                                            <span th:text="${bookauthor.author.name}" style="color: black;"></span>
+                                        </span>
+                                    </div>
+                                    <div class="product-name-no-ellipsis d-flex align-items-center" style="padding-bottom: 10px">
+                                        <h6 style="color: grey; margin: 0px; padding-right: 8px">Nhà xuất bản: </h6>
+                                        <span th:text="${topSellingBook.publisher}" style="color: black"></span>
+                                    </div>
                                     <div class="row-price-discount-cart d-flex" style="justify-content: space-between">
                                         <div class="col-8" style="padding: 0px">
                                             <div class="row-price-favorite d-flex align-items-center" style="justify-content: space-between; height: auto">
@@ -1142,7 +1145,7 @@
                                     <h6 class="product-name-no-ellipsis" style="margin-top: 10px">
                                         <p class="card-text text-description" style="margin-bottom: 10px; color: #5390f5; font-weight: bold">Giới thiệu sách:</p>
                                         <div class="description">
-                                            <p class="card-text content description-content" th:text="${topSellingBook.description}" style="text-align: justify; color: grey"></p>
+                                            <p class="card-text content description-content" th:text="${topSellingBook.description}" style="text-align: justify; color: grey; padding: 0px"></p>
                                         </div>
                                     </h6>
                                 </div>

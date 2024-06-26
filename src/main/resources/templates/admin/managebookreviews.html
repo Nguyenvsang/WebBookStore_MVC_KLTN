@@ -113,13 +113,29 @@
             color:rgb(182,232,241); /* Thay đổi màu văn bản khi trỏ chuột vào nút */
         }
 
-        .bg-green {
-            background-color: rgb(98,191,94);
-            color: white;
+        .status-select {
+            border: none;
+            border-radius: 5px;
+            padding: 4px 8px;
+            font-size: 14px;
+            transition: background-color 0.3s ease;
+            background-color: white; /* Màu nền trắng */
         }
-        .bg-red {
-            background-color: rgb(241,56,71);
-            color: white;
+
+        .status-select.bg-green {
+            background-color: white;
+            color: #36aa00;
+            border: 1px solid #36aa00;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .status-select.bg-red {
+            background-color: white;
+            color: #dc3545;
+            border: 1px solid #dc3545;
+            font-weight: bold;
+            font-size: 14px;
         }
 
         .comment.expanded {
@@ -305,18 +321,14 @@
             background: #5591c5; /* Màu của thanh cuộn khi di chuột qua */
         }
 
-        .bg-green {
-            background-color: #36aa00;
-            color: white;
-            font-weight: bold;
-            font-size: 13px;
+        .status-select:focus {
+            outline: none;
+            box-shadow: 0 0 8px rgba(153, 153, 153, 0.5); /* màu xám nhạt */
         }
-        .bg-red {
-            background-color: #dc3545;
-            color: white;
-            font-weight: bold;
-            font-size: 13px;
+        .option-item {
+            padding: 5px;
         }
+
     </style>
 </head>
 <body>
@@ -511,10 +523,11 @@
                                 <td rowspan="1" class="next-table-header-node" style="padding: 10px 0px; text-align: center;">
                                     <form>
                                         <input type="hidden" name="reviewId" th:value="${review.id}" style="border: none; border-radius: 5px; padding: 3px 8px">
-                                        <select class="select-reviews d-flex align-items-center justify-content-center" name="isPublished" onchange="this.className = (this.value == 'true' ? 'bg-green' : 'bg-red')" th:class="${review.isPublished eq true ? 'bg-green' : 'bg-red'}"
-                                                style="border: none; border-radius: 5px; padding: 3px 8px">
-                                            <option value='false' th:selected="${review.isPublished eq false}" th:text="'Chờ duyệt'"></option>
-                                            <option value='true' th:selected="${review.isPublished eq true}" th:text="'Cho đăng'"></option>
+                                        <select name="isPublished" onchange="this.className = (this.value == 'true' ? 'status-select bg-green' : 'status-select bg-red')"
+                                                th:class="${review.isPublished eq true ? 'status-select bg-green' : 'status-select bg-red'}"
+                                                class="status-select" style="padding: 8px 5px 8px 8px;">
+                                                <option value='false' th:selected="${review.isPublished eq false}" th:text="'Chờ duyệt'" class="option-item" style="color: red;"></option>
+                                                <option value='true' th:selected="${review.isPublished eq true}" th:text="'Cho đăng'" class="option-item" style="color: green; "></option>
                                         </select>
                                     </form>
                                 </td>
@@ -688,15 +701,84 @@
             if (xhr.readyState === 4 && xhr.status === 200) {
                 if (xhr.responseText === "success") {
                     // Xử lý thành công
-                    alert("Đã cập nhật trạng thái thành công!");
+                    displayAlert("Đã cập nhật trạng thái thành công!");
                 } else {
                     // Xử lý thất bại
-                    alert("Đã xảy ra lỗi. Vui lòng thử lại!");
+                    displayAlert("Đã xảy ra lỗi. Vui lòng thử lại!");
                 }
             }
         };
         xhr.send("reviewId=" + reviewId + "&isPublished=" + newIsPublished);
     }
+
+    // Hiển thị popup
+    function displayAlert(message, alertType) {
+        // Kiểm tra xem đã có thông báo chưa
+        if (document.getElementById('myAlert02')) {
+            return;
+        }
+
+       var alertBox = document.createElement('div');
+		alertBox.className = 'alert ' + alertType;
+		alertBox.id = 'myAlert02';
+		alertBox.style.position = 'fixed';
+		alertBox.style.top = '50%';
+		alertBox.style.left = '50%';
+		alertBox.style.transform = 'translate(-50%, -50%)';
+		alertBox.style.backgroundColor = 'white';
+		alertBox.style.padding = '20px';
+		alertBox.style.borderRadius = '15px';
+		alertBox.style.boxShadow = '0px 0px 10px rgba(0, 0, 0, 0.2)';
+		alertBox.style.zIndex = '99999';
+		alertBox.style.display = 'flex';
+		alertBox.style.justifyContent = 'center';
+		alertBox.style.alignItems = 'center';
+		alertBox.style.flexDirection = 'column';
+		alertBox.style.fontWeight = 'bold';
+		alertBox.style.color = '#5b5a7a';
+		alertBox.style.border = 'white';
+
+		var alertText = document.createElement('span');
+			alertText.textContent = message;
+			alertText.style.marginBottom = '15px';
+			alertBox.appendChild(alertText);
+
+		// Thêm nút đóng
+		var closeButton = document.createElement('button');
+		closeButton.className = 'btn-close-popup';
+		closeButton.textContent = 'OK';
+		closeButton.style.border = 'none';
+		closeButton.style.borderRadius = '10px';
+		closeButton.style.backgroundColor = '#3f6ad8';
+		closeButton.style.color = 'white';
+		closeButton.style.fontWeight = 'bold';
+		closeButton.style.width = '50px';
+		closeButton.style.height = '35px';
+		closeButton.onclick = function() {
+			document.body.removeChild(alertBox);
+			document.body.removeChild(overlay);
+		};
+
+		alertBox.appendChild(closeButton);
+
+		// Tạo lớp phủ
+		var overlay = document.createElement('div');
+		overlay.className = 'overlay';
+		overlay.style.position = 'fixed';
+		overlay.style.top = '0';
+		overlay.style.left = '0';
+		overlay.style.width = '100%';
+		overlay.style.height = '100%';
+		overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
+		overlay.style.zIndex = '99999';
+		overlay.onclick = function() {
+			document.body.removeChild(alertBox);
+			document.body.removeChild(overlay);
+		};
+		// Chèn thông báo và lớp phủ vào body
+		document.body.appendChild(overlay);
+		document.body.appendChild(alertBox);
+	}
 
 
     // Xử lý chức năng xóa 1 đánh giá
