@@ -1106,8 +1106,8 @@
                                     <div class="product-name-no-ellipsis d-flex align-items-center">
                                         <h6 style="color: grey; margin: 0px; padding-right: 8px">Tác giả: </h6>
                                         <span th:each="bookauthor, iterStat : ${topSellingBook.bookAuthors}">
-                                            <span th:if="${!iterStat.first}">, </span> <!-- Thêm dấu phẩy và khoảng trắng nếu không phải là tác giả đầu tiên -->
                                             <span th:text="${bookauthor.author.name}" style="color: black;"></span>
+                                            <span th:if="${!iterStat.last}" style="color: black; margin-right: 5px">,</span>
                                         </span>
                                     </div>
                                     <div class="product-name-no-ellipsis d-flex align-items-center" style="padding-bottom: 10px">
