@@ -243,7 +243,7 @@
 								 onmouseout="this.style.boxShadow='none';">
 								<span class="material-symbols-outlined search" style="margin: 10px; color: rgb(2,88,155);">search</span>
 								<form class="form-inline my-2 my-lg-0" th:action="@{/viewbooks}" method="GET" style="display: flex; margin: 0px; border-top-right-radius: 50px; border-bottom-right-radius: 50px;">
-									<input class="form-control mr-sm-2" type="search" name="searchKeyword" placeholder="Tìm kiếm theo tên sách, tác giả..." style="width: 656px; height: 35px; border: none; outline: none; border-top-right-radius: 50px; border-bottom-right-radius: 50px;"
+									<input class="form-control mr-sm-2" type="search" name="searchKeyword" placeholder="Tìm kiếm sách..." style="width: 656px; height: 35px; border: none; outline: none; border-top-right-radius: 50px; border-bottom-right-radius: 50px;"
 										   th:attr="value=${#strings.isEmpty(searchKeyword) ? '' : searchKeyword}">
 								</form>
 							</div>

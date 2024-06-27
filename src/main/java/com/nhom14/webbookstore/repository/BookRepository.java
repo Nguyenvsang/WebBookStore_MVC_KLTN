@@ -50,12 +50,10 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
 
 	// Sách còn kinh doanh chỉ khi book.status =1 và book.category.status =1
 	@Query("SELECT b FROM Book b " +
-			"JOIN b.bookAuthors ba JOIN ba.author a " +
 			"WHERE b.status = 1 and b.category.status = 1 and " +
 			"(:categoryId is null or b.category.id = :categoryId) and " +
 			"(:searchKeyword is null or " +
 			"lower(b.name) like lower(concat('%', :searchKeyword, '%')) or " +
-			"lower(a.name) like lower(concat('%', :searchKeyword, '%')) or " +
 			"lower(b.publisher) like lower(concat('%', :searchKeyword, '%'))) and " +
 			"(:priceMin is null or b.sellPrice >= :priceMin) and " +
 			"(:priceMax is null or b.sellPrice <= :priceMax) and " +
@@ -108,4 +106,9 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
 
 	@Query("SELECT b FROM Book b WHERE b.id = :id AND b.status = 1 AND b.category.status = 1")
 	Book findActiveBookById(@Param("id") int id);
+
+	@Query("SELECT b FROM Book b WHERE b.status = 1 and b.category.status = 1 ORDER BY RAND()")
+	Page<Book> findAllActiveBooksRandom(Pageable pageable);
+
+	List<Book> findByIdIn(List<String> ids);
 }
