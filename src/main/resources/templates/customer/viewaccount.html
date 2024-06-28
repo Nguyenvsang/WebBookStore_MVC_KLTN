@@ -441,34 +441,57 @@
 							</table>
 
 							<!-- Thêm phần tử phân trang tại đây -->
-							<div class="frame-number">
+							<div class="frame-number d-flex align-items-center" style="padding: 30px">
 								<div th:if="${orders.totalPages > 1}">
-									<ul class="pagination">
+									<ul class="pagination" style="margin: 0px">
+										<!-- Nút 'Trang trước' -->
 										<li th:if="${orders.hasPrevious()}" class="page-item">
-											<a class="page-link" th:href="@{/viewaccount(page=${orders.number}, size=${size}, sort=${sortOption}, orderId=${orderId}, accountId=${accountId})}">
+											<a class="page-link" th:href="@{/viewaccount(page=${orders.number - 1}, size=${size}, sort=${sortOption}, orderId=${orderId}, accountId=${accountId})}">
 												<span class="material-symbols-outlined">navigate_before</span>
 											</a>
 										</li>
 
-										<th:block th:each="pageNumber : ${#numbers.sequence(0, orders.totalPages - 1)}">
+										<!-- Trang đầu tiên -->
+										<li class="page-item" th:classappend="${0 == orders.number ? 'active' : ''}">
+											<a th:if="${0 != orders.number}" class="page-link" th:href="@{/viewaccount(page=1, size=${size}, sort=${sortOption}, orderId=${orderId}, accountId=${accountId})}" th:text="1"></a>
+											<span th:if="${0 == orders.number}" class="page-link" th:text="1"></span>
+										</li>
+
+										<!-- Dấu '...' nếu cần trước các trang xung quanh trang hiện tại -->
+										<li class="page-item" th:if="${orders.number > 3}">
+											<span class="page-link">...</span>
+										</li>
+
+										<!-- Các trang xung quanh trang hiện tại -->
+										<th:block th:each="pageNumber : ${#numbers.sequence(orders.number - 2 > 1 ? orders.number - 2 : 1, orders.number + 2 < orders.totalPages - 2 ? orders.number + 2 : orders.totalPages - 2)}">
 											<li class="page-item" th:classappend="${pageNumber == orders.number ? 'active' : ''}">
-												<th:block th:if="${pageNumber == orders.number}">
-													<span class="page-link" th:text="${pageNumber + 1}"></span>
-												</th:block>
-												<th:block th:unless="${pageNumber == orders.number}">
-													<a class="page-link" th:inline="text" th:href="@{/viewaccount(page=${pageNumber + 1}, size=${size}, sort=${sortOption}, orderId=${orderId}, accountId=${accountId})}" th:text="${pageNumber + 1}"></a>
+												<th:block th:if="${pageNumber != 0 && pageNumber != orders.totalPages - 1}">
+													<a class="page-link" th:href="@{/viewaccount(page=${pageNumber + 1}, size=${size}, sort=${sortOption}, orderId=${orderId}, accountId=${accountId})}" th:text="${pageNumber + 1}"></a>
 												</th:block>
 											</li>
 										</th:block>
 
+										<!-- Dấu '...' nếu cần sau các trang xung quanh trang hiện tại -->
+										<li class="page-item" th:if="${orders.number < orders.totalPages - 4}">
+											<span class="page-link">...</span>
+										</li>
+
+										<!-- Trang cuối cùng -->
+										<li class="page-item" th:classappend="${orders.totalPages - 1 == orders.number ? 'active' : ''}">
+											<a th:if="${orders.totalPages - 1 != orders.number}" class="page-link" th:href="@{/viewaccount(page=${orders.totalPages}, size=${size}, sort=${sortOption}, orderId=${orderId}, accountId=${accountId})}" th:text="${orders.totalPages}"></a>
+											<span th:if="${orders.totalPages - 1 == orders.number}" class="page-link" th:text="${orders.totalPages}"></span>
+										</li>
+
+										<!-- Nút 'Trang sau' -->
 										<li th:if="${orders.hasNext()}" class="page-item">
-											<a class="page-link" th:href="@{/viewaccount(page=${orders.number + 2}, size=${size}, sort=${sortOption}, orderId=${orderId}, accountId=${accountId})}">
+											<a class="page-link" th:href="@{/viewaccount(page=${orders.number + 1}, size=${size}, sort=${sortOption}, orderId=${orderId}, accountId=${accountId})}">
 												<span class="material-symbols-outlined">navigate_next</span>
 											</a>
 										</li>
 									</ul>
 								</div>
 							</div>
+
 
 						</div>
 					</div>

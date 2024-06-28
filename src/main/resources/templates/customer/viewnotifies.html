@@ -547,30 +547,57 @@
         <!--Phần phân trang-->
         <div class="frame-number d-flex align-items-center" style="margin-top: 15px">
             <div th:if="${notifications.totalPages > 1}">
-                <ul class="pagination">
-                    <li th:if="${notifications.hasPrevious()}" class="page-item">
-                        <a class="page-link" th:href="@{/viewnotifications(page=${notifications.number})}">
-                            <span class="material-symbols-outlined">navigate_before</span>
-                        </a>
-                    </li>
+                <div class="frame-number d-flex align-items-center" style="padding: 30px">
+                    <div th:if="${notifications.totalPages > 1}">
+                        <ul class="pagination" style="margin: 0px">
+                            <!-- Nút 'Trang trước' -->
+                            <li th:if="${notifications.hasPrevious()}" class="page-item">
+                                <a class="page-link" th:href="@{/viewnotifications(page=${notifications.number - 1})}">
+                                    <span class="material-symbols-outlined">navigate_before</span>
+                                </a>
+                            </li>
 
-                    <th:block th:each="pageNumber : ${#numbers.sequence(0, notifications.totalPages - 1)}">
-                        <li class="page-item" th:classappend="${pageNumber == notifications.number ? 'active' : ''}">
-                            <th:block th:if="${pageNumber == notifications.number}">
-                                <span class="page-link" th:text="${pageNumber + 1}"></span>
-                            </th:block>
-                            <th:block th:unless="${pageNumber == notifications.number}">
-                                <a class="page-link" th:href="@{/viewnotifications(page=${pageNumber + 1})}" th:text="${pageNumber + 1}"></a>
-                            </th:block>
-                        </li>
-                    </th:block>
+                            <!-- Trang đầu tiên -->
+                            <li class="page-item" th:classappend="${0 == notifications.number ? 'active' : ''}">
+                                <a th:if="${0 != notifications.number}" class="page-link" th:href="@{/viewnotifications(page=1)}" th:text="1"></a>
+                                <span th:if="${0 == notifications.number}" class="page-link" th:text="1"></span>
+                            </li>
 
-                    <li th:if="${notifications.hasNext()}" class="page-item">
-                        <a class="page-link" th:href="@{/viewnotifications(page=${notifications.number + 2})}">
-                            <span class="material-symbols-outlined">navigate_next</span>
-                        </a>
-                    </li>
-                </ul>
+                            <!-- Dấu '...' nếu cần trước các trang xung quanh trang hiện tại -->
+                            <li class="page-item" th:if="${notifications.number > 3}">
+                                <span class="page-link">...</span>
+                            </li>
+
+                            <!-- Các trang xung quanh trang hiện tại -->
+                            <th:block th:each="pageNumber : ${#numbers.sequence(notifications.number - 2 > 1 ? notifications.number - 2 : 1, notifications.number + 2 < notifications.totalPages - 2 ? notifications.number + 2 : notifications.totalPages - 2)}">
+                                <li class="page-item" th:classappend="${pageNumber == notifications.number ? 'active' : ''}">
+                                    <th:block th:if="${pageNumber != 0 && pageNumber != notifications.totalPages - 1}">
+                                        <a class="page-link" th:href="@{/viewnotifications(page=${pageNumber + 1})}" th:text="${pageNumber + 1}"></a>
+                                    </th:block>
+                                </li>
+                            </th:block>
+
+                            <!-- Dấu '...' nếu cần sau các trang xung quanh trang hiện tại -->
+                            <li class="page-item" th:if="${notifications.number < notifications.totalPages - 4}">
+                                <span class="page-link">...</span>
+                            </li>
+
+                            <!-- Trang cuối cùng -->
+                            <li class="page-item" th:classappend="${notifications.totalPages - 1 == notifications.number ? 'active' : ''}">
+                                <a th:if="${notifications.totalPages - 1 != notifications.number}" class="page-link" th:href="@{/viewnotifications(page=${notifications.totalPages})}" th:text="${notifications.totalPages}"></a>
+                                <span th:if="${notifications.totalPages - 1 == notifications.number}" class="page-link" th:text="${notifications.totalPages}"></span>
+                            </li>
+
+                            <!-- Nút 'Trang sau' -->
+                            <li th:if="${notifications.hasNext()}" class="page-item">
+                                <a class="page-link" th:href="@{/viewnotifications(page=${notifications.number + 1})}">
+                                    <span class="material-symbols-outlined">navigate_next</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>

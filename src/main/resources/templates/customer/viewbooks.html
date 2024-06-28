@@ -646,12 +646,12 @@
 								</div>
 
 								<!--Phần phân trang-->
-								<div class="frame-number">
+								<div class="frame-number d-flex align-items-center" style="padding: 30px">
 									<div th:if="${books.totalPages > 1}">
-										<ul class="pagination">
+										<ul class="pagination" style="margin: 0px">
 											<!-- Nút 'Trang trước' -->
 											<li th:if="${books.hasPrevious()}" class="page-item">
-												<a class="page-link" th:href="@{/viewbooks(page=${books.number}, sort=${sort}, categoryId=${categoryId}, publisher=${publisher}, sortOption=${sortOption}, searchKeyword=${searchKeyword}, priceMin=${priceMin}, priceMax=${priceMax})}">
+												<a class="page-link" th:href="@{/viewbooks(page=${books.number - 1}, sort=${sort}, categoryId=${categoryId}, publisher=${publisher}, sortOption=${sortOption}, searchKeyword=${searchKeyword}, priceMin=${priceMin}, priceMax=${priceMax})}">
 													<span class="material-symbols-outlined">navigate_before</span>
 												</a>
 											</li>
@@ -663,7 +663,7 @@
 											</li>
 
 											<!-- Dấu '...' nếu cần -->
-											<li class="page-item" th:if="${books.number > 2}">
+											<li class="page-item" th:if="${books.number > 2 && books.totalPages > 5}">
 												<span class="page-link">...</span>
 											</li>
 
@@ -680,7 +680,7 @@
 											</th:block>
 
 											<!-- Dấu '...' nếu cần -->
-											<li class="page-item" th:if="${books.number < books.totalPages - 3}">
+											<li class="page-item" th:if="${books.number < books.totalPages - 3 && books.totalPages > 5}">
 												<span class="page-link">...</span>
 											</li>
 
@@ -699,6 +699,8 @@
 										</ul>
 									</div>
 								</div>
+
+
 
 
 							</div>

@@ -452,7 +452,7 @@
 									<ul class="pagination" style="margin: 0px">
 										<!-- Nút 'Trang trước' -->
 										<li th:if="${orders.hasPrevious()}" class="page-item">
-											<a class="page-link" th:href="@{/vieworders(page=${orders.number}, size=${size}, sortOption=${sortOption}, searchKeyword=${searchKeyword}, dateOrderStr=${dateOrderStr}, status=${status})}">
+											<a class="page-link" th:href="@{/vieworders(page=${orders.number - 1}, size=${size}, sortOption=${sortOption}, searchKeyword=${searchKeyword}, dateOrderStr=${dateOrderStr}, status=${status})}">
 												<span class="material-symbols-outlined">navigate_before</span>
 											</a>
 										</li>
@@ -463,25 +463,22 @@
 											<span th:if="${0 == orders.number}" class="page-link" th:text="1"></span>
 										</li>
 
-										<!-- Dấu '...' nếu cần -->
-										<li class="page-item" th:if="${orders.number > 2}">
+										<!-- Dấu '...' nếu cần trước các trang xung quanh trang hiện tại -->
+										<li class="page-item" th:if="${orders.number > 3}">
 											<span class="page-link">...</span>
 										</li>
 
 										<!-- Các trang xung quanh trang hiện tại -->
 										<th:block th:each="pageNumber : ${#numbers.sequence(orders.number - 2 > 1 ? orders.number - 2 : 1, orders.number + 2 < orders.totalPages - 2 ? orders.number + 2 : orders.totalPages - 2)}">
 											<li class="page-item" th:classappend="${pageNumber == orders.number ? 'active' : ''}">
-												<th:block th:if="${pageNumber == orders.number}">
-													<span class="page-link" th:text="${pageNumber + 1}"></span>
-												</th:block>
-												<th:block th:unless="${pageNumber == orders.number}">
+												<th:block th:if="${pageNumber != 0 && pageNumber != orders.totalPages - 1}">
 													<a class="page-link" th:href="@{/vieworders(page=${pageNumber + 1}, size=${size}, sortOption=${sortOption}, searchKeyword=${searchKeyword}, dateOrderStr=${dateOrderStr}, status=${status})}" th:text="${pageNumber + 1}"></a>
 												</th:block>
 											</li>
 										</th:block>
 
-										<!-- Dấu '...' nếu cần -->
-										<li class="page-item" th:if="${orders.number < orders.totalPages - 3}">
+										<!-- Dấu '...' nếu cần sau các trang xung quanh trang hiện tại -->
+										<li class="page-item" th:if="${orders.number < orders.totalPages - 4}">
 											<span class="page-link">...</span>
 										</li>
 
@@ -493,13 +490,14 @@
 
 										<!-- Nút 'Trang sau' -->
 										<li th:if="${orders.hasNext()}" class="page-item">
-											<a class="page-link" th:href="@{/vieworders(page=${orders.number + 2}, size=${size}, sortOption=${sortOption}, searchKeyword=${searchKeyword}, dateOrderStr=${dateOrderStr}, status=${status})}">
+											<a class="page-link" th:href="@{/vieworders(page=${orders.number + 1}, size=${size}, sortOption=${sortOption}, searchKeyword=${searchKeyword}, dateOrderStr=${dateOrderStr}, status=${status})}">
 												<span class="material-symbols-outlined">navigate_next</span>
 											</a>
 										</li>
 									</ul>
 								</div>
 							</div>
+
 						</div>
 					</div>
 				</div>
