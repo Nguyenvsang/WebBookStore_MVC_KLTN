@@ -245,6 +245,14 @@
             box-shadow: 0px 6px 8px rgba(0, 0.3, 0, 0.2);
         }
 
+        .col-status {
+            padding: 7px;
+            background-color: #6278b1;
+            color: white;
+            font-weight: bold;
+            border-radius: 10px;
+            margin-right: 10px
+        }
     </style>
 </head>
 <body>
@@ -347,6 +355,18 @@
                 </div>
             </div>
         </div>
+
+        <div class="row-03 d-flex align-items-center" style="padding: 0px 40px; justify-content: left; margin: 40px 0px 0px 0px">
+            <div th:if="${revenueOption != null}" class="col-status">
+                <span th:switch="${revenueOption}">
+                    <span th:case="12">Doanh thu tăng dần</span>
+                    <span th:case="21">Doanh thu giảm dần</span>
+                    <span th:case="*"></span>
+                </span>
+            </div>
+
+        </div>
+
         <div class="container-main" style="background-color: white;">
 
             <div class="next-table only-bottom-border">

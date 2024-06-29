@@ -217,6 +217,32 @@
             word-break: break-all; /* Đảm bảo từ sẽ xuống dòng nếu không có dấu cách */
         }
 
+        .dropdown-menu::-webkit-scrollbar {
+            width: 10px; /* Độ rộng của thanh cuộn */
+        }
+
+        .dropdown-menu::-webkit-scrollbar-track {
+            background: #f1f1f1; /* Màu nền của thanh cuộn */
+            border-radius: 10px;
+        }
+
+        .dropdown-menu::-webkit-scrollbar-thumb {
+            background: #79a7d5; /* Màu của thanh cuộn */
+            border-radius: 10px; /* Bo tròn cho phần thanh cuộn */
+        }
+
+        .dropdown-menu::-webkit-scrollbar-thumb:hover {
+            background: #5591c5; /* Màu của thanh cuộn khi di chuột qua */
+        }
+
+        .col-status {
+            padding: 7px;
+            background-color: #6278b1;
+            color: white;
+            font-weight: bold;
+            border-radius: 10px;
+            margin-right: 10px
+        }
     </style>
 </head>
 <body>
@@ -287,9 +313,9 @@
                         <span class="material-symbols-outlined" style="margin-left: 3px">expand_more</span>
                         <span class="material-symbols-outlined" style="margin-left: 3px">expand_less</span>
                     </button>
-                    <div class="dropdown-menu" aria-labelledby="bookDropdown" style="height: auto; max-height: 200px; overflow-x: hidden;">
+                    <div class="dropdown-menu" aria-labelledby="bookDropdown" style="height: auto; max-height: 200px; overflow-x: hidden; padding: 8px">
                         <!-- Thêm trường nhập tìm kiếm vào đầu dropdown -->
-                        <input id="searchKeyword" class="form-control mr-sm-2" type="text" placeholder="Tìm kiếm từ khóa" style="border: 2px solid rgb(182,232,241); border-radius: 10px;">
+                        <input id="searchKeyword" class="form-control mr-sm-2" type="text" placeholder="Tìm kiếm từ khóa" style="border: 1px solid #cecece; border-radius: 50px;">
                         <a class="dropdown-item" th:href="@{/managevouchers}">Tất cả</a>
                         <th:block th:each="category : ${allCategories}">
                             <a class="dropdown-item" th:href="@{/managevouchers(status=${status}, categoryId=${category.id}, voucherScope=${voucherScope}, sortOption=${sortOption})}" th:text="${category.name}"></a>
@@ -330,6 +356,29 @@
                         </a>
                     </div>
                 </div>
+            </div>
+        </div>
+
+        <div class="row-03 d-flex align-items-center" style="padding: 0px 40px; justify-content: left; margin: 40px 0px 0px 0px">
+            <div class="col-status"  th:if="${status != null}">
+                <span th:text="${status == 1 ? 'Áp dụng' : (status == 2 ? 'Chưa áp dụng' : (status == 0 ? 'Ngừng áp dụng' : 'Hủy bỏ'))}"></span>
+            </div>
+            <div class="col-status" th:if="${voucherScope != null}">
+                <span  th:text="${voucherScope == 1 ? 'Cho danh mục cụ thể' : 'Cho mọi sách'}"></span>
+            </div>
+            <div class="col-status" th:if="${sortOption != null}">
+                <span  th:text="${sortOption == 'sd12' ? 'Ngày bắt đầu - tăng dần' :
+                    (sortOption == 'sd21' ? 'Ngày bắt đầu - giảm dần' :
+                    (sortOption == 'ed12' ? 'Ngày kết thúc - tăng dần' :
+                    (sortOption == 'ed21' ? 'Ngày kết thúc - giảm dần' :
+                    (sortOption == 'dpc12' ? 'Tỷ lệ giảm giá - tăng dần' :
+                    (sortOption == 'dpc21' ? 'Tỷ lệ giảm giá - giảm dần' :
+                    (sortOption == 'q12' ? 'Số lượng - tăng dần' :
+                    (sortOption == 'q21' ? 'Số lượng - giảm dần' :
+                    (sortOption == 'rq12' ? 'Số lượng còn lại - tăng dần' :
+                    (sortOption == 'rq21' ? 'Số lượng còn lại - giảm dần' :
+                    (sortOption == 'mov12' ? 'Giá trị đơn hàng tối thiểu - tăng dần' :
+                    (sortOption == 'mov21' ? 'Giá trị đơn hàng tối thiểu - giảm dần' : 'Không xác định')))))))))))}" style="margin-left: 3px"></span>
             </div>
         </div>
 

@@ -179,6 +179,37 @@
 		.btn-close-popup:hover {
 			color: white;
 		}
+
+        .btn-search{
+			color: #5390f5;
+			border-radius: 50px;
+			border: 1px solid #5390f5;
+			background-color: white;
+			font-weight: bold;
+			width: 180px;
+		}
+		.btn-search:hover {
+			color: white;
+			border-radius: 50px;
+			border: 1px solid #5390f5;
+			background-color: #5390f5;
+			font-weight: bold;
+		}
+        .btn-6-months{
+			color: #5bb56f;
+			border-radius: 50px;
+			border: 1px solid #5bb56f;
+			background-color: white;
+			font-weight: bold;
+			width: 200px;
+		}
+		.btn-6-months:hover {
+			color: white;
+			border-radius: 50px;
+			border: 1px solid #5bb56f;
+			background-color: #5bb56f;
+			font-weight: bold;
+		}
     </style>
 </head>
 
@@ -202,7 +233,7 @@
             </div>
         </div>
         <div class="container-main" style="background-color: white;">
-            <form action="#" th:action="@{/statistics}" method="get" class="form-inline">
+            <form action="#" th:action="@{/statistics}" method="get" class="form-inline" style="margin: 15px 0px">
                 <div class="form-group mb-2">
                     <label for="startDate" class="sr-only">Ngày bắt đầu</label>
                     <input type="date" class="form-control" id="startDate" name="startDate" th:value="${startDate}" required>
@@ -211,8 +242,8 @@
                     <label for="endDate" class="sr-only">Ngày kết thúc</label>
                     <input type="date" class="form-control" id="endDate" name="endDate" th:value="${endDate}" required>
                 </div>
-                <button type="submit" class="btn btn-primary mb-2">Xem thống kê</button>
-                <a th:if="${isCustomDateRange}" th:href="@{/statistics}" class="btn btn-secondary mb-2 ml-2">Xem 6 tháng gần đây</a>
+                <button type="submit" class="btn btn-search mb-2">Xem thống kê</button>
+                <a th:if="${isCustomDateRange}" th:href="@{/statistics}" class="btn btn-6-months mb-2 ml-2">Xem 6 tháng gần đây</a>
             </form>
 
             <div class="overlay" id="overlay"></div>

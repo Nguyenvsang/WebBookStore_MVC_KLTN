@@ -168,6 +168,14 @@
             display: none; /* Ẩn biểu tượng expand_less */
         }
 
+		.col-status {
+            padding: 7px;
+            background-color: #6278b1;
+            color: white;
+            font-weight: bold;
+            border-radius: 10px;
+            margin-right: 10px
+        }
 	</style> 
 </head> 
 <body>
@@ -218,6 +226,19 @@
 							<a class="dropdown-item" th:href="@{/manageorders(status=4)}">Đã giao</a>
 						</div>
 					</div>
+				</div>
+			</div>
+
+			<div class="row-03 d-flex align-items-center" style="padding: 0px 40px; justify-content: left; margin: 40px 0px 0px 0px">
+				<div class="col-status">
+					<span th:switch="${status}">
+						<span th:case="0">Chờ xác nhận</span>
+						<span th:case="1">CHờ lấy hàng</span>
+						<span th:case="2">Đang giao</span>
+						<span th:case="3">Đã thanh toán</span>
+						<span th:case="4">Đã giao</span>
+						<span th:case="*"></span>
+					</span>
 				</div>
 			</div>
 

@@ -182,6 +182,14 @@
             color: white;
             font-weight: bold;
         }
+		.col-status {
+            padding: 7px;
+            background-color: #6278b1;
+            color: white;
+            font-weight: bold;
+            border-radius: 10px;
+            margin-right: 10px
+        }
 	</style> 
 </head> 
 <body>
@@ -254,6 +262,25 @@
 								Thêm tài khoản
 							</a>
 						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="row-03 d-flex align-items-center" style="padding: 0px 40px; justify-content: left; margin: 40px 0px 0px 0px">
+				<div th:if="${status != null || type != null}">
+					<div th:if="${status != null}" class="col-status">
+						<span th:switch="${status}">
+							<span th:case="0">Ngừng hoạt động</span>
+							<span th:case="1">Đang hoạt động</span>
+							<span th:case="*"></span>
+						</span>
+					</div>
+					<div th:if="${type != null}" class="col-status">
+						<span th:switch="${type}">
+							<span th:case="0">Admin</span>
+							<span th:case="1">Khách hàng</span>
+							<span th:case="*"></span>
+						</span>
 					</div>
 				</div>
 			</div>

@@ -291,6 +291,15 @@
         .select2-search.select2-search--dropdown{
             padding: 10px 10px;
         }
+
+        .col-status {
+            padding: 7px;
+            background-color: #6278b1;
+            color: white;
+            font-weight: bold;
+            border-radius: 10px;
+            margin-right: 10px
+        }
     </style>
 </head>
 <body>
@@ -335,7 +344,7 @@
                         <span class="material-symbols-outlined" style="margin-left: 3px">expand_less</span>
                     </button>
                     <div class="dropdown-menu" aria-labelledby="statusDropdown">
-                        <a class="dropdown-item" th:href="@{/managebookimports}">Tất cả</a>
+                        <a class="dropdown-item" th:href="@{/managebookimports(status=4, bookId=${bookId}, sortOption=${sortOption})}">Tất cả</a>
                         <a class="dropdown-item" th:href="@{/managebookimports(status=1, bookId=${bookId}, sortOption=${sortOption})}">Đang bán</a>
                         <a class="dropdown-item" th:href="@{/managebookimports(status=2, bookId=${bookId}, sortOption=${sortOption})}">Chưa bán</a>
                         <a class="dropdown-item" th:href="@{/managebookimports(status=0, bookId=${bookId}, sortOption=${sortOption})}">Ngừng bán</a>
@@ -351,6 +360,7 @@
                         <span class="material-symbols-outlined" style="margin-left: 3px">expand_less</span>
                     </button>
                     <div class="dropdown-menu" aria-labelledby="optionDropdown">
+                        <a class="dropdown-item" th:href="@{/managebookimports(sortOption=${sortOption}, bookId=${bookId}, status=${status})}">Tất cả</a>
                         <a class="dropdown-item" th:href="@{/managebookimports(sortOption='d12', bookId=${bookId}, status=${status})}">Ngày tăng dần</a>
                         <a class="dropdown-item" th:href="@{/managebookimports(sortOption='d21', bookId=${bookId}, status=${status})}">Ngày giảm dần</a>
                         <a class="dropdown-item" th:href="@{/managebookimports(sortOption='q12', bookId=${bookId}, status=${status})}">Số lượng tăng dần</a>
@@ -375,6 +385,31 @@
                 </div>
             </div>
         </div>
+
+        <div class="row-03 d-flex align-items-center" style="padding: 0px 40px; justify-content: left; margin: 40px 0px 0px 0px">
+            <div class="col-status" th:if="${status != null}">
+                    <span th:switch="${status}">
+                        <span th:case="1">Đang bán</span>
+                        <span th:case="2">Chưa bán</span>
+                        <span th:case="0">Ngừng bán</span>
+                        <span th:case="*">Hủy bỏ</span>
+                    </span>
+            </div>
+            <div class="col-status" th:if="${sortOption != null}">
+                    <span th:switch="${sortOption}">
+                        <span th:case="'d12'">Ngày tăng dần</span>
+                        <span th:case="'d21'">Ngày giảm dần</span>
+                        <span th:case="'q12'">Số lượng tăng dần</span>
+                        <span th:case="'q21'">Số lượng giảm dần</span>
+                        <span th:case="'p12'">Giá nhập tăng dần</span>
+                        <span th:case="'p21'">Giá nhập giảm dần</span>
+                        <span th:case="'rq12'">Số lượng còn lại tăng dần</span>
+                        <span th:case="'rq21'">Số lượng còn lại giảm dần</span>
+                        <span th:case="*">Không xác định</span>
+                    </span>
+            </div>
+        </div>
+
 
         <div class="row-03 d-flex align-items-center" style="padding: 0px 40px; justify-content: space-between; margin: 40px 0px 0px 0px">
             <div class="col-12 d-flex align-items-center" style="height: 90px; padding: 10px; background-color: #d8e9f5; border-radius: 15px;">
@@ -655,6 +690,9 @@
     });
 
 </script>
+
+
+
 <!--<div th:replace="~{admin/footeradmin :: footer}"></div>-->
 </body>
 </html>

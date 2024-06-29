@@ -251,6 +251,15 @@
 		.author-name {
             margin-right: 5px; /* khoảng cách giữa các tác giả */
         }
+
+		.col-status {
+            padding: 7px;
+            background-color: #6278b1;
+            color: white;
+            font-weight: bold;
+            border-radius: 10px;
+            margin-right: 10px
+        }
 </style>
 </head>
 <body>
@@ -331,6 +340,12 @@
 			<div th:if="${message}" class="mb-3">
 				<div class="alert rounded-lg font-weight-bold" th:classappend="${message.contains('thành công') ? 'alert-success' : 'alert-danger'}">
 					<span th:text="${message}"></span>
+				</div>
+			</div>
+
+			<div class="row-03 d-flex align-items-center" style="padding: 0px 40px; justify-content: left; margin: 40px 0px 0px 0px">
+				<div class="col-status" th:if="${status != null}">
+					<span  th:text="${status == 1 ? 'Đang kinh doanh' : 'Ngừng kinh doanh'}"></span>
 				</div>
 			</div>
 

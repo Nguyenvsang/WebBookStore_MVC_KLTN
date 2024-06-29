@@ -245,6 +245,15 @@
             border-radius: 15px;
             box-shadow: 0px 4px 4px rgba(192, 192, 192, 0.3);
         }
+
+        .col-status {
+            padding: 7px;
+            background-color: #6278b1;
+            color: white;
+            font-weight: bold;
+            border-radius: 10px;
+            margin-right: 10px
+        }
     </style>
 </head>
 <body>
@@ -368,6 +377,17 @@
                     </div>
                 </div>
             </div>
+        </div>
+
+        <div class="row-03 d-flex align-items-center" style="padding: 0px 40px; justify-content: left; margin: 40px 0px 0px 0px">
+            <div th:if="${profitOption != null}" class="col-status">
+                <span th:switch="${profitOption}">
+                    <span th:case="12">Lợi nhuận tăng dần</span>
+                    <span th:case="21">Lợi nhuận giảm dần</span>
+                    <span th:case="*"></span>
+                </span>
+            </div>
+
         </div>
 
         <div class="container-main" style="background-color: white;">

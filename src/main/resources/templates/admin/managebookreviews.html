@@ -329,6 +329,14 @@
             padding: 5px;
         }
 
+        .col-status {
+            padding: 7px;
+            background-color: #6278b1;
+            color: white;
+            font-weight: bold;
+            border-radius: 10px;
+            margin-right: 10px
+        }
     </style>
 </head>
 <body>
@@ -377,7 +385,7 @@
                         Lọc trạng thái
                         <span class="material-symbols-outlined" style="margin-left: 3px">expand_more</span>
                         <span class="material-symbols-outlined" style="margin-left: 3px">expand_less</span>
-<!--                        <span th:text="${isPublished != null ? (isPublished == true ? 'Đã được duyệt' : 'Chưa được duyệt') : (isPurchased != null ? (isPurchased == true ? 'Đã mua sách' : 'Chưa mua sách') : 'Tất cả')}" style="margin-left: 3px"></span>-->
+
                     </button>
                     <div class="dropdown-menu" aria-labelledby="statusDropdown">
                         <a class="dropdown-item" th:href="@{/managebookreviews(page=${bookReviews.number + 1}, size=${size}, sort=${sort})}">Tất cả</a>
@@ -421,6 +429,18 @@
                 <button id="deleteSelectedReviews" class="btn btn-review-delete">Xóa đánh giá đã chọn</button>
                 <!-- Thêm nút "Duyệt các đánh giá đã chọn" -->
                 <button id="approveSelectedReviews" class="btn btn-review-approve" style="margin: 0px">Duyệt đánh giá đã chọn</button>
+            </div>
+        </div>
+
+        <div class="row-03 d-flex align-items-center" style="padding: 0px 40px; justify-content: left; margin: 40px 0px 0px 0px">
+            <div class="col-status" th:if="${isPublished != null || isPurchased != null}">
+                <span
+                      th:text="${isPublished != null ? (isPublished ? 'Đã được duyệt' : 'Chưa được duyệt') : (isPurchased ? 'Đã mua sách' : 'Chưa mua sách')}"
+                      style="margin-left: 3px">
+                </span>
+            </div>
+            <div class="col-status" th:if="${rating != null}">
+                <span  th:text="${rating + ' sao'}" style="margin-left: 3px"></span>
             </div>
         </div>
 
@@ -508,9 +528,9 @@
 
                                 <td rowspan="1" class="next-table-header-node" style="padding: 10px 20px; text-align: justify;" th:text="${review.book.name}"></td>
 
-                                <td rowspan="1" class="next-table-header-node d-flex justify-content-center" style="padding: 10px 0px; text-align: center;">
-                                    <span th:text="${review.rating}"></span>
-                                    <div class="img-star d-flex justify-content-center">
+                                <td rowspan="1" class="next-table-header-node" style="padding: 10px 0px; text-align: center;">
+                                    <div class="img-star d-flex align-items-center justify-content-center">
+                                        <span th:text="${review.rating}"></span>
                                         <img src="https://res.cloudinary.com/dylwewmt0/image/upload/v1719417494/PHOTO_LIST/Admin/star/star.png" style="width: 20px;">
                                     </div>
                                 </td>
@@ -876,7 +896,7 @@
                 checkboxes[i].checked = false;
             }
         } else {
-            alert("Vui lòng chọn đánh giá muốn xóa!");
+            displayAlert("Vui lòng chọn đánh giá muốn xóa!");
         }
     });
 
@@ -903,7 +923,7 @@
                 selectBox.className = 'bg-green';
             }
         } else {
-            alert("Vui lòng chọn đánh giá muốn duyệt!");
+            displayAlert("Vui lòng chọn đánh giá muốn duyệt!");
         }
     });
 

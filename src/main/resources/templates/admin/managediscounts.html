@@ -299,6 +299,15 @@
         .select2-search.select2-search--dropdown{
             padding: 10px 10px;
         }
+
+        .col-status {
+            padding: 7px;
+            background-color: #6278b1;
+            color: white;
+            font-weight: bold;
+            border-radius: 10px;
+            margin-right: 10px
+        }
     </style>
 </head>
 <body>
@@ -378,6 +387,22 @@
                         </a>
                     </div>
                 </div>
+            </div>
+        </div>
+
+        <div class="row-03 d-flex align-items-center" style="padding: 0px 40px; justify-content: left; margin: 40px 0px 0px 0px">
+            <div class="col-status" th:if="${status != null}">
+                <span  th:text="${status == 1 ? 'Áp dụng' : (status == 2 ? 'Chưa áp dụng' : (status == 0 ? 'Ngừng áp dụng' : 'Hủy bỏ'))}"></span>
+            </div>
+            <div class="col-status" th:if="${sortOption != null}">
+                <span th:text="${sortOption == 'sd12' ? 'Ngày bắt đầu - tăng dần' :
+                    (sortOption == 'sd21' ? 'Ngày bắt đầu - giảm dần' :
+                    (sortOption == 'ed12' ? 'Ngày kết thúc - tăng dần' :
+                    (sortOption == 'ed21' ? 'Ngày kết thúc - giảm dần' :
+                    (sortOption == 'dpc12' ? 'Tỷ lệ giảm giá - tăng dần' :
+                    (sortOption == 'dpc21' ? 'Tỷ lệ giảm giá - giảm dần' :
+                    (sortOption == 'dp12' ? 'Giá cuối cùng - tăng dần' :
+                    (sortOption == 'dp21' ? 'Giá cuối cùng - giảm dần' : 'Không xác định')))))))}" style="margin-left: 3px"></span>
             </div>
         </div>
 
