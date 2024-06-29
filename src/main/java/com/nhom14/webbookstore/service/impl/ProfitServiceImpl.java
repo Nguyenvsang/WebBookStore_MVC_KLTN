@@ -58,6 +58,13 @@ public class ProfitServiceImpl implements ProfitService {
     }
 
     @Override
+    public double sumProfitByDateRange(LocalDate startDate, LocalDate endDate) {
+        LocalDateTime start = startDate.atStartOfDay();
+        LocalDateTime end = endDate.atTime(23, 59, 59);
+        return profitRepository.sumProfitBetweenDates(start, end);
+    }
+
+    @Override
     public Page<Profit> getFilteredProfits(Long profitId, Integer orderitemId, Double costPrice, Double sellPrice, Double profit, LocalDate date, Double profitMin, Double profitMax, Pageable pageable) {
         return profitRepository.findWithFilters(profitId, orderitemId, costPrice, sellPrice, profit, date, profitMin, profitMax, pageable);
     }

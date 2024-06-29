@@ -5,13 +5,18 @@ import com.nhom14.webbookstore.service.ProfitService;
 import com.nhom14.webbookstore.service.RevenueService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.TextStyle;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 @Controller
 public class AdminStatisticsController {
@@ -26,35 +31,45 @@ public class AdminStatisticsController {
     }
 
     @GetMapping("/statistics")
-    public String showStatistics(Model model,
-                                 HttpSession session) {
+    public String showStatistics(@RequestParam(value = "startDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+                                 @RequestParam(value = "endDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
+                                 Model model, HttpSession session) {
 
         Account admin = (Account) session.getAttribute("admin");
 
-        // Kiểm tra xem admin đã đăng nhập hay chưa
         if (admin == null) {
-            // Nếu chưa đăng nhập, chuyển hướng về trang đăng nhập
             return "redirect:/loginadmin";
         }
 
-        List<Double> revenuesOfLastSixMonthsDataByMonth = new ArrayList<>();
-        List<Double> profitsOfLastSixMonthsDataByMonth = new ArrayList<>();
-        List<String> monthsOfLastSixMonths = new ArrayList<>();
-        for (int i = 5; i >= 0; i--) {
-            LocalDateTime now = LocalDateTime.now().minusMonths(i);
-            int year = now.getYear();
-            int month = now.getMonthValue();
-            double sumRevenue = revenueService.sumRevenueByDateYearAndMonth(year, month);
-            double sumProfit = profitService.sumProfitByDateYearAndMonth(year, month);
-            revenuesOfLastSixMonthsDataByMonth.add(sumRevenue);
-            profitsOfLastSixMonthsDataByMonth.add(sumProfit);
-            monthsOfLastSixMonths.add(String.valueOf(month));
+        boolean isCustomDateRange = startDate != null && endDate != null;
+
+        if (!isCustomDateRange) {
+            endDate = LocalDate.now();
+            startDate = endDate.minusMonths(6);
         }
 
-        // Thêm dữ liệu vào mô hình
-        model.addAttribute("revenuesOfLastSixMonthsDataByMonth", revenuesOfLastSixMonthsDataByMonth);
-        model.addAttribute("profitsOfLastSixMonthsDataByMonth", profitsOfLastSixMonthsDataByMonth);
-        model.addAttribute("monthsOfLastSixMonths", monthsOfLastSixMonths);
+        List<Double> revenuesData = new ArrayList<>();
+        List<Double> profitsData = new ArrayList<>();
+        List<String> monthsData = new ArrayList<>();
+
+        LocalDate current = startDate;
+        while (!current.isAfter(endDate)) {
+            int year = current.getYear();
+            int month = current.getMonthValue();
+            double sumRevenue = revenueService.sumRevenueByDateYearAndMonth(year, month);
+            double sumProfit = profitService.sumProfitByDateYearAndMonth(year, month);
+            revenuesData.add(sumRevenue);
+            profitsData.add(sumProfit);
+            monthsData.add(current.getMonth().getDisplayName(TextStyle.SHORT, new Locale("vi", "VN")) + " " + year);
+            current = current.plusMonths(1);
+        }
+
+        model.addAttribute("revenuesOfLastSixMonthsDataByMonth", revenuesData);
+        model.addAttribute("profitsOfLastSixMonthsDataByMonth", profitsData);
+        model.addAttribute("monthsOfLastSixMonths", monthsData);
+        model.addAttribute("startDate", startDate);
+        model.addAttribute("endDate", endDate);
+        model.addAttribute("isCustomDateRange", isCustomDateRange);
 
         return "admin/statistics";
     }

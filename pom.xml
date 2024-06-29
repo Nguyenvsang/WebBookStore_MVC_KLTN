@@ -97,6 +97,12 @@
 			<artifactId>spring-boot-starter-websocket</artifactId>
 		</dependency>
 
+		<dependency>
+			<groupId>com.recombee</groupId>
+			<artifactId>api-client</artifactId>
+			<version>4.1.0</version>
+		</dependency>
+
 
 	</dependencies>
 

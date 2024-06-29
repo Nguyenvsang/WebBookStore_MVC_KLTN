@@ -20,6 +20,9 @@ public interface RevenueService {
     // Lấy doanh thu mỗi tháng theo tháng và năm
     double sumRevenueByDateYearAndMonth(int year, int month);
 
+    // Lấy doanh thu mỗi tháng trong khoảng thời gian đã chọn
+    double sumRevenueByDateRange(LocalDate startDate, LocalDate endDate);
+
     // Lấy danh sách doanh thu với các tham số tìm kiếm và lọc, phân trang
     Page<Revenue> getFilteredRevenues(Long revenueId, Integer orderId, Double revenue, LocalDate date, Double revenueMin, Double revenueMax, Pageable pageable);
 

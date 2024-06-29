@@ -42,6 +42,13 @@ public class RevenueServiceImpl implements RevenueService {
     }
 
     @Override
+    public double sumRevenueByDateRange(LocalDate startDate, LocalDate endDate) {
+        LocalDateTime start = startDate.atStartOfDay();
+        LocalDateTime end = endDate.atTime(23, 59, 59);
+        return revenueRepository.sumRevenueBetweenDates(start, end);
+    }
+
+    @Override
     public Page<Revenue> getFilteredRevenues(Long revenueId, Integer orderId, Double revenue, LocalDate date, Double revenueMin, Double revenueMax, Pageable pageable) {
         return revenueRepository.findWithFilters(revenueId, orderId, revenue, date, revenueMin, revenueMax, pageable);
     }

@@ -21,6 +21,9 @@ public interface ProfitService {
     // Lấy lợi nhuận mỗi tháng theo tháng và năm
     double sumProfitByDateYearAndMonth(int year, int month);
 
+    // Lấy lợi nhuận mỗi tháng theo khoảng thời gian đã chọn
+    double sumProfitByDateRange(LocalDate startDate, LocalDate endDate);
+
     Page<Profit> getFilteredProfits(Long profitId, Integer orderitemId, Double costPrice, Double sellPrice, Double profit, LocalDate date, Double profitMin, Double profitMax, Pageable pageable);
 
     List<Profit> getAllProfits();
