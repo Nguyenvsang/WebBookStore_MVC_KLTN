@@ -582,23 +582,25 @@
           border-bottom: 2px solid #365e94;
           background-color: white;
           outline: none;
+          cursor: pointer;
           border: none; /* Chuyển đổi vị trí này để loại bỏ đường viền */
           transition: color 0.3s ease; /* Thêm chuyển tiếp màu sắc để tạo hiệu ứng mượt */
           margin-right: 15px;
           padding: 0px;
         }
 
-        .category-button:active,
-        .category-button:focus {
-          font-weight: bold;
-          color: #365e94; /* Thay đổi màu sắc khi nút được nhấn hoặc lấy trọng tâm */
-          outline: none;
-          border-bottom: 2px solid #365e94;
+        .category-button.active {
+            color: #365e94;
+            border-bottom: 2px solid #365e94;
+            outline: none;
         }
 
-        .category-buttons{
+        .category-buttons {
             border-bottom: 0.5px solid #cecece;
+        }
 
+        .category-button:hover {
+            color: #365e94;
         }
 
         @font-face {
@@ -1343,7 +1345,7 @@
                 <h4 style="padding-left: 8px; font-family: 'Pragmatica Extended', sans-serif; color: #5b5a7a; font-weight: bold; margin: 0px">Danh mục nổi bật</h4>
             </div>
             <div class="category-buttons">
-                <button class="category-button" onclick="loadCategory('ChinhTri')">Chính trị - Pháp luật</button>
+                <button class="category-button active" onclick="loadCategory('ChinhTri')">Chính trị - Pháp luật</button>
                 <button class="category-button" onclick="loadCategory('GiaoTrinh')">Giáo trình</button>
                 <button class="category-button" onclick="loadCategory('KhoaHoc')">Khoa học công nghệ, kinh tế</button>
                 <button class="category-button" onclick="loadCategory('Truyen')">Truyện, tiểu thuyết</button>
@@ -2141,7 +2143,7 @@ booksByPublisherHoiNhaVan, booksByPublisherDanTri-->
                 <h4 style="padding-left: 8px; font-family: 'Pragmatica Extended', sans-serif; color: #5b5a7a; font-weight: bold; margin: 0px">Nhà xuất bản nổi bật</h4>
             </div>
             <div class="category-buttons">
-                <button class="category-button" onclick="loadNXB('KimDong')">Kim Đồng</button>
+                <button class="category-button active" onclick="loadNXB('KimDong')">Kim Đồng</button>
                 <button class="category-button" onclick="loadNXB('LaoDong')">Lao Động</button>
                 <button class="category-button" onclick="loadNXB('TheGioi')">Thế Giới</button>
                 <button class="category-button" onclick="loadNXB('Tre')">Trẻ</button>
@@ -3075,7 +3077,34 @@ booksByPublisherHoiNhaVan, booksByPublisherDanTri-->
 </script>
 
 <script>
+    document.querySelectorAll('.category-button').forEach(button => {
+        button.addEventListener('click', () => {
+            document.querySelectorAll('.category-button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            button.classList.add('active');
+        });
+    });
+</script>
 
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const buttons = document.querySelectorAll('.category-button');
+
+        buttons.forEach(button => {
+            button.addEventListener('mousedown', function() {
+                button.style.outline = 'none';
+            });
+
+            button.addEventListener('mouseup', function() {
+                button.blur(); // Mất focus khi button được nhả ra
+            });
+
+            button.addEventListener('mouseleave', function() {
+                button.blur(); // Mất focus khi di chuột ra khỏi button
+            });
+        });
+    });
 </script>
 
 </body>
