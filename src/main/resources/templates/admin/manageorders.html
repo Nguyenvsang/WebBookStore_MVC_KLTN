@@ -176,6 +176,10 @@
             border-radius: 10px;
             margin-right: 10px
         }
+		a:hover {
+            font-weight: bold;
+            text-decoration: none;
+        }
 	</style> 
 </head> 
 <body>
@@ -230,16 +234,17 @@
 			</div>
 
 			<div class="row-03 d-flex align-items-center" style="padding: 0px 40px; justify-content: left; margin: 40px 0px 0px 0px">
-				<div class="col-status">
+				<div th:if="${status != null}" class="col-status">
 					<span th:switch="${status}">
 						<span th:case="0">Chờ xác nhận</span>
-						<span th:case="1">CHờ lấy hàng</span>
+						<span th:case="1">Chờ lấy hàng</span>
 						<span th:case="2">Đang giao</span>
 						<span th:case="3">Đã thanh toán</span>
 						<span th:case="4">Đã giao</span>
 						<span th:case="*"></span>
 					</span>
 				</div>
+
 			</div>
 
 			<div class="container-main" style="background-color: white;">

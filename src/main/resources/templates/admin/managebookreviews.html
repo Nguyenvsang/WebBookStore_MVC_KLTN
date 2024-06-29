@@ -436,11 +436,11 @@
             <div class="col-status" th:if="${isPublished != null || isPurchased != null}">
                 <span
                       th:text="${isPublished != null ? (isPublished ? 'Đã được duyệt' : 'Chưa được duyệt') : (isPurchased ? 'Đã mua sách' : 'Chưa mua sách')}"
-                      style="margin-left: 3px">
+                      >
                 </span>
             </div>
             <div class="col-status" th:if="${rating != null}">
-                <span  th:text="${rating + ' sao'}" style="margin-left: 3px"></span>
+                <span  th:text="${rating + ' sao'}" ></span>
             </div>
         </div>
 
