@@ -533,6 +533,17 @@
 		.author-name {
             margin-right: 5px; /* khoảng cách giữa các tác giả */
         }
+
+		.btn-primary {
+			background-color: #538abe;
+			font-weight: bold;
+			color: white;
+		}
+		.btn-primary:hover {
+			background-color: #365e94;
+			font-weight: bold;
+			color: white;
+		}
 	</style>
 	
 </head>
@@ -768,7 +779,12 @@
 						</div>
 						<div class="col-3">
 							<p class="text-center" style="font-weight: bold; margin: 10px; font-family: 'Museo Moderno', sans-serif; font-size: 14px; color: grey;">Lượt đánh giá cho quyển sách</p>
-							<p class="text-center" style="margin: 10px; font-family: 'Museo Moderno', sans-serif; font-size: 20px; color: #5891c8; font-weight: bold" th:text="'(' + (${totalReviews} != null ? ${totalReviews} : 0) + ' Đánh giá)'"></p>
+							<div class="row-number-reviews d-flex justify-content-center">
+								<div class="text-center d-flex" id="averageRating" style="color: #5891c8; font-family: 'Museo Moderno', sans-serif; font-size: 30px; margin-top: 3px; font-weight: bold"></div>
+								<span style="color: #5891c8; font-family: 'Museo Moderno', sans-serif; font-size: 18px; margin-top: 17px; font-weight: bold">/5</span>
+								<img src="https://res.cloudinary.com/dylwewmt0/image/upload/v1719417494/PHOTO_LIST/Admin/star/star.png" style="width: 48px;">
+							</div>
+							<p class="text-center" style="margin: 10px; font-family: 'Museo Moderno', sans-serif; font-size: 14px; color: grey; font-weight: bold" th:text="'(' + (${totalReviews} != null ? ${totalReviews} : 0) + ' Đánh giá)'"></p>
 						</div>
 						<div class="col-6" style="display-direction: column; align-items: center; justify-content: center">
 							<div class="row-review" style="display-direction: column; align-items: center; justify-content: center">
@@ -837,7 +853,12 @@
 						</div>
 						<div class="col-3">
 							<p class="text-center" style="font-weight: bold; margin: 10px; font-family: 'Museo Moderno', sans-serif; font-size: 14px; color: grey;">Lượt đánh giá cho quyển sách</p>
-							<p class="text-center" style="margin: 10px; font-family: 'Museo Moderno', sans-serif; font-size: 20px; color: #5891c8; font-weight: bold" th:text="'(' + (${totalReviews} != null ? ${totalReviews} : 0) + ' Đánh giá)'"></p>
+							<div class="row-number-reviews d-flex justify-content-center">
+								<div class="text-center d-flex" id="averageRating1" style="color: #5891c8; font-family: 'Museo Moderno', sans-serif; font-size: 30px; margin-top: 3px; font-weight: bold"></div>
+								<span style="color: #5891c8; font-family: 'Museo Moderno', sans-serif; font-size: 18px; margin-top: 17px; font-weight: bold">/5</span>
+								<img src="https://res.cloudinary.com/dylwewmt0/image/upload/v1719417494/PHOTO_LIST/Admin/star/star.png" style="width: 48px;">
+							</div>
+							<p class="text-center" style="margin: 10px; font-family: 'Museo Moderno', sans-serif; font-size: 14px; color: grey; font-weight: bold" th:text="'(' + (${totalReviews} != null ? ${totalReviews} : 0) + ' Đánh giá)'"></p>
 						</div>
 						<div class="col-6" style="display-direction: column; align-items: center; justify-content: center">
 							<div class="row-review" style="display-direction: column; align-items: center; justify-content: center">
@@ -936,7 +957,7 @@
 											<textarea class="form-control-reviews" id="review-comment" name="comment" maxlength="1000" required></textarea>
 										</div>
 										<div class="modal-footer"  style="border-top: 1px solid white;">
-											<button type="button" class="btn btn-secondary" data-dismiss="modal" style="border-radius: 10px">Đóng</button>
+											<button type="button" class="btn btn-secondary" data-dismiss="modal" style="border-radius: 15px; font-weight: bold">Đóng</button>
 											<!-- Thay đổi type của nút Lưu đánh giá thành submit để gửi form -->
 											<button type="submit" class="btn btn-primary" style="border-radius: 10px">Lưu đánh giá</button>
 										</div>
@@ -957,7 +978,12 @@
 						</div>
 						<div class="col-3">
 							<p class="text-center" style="font-weight: bold; margin: 10px; font-family: 'Museo Moderno', sans-serif; font-size: 14px; color: grey;">Lượt đánh giá cho quyển sách</p>
-							<p class="text-center" style="margin: 10px; font-family: 'Museo Moderno', sans-serif; font-size: 20px; color: #5891c8; font-weight: bold" th:text="'(' + (${totalReviews} != null ? ${totalReviews} : 0) + ' Đánh giá)'"></p>
+							<div class="row-number-reviews d-flex justify-content-center">
+								<div class="text-center d-flex" id="averageRating2" style="color: #5891c8; font-family: 'Museo Moderno', sans-serif; font-size: 30px; margin-top: 3px; font-weight: bold"></div>
+								<span style="color: #5891c8; font-family: 'Museo Moderno', sans-serif; font-size: 18px; margin-top: 17px; font-weight: bold">/5</span>
+								<img src="https://res.cloudinary.com/dylwewmt0/image/upload/v1719417494/PHOTO_LIST/Admin/star/star.png" style="width: 48px;">
+							</div>
+							<p class="text-center" style="margin: 10px; font-family: 'Museo Moderno', sans-serif; font-size: 14px; color: grey; font-weight: bold" th:text="'(' + (${totalReviews} != null ? ${totalReviews} : 0) + ' Đánh giá)'"></p>
 						</div>
 						<div class="col-6" style="display-direction: column; align-items: center; justify-content: center">
 							<div class="row-review" style="display-direction: column; align-items: center; justify-content: center">
@@ -1635,6 +1661,96 @@
                     }
                 }
             });
+        });
+	</script>
+
+<!--	<script>-->
+<!--		const star5Count = parseInt(document.getElementById("star5Percentage").textContent) || 0;-->
+<!--        const star4Count = parseInt(document.getElementById("star4Percentage").textContent) || 0;-->
+<!--        const star3Count = parseInt(document.getElementById("star3Percentage").textContent) || 0;-->
+<!--        const star2Count = parseInt(document.getElementById("star2Percentage").textContent) || 0;-->
+<!--        const star1Count = parseInt(document.getElementById("star1Percentage").textContent) || 0;-->
+
+<!--        const totalReviews = star5Count + star4Count + star3Count + star2Count + star1Count;-->
+<!--        const totalStars = (5 * star5Count) + (4 * star4Count) + (3 * star3Count) + (2 * star2Count) + (1 * star1Count);-->
+
+<!--        let averageRating = totalReviews > 0 ? (totalStars / totalReviews) : 0;-->
+<!--        averageRating = (averageRating % 1 === 0) ? averageRating.toFixed(0) : averageRating.toFixed(1);-->
+
+<!--        document.getElementById("averageRating").textContent = `${averageRating}`;-->
+<!--		document.getElementById("averageRating-01").textContent = `${averageRating}`;-->
+<!--    	document.getElementById("averageRating-02").textContent = `${averageRating}`;-->
+<!--	</script>-->
+
+	<script>
+		// Function to calculate average rating from star percentages
+        function calculateAverageRating() {
+            const star5Count = parseFloat(document.getElementById("star5Percentage").textContent) || 0;
+            const star4Count = parseFloat(document.getElementById("star4Percentage").textContent) || 0;
+            const star3Count = parseFloat(document.getElementById("star3Percentage").textContent) || 0;
+            const star2Count = parseFloat(document.getElementById("star2Percentage").textContent) || 0;
+            const star1Count = parseFloat(document.getElementById("star1Percentage").textContent) || 0;
+
+            const totalReviews = star5Count + star4Count + star3Count + star2Count + star1Count;
+            const totalStars = (5 * star5Count) + (4 * star4Count) + (3 * star3Count) + (2 * star2Count) + (1 * star1Count);
+
+            let averageRating = totalReviews > 0 ? (totalStars / totalReviews) : 0;
+            averageRating = (averageRating % 1 === 0) ? averageRating.toFixed(0) : averageRating.toFixed(1);
+
+            document.getElementById("averageRating").textContent = averageRating;
+        }
+
+        // Execute the calculation when the document is ready
+        document.addEventListener("DOMContentLoaded", function() {
+            calculateAverageRating();
+        });
+	</script>
+
+	<script>
+		// Function to calculate average rating from star percentages
+        function calculateAverageRating1() {
+            const star5Count = parseFloat(document.getElementById("star55Percentage").textContent) || 0;
+            const star4Count = parseFloat(document.getElementById("star44Percentage").textContent) || 0;
+            const star3Count = parseFloat(document.getElementById("star33Percentage").textContent) || 0;
+            const star2Count = parseFloat(document.getElementById("star22Percentage").textContent) || 0;
+            const star1Count = parseFloat(document.getElementById("star11Percentage").textContent) || 0;
+
+            const totalReviews = star5Count + star4Count + star3Count + star2Count + star1Count;
+            const totalStars = (5 * star5Count) + (4 * star4Count) + (3 * star3Count) + (2 * star2Count) + (1 * star1Count);
+
+            let averageRating = totalReviews > 0 ? (totalStars / totalReviews) : 0;
+            averageRating = (averageRating % 1 === 0) ? averageRating.toFixed(0) : averageRating.toFixed(1);
+
+            document.getElementById("averageRating1").textContent = averageRating;
+        }
+
+        // Execute the calculation when the document is ready
+        document.addEventListener("DOMContentLoaded", function() {
+            calculateAverageRating1();
+        });
+	</script>
+
+	<script>
+		// Function to calculate average rating from star percentages
+        function calculateAverageRating2() {
+            const star5Count = parseFloat(document.getElementById("star555Percentage").textContent) || 0;
+            const star4Count = parseFloat(document.getElementById("star444Percentage").textContent) || 0;
+            const star3Count = parseFloat(document.getElementById("star333Percentage").textContent) || 0;
+            const star2Count = parseFloat(document.getElementById("star222Percentage").textContent) || 0;
+            const star1Count = parseFloat(document.getElementById("star111Percentage").textContent) || 0;
+
+            const totalReviews = star5Count + star4Count + star3Count + star2Count + star1Count;
+            const totalStars = (5 * star5Count) + (4 * star4Count) + (3 * star3Count) + (2 * star2Count) + (1 * star1Count);
+
+            let averageRating = totalReviews > 0 ? (totalStars / totalReviews) : 0;
+            averageRating = (averageRating % 1 === 0) ? averageRating.toFixed(0) : averageRating.toFixed(1);
+
+            document.getElementById("averageRating2").textContent = averageRating;
+        }
+
+        // Execute the calculation when the document is ready
+        document.addEventListener("DOMContentLoaded", function() {
+            calculateAverageRating2();
         });
 	</script>
 

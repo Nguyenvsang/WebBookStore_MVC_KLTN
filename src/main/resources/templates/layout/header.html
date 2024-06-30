@@ -293,7 +293,7 @@
 												>
 												<img th:src="${#strings.isEmpty(session.account.img) ? 'https://res.cloudinary.com/dosdzo1lg/image/upload/v1709875316/WebBookStoreKLTN/img_account/account_default.jpg' : session.account.img + '?v=' + randomNumber}" style="width: 30px; height: 30px; border-radius: 50%;">
 											</div>
-											<span th:text="${#strings.isEmpty(session.account) ? 'Guest' : session.account['firstName'] + ' ' + session.account['lastName']}" style="color:rgb(0, 0, 160); font-family: Arial, sans-serif; font-size: 16px"></span>
+											<span th:text="${#strings.isEmpty(session.account) ? 'Guest' : session.account['firstName'] + ' ' + session.account['lastName']}" style="color: #365e94; font-family: Arial, sans-serif; font-size: 16px; font-weight: bold"></span>
 											<span class="material-symbols-outlined expand_more" id="expand_more_03">expand_more</span>
 										</a>
 										<div class="dropdown-menu" aria-labelledby="navbarDropdown" style="weight: 0px; height: 200px; border-radius: 10px;">
@@ -335,7 +335,7 @@
 										<a class="nav-link-header d-flex align-items-center" href="#" id="navbarDropdown01" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
 										   style="color: rgb(0, 0, 160); text-decoration: none;">
 											<span class="material-symbols-outlined" style="color: #365e94">person_2</span>
-											<span style="font-size: 16px; color: #365e94 ">Tài khoản</span>
+											<span style="font-size: 16px; color: #365e94; font-weight: bold">Tài khoản</span>
 											<span class="material-symbols-outlined expand_more" id="expand_more_02" style="color: #365e94 ">expand_more</span>
 
 										</a>
