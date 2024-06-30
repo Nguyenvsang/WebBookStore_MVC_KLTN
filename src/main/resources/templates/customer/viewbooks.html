@@ -400,6 +400,14 @@
              background-color: white;
         }
 
+		.col-status {
+            padding: 7px;
+            background-color: #538abe;
+            color: white;
+            font-weight: bold;
+            border-radius: 10px;
+            margin-right: 10px
+        }
 	</style>
 </head>
 <!--Phần Chat Box -->
@@ -544,6 +552,7 @@
 								</ul>
 							</li>
 						</div>
+
 					</div>
 
 					<div class="col-book" style="width: 80%;" >
@@ -572,80 +581,141 @@
 						            <span class="sr-only">Next</span>
 						        </a>
 			    			</div>
-							<div class="frame-main">
 
+							<div class="row-03 d-flex align-items-center" style="padding: 0px 20px; justify-content: left; margin: 20px 0px 20px 0px">
+								<div th:if="${categoryId != null && categoryId != ''}" class="col-status">
+									<span th:switch="${categoryId}">
+										<span th:case="1">Chính Trị - Pháp Luật</span>
+										<span th:case="2">Giáo Trình</span>
+										<span th:case="3">Khoa Học Công Nghệ - Kinh Tế</span>
+										<span th:case="4">Truyện, Tiểu Thuyết</span>
+										<span th:case="5">Tâm Lý, Tâm Linh, Tôn Giáo</span>
+										<span th:case="6">Thiếu Nhi</span>
+										<span th:case="7">Văn Học Nghệ Thuật</span>
+										<span th:case="8">Văn Hóa Xã Hội - Lịch Sử</span>
+										<span th:case="*"></span>
+									</span>
+								</div>
+
+								<div th:if="${publisher != null && publisher != ''}" class="col-status">
+									<span th:switch="${publisher}">
+										<span th:case="'NXB Kim Đồng'">NXB Kim Đồng</span>
+										<span th:case="'NXB Lao Động'">NXB Lao Động</span>
+										<span th:case="'NXB Thế Giới'">NXB Thế Giới</span>
+										<span th:case="'NXB Trẻ'">NXB Trẻ</span>
+										<span th:case="'NXB Thanh Niên'">NXB Thanh Niên</span>
+										<span th:case="'NXB Hồng Đức'">NXB Hồng Đức</span>
+										<span th:case="'NXB Chính Trị Quốc Gia'">NXB Chính Trị Quốc Gia</span>
+										<span th:case="'NXB Văn Học'">NXB Văn Học</span>
+										<span th:case="'NXB Hội Nhà Văn'">NXB Hội Nhà Văn</span>
+										<span th:case="'NXB Dân Trí'">NXB Dân Trí</span>
+										<span th:case="*"></span>
+									</span>
+								</div>
+
+								<div th:if="${priceRange != null && priceRange != ''}" class="col-status">
+									<span th:switch="${priceRange}">
+										<span th:case="'0-50000'">0 - 50.000 VND</span>
+										<span th:case="'50000-100000'">50.000 - 100.000 VND</span>
+										<span th:case="'100000-200000'">100.000 - 200.000 VND</span>
+										<span th:case="'200000-300000'">200.000 - 300.000 VND</span>
+										<span th:case="'300000-500000'">300.000 - 500.000 VND</span>
+										<span th:case="'500000-'">500.000 VND trở lên</span>
+										<span th:case="*"></span>
+									</span>
+								</div>
+
+
+								<div th:if="${sortOption != null && sortOption != ''}" class="col-status">
+									<span th:switch="${sortOption}">
+										<span th:case="'sp12'">Giá tăng dần</span>
+										<span th:case="'sp21'">Giá giảm dần</span>
+										<span th:case="'n12'">Tên tăng dần</span>
+										<span th:case="'n21'">Tên giảm dần</span>
+										<span th:case="*"></span>
+									</span>
+								</div>
+
+							</div>
+
+							<div class="frame-main">
 								<div class="nav-dropdown mb-3 mt-3">
 									<div class="row row-cols-1 row-cols-md-4 g-4" style="width: 888px; margin-left: 10px">
-										<th:block th:each="book : ${books.content}">
-											<div class="col" style="width: 250px; padding: 0px 10px">
-												<div class="item-inner">
-													<div class="ma-box-content">
-														<div class="products clear" style="display: flex; justify-content: center; align-items: center;">
-															<div class="product images-container">
-																<a th:href="@{/detailbook/{id} (id=${book.id})}">
-																	<!-- Chỉ hiển thị hình ảnh đầu tiên -->
-																	<img th:src="${book.bookImages[0].path + '?v=' + randomNumber}" alt="Book Image" class="card-img">
-																</a>
+										<th:block th:if="${books.content.size() > 0}">
+											<th:block th:each="book : ${books.content}">
+												<div class="col" style="width: 250px; padding: 0px 10px">
+													<div class="item-inner">
+														<div class="ma-box-content">
+															<div class="products clear" style="display: flex; justify-content: center; align-items: center;">
+																<div class="product images-container">
+																	<a th:href="@{/detailbook/{id} (id=${book.id})}">
+																		<img th:src="${book.bookImages[0].path + '?v=' + randomNumber}" alt="Book Image" class="card-img">
+																	</a>
+																</div>
 															</div>
-														</div>
-														<div>
-															<h6 class="product-name-no-ellipsis">
-																<a th:href="@{/detailbook/{id} (id=${book.id})}" th:text="${book.name}" style="display: inline-block; width: 170px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></a>
-															</h6>
-
-															<div class="row-price-discount-cart d-flex" style="justify-content: space-between">
-																<div class="col-8" style="padding: 0px">
-																	<div class="row-price-favorite d-flex align-items-center" style="justify-content: space-between">
-																		<div class="col-price d-flex align-items-center" style="margin: 0px">
-																			<div th:if="${book.currentDiscount != null}" class="col-price d-flex align-items-center" style="margin: 0px">
-																				<p class="card-text"
-																				   style="margin: 0px 10px 0px 0px; font-size: 15px; font-weight: bold; text-align: left; color: orangered; ">
-																					<span th:text="${#numbers.formatInteger(book.currentDiscount.discountedPrice, 0, 'POINT')}" ></span> đ
-																				</p>
-																			</div>
-																			<div th:if="${book.currentDiscount != null}" class="col-price d-flex align-items-center" style="margin: 0px">
-																				<p class="card-text d-flex align-items-center"
-																				   style="border-radius: 10px; padding: 3px; background-color: #5390f5; font-size: 12px; font-weight: bold; text-align: left; color: white; ">
-																					<span th:text="'-' + ${book.currentDiscount.discountPercent} + '%'" ></span>
-																				</p>
-																			</div>
-																			<!--Giá không giảm -->
-																			<div th:if="${book.currentDiscount == null}" class="col-price d-flex align-items-center">
-																				<p class="card-text"
-																				   style="font-size: 15px; font-weight: bold;text-align: left; color: orangered; ">
-																					<span th:text="${#numbers.formatInteger(book.sellPrice, 0, 'POINT')}" ></span> đ
-																				</p>
+															<div>
+																<h6 class="product-name-no-ellipsis">
+																	<a th:href="@{/detailbook/{id} (id=${book.id})}" th:text="${book.name}" style="display: inline-block; width: 170px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></a>
+																</h6>
+																<div class="row-price-discount-cart d-flex" style="justify-content: space-between">
+																	<div class="col-8" style="padding: 0px">
+																		<div class="row-price-favorite d-flex align-items-center" style="justify-content: space-between">
+																			<div class="col-price d-flex align-items-center" style="margin: 0px">
+																				<div th:if="${book.currentDiscount != null}" class="col-price d-flex align-items-center" style="margin: 0px">
+																					<p class="card-text" style="margin: 0px 10px 0px 0px; font-size: 15px; font-weight: bold; text-align: left; color: orangered;">
+																						<span th:text="${#numbers.formatInteger(book.currentDiscount.discountedPrice, 0, 'POINT')}"></span> đ
+																					</p>
+																				</div>
+																				<div th:if="${book.currentDiscount != null}" class="col-price d-flex align-items-center" style="margin: 0px">
+																					<p class="card-text d-flex align-items-center" style="border-radius: 10px; padding: 3px; background-color: #5390f5; font-size: 12px; font-weight: bold; text-align: left; color: white;">
+																						<span th:text="'-' + ${book.currentDiscount.discountPercent} + '%'"></span>
+																					</p>
+																				</div>
+																				<div th:if="${book.currentDiscount == null}" class="col-price d-flex align-items-center">
+																					<p class="card-text" style="font-size: 15px; font-weight: bold; text-align: left; color: orangered;">
+																						<span th:text="${#numbers.formatInteger(book.sellPrice, 0, 'POINT')}"></span> đ
+																					</p>
+																				</div>
 																			</div>
 																		</div>
+																		<div th:if="${book.currentDiscount != null}" class="row-price-main">
+																			<p class="card-text" style="margin: 0px; font-size: 12px; font-weight: bold; text-align: left; color: grey; text-decoration: line-through;">
+																				<span th:text="${#numbers.formatInteger(book.sellPrice, 0, 'POINT')}"></span> đ
+																			</p>
+																		</div>
 																	</div>
-																	<div th:if="${book.currentDiscount != null}" class="row-price-main">
-																		<p class="card-text"
-																		   style="margin: 0px; font-size: 12px; font-weight: bold;text-align: left; color: grey; text-decoration: line-through; ">
-																			<span th:text="${#numbers.formatInteger(book.sellPrice, 0, 'POINT')}" ></span> đ
-																		</p>
+																	<div class="col-3" style="padding: 0px; display: flex; justify-content: flex-end;">
+																		<form class="add-to-cart-form" th:action="@{/addtocartfromallbooks}" method="post" style="display: flex; justify-content: flex-end; align-items: flex-start;">
+																			<input type="hidden" name="bookId" th:value="${book.id}">
+																			<input type="hidden" name="quantity" value="1">
+																			<button type="submit" class="btn btn-add-cart btn-block" style="padding: 0px">
+																				<i class="material-symbols-outlined shopping-bag">shopping_bag</i>
+																			</button>
+																		</form>
 																	</div>
-																</div>
-
-																<div class="col-3" style="padding: 0px; display: flex; justify-content: flex-end;">
-																	<!-- Thêm form thêm vào giỏ hàng tại đây -->
-																	<form class="add-to-cart-form" th:action="@{/addtocartfromallbooks}" method="post" style="display: flex; justify-content: flex-end; align-items: flex-start;">
-																		<input type="hidden" name="bookId" th:value="${book.id}">
-																		<input type="hidden" name="quantity" value="1">
-																		<button type="submit" class="btn btn-add-cart btn-block" style="padding: 0px">
-																			<i class="material-symbols-outlined shopping-bag">shopping_bag</i>
-																		</button>
-																	</form>
 																</div>
 															</div>
 														</div>
 													</div>
 												</div>
-											</div>
+											</th:block>
 										</th:block>
 									</div>
 								</div>
+							</div>
+							<div class="frame-main" style="margin: 0px; padding: 0px 20px">
+								<th:block th:if="${books.content.size() == 0}">
+									<div class="row-img d-flex align-items-center justify-content-center" style="padding-top: 15px; border-top: 1px solid #cecece">
+										<img src="https://res.cloudinary.com/dylwewmt0/image/upload/v1719725936/PHOTO_LIST/view_books/Not_found.jpg" alt="Knowledge Young" style="width: 200px; margin-bottom: 10px">
+									</div>
+									<div class="col d-flex align-items-center justify-content-center" style="width: 100%; text-align: center; padding: 20px; color: grey; font-weight: bold; font-family: Helvetica;">
+										Không tìm thấy sách nào!
+									</div>
+								</th:block>
+							</div>
 
-								<!--Phần phân trang-->
+
+							<!--Phần phân trang-->
 								<div class="frame-number d-flex align-items-center" style="padding: 30px">
 									<div th:if="${books.totalPages > 1}">
 										<ul class="pagination" style="margin: 0px">

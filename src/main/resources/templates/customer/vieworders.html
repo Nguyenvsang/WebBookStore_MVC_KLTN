@@ -206,7 +206,18 @@
 			padding: 2px 5px;
 			border-radius: 3px;
 		}
-
+		.col-status {
+            padding: 7px;
+            background-color: #538abe;
+            color: white;
+            font-weight: bold;
+            border-radius: 10px;
+            margin-right: 10px
+        }
+		a:hover {
+            font-weight: bold;
+            text-decoration: none;
+        }
 	</style>
 </head>
 <body>
@@ -264,7 +275,7 @@
 					</div>
 				</div>
 
-				<div class="row-03 d-flex align-items-center" style="padding: 0px 20px; justify-content: space-between; margin: 30px 0px 30px 0px">
+				<div class="row-03 d-flex align-items-center" style="padding: 0px 20px; justify-content: left; margin: 30px 0px 30px 0px">
 					<div class="col-dropdown d-flex align-items-center" style="height: 70px;">
 						<div class="dropdown-filter">
 							<button class="btn btn-filter-status d-flex align-items-center justify-content-center" type="button" id="statusDropdown1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -288,6 +299,21 @@
 							</div>
 						</div>
 					</div>
+					<div class="col-status" th:if="${status != null}" >
+						<span th:text="${status == 0 ? 'Chờ xác nhận' :
+									   status == 1 ? 'Chờ lấy hàng' :
+									   status == 2 ? 'Đang giao' :
+									   status == 3 ? 'Đã giao' :
+									   status == 4 ? 'Đã hủy đơn' :
+									   status == 5 ? 'Yêu cầu trả hàng' :
+									   status == 6 ? 'Xử lý trả hàng' :
+									   status == 7 ? 'Trả hàng thành công' :
+									   status == 8 ? 'Yêu cầu trả hàng bị từ chối' :
+									   status == 9 ? 'Không nhận hàng' :
+									   status == 10 ? 'Đã nhận hàng' : 'Không xác định'}">
+						</span>
+					</div>
+
 				</div>
 				<div class="row-no d-flex align-items-center justify-content-center" style="margin: 0px 20px; padding-top: 30px; border-top: 1px solid #cecece">
 					<p style="margin: 0px; color: grey; font-weight: bold; padding-bottom: 10px">Không tìm thấy đơn hàng theo từ khóa</p>
