@@ -93,8 +93,7 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public Page<Order> getFilteredOrders(Integer accountId, String searchKeyword, LocalDate dateOrder, Integer status, Pageable pageable) {
-		// Chuyển để tìm kiếm theo mã sách
+	public Page<Order> getFilteredOrders(Integer accountId, String searchKeyword, LocalDate dateOrder, Integer status, Integer paymentStatus, Integer isCompleted, Pageable pageable) {
 		Integer searchKeywordAsInteger = null;
 		try {
 			searchKeywordAsInteger = Integer.parseInt(searchKeyword);
@@ -102,10 +101,11 @@ public class OrderServiceImpl implements OrderService {
 			// searchKeyword không phải là một số nguyên, không làm gì cả
 		}
 		if (searchKeywordAsInteger != null) {
-			return orderRepository.findWithFilters(accountId, null, searchKeywordAsInteger, dateOrder, status, pageable);
+			return orderRepository.findWithFilters(accountId, null, searchKeywordAsInteger, dateOrder, status, paymentStatus, isCompleted, pageable);
 		} else {
-			return orderRepository.findWithFilters(accountId, searchKeyword, null, dateOrder, status, pageable);
+			return orderRepository.findWithFilters(accountId, searchKeyword, null, dateOrder, status, paymentStatus, isCompleted, pageable);
 		}
 	}
+
 
 }

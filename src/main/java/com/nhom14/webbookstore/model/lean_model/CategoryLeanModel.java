@@ -17,4 +17,6 @@ public class CategoryLeanModel implements Serializable {
     private int id;
 
     private String name;
+
+    private int status;
 }

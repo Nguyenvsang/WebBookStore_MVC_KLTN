@@ -36,5 +36,5 @@ public interface OrderService {
 	void updateOrder(Order order);
 
 	// Lấy danh sách đơn hàng với các tham số tìm kiếm và lọc, phân trang
-    Page<Order> getFilteredOrders(Integer accounId, String searchKeyword, LocalDate dateOrder, Integer status, Pageable pageable);
+	Page<Order> getFilteredOrders(Integer accountId, String searchKeyword, LocalDate dateOrder, Integer status, Integer paymentStatus, Integer isCompleted, Pageable pageable);
 }

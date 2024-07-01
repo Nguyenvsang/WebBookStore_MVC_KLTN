@@ -436,7 +436,10 @@
 									<td rowspan="1" class="next-table-header-node" style="color: orangered; padding: 10px 20px 10px 0px; text-align: right;" th:text="${#numbers.formatInteger(book.sellPrice, 0, 'POINT')} + ' đ'"></td>
 
 <!--									Chỗ này ghi trạng thái danh mục-->
-									<td rowspan="1" class="next-table-header-node" style="padding: 10px 0px; text-align: center;"></td>
+									<td rowspan="1" class="next-table-header-node" style="padding: 10px 0px; text-align: center;">
+										<span th:if="${book.category.status == 0}" class="badge badge-danger">Ngừng kinh doanh</span>
+										<span th:if="${book.category.status == 1}" class="badge badge-success">Đang kinh doanh</span>
+									</td>
 <!--									<td rowspan="1" class="next-table-header-node" style="padding: 10px 0px; text-align: center;" th:text="${book.quantity}"></td>-->
 <!--									<td rowspan="1" class="next-table-header-node" style="padding: 10px 0px; text-align: center;" th:text="${book.category.name}"></td>-->
 

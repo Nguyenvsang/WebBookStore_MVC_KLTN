@@ -503,6 +503,8 @@ public class OrderController {
             @RequestParam(value = "dateOrderStr", required = false) String dateOrderStr,
             @RequestParam(value = "status", required = false) Integer status,
             @RequestParam(value = "sortOption", required = false, defaultValue = "dateOrder_desc") String sortOption,
+            @RequestParam(value = "paymentStatus", required = false) Integer paymentStatus,
+            @RequestParam(value = "isCompleted", required = false) Integer isCompleted,
             // sortOption: dateOrder_asc (tăng dần), dateOrder_desc
             @RequestParam(value = "page", required = false, defaultValue = "1") Integer currentPage,
             @RequestParam(value = "size", required = false, defaultValue = "10") Integer pageSize,
@@ -533,7 +535,7 @@ public class OrderController {
         LocalDate dateOrder = parseDate(dateOrderStr, redirectAttributes);
 
         // Gọi phương thức getFilteredOrders với các tham số tìm kiếm và lọc
-        Page<Order> orders = orderService.getFilteredOrders(account.getId(), searchKeyword, dateOrder, status, pageable);
+        Page<Order> orders = orderService.getFilteredOrders(account.getId(), searchKeyword, dateOrder, status, paymentStatus, isCompleted, pageable);
 
 	    // Đặt danh sách đơn hàng vào thuộc tính model để sử dụng trong View
 	    model.addAttribute("orders", orders);
@@ -544,6 +546,8 @@ public class OrderController {
         params.put("searchKeyword", searchKeyword);
         params.put("dateOrderStr", dateOrderStr);
         params.put("status", status);
+        params.put("paymentStatus", paymentStatus);
+        params.put("isCompleted", isCompleted);
         params.put("sortOption", sortOption);
 
         for (Map.Entry<String, Object> entry : params.entrySet()) {

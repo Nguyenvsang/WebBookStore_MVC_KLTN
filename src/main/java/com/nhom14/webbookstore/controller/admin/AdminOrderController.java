@@ -1,13 +1,22 @@
 package com.nhom14.webbookstore.controller.admin;
 
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoUnit;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.nhom14.webbookstore.entity.*;
 import com.nhom14.webbookstore.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -45,81 +54,70 @@ public class AdminOrderController {
 	}
 
 	@GetMapping("/manageorders")
-	public String manageOrders(@RequestParam(value = "status", required = false) Integer status,
-								@RequestParam(value = "search", required = false) String searchKeyword,
-								@RequestParam(value = "page", required = false, defaultValue = "1") Integer currentPage,
-								Model model,
-								HttpSession session,
-								RedirectAttributes redirectAttributes) {
+	public String manageOrders(
+			@RequestParam(value = "searchKeyword", required = false) String searchKeyword,
+			@RequestParam(value = "dateOrderStr", required = false) String dateOrderStr,
+			@RequestParam(value = "status", required = false) Integer status,
+			@RequestParam(value = "sortOption", required = false, defaultValue = "dateOrder_desc") String sortOption,
+			@RequestParam(value = "page", required = false, defaultValue = "1") Integer currentPage,
+			@RequestParam(value = "size", required = false, defaultValue = "10") Integer pageSize,
+			@RequestParam(value = "paymentStatus", required = false) Integer paymentStatus,
+			@RequestParam(value = "isCompleted", required = false) Integer isCompleted,
+			Model model,
+			HttpSession session,
+			RedirectAttributes redirectAttributes) {
 
 		Account admin = (Account) session.getAttribute("admin");
 
-		// Kiểm tra xem admin đã đăng nhập hay chưa
 		if (admin == null) {
-			// Nếu chưa đăng nhập, chuyển hướng về trang đăng nhập
 			return "redirect:/loginadmin";
 		}
 
-		List<Order> orders;
-		int totalOrders;
-
-		// Số danh mục hiển thị trên mỗi trang
-		int recordsPerPage = 10;
-		int start;
-		int end;
-		int totalPages;
-
-		if (status == null || (status == -1)) {
-			orders = orderService.getAllOrders();
-		} else {
-			orders = orderService.getOrdersByStatus(status);
+		Sort sort = Sort.unsorted();
+		if (sortOption != null) {
+			if ("dateOrder_asc".equals(sortOption)) {
+				sort = sort.and(Sort.by("dateOrder").ascending());
+			} else if ("dateOrder_desc".equals(sortOption)) {
+				sort = sort.and(Sort.by("dateOrder").descending());
+			}
 		}
 
-		if (searchKeyword != null && !searchKeyword.isEmpty()) {
-			orders = orderService.searchOrdersByKeyword(orders, searchKeyword);
-		}
+		Pageable pageable = PageRequest.of(currentPage - 1, pageSize, sort);
 
-		// Lấy tổng số lượng đơn hàng
-		totalOrders = orders.size();
+		LocalDate dateOrder = parseDate(dateOrderStr, redirectAttributes);
 
-		// Tính toán vị trí bắt đầu và kết thúc của đơn hàng trên trang hiện tại
-		start = (currentPage - 1) * recordsPerPage;
-		end = Math.min(start + recordsPerPage, totalOrders);
-
-		// Lấy danh sách đơn hàng trên trang hiện tại
-		List<Order> ordersOnPage = orders.subList(start, end);
+		Page<Order> orders = orderService.getFilteredOrders(null, searchKeyword, dateOrder, status, paymentStatus, isCompleted, pageable);
 
 		// Tự động cập nhật mức độ hoàn thành đơn hàng
-		for (Order order : ordersOnPage) {
+		for (Order order : orders) {
 			if (order.getStatus() == 4 &&
 					(order.getPaymentStatus().getStatus() == 3 || order.getPaymentStatus().getStatus() == 4)
 					&& order.getIsCompleted() != 2) {
 				// Nếu đơn hàng đã được hủy và đã được hoàn tiền, hoặc không cần thanh toán
-				order.setIsCompleted(2); //Đơn hàng đã hủy thành công
+				order.setIsCompleted(2); // Đơn hàng đã hủy thành công
 			}
 
 			if (order.getStatus() == 7 &&
 					(order.getPaymentStatus().getStatus() == 3)
 					&& order.getIsCompleted() != 3) {
 				// Nếu đơn hàng đã trả hàng thành công (kèm theo đã được hoàn tiền)
-				order.setIsCompleted(3); //Đơn hàng đã trả thành công
+				order.setIsCompleted(3); // Đơn hàng đã trả thành công
 			}
 
 			// Tính số ngày giữa ngày giao hàng và ngày hiện tại
 			long daysBetween = -1; // Tức là chưa giao hàng
-			if (order.getDeliveryDate() != null){
+			if (order.getDeliveryDate() != null) {
 				LocalDateTime dateOrderLocalDateTime = order.getDeliveryDate().toLocalDateTime();
 				LocalDateTime today = LocalDateTime.now();
 				daysBetween = ChronoUnit.DAYS.between(dateOrderLocalDateTime.toLocalDate(), today.toLocalDate());
 
 				// Nếu đã giao hàng và quá 15 ngày
 				if (daysBetween != -1 && daysBetween > 15) {
-
 					if ((order.getStatus() == 3 || order.getStatus() == 10) &&
 							(order.getPaymentStatus().getStatus() == 1)
 							&& order.getIsCompleted() != 1) {
 						// Nếu đơn hàng là đã giao hoặc đã được nhận bởi khách hàng và đã được thanh toán
-						order.setIsCompleted(1); //Đơn hàng đã hoàn thành
+						order.setIsCompleted(1); // Đơn hàng đã hoàn thành
 						// Kiểm tra xem Order đã tồn tại Revenue chưa
 						Revenue existingRevenue = revenueService.getRevenueByOrder(order);
 						if (existingRevenue == null) {
@@ -147,7 +145,7 @@ public class AdminOrderController {
 								// Lấy đợt nhập sách đang bán của Book
 								BookImport bookImport = bookImportService.getBookImportByBookAndStatus(book, 1);
 
-								if (bookImport == null){
+								if (bookImport == null) {
 									redirectAttributes.addAttribute("message", "Lỗi khi đang tự động cập nhật mức độ hoàn thành cho đơn hàng: Không tìm thấy đợt nhập sách!");
 									// Chuyển hướng về trang manageorderitems
 									return "redirect:/manageorderitems?orderId=" + order.getId();
@@ -160,7 +158,7 @@ public class AdminOrderController {
 									bookImportService.updateBookImport(bookImport);
 								} else {
 									// Xử lý trường hợp không đủ sách...
-									redirectAttributes.addAttribute("message", "Lỗi khi đang tự động cập nhật mức độ hoàn thành cho đơn hàng, vui lòng thử lại sau!" + bookImport.getRemainingQuantity() +"----------" + orderItem.getQuantity());
+									redirectAttributes.addAttribute("message", "Lỗi khi đang tự động cập nhật mức độ hoàn thành cho đơn hàng, vui lòng thử lại sau!" + bookImport.getRemainingQuantity() + "----------" + orderItem.getQuantity());
 									// Chuyển hướng về trang manageorderitems
 									return "redirect:/manageorderitems?orderId=" + order.getId();
 								}
@@ -187,20 +185,43 @@ public class AdminOrderController {
 			orderService.updateOrder(order);
 		}
 
-		// Tính toán số trang
-		totalPages = (int) Math.ceil((double) totalOrders / recordsPerPage);
+		// Đặt danh sách đơn hàng vào thuộc tính model để sử dụng trong View
+		model.addAttribute("orders", orders);
+		model.addAttribute("totalAllOrders", orderService.getAllOrders().size());
 
-		// Tổng số tất cả các đơn hàng
-		int totalAllOrders = orderService.getAllOrders().size();
+		// Thêm các bộ lọc nếu có để dùng cho trang tiếp theo
+		Map<String, Object> params = new HashMap<>();
+		params.put("searchKeyword", searchKeyword);
+		params.put("dateOrderStr", dateOrderStr);
+		params.put("status", status);
+		params.put("paymentStatus", paymentStatus);
+		params.put("isCompleted", isCompleted);
+		params.put("sortOption", sortOption);
 
-		model.addAttribute("orders", ordersOnPage);
-		model.addAttribute("totalOrders", totalOrders);
-		model.addAttribute("totalPages", totalPages);
-		model.addAttribute("currentPage", currentPage);
-		model.addAttribute("totalAllOrders", totalAllOrders);
+		for (Map.Entry<String, Object> entry : params.entrySet()) {
+			if (entry.getValue() != null) {
+				model.addAttribute(entry.getKey(), entry.getValue());
+			}
+		}
 
 		return "admin/manageorders";
 	}
+
+	private LocalDate parseDate(String dateStr, RedirectAttributes redirectAttributes) {
+		if (dateStr != null && !dateStr.isEmpty()) {
+			try {
+				return LocalDate.parse(dateStr, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+			} catch (DateTimeParseException e) {
+				// Xử lý trường hợp khi dateStr không phải là một ngày hợp lệ
+				// Ví dụ: hiển thị thông báo lỗi
+				redirectAttributes.addAttribute("message", "Ngày không hợp lệ!");
+
+				return null;
+			}
+		}
+		return null;
+	}
+
 
 	@PostMapping("/updateorderstatus")
 	public String updateOrderStatus(@RequestParam("orderId") int orderId,

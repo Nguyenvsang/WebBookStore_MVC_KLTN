@@ -23,18 +23,23 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
 	
 	List<Order> findByStatus(int status);
 
-	@Query("SELECT o FROM Order o WHERE " +
+	@Query("SELECT o FROM Order o LEFT JOIN o.paymentStatus ps WHERE " +
 			"(:accountId is null or o.account.id = :accountId) and " +
 			"(:searchKeywordAsInteger is null or o.id = :searchKeywordAsInteger) and " +
 			"(:searchKeyword is null or lower(o.name) like lower(concat('%', :searchKeyword, '%'))) and " +
 			"(:dateOrder is null or DATE(o.dateOrder) = :dateOrder) and " +
-			"(:status is null or o.status = :status)")
+			"(:status is null or o.status = :status) and " +
+			"(:paymentStatus is null or ps.status = :paymentStatus) and " +
+			"(:isCompleted is null or o.isCompleted = :isCompleted)")
 	Page<Order> findWithFilters(@Param("accountId") Integer accountId,
 								@Param("searchKeyword") String searchKeyword,
 								@Param("searchKeywordAsInteger") Integer searchKeywordAsInteger,
 								@Param("dateOrder") LocalDate dateOrder,
 								@Param("status") Integer status,
+								@Param("paymentStatus") Integer paymentStatus,
+								@Param("isCompleted") Integer isCompleted,
 								Pageable pageable);
+
 
 	List<Order> findAllByOrderByDateOrderDesc();
 
