@@ -238,9 +238,9 @@
 							<span class="material-symbols-outlined" style="margin-left: 3px">expand_less</span>
 						</button>
 						<div class="dropdown-menu" aria-labelledby="statusDropdown">
-							<a class="dropdown-item" th:href="@{/manageaccounts}">Tất cả</a>
-							<a class="dropdown-item" th:href="@{/manageaccounts(status=0)}">Ngừng hoạt động</a>
-							<a class="dropdown-item" th:href="@{/manageaccounts(status=1)}">Đang hoạt động</a>
+							<a class="dropdown-item" th:href="@{/manageaccounts(type=${type})}">Tất cả</a>
+							<a class="dropdown-item" th:href="@{/manageaccounts(status=0, type=${type})}">Ngừng hoạt động</a>
+							<a class="dropdown-item" th:href="@{/manageaccounts(status=1, type=${type})}">Đang hoạt động</a>
 						</div>
 					</div>
 
@@ -251,9 +251,9 @@
 							<span class="material-symbols-outlined" style="margin-left: 3px">expand_less</span>
 						</button>
 						<div class="dropdown-menu" aria-labelledby="typeDropdown">
-							<a class="dropdown-item" th:href="@{/manageaccounts}">Tất cả</a>
-							<a class="dropdown-item" th:href="@{/manageaccounts(type=0)}">Admin</a>
-							<a class="dropdown-item" th:href="@{/manageaccounts(type=1)}">Khách hàng</a>
+							<a class="dropdown-item" th:href="@{/manageaccounts(status=${status})}">Tất cả</a>
+							<a class="dropdown-item" th:href="@{/manageaccounts(type=0, status=${status})}">Admin</a>
+							<a class="dropdown-item" th:href="@{/manageaccounts(type=1, status=${status})}">Khách hàng</a>
 						</div>
 					</div>
 				</div>

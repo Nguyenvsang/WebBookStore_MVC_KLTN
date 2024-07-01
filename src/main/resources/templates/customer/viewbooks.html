@@ -613,16 +613,13 @@
 									</span>
 								</div>
 
-								<div th:if="${priceRange != null && priceRange != ''}" class="col-status">
-									<span th:switch="${priceRange}">
-										<span th:case="'0-50000'">0 - 50.000 VND</span>
-										<span th:case="'50000-100000'">50.000 - 100.000 VND</span>
-										<span th:case="'100000-200000'">100.000 - 200.000 VND</span>
-										<span th:case="'200000-300000'">200.000 - 300.000 VND</span>
-										<span th:case="'300000-500000'">300.000 - 500.000 VND</span>
-										<span th:case="'500000-'">500.000 VND trở lên</span>
-										<span th:case="*"></span>
-									</span>
+								<div th:if="${priceMin != null && priceMin != '' && priceMax != null && priceMax != ''}" class="col-status">
+									<span th:if="${priceMin == 0 and priceMax == 50000}">0 - 50.000 VND</span>
+									<span th:if="${priceMin == 50000 and priceMax == 100000}">50.000 - 100.000 VND</span>
+									<span th:if="${priceMin == 100000 and priceMax == 200000}">100.000 - 200.000 VND</span>
+									<span th:if="${priceMin == 200000 and priceMax == 300000}">200.000 - 300.000 VND</span>
+									<span th:if="${priceMin == 300000 and priceMax == 500000}">300.000 - 500.000 VND</span>
+									<span th:if="${priceMin == 500000 and priceMax == 1000000000}">500.000 VND trở lên</span>
 								</div>
 
 
