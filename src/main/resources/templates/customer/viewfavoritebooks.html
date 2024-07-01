@@ -505,8 +505,20 @@
                     <div class="category-products" style="width: 100%">
                         <div class="frame-main" style="margin: 0px">
                             <div class="nav-dropdown mb-3 mt-3">
+                                <th:block th:if="${#lists.isEmpty(favoriteBooks.content)}">
+                                    <div class="col-12" style="text-align: center;">
+                                        <div class="row-img d-flex align-items-center justify-content-center" style="padding-top: 15px; border-top: 1px solid #cecece">
+                                            <img src="https://res.cloudinary.com/dylwewmt0/image/upload/v1719725936/PHOTO_LIST/view_books/Not_found.jpg" alt="Knowledge Young" style="width: 350px;">
+                                        </div>
+                                        <div class="col d-flex align-items-center justify-content-center" style="width: 100%; text-align: center; padding: 10px; color: grey; font-weight: bold; font-family: Helvetica;">
+                                            Danh sách yêu thích trống!
+                                        </div>
+                                    </div>
+                                </th:block>
+                            </div>
+                            <div class="nav-dropdown mb-3 mt-3">
                                 <div class="row row-cols-1 row-cols-md-4 g-4" style="width: 888px; margin-left: 10px">
-                                    <th:block th:each="book : ${favoriteBooks.content}">
+                                    <th:block th:if="${!#lists.isEmpty(favoriteBooks.content)}" th:each="book : ${favoriteBooks.content}">
                                         <div class="col" style="width: 250px; padding: 0px 10px">
                                             <div class="item-inner">
                                                 <div class="ma-box-content">
@@ -522,9 +534,10 @@
                                                         <h6 class="product-name-no-ellipsis">
                                                             <a th:href="@{/detailbook/{id} (id=${book.id})}" th:text="${book.name}" style="display: inline-block; width: 170px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></a>
                                                         </h6>
-
                                                         <div class="price-label">
-                                                            <p class="card-text" style="font-size: 16px; text-align: left;"><span th:text="${#numbers.formatInteger(book.sellPrice, 0, 'POINT')}" ></span> đ</p>
+                                                            <p class="card-text" style="font-size: 16px; text-align: left;">
+                                                                <span th:text="${#numbers.formatInteger(book.sellPrice, 0, 'POINT')}"></span> đ
+                                                            </p>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -533,6 +546,7 @@
                                     </th:block>
                                 </div>
                             </div>
+
 
 
 

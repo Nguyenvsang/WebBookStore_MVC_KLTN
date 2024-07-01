@@ -480,70 +480,72 @@
 <!--    </div>-->
 
     <div class="form-container" style="background-color: white; padding: 20px; border-radius: 15px; margin: 40px 0px; box-shadow: 0 4px 8px rgb(226, 226, 226);">
-            <h6 style="color: #211f7f; align-items: center;  margin: 0px 5px 0px 0px; padding: 0px 0px 20px 20px; font-family: Verdana; font-weight: bold">Thông báo</h6>
+        <div class="notification-section">
+            <th:block th:if="${#lists.isEmpty(notifications.content)}">
+                <div class="row-img d-flex align-items-center justify-content-center">
+                    <img src="https://res.cloudinary.com/dylwewmt0/image/upload/v1719843269/PHOTO_LIST/Notifications/not_found.png" alt="Knowledge Young" style="width: 250px;">
+                </div>
+                <div class="col d-flex align-items-center justify-content-center" style="width: 100%; text-align: center; padding: 10px; color: grey; font-weight: bold; font-family: Helvetica;">
+                    Không có thông báo!
+                </div>
+            </th:block>
+            <th:block th:if="${!#lists.isEmpty(notifications.content)}">
+                <h6 style="color: #211f7f; align-items: center; margin: 0px 5px 0px 0px; padding: 0px 0px 20px 20px; font-family: Verdana; font-weight: bold">Thông báo</h6>
+                <div class="row-01 d-flex align-items-center" style="justify-content: flex-end; padding-right: 20px">
+                    <a id="mark-all-read-btn" onclick="markAllAsRead(this)" class="btn btn-detail"
+                       onmouseover="this.style.backgroundColor='#5390f5'; this.style.color='white';"
+                       onmouseout="this.style.backgroundColor='white'; this.style.color='#5390f5';"
+                       style="border-radius: 50px; background-color: white; color: #5390f5; border: 1px solid #5390f5; width: 170px; height: 40px; margin-bottom: 15px">Đánh dấu tất cả</a>
+                </div>
+                <th:block th:each="notification : ${notifications.content}">
+                    <div onmouseover="this.style.backgroundColor='#f2f8f8';"
+                         onmouseout="this.style.backgroundColor='transparent';"
+                         class="card" style="width: 100%; border-radius: 15px; border: none;">
+                        <div class="card-body">
+                            <div class="row-announce d-flex align-items-center" style="width: 100%; ">
+                                <div class="col-10 d-flex" style="width: 90%; padding: 0px 20px 0px 0px">
+                                    <div class="notification-container" style="position: relative; display: inline-block;">
+                                        <!-- Chấm tròn đánh dấu đã đọc -->
+                                        <span th:if="${notification.status == 0}" th:id="'mark-as-read-' + ${notification.id}"
+                                              class="btn btn-tick"
+                                              style="padding: 0px; width: 10px; height: 10px; background-color: #5390f5; border-radius: 50%; display: inline-block; position: absolute; top: 0; left: 0;">
+                                </span>
+                                        <!-- Ảnh -->
+                                        <img src="https://res.cloudinary.com/dylwewmt0/image/upload/v1717046493/PHOTO_LIST/Notifications/01.png" alt="Knowledge Young" style="width: 50px;">
+                                    </div>
+                                    <div class="row-01">
+                                        <span th:text="${#temporals.format(notification.sentTime.toLocalDateTime(), 'dd/MM/yyyy')}" style="color: grey; font-family: 'Museo Moderno', sans-serif;"></span>
+                                        <p class="card-text" th:text="${notification.content}" style="font-family: 'Museo Moderno', sans-serif;">Nội dung thông báo</p>
+                                    </div>
+                                </div>
+                                <div class="col-2 align-items-center justify-content-center" style="display-direction: column; width: 10%; padding: 0px">
+                                    <!-- Nếu type = 0, hiển thị nút xem chi tiết đơn hàng -->
+                                    <a th:if="${notification.type == 0}" class="btn btn-detail"
+                                       th:href="@{/vieworderitems(orderId=${notification.referredId})}"
+                                       th:data-id="${notification.id}" th:onclick="markAsReadAndRedirect(this)"
+                                       onmouseover="this.style.backgroundColor='#5390f5'; this.style.color='white';"
+                                       onmouseout="this.style.backgroundColor='white'; this.style.color='#5390f5';"
+                                       style="border-radius: 50px; background-color: white; color: #5390f5; border: 1px solid #5390f5; width: 170px; height: 40px">
+                                        Xem chi tiết
+                                    </a>
 
-        <div class="row-01 d-flex align-items-center" style="justify-content: flex-end; padding-right: 20px">
-            <a id="mark-all-read-btn" onclick="markAllAsRead(this)" class="btn btn-detail"
-               onmouseover="this.style.backgroundColor='#5390f5'; this.style.color='white';"
-               onmouseout="this.style.backgroundColor='white'; this.style.color='#5390f5';"
-               style="border-radius: 50px; background-color: white; color: #5390f5;  border: 1px solid #5390f5; width: 170px; height: 40px; margin-bottom: 15px">Đánh dấu tất cả</a>
-        </div>
-
-        <th:block th:each="notification : ${notifications.content}">
-            <div  onmouseover="this.style.backgroundColor='#f2f8f8';"
-                  onmouseout="this.style.backgroundColor='transparent';"
-                   class="card" style="width: 100%; border-radius: 15px; border: none;">
-                <div class="card-body">
-                    <div class="row-announce d-flex align-items-center" style="width: 100%; ">
-                        <div class="col-10 d-flex" style="width: 90%; padding: 0px 20px 0px 0px">
-                            <div class="notification-container" style="position: relative; display: inline-block;">
-                                <!-- Chấm tròn đánh dấu đã đọc -->
-                                <span th:if="${notification.status == 0}" th:id="'mark-as-read-' + ${notification.id}"
-                                      class="btn btn-tick"
-                                      style="padding: 0px; width: 10px; height: 10px; background-color: #5390f5; border-radius: 50%; display: inline-block; position: absolute; top: 0; left: 0;">
-                                    </span>
-                                <!-- Ảnh -->
-                                <img src="https://res.cloudinary.com/dylwewmt0/image/upload/v1717046493/PHOTO_LIST/Notifications/01.png" alt="Knowledge Young" style="width: 50px;">
+                                    <!-- Nếu type = 1, hiển thị nút xem chi tiết sách -->
+                                    <a th:if="${notification.type == 1}" class="btn btn-detail"
+                                       th:href="@{/detailbook/{id}(id=${notification.referredId})}"
+                                       th:data-id="${notification.id}" th:onclick="markAsReadAndRedirect(this)"
+                                       onmouseover="this.style.backgroundColor='#5390f5'; this.style.color='white';"
+                                       onmouseout="this.style.backgroundColor='white'; this.style.color='#5390f5';"
+                                       style="border-radius: 50px; background-color: white; color: #5390f5; border: 1px solid #5390f5; width: 170px; height: 40px">
+                                        Xem chi tiết
+                                    </a>
+                                </div>
                             </div>
-                            <div class="row-01">
-                                <span th:text="${#temporals.format(notification.sentTime.toLocalDateTime(), 'dd/MM/yyyy')}" style="color: grey; font-family: 'Museo Moderno', sans-serif;"></span>
-                                <p class="card-text" th:text="${notification.content}" style="font-family: 'Museo Moderno', sans-serif;">Nội dung thông báo</p>
-                            </div>
-                        </div>
-                        <div class="col-2 align-items-center justify-content-center" style="display-direction: column; width: 10%; padding: 0px">
-                            <!-- Nếu type = 0, hiển thị nút xem chi tiết đơn hàng -->
-                            <a th:if="${notification.type == 0}" class="btn btn-detail"
-                               th:href="@{/vieworderitems(orderId=${notification.referredId})}"
-                               th:data-id="${notification.id}" th:onclick="markAsReadAndRedirect(this)"
-                               onmouseover="this.style.backgroundColor='#5390f5'; this.style.color='white';"
-                               onmouseout="this.style.backgroundColor='white'; this.style.color='#5390f5';"
-                               style="border-radius: 50px; background-color: white; color: #5390f5;  border: 1px solid #5390f5; width: 170px; height: 40px">
-                                Xem chi tiết
-                            </a>
-
-                            <!-- Nếu type = 1, hiển thị nút xem chi tiết sách -->
-                            <a th:if="${notification.type == 1}" class="btn btn-detail"
-                               th:href="@{/detailbook/{id}(id=${notification.referredId})}"
-                               th:data-id="${notification.id}" th:onclick="markAsReadAndRedirect(this)"
-                               onmouseover="this.style.backgroundColor='#5390f5'; this.style.color='white';"
-                               onmouseout="this.style.backgroundColor='white'; this.style.color='#5390f5';"
-                               style="border-radius: 50px; background-color: white; color: #5390f5; border: 1px solid #5390f5; width: 170px; height: 40px">
-                                Xem chi tiết
-                            </a>
-<!--                            <div class="row-tick" style=" display-direction: column">-->
-<!--                                &lt;!&ndash; Nút đánh dấu đã đọc &ndash;&gt;-->
-<!--                                <a th:if="${notification.status == 0}" href="#" th:id="'mark-as-read-' + ${notification.id}" class="btn btn-tick" th:onclick="'markNotifyAsRead(' + ${notification.id} + ', event)'"-->
-<!--                                   onmouseover="this.style.backgroundColor='#5390f5'; this.style.color='white';"-->
-<!--                                   onmouseout="this.style.backgroundColor='white'; this.style.color='#5390f5';"-->
-<!--                                   style="border-radius: 50px; margin-top: 15px; background-color: white; color: #5390f5; border: 1px solid #5390f5; width: 170px; height: 40px">-->
-<!--                                    Đánh dấu đã đọc-->
-<!--                                </a>-->
-<!--                            </div>-->
                         </div>
                     </div>
-                </div>
-            </div>
-        </th:block>
+                </th:block>
+            </th:block>
+        </div>
+
         <!--Phần phân trang-->
         <div class="frame-number d-flex align-items-center" style="margin-top: 15px">
             <div th:if="${notifications.totalPages > 1}">

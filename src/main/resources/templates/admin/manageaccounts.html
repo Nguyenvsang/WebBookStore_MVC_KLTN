@@ -271,7 +271,7 @@
 			</div>
 
 			<div class="row-03 d-flex align-items-center" style="padding: 0px 40px; justify-content: left; margin: 40px 0px 0px 0px">
-				<div th:if="${status != null || type != null}">
+				<div th:if="${status != null || type != null}" class="d-flex">
 					<div th:if="${status != null}" class="col-status">
 						<span th:switch="${status}">
 							<span th:case="0">Ngừng hoạt động</span>
