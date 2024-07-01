@@ -384,6 +384,9 @@
                     (sortOption == 'mov12' ? 'Giá trị đơn hàng tối thiểu - tăng dần' :
                     (sortOption == 'mov21' ? 'Giá trị đơn hàng tối thiểu - giảm dần' : 'Không xác định')))))))))))}" ></span>
             </div>
+            <div class="col-status" th:if="${categoryId != null}">
+                <span th:each="category : ${allCategories}" th:if="${category.id == categoryId}" th:text="'Danh mục: ' + ${category.name}"></span>
+            </div>
         </div>
 
         <div class="container-main" style="background-color: white;">
