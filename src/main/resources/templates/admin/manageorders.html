@@ -227,18 +227,18 @@
 						<span class="material-symbols-outlined" style="margin-left: 3px">expand_less</span>
 					</button>
 					<div class="dropdown-menu" aria-labelledby="statusDropdown">
-						<a class="dropdown-item" th:href="@{/manageorders}">Tất cả</a>
-						<a class="dropdown-item" th:href="@{/manageorders(status=0)}">Chờ xác nhận</a>
-						<a class="dropdown-item" th:href="@{/manageorders(status=1)}">Chờ lấy hàng</a>
-						<a class="dropdown-item" th:href="@{/manageorders(status=2)}">Đang giao</a>
-						<a class="dropdown-item" th:href="@{/manageorders(status=3)}">Đã giao</a>
-						<a class="dropdown-item" th:href="@{/manageorders(status=4)}">Đã hủy đơn</a>
-						<a class="dropdown-item" th:href="@{/manageorders(status=5)}">Yêu cầu trả hàng</a>
-						<a class="dropdown-item" th:href="@{/manageorders(status=6)}">Xử lý trả hàng</a>
-						<a class="dropdown-item" th:href="@{/manageorders(status=7)}">Trả hàng thành công</a>
-						<a class="dropdown-item" th:href="@{/manageorders(status=8)}">Yêu cầu trả hàng bị từ chối</a>
-						<a class="dropdown-item" th:href="@{/manageorders(status=9)}">Không nhận hàng</a>
-						<a class="dropdown-item" th:href="@{/manageorders(status=10)}">Đã nhận hàng</a>
+						<a class="dropdown-item" th:href="@{/manageorders(paymentStatus=${paymentStatus}, isCompleted=${isCompleted})}">Tất cả</a>
+						<a class="dropdown-item" th:href="@{/manageorders(status=0, paymentStatus=${paymentStatus}, isCompleted=${isCompleted})}">Chờ xác nhận</a>
+						<a class="dropdown-item" th:href="@{/manageorders(status=1, paymentStatus=${paymentStatus}, isCompleted=${isCompleted})}">Chờ lấy hàng</a>
+						<a class="dropdown-item" th:href="@{/manageorders(status=2, paymentStatus=${paymentStatus}, isCompleted=${isCompleted})}">Đang giao</a>
+						<a class="dropdown-item" th:href="@{/manageorders(status=3, paymentStatus=${paymentStatus}, isCompleted=${isCompleted})}">Đã giao</a>
+						<a class="dropdown-item" th:href="@{/manageorders(status=4, paymentStatus=${paymentStatus}, isCompleted=${isCompleted})}">Đã hủy đơn</a>
+						<a class="dropdown-item" th:href="@{/manageorders(status=5, paymentStatus=${paymentStatus}, isCompleted=${isCompleted})}">Yêu cầu trả hàng</a>
+						<a class="dropdown-item" th:href="@{/manageorders(status=6, paymentStatus=${paymentStatus}, isCompleted=${isCompleted})}">Xử lý trả hàng</a>
+						<a class="dropdown-item" th:href="@{/manageorders(status=7, paymentStatus=${paymentStatus}, isCompleted=${isCompleted})}">Trả hàng thành công</a>
+						<a class="dropdown-item" th:href="@{/manageorders(status=8, paymentStatus=${paymentStatus}, isCompleted=${isCompleted})}">Yêu cầu trả hàng bị từ chối</a>
+						<a class="dropdown-item" th:href="@{/manageorders(status=9, paymentStatus=${paymentStatus}, isCompleted=${isCompleted})}">Không nhận hàng</a>
+						<a class="dropdown-item" th:href="@{/manageorders(status=10, paymentStatus=${paymentStatus}, isCompleted=${isCompleted})}">Đã nhận hàng</a>
 					</div>
 				</div>
 			</div>
@@ -251,13 +251,13 @@
 						<span class="material-symbols-outlined" style="margin-left: 3px">expand_less</span>
 					</button>
 					<div class="dropdown-menu" aria-labelledby="paymentStatusDropdown">
-						<a class="dropdown-item" th:href="@{/manageorders}">Tất cả</a>
-						<a class="dropdown-item" th:href="@{/manageorders(paymentStatus=0)}">Chưa thanh toán</a>
-						<a class="dropdown-item" th:href="@{/manageorders(paymentStatus=1)}">Đã thanh toán</a>
-						<a class="dropdown-item" th:href="@{/manageorders(paymentStatus=2)}">Xử lý hoàn tiền</a>
-						<a class="dropdown-item" th:href="@{/manageorders(paymentStatus=3)}">Đã hoàn tiền</a>
-						<a class="dropdown-item" th:href="@{/manageorders(paymentStatus=4)}">Không cần thanh toán</a>
-						<a class="dropdown-item" th:href="@{/manageorders(paymentStatus=5)}">Chờ thanh toán lại</a>
+						<a class="dropdown-item" th:href="@{/manageorders(status=${status}, isCompleted=${isCompleted})}">Tất cả</a>
+						<a class="dropdown-item" th:href="@{/manageorders(paymentStatus=0, status=${status}, isCompleted=${isCompleted})}">Chưa thanh toán</a>
+						<a class="dropdown-item" th:href="@{/manageorders(paymentStatus=1, status=${status}, isCompleted=${isCompleted})}">Đã thanh toán</a>
+						<a class="dropdown-item" th:href="@{/manageorders(paymentStatus=2, status=${status}, isCompleted=${isCompleted})}">Xử lý hoàn tiền</a>
+						<a class="dropdown-item" th:href="@{/manageorders(paymentStatus=3, status=${status}, isCompleted=${isCompleted})}">Đã hoàn tiền</a>
+						<a class="dropdown-item" th:href="@{/manageorders(paymentStatus=4, status=${status}, isCompleted=${isCompleted})}">Không cần thanh toán</a>
+						<a class="dropdown-item" th:href="@{/manageorders(paymentStatus=5, status=${status}, isCompleted=${isCompleted})}">Chờ thanh toán lại</a>
 					</div>
 				</div>
 			</div>
@@ -270,11 +270,11 @@
 						<span class="material-symbols-outlined" style="margin-left: 3px">expand_less</span>
 					</button>
 					<div class="dropdown-menu" aria-labelledby="isCompletedDropdown">
-						<a class="dropdown-item" th:href="@{/manageorders}">Tất cả</a>
-						<a class="dropdown-item" th:href="@{/manageorders(isCompleted=0)}">Chưa hoàn thành</a>
-						<a class="dropdown-item" th:href="@{/manageorders(isCompleted=1)}">Đã hoàn thành</a>
-						<a class="dropdown-item" th:href="@{/manageorders(isCompleted=2)}">Đã hủy</a>
-						<a class="dropdown-item" th:href="@{/manageorders(isCompleted=3)}">Đã trả hàng</a>
+						<a class="dropdown-item" th:href="@{/manageorders(status=${status}, paymentStatus=${paymentStatus})}">Tất cả</a>
+						<a class="dropdown-item" th:href="@{/manageorders(isCompleted=0, status=${status}, paymentStatus=${paymentStatus})}">Chưa hoàn thành</a>
+						<a class="dropdown-item" th:href="@{/manageorders(isCompleted=1, status=${status}, paymentStatus=${paymentStatus})}">Đã hoàn thành</a>
+						<a class="dropdown-item" th:href="@{/manageorders(isCompleted=2, status=${status}, paymentStatus=${paymentStatus})}">Đã hủy</a>
+						<a class="dropdown-item" th:href="@{/manageorders(isCompleted=3, status=${status}, paymentStatus=${paymentStatus})}">Đã trả hàng</a>
 					</div>
 				</div>
 			</div>
