@@ -102,9 +102,49 @@
 			color: rgb(247,80,80);
 		}
 
+		df-messenger {
+            --df-messenger-bot-message: #e1e1e1;
+            --df-messenger-button-titlebar-color: #365e94;
+            --df-messenger-chat-background-color: #ffffff;
+            --df-messenger-font-color: #333333;
+            --df-messenger-send-icon: #365e94;
+            --df-messenger-user-message: #d8e9f5;
+
+            /* Ensure the chatbot is on the highest layer */
+            position: fixed;
+            bottom: 0;
+            right: 0;
+            z-index: 999999;
+        }
+
+
+        /* Additional custom styling */
+        df-messenger {
+            font-family: 'Pragmatica Extended', sans-serif;
+        }
+
+        df-messenger .df-messenger-titlebar {
+            background-color: #365e94;
+            color: #ffffff;
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+        }
+
+        df-messenger .df-messenger-chat .df-messenger-message-list {
+            background-color: #ffffff;
+        }
 	</style>
 	
 </head>
+<!--Phần Chat Box -->
+<script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
+<df-messenger
+		intent="WELCOME"
+		chat-title="Tư vấn khách hàng"
+		agent-id="3481f35a-a856-4b10-94ed-2b03e01edd5f"
+		language-code="vi"
+		chat-icon="https://res.cloudinary.com/dylwewmt0/image/upload/v1711425586/PHOTO_LIST/icon/logo.png"
+></df-messenger>
 <body>
 <div th:replace="~{layout/header :: header}"></div>
 <!-- Lớp phủ -->

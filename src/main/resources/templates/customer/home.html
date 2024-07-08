@@ -615,15 +615,47 @@
           font-style: normal;
         }
 
+        df-messenger {
+            --df-messenger-bot-message: #e1e1e1;
+            --df-messenger-button-titlebar-color: #365e94;
+            --df-messenger-chat-background-color: #ffffff;
+            --df-messenger-font-color: #333333;
+            --df-messenger-send-icon: #365e94;
+            --df-messenger-user-message: #d8e9f5;
+
+            /* Ensure the chatbot is on the highest layer */
+            position: fixed;
+            bottom: 0;
+            right: 0;
+            z-index: 999999;
+        }
+
+
+        /* Additional custom styling */
+        df-messenger {
+            font-family: 'Pragmatica Extended', sans-serif;
+        }
+
+        df-messenger .df-messenger-titlebar {
+            background-color: #365e94;
+            color: #ffffff;
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+        }
+
+        df-messenger .df-messenger-chat .df-messenger-message-list {
+            background-color: #ffffff;
+        }
     </style>
 </head>
 <!--Phần Chat Box -->
 <script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
 <df-messenger
         intent="WELCOME"
-        chat-title="tu-van-ban-sach"
+        chat-title="Tư vấn khách hàng"
         agent-id="3481f35a-a856-4b10-94ed-2b03e01edd5f"
         language-code="vi"
+        chat-icon="https://res.cloudinary.com/dylwewmt0/image/upload/v1711425586/PHOTO_LIST/icon/logo.png"
 ></df-messenger>
 <body>
 <div th:replace="~{layout/header :: header}"></div>
@@ -1006,7 +1038,7 @@
         <div class="nav-dropdown mb-3 mt-3">
             <div class="row-title d-flex align-items-center" style="justify-content: flex-start; padding: 15px 0px; border-bottom: 1px solid #c6eaff; background-color: #d8e9f5; border-radius: 10px">
                 <img src="https://res.cloudinary.com/dylwewmt0/image/upload/v1717433777/PHOTO_LIST/Home/04.png" alt="Knowledge Young" style="width:50px; margin-left: 20px;">
-                <h4 style="padding-left: 8px; font-family: 'Pragmatica Extended', sans-serif; color: #5b5a7a; font-weight: bold; margin: 0px">Sách nổi bật</h4>
+                <h4 style=" padding-left: 8px; font-family: 'Pragmatica Extended', sans-serif; color: #5b5a7a; font-weight: bold; margin: 0px">Sách nổi bật</h4>
             </div>
             <div class="highlighted-books-carousel" style="width: 1200px; margin-top: 25px">
                 <th:block th:each="highlightedBook : ${highlightedBooks.content}">
