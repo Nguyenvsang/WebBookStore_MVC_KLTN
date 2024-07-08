@@ -294,29 +294,29 @@
 												<img th:src="${#strings.isEmpty(session.account.img) ? 'https://res.cloudinary.com/dosdzo1lg/image/upload/v1709875316/WebBookStoreKLTN/img_account/account_default.jpg' : session.account.img + '?v=' + randomNumber}" style="width: 30px; height: 30px; border-radius: 50%;">
 											</div>
 											<span th:text="${#strings.isEmpty(session.account) ? 'Guest' : session.account['firstName'] + ' ' + session.account['lastName']}" style="color: #365e94; font-family: Arial, sans-serif; font-size: 16px; font-weight: bold"></span>
-											<span class="material-symbols-outlined expand_more" id="expand_more_03">expand_more</span>
+											<span class="material-symbols-outlined expand_more" id="expand_more_03" style="color: #365e94; font-weight: bold">expand_more</span>
 										</a>
 										<div class="dropdown-menu" aria-labelledby="navbarDropdown" style="weight: 0px; height: 200px; border-radius: 10px;">
 											<a class="dropdown-item d-flex align-items-center justify-content-center" th:href="@{/viewaccount}"
 											   style="color: rgb(0, 0, 160); width: 240px; border: 1px solid #d7ebff; border-radius: 50px; margin: 10px"
 											   onmouseover="this.style.backgroundColor='#d7ebff'; this.style.boxShadow='0px 6px 8px rgba(0, 0, 0, 0.2)';"
 											   onmouseout="this.style.backgroundColor='transparent'; this.style.boxShadow='0px 0px 0px rgba(0, 0, 0, 0)';">
-												<span class="material-symbols-outlined" style="margin-right: 8px;">sentiment_very_satisfied</span>
-												<span>Quản lý tài khoản</span>
+												<span class="material-symbols-outlined" style="margin-right: 8px; color: #365e94; font-weight: bold">sentiment_very_satisfied</span>
+												<span style="color: #365e94; font-weight: bold">Quản lý tài khoản</span>
 											</a>
 											<a class="dropdown-item d-flex align-items-center justify-content-center" th:href="@{/vieworders}"
 											   style="color: rgb(0, 0, 160); width: 240px; border: 1px solid #d7ebff; border-radius: 50px; margin: 10px"
 											   onmouseover="this.style.backgroundColor='#d7ebff'; this.style.boxShadow='0px 6px 8px rgba(0, 0, 0, 0.2)';"
 											   onmouseout="this.style.backgroundColor='transparent'; this.style.boxShadow='0px 0px 0px rgba(0, 0, 0, 0)';">
-												<span class="material-symbols-outlined" style="margin-right: 8px;">list_alt</span>
-												<span>Đơn hàng của tôi</span>
+												<span class="material-symbols-outlined" style="margin-right: 8px; color: #365e94; font-weight: bold">list_alt</span>
+												<span style="color: #365e94; font-weight: bold">Đơn hàng của tôi</span>
 											</a>
 											<a class="dropdown-item d-flex align-items-center justify-content-center"
 											   style="color: rgb(0, 0, 160); width: 240px; border: 1px solid #d7ebff; border-radius: 50px; margin: 10px"
 											   onmouseover="this.style.backgroundColor='#d7ebff'; this.style.boxShadow='0px 6px 8px rgba(0, 0, 0, 0.2)';"
 											   onmouseout="this.style.backgroundColor='transparent'; this.style.boxShadow='0px 0px 0px rgba(0, 0, 0, 0)';" th:href="@{/viewfavoritebooks}">
-												<span class="material-symbols-outlined" style="margin-right: 8px;">favorite</span>
-												<span>Sách yêu thích</span>
+												<span class="material-symbols-outlined" style="margin-right: 8px; color: #365e94; font-weight: bold">favorite</span>
+												<span style="color: #365e94; font-weight: bold">Sách yêu thích</span>
 											</a>
 											<form id="logoutForm" th:action="@{/customer/logoutaccount}" method="post" style="display: none;">
 											</form>
@@ -325,8 +325,8 @@
 											   onmouseover="this.style.backgroundColor='#d7ebff'; this.style.boxShadow='0px 6px 8px rgba(0, 0, 0, 0.2)';"
 											   onmouseout="this.style.backgroundColor='transparent'; this.style.boxShadow='0px 0px 0px rgba(0, 0, 0, 0)';"
 											   onclick="document.getElementById('logoutForm').submit();">
-												<span class="material-symbols-outlined" style="margin-right: 8px;">logout</span>
-												<span> Đăng xuất</span>
+												<span class="material-symbols-outlined" style="margin-right: 8px; color: #365e94; font-weight: bold">logout</span>
+												<span style="color: #365e94; font-weight: bold"> Đăng xuất</span>
 											</a>
 
 										</div>
@@ -345,15 +345,15 @@
 											   style="color: rgb(0, 0, 160); width: 240px; border: 1px solid #d7ebff; border-radius: 50px; margin: 10px"
 											   onmouseover="this.style.backgroundColor='#d7ebff'; this.style.boxShadow='0px 6px 8px rgba(0, 0, 0, 0.2)';"
 											   onmouseout="this.style.backgroundColor='transparent'; this.style.boxShadow='0px 0px 0px rgba(0, 0, 0, 0)';">
-												<span class="material-symbols-outlined">login</span>
-												<span style="margin-left: 8px;">Đăng nhập</span>
+												<span class="material-symbols-outlined" style="color: #365e94; font-weight: bold">login</span>
+												<span style="margin-left: 8px; color: #365e94; font-weight: bold">Đăng nhập</span>
 											</a>
 											<a class="dropdown-item d-flex align-items-center justify-content-center" th:href="@{/customer/registeraccount}"
 											   style="color: rgb(0, 0, 160); width: 240px; border: 1px solid #d7ebff; border-radius: 50px; margin: 10px"
 											   onmouseover="this.style.backgroundColor='#d7ebff'; this.style.boxShadow='0px 6px 8px rgba(0, 0, 0, 0.2)';"
 											   onmouseout="this.style.backgroundColor='transparent'; this.style.boxShadow='0px 0px 0px rgba(0, 0, 0, 0)';">
-												<span class="material-symbols-outlined">app_registration</span>
-												<span style="margin-left: 8px;">Đăng ký</span>
+												<span class="material-symbols-outlined" style="color: #365e94; font-weight: bold">app_registration</span>
+												<span style="margin-left: 8px; color: #365e94; font-weight: bold">Đăng ký</span>
 											</a>
 
 											<a class="dropdown-item d-flex align-items-center justify-content-center" th:href="@{/customer/login/google}"
@@ -362,7 +362,7 @@
 											   onmouseout="this.style.backgroundColor='transparent'; this.style.boxShadow='0px 0px 0px rgba(0, 0, 0, 0)';">
 												<img src="https://res.cloudinary.com/dylwewmt0/image/upload/v1711636579/PHOTO_LIST/icon/google.png"
 													 style="weight: 28px; height: 28px">
-												<span style="margin-left: 8px;">Đăng nhập bằng Google</span>
+												<span style="margin-left: 8px; color: #365e94; font-weight: bold">Đăng nhập bằng Google</span>
 											</a>
 										</div>
 									</li>
