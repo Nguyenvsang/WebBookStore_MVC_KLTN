@@ -119,6 +119,10 @@ public class CartController {
 			return "redirect:/customer/loginaccount";
 		}
 
+		// Xóa giá trị buyNowBook và buyNowQuantity khi người dùng chọn mua hàng từ giỏ hàng
+		session.removeAttribute("buyNowBook");
+		session.removeAttribute("buyNowQuantity");
+
 		Cart cart;
 		cart = cartService.getCartByAccount(account); //xai account.getCart() se bi loi
 

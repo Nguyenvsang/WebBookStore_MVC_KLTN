@@ -241,9 +241,9 @@
 <body>
 	<div th:replace="~{layout/header :: header}"></div>
 	<!-- Hiển thị thông báo nếu có -->
-	<div th:if="${param.message}" class="alert" id="myAlert02"
-		 th:classappend="${#strings.containsIgnoreCase(param.message, 'thành công') ? 'alert-success' : 'alert-danger'}">
-		<span th:text="${param.message}" style="font-weight: bold;justify-content: center; display: flex;"></span>
+	<div th:if="${message}" class="alert" id="myAlert02"
+		 th:classappend="${#strings.containsIgnoreCase(message, 'thành công') ? 'alert-success' : 'alert-danger'}">
+		<span th:text="${message}" style="font-weight: bold;justify-content: center; display: flex;"></span>
 	</div>
     <div class="container-fluid mb-4">
         

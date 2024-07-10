@@ -795,11 +795,9 @@
 								<div th:if="${book.status != 0}">
 									<div class="row-add-to-cart" style="padding: 20px 0px">
 										<form th:action="@{/addtocart}" method="post">
-
 											<div class="row-quantity d-flex">
 												<div class="col-quantity">
-													<div class="row-01 d-flex align-items-center justify-content-center"
-														 style="background: white; border-radius: 50px; border: 1px solid #cecece; width: 130px">
+													<div class="row-01 d-flex align-items-center justify-content-center" style="background: white; border-radius: 50px; border: 1px solid #cecece; width: 130px">
 														<div class="col-decrease">
 															<div class="input-group">
 																<a class="outline" type="button" th:onclick="'decreaseQuantity(' + ${book.id} + ')'" style="align-items: center; justify-items: center; display: flex;">
@@ -807,8 +805,7 @@
 															</div>
 														</div>
 														<div class="col" style="width: 62px">
-															<input type="number" id="quantity" name="quantity" class="form-control text-center align-middle" min="1" th:max="${book.quantity}" value="1" th:id="'quantity_' + ${book.id}"
-																   style="text-align: center; border: none; width: 62px">
+															<input type="number" id="quantity" name="quantity" class="form-control text-center align-middle" min="1" th:max="${book.quantity}" value="1" th:id="'quantity_' + ${book.id}" style="text-align: center; border: none; width: 62px">
 														</div>
 														<div class="col-increase">
 															<div class="input-group">
@@ -826,23 +823,23 @@
 													<p style="margin: 0px 0px 0px 5px; font-family: Helvetica;">trong kho hàng</p>
 												</div>
 											</div>
-
 											<div class="row-add-cart d-flex" style="margin: 20px 0px 0px ">
 												<div class="col-add-to-cart">
 													<input type="hidden" name="bookId" th:value="${book.id}">
 													<button type="submit" class="btn btn-add-cart btn-block" style="font-family: Helvetica; display: flex; align-items: center; justify-content: center">
-														<span class="material-symbols-outlined" style="display: flex; align-items: center; color: white; margin: 0px 5px 0px 0px">
-															shopping_bag
-														</span>
-														Thêm vào giỏ hàng
+														<span class="material-symbols-outlined" style="display: flex; align-items: center; color: white; margin: 0px 5px 0px 0px">shopping_bag</span> Thêm vào giỏ hàng
 													</button>
-												</div>
-												<div class="col-buy-now" style="margin-left: 10px">
-													<input type="hidden" name="bookId" th:value="${book.id}">
-													<button type="submit" class="btn btn-buy-now btn-block" style="font-family: Helvetica;">Mua ngay</button>
 												</div>
 											</div>
 										</form>
+
+										<form th:action="@{/buynow}" method="post">
+											<input type="hidden" name="bookId" th:value="${book.id}">
+											<input type="hidden" name="quantity" th:value="1">
+											<button type="submit" class="btn btn-buy-now btn-block" style="font-family: Helvetica;">Mua ngay</button>
+										</form>
+
+
 									</div>
 								</div>
 		                    </div>
@@ -1908,6 +1905,17 @@
             }
         });
 	</script>
+
+	<script>
+		function syncQuantity() {
+            document.querySelectorAll('input[name="quantity"]').forEach(function(input) {
+                input.value = document.getElementById('quantity').value;
+            });
+        }
+
+        document.getElementById('quantity').addEventListener('input', syncQuantity);
+	</script>
+
 
 
 	<div th:replace="~{layout/footer :: footer}"></div>
