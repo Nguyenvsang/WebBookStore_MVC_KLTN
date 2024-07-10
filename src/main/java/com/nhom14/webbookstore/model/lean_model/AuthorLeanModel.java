@@ -17,4 +17,6 @@ public class AuthorLeanModel implements Serializable {
     private int id;
 
     private String name;
+
+    private String bio;
 }
