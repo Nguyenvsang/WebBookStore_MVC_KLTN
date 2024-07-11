@@ -286,13 +286,15 @@ public class OrderController {
             return "redirect:/viewcart";
         }
 
-        double discountedPriceByVoucher = -1;
+        double discountedPriceByVoucher = totalAmount;
+        Voucher selectedVoucher = null;
         if (voucherId != null && voucherId != -1) {
             discountedPriceByVoucher = calculateDiscountedPriceByVoucher(voucherId, totalAmount, selectedCartItems, redirectAttributes);
             if (discountedPriceByVoucher == -1) {
                 session.removeAttribute("voucherId"); // Loại bỏ voucher không hợp lệ
                 return "redirect:/viewcart";
             }
+            selectedVoucher = voucherService.getVoucherById(voucherId);
         }
 
         Order order = new Order();
@@ -300,7 +302,7 @@ public class OrderController {
         order.setDateOrder(dateOrder);
         order.setTotalPrice(totalAmount);
 
-        if (discountedPriceByVoucher != -1) {
+        if (voucherId != null && voucherId != -1) {
             order.setTotalPrice(discountedPriceByVoucher);
         }
 
@@ -322,21 +324,48 @@ public class OrderController {
 
         Order lastOrder = orderService.getLastOrder(account);
 
+        double totalDiscount = totalAmount - discountedPriceByVoucher;
+        double totalQuantity = selectedCartItems.stream().mapToDouble(CartItem::getQuantity).sum();
+
+        // Tính tổng giá trị của các sản phẩm thuộc danh mục voucher (nếu có)
+        double totalCategoryValue = 0;
+        final Voucher finalSelectedVoucher = selectedVoucher;
+        if (finalSelectedVoucher != null && finalSelectedVoucher.getCategory() != null) {
+            totalCategoryValue = selectedCartItems.stream()
+                    .filter(cartItem -> cartItem.getBook().getCategory().equals(finalSelectedVoucher.getCategory()))
+                    .mapToDouble(cartItem -> {
+                        Discount discount = discountService.getLatestActiveDiscountByBookId(cartItem.getBook().getId());
+                        return cartItem.getQuantity() * (discount != null ? discount.getDiscountedPrice() : cartItem.getBook().getSellPrice());
+                    }).sum();
+        }
+
         for (CartItem cartItem : selectedCartItems) {
             OrderItem orderItem = new OrderItem();
             orderItem.setQuantity(cartItem.getQuantity());
             Book book = cartItem.getBook();
 
             double totalPrice = cartItem.getQuantity() * book.getSellPrice();
-            orderItem.setSellPrice(book.getSellPrice());
+            double discountPrice = 0;
 
             Discount discount = discountService.getLatestActiveDiscountByBookId(cartItem.getBook().getId());
             if (discount != null) {
                 totalPrice = cartItem.getQuantity() * discount.getDiscountedPrice();
-                orderItem.setSellPrice(discount.getDiscountedPrice());
+                discountPrice = discount.getDiscountedPrice();
+            } else {
+                discountPrice = book.getSellPrice();
             }
 
-            orderItem.setTotalPrice(totalPrice);
+            double voucherDiscountPerItem = 0;
+            if (finalSelectedVoucher != null && finalSelectedVoucher.getCategory() != null && book.getCategory().equals(finalSelectedVoucher.getCategory())) {
+                voucherDiscountPerItem = totalDiscount * (totalPrice / totalCategoryValue);
+            } else {
+                voucherDiscountPerItem = totalDiscount * (cartItem.getQuantity() / totalQuantity);
+            }
+
+            double finalPricePerItem = discountPrice - (voucherDiscountPerItem / cartItem.getQuantity());
+
+            orderItem.setSellPrice(finalPricePerItem);
+            orderItem.setTotalPrice(finalPricePerItem * cartItem.getQuantity());
             orderItem.setBook(book);
             orderItem.setOrder(lastOrder);
 
@@ -361,34 +390,32 @@ public class OrderController {
 
         paymentStatusService.addPaymentStatus(paymentStatus);
 
-        if (discountedPriceByVoucher != -1) {
+        if (discountedPriceByVoucher != totalAmount) {
             VoucherInfo voucherInfo = new VoucherInfo();
             voucherInfo.setTotalAmount(totalAmount);
-
-            Voucher selectedVoucher = voucherService.getVoucherById(voucherId);
 
             voucherInfo.setVoucherDiscount(totalAmount - discountedPriceByVoucher);
             voucherInfo.setDiscountedAmount(discountedPriceByVoucher);
             voucherInfo.setOrder(lastOrder);
-            voucherInfo.setVoucher(selectedVoucher);
+            voucherInfo.setVoucher(finalSelectedVoucher);
 
             voucherInfoService.save(voucherInfo);
 
-            int remainingQuantity = selectedVoucher.getRemainingQuantity() - 1;
+            int remainingQuantity = finalSelectedVoucher.getRemainingQuantity() - 1;
             if (remainingQuantity <= 0) {
-                selectedVoucher.setRemainingQuantity(0);
-                selectedVoucher.setStatus(0);
+                finalSelectedVoucher.setRemainingQuantity(0);
+                finalSelectedVoucher.setStatus(0);
             } else {
-                selectedVoucher.setRemainingQuantity(remainingQuantity);
+                finalSelectedVoucher.setRemainingQuantity(remainingQuantity);
             }
-            voucherService.saveVoucher(selectedVoucher);
+            voucherService.saveVoucher(finalSelectedVoucher);
         }
 
         session.removeAttribute("buyNowBook");
         session.removeAttribute("buyNowQuantity");
         session.removeAttribute("idSelectedCartItems");
 
-        if ("VNPAY".equals(paymentMethods)){
+        if ("VNPAY".equals(paymentMethods)) {
             paymentStatus.setPaymentMethod(1);
             paymentStatusService.addPaymentStatus(paymentStatus);
             redirectAttributes.addAttribute("orderId", lastOrder.getId());
@@ -409,7 +436,6 @@ public class OrderController {
             return "redirect:/orderconfirmation";
         }
     }
-
 
     private double calculateDiscountedPriceByVoucher(Long voucherId, double totalAmount, List<CartItem> selectedCartItems, RedirectAttributes redirectAttributes) {
         double discountedPriceByVoucher = totalAmount;
@@ -481,8 +507,6 @@ public class OrderController {
 
         return discountedPriceByVoucher; // Tính toán xong
     }
-
-
 
 
     private double calculateTotalAmount(List<CartItem> cartItems) {
