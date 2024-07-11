@@ -337,6 +337,45 @@
             border-radius: 10px;
             margin-right: 10px
         }
+
+        .custom-checkbox {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #5591c5;
+            border-radius: 3px;
+            outline: none;
+            cursor: pointer;
+            transition: background-color 0.3s, border-color 0.3s;
+            position: relative;
+        }
+
+        /* Checked state */
+        .custom-checkbox:checked {
+            background-color: #5591c5;
+            border-color: #5591c5;
+        }
+
+        /* Checkbox label */
+        .custom-checkbox-label {
+            display: inline-block;
+            vertical-align: middle;
+            margin-left: 5px;
+            font-size: 14px;
+        }
+
+        /* Checkbox inner checked state */
+        .custom-checkbox:checked::before {
+            content: '\2713'; /* Checkmark symbol */
+            color: white;
+            font-size: 14px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
     </style>
 </head>
 <body>
@@ -519,7 +558,7 @@
                             <tr th:each="review : ${bookReviews.content}" th:id="'review-' + ${review.id}" onmouseover="this.style.backgroundColor='#e0f3ff';" onmouseout="this.style.backgroundColor='transparent';" style="font-family: nunito-sans, sans-serif, Helvetica, Arial;">
 
                                 <td rowspan="1" class="next-table-header-node first " style="padding: 10px 0px;">
-                                    <input style="width: 20px; height: 20px" type="checkbox" class="review-checkbox" th:value="${review.id}">
+                                    <input style="width: 20px; height: 20px" type="checkbox" class="custom-checkbox review-checkbox" th:value="${review.id}">
                                 </td>
 
                                 <td rowspan="1" class="next-table-header-node" style="padding: 10px 0px; text-align: center;" th:text="${review.id}"></td>

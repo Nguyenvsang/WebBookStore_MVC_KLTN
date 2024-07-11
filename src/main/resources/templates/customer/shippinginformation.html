@@ -124,18 +124,20 @@
 
 		.btn-address.change-address-btn {
 			margin-top: 20px;
-			background-color: #36aa00;
+			background-color: #228b22;
 			border-radius: 50px;
 			color: white;
 			width: 200px;
 			box-shadow: 0px 4px 6px rgba(0, 0.4, 0, 0.2);
+			font-weight: bold;
 		}
 
 		.btn-address.change-address-btn:hover {
 			margin-top: 20px;
-			background-color: #228b22;
+			background-color: #105d2f;
 			color: white;
 			box-shadow: 0px 6px 8px rgba(0, 0.4, 0, 0.2);
+			font-weight: bold;
 		}
 
 		.alert-success {
@@ -236,18 +238,70 @@
         .close:focus {
             box-shadow: none;
         }
+
+		.overlay {
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background-color: rgba(0, 0, 0, 0.5);
+			z-index: 10000;
+		}
+
+		.custom-radio {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            width: 15px;
+            height: 15px;
+            border: 2px solid #5591c5;
+            border-radius: 50%;
+            outline: none;
+            cursor: pointer;
+            position: relative;
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+
+        .custom-radio::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 9px;
+            height: 9px;
+            background-color: transparent;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: background-color 0.3s;
+        }
+
+        .custom-radio:checked {
+            border-color: #5591c5;
+        }
+
+        .custom-radio:checked::before {
+            background-color: #5591c5;
+        }
+
+
 	</style>
 </head>
 <body>
 	<div th:replace="~{layout/header :: header}"></div>
+	<!-- Lớp phủ -->
+	<div class="overlay" id="overlay" th:if="${message}"></div>
+
 	<!-- Hiển thị thông báo nếu có -->
-	<div th:if="${message}" class="alert" id="myAlert02"
-		 th:classappend="${#strings.containsIgnoreCase(message, 'thành công') ? 'alert-success' : 'alert-danger'}">
-		<span th:text="${message}" style="font-weight: bold;justify-content: center; display: flex;"></span>
+	<div th:if="${message}" class="popup" id="myAlert02"
+		 th:classappend="${#strings.containsIgnoreCase(message, 'thành công') ? 'alert-success' : 'alert-danger'}"
+		 style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: white; padding: 20px; border-radius: 15px; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2); z-index: 99999; display: flex; flex-direction: column; justify-content: center; align-items: center; font-weight: bold; color: #5b5a7a; border: none;">
+
+		<span th:text="${message}" style="margin-bottom: 15px; text-align: center;"></span>
+
+		<button class="btn btn-close-popup" onclick="closePopup()" style="border: none; border-radius: 10px; background-color: #3f6ad8; color: white; font-weight: bold; width: 50px; height: 35px;">OK</button>
 	</div>
     <div class="container-fluid mb-4">
-        
-
 		<div class="container" style="padding: 0px">
 			<div class="form-container" style="background-color: white; padding: 20px">
 				<div class="row-00 d-flex align-items-center" style="height: 30px; margin-bottom: 15px; margin: 0px 0px 0px; border-bottom: 1px solid #cecece; padding-bottom: 10px">
@@ -279,7 +333,7 @@
 							</div>
 							<table>
 								<thead>
-								<tr style="width: 100%; height: 50px;  background-color: #d9e1f7; margin-top: 10px; border-radius: 10px">
+								<tr style="width: 100%; height: 50px;  background-color: #d9e1f7; margin-top: 10px; border-radius: 10px; border: 1px solid #d9e1f7">
 									<th class="align-middle text-center" style="width: 50%; text-align: center; padding: 10px 10px">Tên sách</th>
 									<th class="align-middle text-center" style="width: 10%; text-align: center; padding: 10px 10px">Số lượng</th>
 									<th class="align-middle " style="width: 20%; text-align: right; padding: 10px 10px">Giá</th>
@@ -422,7 +476,7 @@
 					<div class="text-center">
 						<input type="hidden" name="idSelectedCartItems" id="idSelectedCartItems" th:value="${idSelectedCartItems}">
 						<input th:if="${selectedVoucher != null}" type="hidden" name="voucherId" id="voucherIdForPlaceOrder" th:data-voucherId="${selectedVoucherId}"th:value="${selectedVoucherId}">
-						<button type="submit" class="btn btn-order">Đặt hàng</button>
+						<button type="submit" class="btn btn-order" style="font-weight: bold;">Đặt hàng</button>
 					</div>
 		        </form>
 			</div>
@@ -475,7 +529,7 @@
 												</p>
 											</div>
 											<div class="col-1" style="padding-right: 0px">
-												<input style="width: 15px; height: 15px" type="radio" name="addressId" th:value="${address.id}" th:checked="${address.id == addresses[0].id}">
+												<input class="custom-radio" style="width: 15px; height: 15px" type="radio" id="address-choice" name="addressId" th:value="${address.id}" th:checked="${address.id == addresses[0].id}">
 											</div>
 										</div>
 									</div>
@@ -548,7 +602,7 @@
 											</p>
 										</div>
 										<div class="col-1" style="padding-right: 0px">
-											<input style="width: 15px; height: 15px" type="radio" id="voucherId_${voucher.id}" name="voucherId" th:value="${voucher.id}" th:data-id="${voucher.id}" th:data-percent="${voucher.discountPercent}" th:data-amount="${voucher.amountDiscount}" th:data-minvalue="${voucher.minimumOrderValue}" th:checked="${voucher.id == selectedVoucherId}">
+											<input class="custom-radio" style="width: 15px; height: 15px" type="radio" id="voucherId_${voucher.id}" name="voucherId" th:value="${voucher.id}" th:data-id="${voucher.id}" th:data-percent="${voucher.discountPercent}" th:data-amount="${voucher.amountDiscount}" th:data-minvalue="${voucher.minimumOrderValue}" th:checked="${voucher.id == selectedVoucherId}">
 										</div>
 									</div>
 								</div>
@@ -617,41 +671,8 @@
 			});
 		});
 
-		function displayAlert(message, alertType) {
-			// Kiểm tra xem đã có thông báo chưa
-			if (document.getElementById('myAlert02')) {
-				return;
-			}
-
-			var alertBox = document.createElement('div');
-			alertBox.className = 'alert ' + alertType;
-			alertBox.id = 'myAlert02';
-			alertBox.style.fontWeight = 'bold';
-			alertBox.style.justifyContent = 'center';
-			alertBox.style.display = 'flex';
-
-			var alertText = document.createElement('span');
-			alertText.textContent = message;
-
-			alertBox.appendChild(alertText);
-
-			// Tìm phần tử header và chèn thông báo ngay sau nó
-			var header = document.getElementsByTagName('header')[0];
-			header.parentNode.insertBefore(alertBox, header.nextSibling);
-
-			// Thông báo sẽ tự động biến mất sau 10 giây
-			setTimeout(function() {
-				alertBox.remove();
-			}, 10000);
-		}
-
 		var myAlert02 = document.getElementById('myAlert02'); // Tránh bị null
-		// Đặt thời gian cho alert
-		if (myAlert02){
-			setTimeout(function() {
-			document.getElementById('myAlert02').style.display = 'none';
-			}, 10000);  // Alert sẽ biến mất sau 10 giây
-		}
+
 
 		// Khi người dùng chọn Voucher
 		$(document).ready(function() {
@@ -679,5 +700,19 @@
 			});
 		});
 	</script>
+	<script>
+		function closePopup() {
+            var popup = document.getElementById('myAlert02');
+            var overlay = document.getElementById('overlay');
+            if (popup) {
+                popup.remove();
+            }
+            if (overlay) {
+                overlay.remove();
+            }
+        }
+	</script>
+
+
 </body>
 </html>

@@ -579,76 +579,84 @@
 
 
 		.modal {
-		display: none;
-		justify-content: center;
-		align-items: center;
-		height: 100vh;
-		width: 100%;
-		position: fixed;
-		top: 0;
-		left: 0;
-		background-color: rgba(0, 0, 0, 0.5); /* Màu nền mờ */
-		z-index: 9999;
-		overflow: auto;
-	}
+			display: none;
+			justify-content: center;
+			align-items: center;
+			height: 100vh;
+			width: 100%;
+			position: fixed;
+			top: 0;
+			left: 0;
+			background-color: rgba(0, 0, 0, 0.5); /* Màu nền mờ */
+			z-index: 9999;
+			overflow: auto;
+		}
 
-	.modal-content {
-		background-color: #fefefe;
-		padding: 20px;
-		border-radius: 15px;
-		width: 50%; /* Chiều rộng của nội dung modal */
-		max-width: 500px; /* Độ rộng tối đa của modal-content */
-		position: fixed;
-		top: 50%;
-		left: 50%;
-		transform: translate(-50%, -50%);
-		box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); /* Thêm đổ bóng cho modal */
-	}
+		.modal-content {
+			background-color: #fefefe;
+			padding: 20px;
+			border-radius: 15px;
+			width: 50%; /* Chiều rộng của nội dung modal */
+			max-width: 500px; /* Độ rộng tối đa của modal-content */
+			position: fixed;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); /* Thêm đổ bóng cho modal */
+		}
 
-	.close {
-		color: #aaa;
-		font-size: 28px;
-		font-weight: bold;
-	}
+		.close {
+			color: #aaa;
+			font-size: 28px;
+			font-weight: bold;
+		}
 
-	.close:hover,
-	.close:focus {
-		color: black;
-		text-decoration: none;
-		cursor: pointer;
-	}
+		.close:hover,
+		.close:focus {
+			color: black;
+			text-decoration: none;
+			cursor: pointer;
+		}
 
-	.close-container {
-		position: absolute;
-		right: 10px;
-		top: 0px;
-		padding: 10px; /* Đặt padding tùy ý */
-	}
+		.close-container {
+			position: absolute;
+			right: 10px;
+			top: 0px;
+			padding: 10px; /* Đặt padding tùy ý */
+		}
 
-	.content-bio {
-		text-align: justify;
-		max-height: 500px; /* Giới hạn chiều cao */
-		overflow: auto; /* Thêm thanh cuộn nếu vượt quá chiều cao */
-	}
+		.content-bio {
+			text-align: justify;
+			max-height: 500px; /* Giới hạn chiều cao */
+			overflow: auto; /* Thêm thanh cuộn nếu vượt quá chiều cao */
+		}
 
-	.content-bio::-webkit-scrollbar {
-		width: 10px; /* Độ rộng của thanh cuộn */
-	}
+		/* Tạo hiệu ứng thanh cuộn */
+        .content-bio::-webkit-scrollbar {
+            width: 10px; /* Độ rộng của thanh cuộn */
+        }
 
-	.content-bio::-webkit-scrollbar-track {
-		background: #f1f1f1; /* Màu nền của thanh cuộn */
-		border-radius: 10px;
-	}
+        .content-bio::-webkit-scrollbar-track {
+            background: #f1f1f1; /* Màu nền của thanh cuộn */
+            border-radius: 10px;
+        }
 
-	.content-bio::-webkit-scrollbar-thumb {
-		background: #79a7d5; /* Màu của thanh cuộn */
-		border-radius: 10px; /* Bo tròn cho phần thanh cuộn */
-	}
+        .content-bio::-webkit-scrollbar-thumb {
+            background: #79a7d5; /* Màu của thanh cuộn */
+            border-radius: 10px; /* Bo tròn cho phần thanh cuộn */
+        }
 
-	.content-bio::-webkit-scrollbar-thumb:hover {
-		background: #5591c5; /* Màu của thanh cuộn khi di chuột qua */
-	}
+        .content-bio::-webkit-scrollbar-thumb:hover {
+            background: #5591c5; /* Màu của thanh cuộn khi di chuột qua */
+        }
 
+		.author-name {
+			text-decoration: none; /* Loại bỏ gạch dưới */
+		}
+
+		.author-name:hover {
+			text-decoration: none; /* Đảm bảo không có gạch dưới khi hover */
+		}
 	</style>
 	
 </head>
@@ -793,53 +801,56 @@
 
 								<!-- Nếu đã ngừng kinh doanh thì không hiển thị các nút tương tác -->
 								<div th:if="${book.status != 0}">
-									<div class="row-add-to-cart" style="padding: 20px 0px">
-										<form th:action="@{/addtocart}" method="post">
-											<div class="row-quantity d-flex">
-												<div class="col-quantity">
-													<div class="row-01 d-flex align-items-center justify-content-center" style="background: white; border-radius: 50px; border: 1px solid #cecece; width: 130px">
-														<div class="col-decrease">
-															<div class="input-group">
-																<a class="outline" type="button" th:onclick="'decreaseQuantity(' + ${book.id} + ')'" style="align-items: center; justify-items: center; display: flex;">
-																	<span class="material-symbols-outlined" style="color: grey; font-weight: bold; font-size: small">remove</span></a>
+									<div class="row-add-to-cart d-flex" style="padding: 20px 0px">
+										<div class="col-5" style="padding: 0px">
+											<form th:action="@{/addtocart}" method="post">
+												<div class="row-quantity d-flex">
+													<div class="col-quantity">
+														<div class="row-01 d-flex align-items-center justify-content-center" style="background: white; border-radius: 50px; border: 1px solid #cecece; width: 130px">
+															<div class="col-decrease">
+																<div class="input-group">
+																	<a class="outline" type="button" th:onclick="'decreaseQuantity(' + ${book.id} + ')'" style="align-items: center; justify-items: center; display: flex;">
+																		<span class="material-symbols-outlined" style="color: grey; font-weight: bold; font-size: small">remove</span></a>
+																</div>
 															</div>
-														</div>
-														<div class="col" style="width: 62px">
-															<input type="number" id="quantity" name="quantity" class="form-control text-center align-middle" min="1" th:max="${book.quantity}" value="1" th:id="'quantity_' + ${book.id}" style="text-align: center; border: none; width: 62px">
-														</div>
-														<div class="col-increase">
-															<div class="input-group">
-																<a class="outline" type="button" th:onclick="'increaseQuantity(' + ${book.id} + ', ' + ${book.quantity} + ')'" style="align-items: center; justify-items: center; display: flex;">
-																	<span class="material-symbols-outlined" style="color: grey; font-weight: bold; font-size: small">add</span></a>
+															<div class="col" style="width: 62px">
+																<input type="number" id="quantity" name="quantity" class="form-control text-center align-middle" min="1" th:max="${book.quantity}" value="1" th:id="'quantity_' + ${book.id}" style="text-align: center; border: none; width: 62px">
+															</div>
+															<div class="col-increase">
+																<div class="input-group">
+																	<a class="outline" type="button" th:onclick="'increaseQuantity(' + ${book.id} + ', ' + ${book.quantity} + ')'" style="align-items: center; justify-items: center; display: flex;">
+																		<span class="material-symbols-outlined" style="color: grey; font-weight: bold; font-size: small">add</span></a>
+																</div>
 															</div>
 														</div>
 													</div>
 												</div>
-												<div class="col-third" style="display: flex; justify-content: center; align-items: center; color: grey; font-weight: bold">
-													<p style="margin: 0px 5px 0px 15px; font-family: Helvetica;">Còn lại</p>
+												<div class="col-third" style="display: flex; align-items: center; color: grey; font-weight: bold; margin-top: 10px">
+													<p style="margin: 0px 5px 0px 0px; font-family: Helvetica;">Còn lại</p>
 													<div class="col-data" style="font-family: Helvetica; display: flex; justify-content: center; align-items: center; width: 30px">
 														<span th:text="${book.quantity}" style="padding: 0px 5px 0px 5px;"></span>
 													</div>
 													<p style="margin: 0px 0px 0px 5px; font-family: Helvetica;">trong kho hàng</p>
 												</div>
-											</div>
-											<div class="row-add-cart d-flex" style="margin: 20px 0px 0px ">
-												<div class="col-add-to-cart">
-													<input type="hidden" name="bookId" th:value="${book.id}">
-													<button type="submit" class="btn btn-add-cart btn-block" style="font-family: Helvetica; display: flex; align-items: center; justify-content: center">
-														<span class="material-symbols-outlined" style="display: flex; align-items: center; color: white; margin: 0px 5px 0px 0px">shopping_bag</span> Thêm vào giỏ hàng
-													</button>
+												<div class="row-add-cart d-flex" style="margin: 20px 0px 0px ">
+													<div class="col-add-to-cart">
+														<input type="hidden" name="bookId" th:value="${book.id}">
+														<button type="submit" class="btn btn-add-cart btn-block" style="font-family: Helvetica; display: flex; align-items: center; justify-content: center">
+															<span class="material-symbols-outlined" style="display: flex; align-items: center; color: white; margin: 0px 5px 0px 0px">shopping_bag</span> Thêm vào giỏ hàng
+														</button>
+													</div>
 												</div>
-											</div>
-										</form>
-
-										<form th:action="@{/buynow}" method="post">
-											<input type="hidden" name="bookId" th:value="${book.id}">
-											<input type="hidden" name="quantity" th:value="1">
-											<button type="submit" class="btn btn-buy-now btn-block" style="font-family: Helvetica;">Mua ngay</button>
-										</form>
-
-
+											</form>
+										</div>
+										<div class="col-7" style="padding: 0px; display: flex; flex-direction: column; height: 100%;">
+											<!-- Các phần tử khác trong bảng nếu có -->
+											<div style="flex-grow: 1; height: 93px"></div> <!-- Phần tử rỗng để đẩy nút xuống -->
+											<form th:action="@{/buynow}" method="post">
+												<input type="hidden" name="bookId" th:value="${book.id}">
+												<input type="hidden" name="quantity" th:value="1">
+												<button type="submit" class="btn btn-buy-now btn-block" style="font-family: Helvetica;">Mua ngay</button>
+											</form>
+										</div>
 									</div>
 								</div>
 		                    </div>
@@ -1273,20 +1284,21 @@
 					</div>
 				</div>
 			</div>
-
-
 		</div>
     </div>
 
-	<!-- Thêm phần pop-up tiểu sử tác giả -->
-	<div id="authorBioModal" class="modal">
-		<div class="modal-content">
-			<div class="close-container">
-				<span class="close">&times;</span>
+	<!-- Phần pop-up tiểu sử tác giả -->
+		<!-- Phần pop-up tiểu sử tác giả -->
+		<div id="authorBioModal" class="modal" style="z-index: 9999; height: 100vh">
+			<div class="modal-content d-flex" style="z-index: 9999; position: relative;">
+				<div class="row-close d-flex align-items-center" style="justify-content: space-between">
+					<span class="title" style="color: #365e94; font-weight: bold; font-size: 16px; padding: 0px 0px 8px 0px; font-family: nunito-sans, sans-serif, Helvetica, Arial;">Tiểu sử</span>
+					<span class="close" style="padding: 0px 0px 8px 0px">&times;</span>
+				</div>
+				<pre id="authorFullBio" class="content-bio" style="padding: 0px; font-family: nunito-sans, sans-serif, Helvetica, Arial; text-align: justify; padding: 0px 8px; overflow-x: hidden; white-space: pre-wrap;"></pre>
 			</div>
-			<p id="authorFullBio" class="content-bio"></p>
 		</div>
-	</div>
+
 
 
 	<script th:src="@{/js/jquery-3.4.1.min.js}"></script>
@@ -1879,11 +1891,11 @@
 
 	<script>
 		// Sự kiện khi nhấp vào tên tác giả, sẽ hiển thị pop up
-		document.addEventListener("DOMContentLoaded", function() {
+        document.addEventListener("DOMContentLoaded", function() {
             var authorNames = document.querySelectorAll(".author-name");
             var modal = document.getElementById("authorBioModal");
             var fullBio = document.getElementById("authorFullBio");
-            var span = document.getElementsByClassName("close")[0];
+            var closeBtn = modal.querySelector(".close");
 
             authorNames.forEach(function(author) {
                 author.addEventListener("click", function(event) {
@@ -1894,7 +1906,7 @@
                 });
             });
 
-            span.onclick = function() {
+            closeBtn.onclick = function() {
                 modal.style.display = "none";
             }
 
@@ -1905,6 +1917,7 @@
             }
         });
 	</script>
+
 
 	<script>
 		function syncQuantity() {

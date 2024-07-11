@@ -81,6 +81,41 @@
 		.btn-close-popup:hover {
 			color: white;
 		}
+
+        .custom-radio {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            width: 15px;
+            height: 15px;
+            border: 2px solid #5591c5;
+            border-radius: 50%;
+            outline: none;
+            cursor: pointer;
+            position: relative;
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+
+        .custom-radio::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 9px;
+            height: 9px;
+            background-color: transparent;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: background-color 0.3s;
+        }
+
+        .custom-radio:checked {
+            border-color: #5591c5;
+        }
+
+        .custom-radio:checked::before {
+            background-color: #5591c5;
+        }
     </style>
 </head>
 <body>
@@ -143,9 +178,9 @@
                             <div class="col-3" style="padding: 0px 10px 0px 0px">
                                 <div class="form-group" style="margin: 0px">
                                     <label for="applyToAllBooks" >Áp dụng cho:</label><br>
-                                    <input type="radio" id="applyToAllBooks" name="applyTo" value="allBooks" checked>
+                                    <input class="custom-radio" type="radio" id="applyToAllBooks" name="applyTo" value="allBooks" checked>
                                     <label for="applyToAllBooks">Tất cả sách</label><br>
-                                    <input type="radio" id="applyToCategory" name="applyTo" value="category">
+                                    <input class="custom-radio" type="radio" id="applyToCategory" name="applyTo" value="category">
                                     <label for="applyToCategory">Danh mục cụ thể</label><br>
                                 </div>
                             </div>

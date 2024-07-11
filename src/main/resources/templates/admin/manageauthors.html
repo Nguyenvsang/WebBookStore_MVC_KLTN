@@ -449,14 +449,18 @@
 </div>
 
 <!-- Modal for viewing bio -->
-<div id="myModal" class="modal">
-	<div class="modal-content">
-		<div class="close-container">
-			<span class="close">&times;</span>
+
+	<div id="myModal" class="modal" style="z-index: 9999; height: 100vh">
+		<div class="modal-content d-flex" style="z-index: 9999; position: relative;">
+			<div class="row-close d-flex align-items-center" style="justify-content: space-between">
+				<span class="title" style="color: #365e94; font-weight: bold; font-size: 16px; padding: 0px 0px 8px 0px; font-family: nunito-sans, sans-serif, Helvetica, Arial;">Tiểu sử</span>
+				<span class="close" style="padding: 0px 0px 8px 0px">&times;</span>
+			</div>
+			<pre id="fullBio" class="content-bio" style="font-family: nunito-sans, sans-serif, Helvetica, Arial; text-align: justify; padding: 0px 8px; overflow-x: hidden; white-space: pre-wrap;"></pre>
 		</div>
-		<p id="fullBio" class="content-bio"></p>
 	</div>
-</div>
+
+
 
 <!-- Thêm các tệp tin JavaScript -->
 <script th:src="@{/js/jquery-3.4.1.slim.min.js}"></script>

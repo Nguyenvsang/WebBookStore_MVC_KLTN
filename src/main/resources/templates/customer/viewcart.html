@@ -480,6 +480,41 @@
 			font-weight: bold;
 			color: white;
 		}
+
+		.custom-radio {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            width: 15px;
+            height: 15px;
+            border: 2px solid #5591c5;
+            border-radius: 50%;
+            outline: none;
+            cursor: pointer;
+            position: relative;
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+
+        .custom-radio::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 9px;
+            height: 9px;
+            background-color: transparent;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: background-color 0.3s;
+        }
+
+        .custom-radio:checked {
+            border-color: #5591c5;
+        }
+
+        .custom-radio:checked::before {
+            background-color: #5591c5;
+        }
 	</style>
 </head>
 <body>
@@ -903,7 +938,7 @@
 										</p>
 									</div>
 									<div class="col-1" style="padding-right: 0px">
-										<input style="width: 15px; height: 15px" type="radio" name="voucherId" th:value="${voucher.id}" th:data-id="${voucher.id}"
+										<input class="custom-radio" type="radio" name="voucherId" th:value="${voucher.id}" th:data-id="${voucher.id}"
 											   th:data-percent="${voucher.discountPercent}"
 											   th:data-amount="${voucher.amountDiscount}"
 											   th:data-minvalue="${voucher.minimumOrderValue}"
