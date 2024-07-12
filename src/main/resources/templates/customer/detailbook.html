@@ -495,7 +495,7 @@
 		}
 
 		.form-control-reviews {
-            width: 467px; /* Chiều rộng cố định */
+            width: 424px; /* Chiều rộng cố định */
             height: 200px; /* Chiều cao cố định */
             resize: none; /* Ngăn chặn kéo dài */
             padding: 10px; /* Khoảng cách giữa viền và nội dung */
@@ -1235,7 +1235,7 @@
 
 											<div class="form-group">
 												<label for="edit-review-comment" class="col-form-label">Bình luận:</label>
-												<textarea class="form-control-reviews" id="edit-review-comment" name="comment" th:text="${loggedInUserReview.comment}" maxlength="500" required></textarea>
+												<textarea style="width: 424px" class="form-control-reviews" id="edit-review-comment" name="comment" th:text="${loggedInUserReview.comment}" maxlength="500" required></textarea>
 											</div>
 											<div class="modal-footer" style="border-top: 1px solid white;">
 												<button type="button" class="btn btn-secondary" data-dismiss="modal" style="border-radius: 10px">Đóng</button>
