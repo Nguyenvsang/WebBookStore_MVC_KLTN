@@ -803,6 +803,19 @@ public class OrderController {
         // Thêm thông báo giao dịch vào model
         model.addAttribute("message", message);
 
+        // Thông báo cho Admin
+        Notification notification = new Notification();
+        String content = "Đơn hàng mã " + order.getId() + " vừa mới được đặt bởi " + account.getUsername();
+        notification.setContent(content);
+        notification.setStatus(0);
+        notification.setType(0);
+        notification.setReferredId(order.getId());
+        Account admin = accountService.getOneActiveAdmin();
+        notification.setReceiver(admin);
+        notification.setTriggerUser(account);
+        notification.setSentTime(new Timestamp(System.currentTimeMillis()));
+        notification = notificationService.save(notification);
+
         // Đặt đơn hàng vào model để hiển thị trên trang xác nhận đơn hàng
         model.addAttribute("order", order);
         List<OrderItem> orderItems = orderItemService.getOrderItemsByOrder(order);
